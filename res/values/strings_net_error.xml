@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="net_error_timeout">网络超时</string>
+    <string name="net_error_auth_failure">身份验证失败</string>
+    <string name="net_error_connect_network">无法连接服务器, 请检查服务器是否正常</string>
+    <string name="net_error_no_network">无网络连接，请检查网络</string>
+    <string name="net_error_parser">数据解析失败</string>
+    <string name="net_error_server">服务端错误，错误码为：%d</string>
+    <string name="net_error_null_pointer">空指针异常</string>
+    <string name="net_error_unkown">未知错误</string>
+</resources>

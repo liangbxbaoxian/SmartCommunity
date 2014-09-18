@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+    <ActivityTemplete>AcBarPullListActivity.ftl</ActivityTemplete>
+    <LayoutTemplete>ActBarPullListLayout.ftl</LayoutTemplete>
+    <ItemLayout></ItemLayout>
+    <ShowName>带PullListView控件的ActionBar样式模板</ShowName>
+    <Detail>    包括网络数据获取，上拉下拉接口监听，没有包含和UI相关的东西</Detail>
+    <Image>ActionBar.png</Image>
+</Config>

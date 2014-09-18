@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+    <ActivityTemplete>ActionBarActivity.ftl</ActivityTemplete>
+    <LayoutTemplete>ActionBarLayout.ftl</LayoutTemplete>
+    <ItemLayout></ItemLayout>
+    <ShowName>ActionBar样式的基础模板</ShowName>
+    <Detail>    ActionBar样式的空白模板，只包括网络数据获取，没有包含和UI相关的东西</Detail>
+    <Image>ActionBar.png</Image>
+</Config>

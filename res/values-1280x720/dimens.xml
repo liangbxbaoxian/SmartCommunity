@@ -1,0 +1,7 @@
+<resources>
+    
+    <!-- 摘要的最大长度值  -->
+    <dimen name="desc_max_length">30px</dimen>
+    
+        
+</resources>

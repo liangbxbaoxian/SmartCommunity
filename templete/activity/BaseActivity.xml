@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+    <ActivityTemplete>BaseActivity.ftl</ActivityTemplete>
+    <LayoutTemplete>BaseLayout.ftl</LayoutTemplete>
+    <ItemLayout></ItemLayout>
+    <ShowName>基础模板</ShowName>
+    <Detail>    空白模板，只包括网络数据获取，没有包含和UI相关的东西</Detail>
+    <Image>Base.png</Image>
+</Config>

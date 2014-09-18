@@ -1,0 +1,29 @@
+<resources>
+    
+    <!-- 标题栏高度  -->
+    <dimen name="title_bar_height">48dp</dimen>    
+    <!-- 标题栏字体大小  -->
+    <dimen name="title_bar_text_size">19.5sp</dimen>
+    <dimen name="title_bar_padding">15dp</dimen>
+    
+    <!-- 底部导航栏高度 -->
+    <dimen name="bottom_bar_height">56dp</dimen>
+    <!-- 底部帖子栏高度  -->
+    <dimen name="bottom_bar_post_height">76dp</dimen>
+    <!-- 底部文字大小 -->
+    <dimen name="bottom_bar_text_size">12.5sp</dimen>
+	
+    <!-- actionbar 图标 padding值  -->
+    <dimen name="actionbar_icon_left_padding">4.0dip</dimen>
+    <dimen name="actionbar_icon_right_padding">0.0dip</dimen>
+    
+    <!-- actionbar 标题字体大小  -->
+    <dimen name="actionbar_title_size">20sp</dimen>
+    
+    <!-- actionbar 菜单文字大小  -->
+    <dimen name="actionbar_menu_text_size">16sp</dimen>
+    
+    <!-- 通用菜单文字大小  -->
+    <dimen name="common_menu_text_size">16sp</dimen>
+        
+</resources>

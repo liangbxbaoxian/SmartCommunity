@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+    <ActivityTemplete>XListActivity.ftl</ActivityTemplete>
+    <LayoutTemplete>XListLayout.ftl</LayoutTemplete>
+    <ItemLayoutTemplete></ItemLayoutTemplete>
+    <ShowName>XList模板</ShowName>
+    <Detail>    提供XListView控件，支持上拉下拉功能, 默认开启下拉加载</Detail>
+    <Image>XList.png</Image>
+</Config>

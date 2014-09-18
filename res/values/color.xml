@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- 透明色  -->
+    <color name="transparent">#00000000</color>
+    
+    <color name="title_text_color">#ffffffff</color>
+    
+    <!-- 底部背景色 -->
+    <color name="bottom_bg_color">#fff6f6f6</color>
+    <color name="bottom_text_nor_color">#ff9d9d9d</color>
+    <color name="bottom_text_sel_color">#ffc80a16</color>
+    
+    <!-- 通用背景色  -->
+    <color name="common_bg_color">#ffffffff</color>
+    
+    <color name="common_list_text_color">#ff9d9d9d</color>
+    
+    <!-- actionbar 菜单文字颜色  -->
+    <color name="actionbar_menu_text_color">#ffff732e</color>
+        
+    <!-- actionbar 标题颜色  -->
+    <color name="actionbar_tittle_color">#ffff732e</color>
+    
+    <!-- 通用菜单字体颜色  -->
+    <color name="common_menu_text_color">#ffff732e</color>
+    
+    <!-- 通用按钮上的字体颜色  -->
+    <color name="common_confirm_text_color">#ffffffff</color>
+    <color name="common_cancle_text_color">#ffff732e</color> 
+    
+    <!-- 提示类型字体颜色  -->
+    <color name="hint_text_color">#ff999999</color>
+    
+    <!-- 资讯类字体颜色  -->
+    <color name="news_list_title_color">#ff2f2f2f</color>
+    <color name="news_list_desc_color">#ff808080</color>
+    <color name="news_list_tag_color">#ff808080</color>    
+    <color name="news_content_color">#ff585858</color>  
+    
+    <!-- 滚动广告标题颜色  -->
+    <color name="sidebar_title_color">#ffffffff</color>
+    
+    <!-- 价格字体颜色  -->
+    <color name="price_text_color">#ff247cce</color>
+    
+    <!-- banner -->
+    <color name="banner_nor_text_color">#ff732d</color>
+    <color name="banner_sel_text_color">#e66524</color>
+    
+</resources>

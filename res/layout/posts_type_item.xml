@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/pic"
+            android:layout_width="101dp"
+            android:layout_height="101dp"
+            android:scaleType="center" 
+            android:src="@drawable/test_item_img"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="08-07"
+            android:textColor="@color/common_list_text_color"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="【社区分享】"
+                android:textSize="16.5sp" />
+
+            <ImageView
+                android:id="@+id/new_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-4dp"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/new_msg_icon" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:singleLine="true"
+            android:text="宝宝爬行大赛"
+            android:textColor="@color/common_list_text_color"
+            android:textSize="14.5sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginTop="7dp" >
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:text="宝宝爬行大赛宝宝爬行大赛宝宝爬行大赛宝宝爬行大赛宝宝爬行大赛宝宝爬行大赛宝宝爬行大赛..."
+                android:textColor="@color/common_list_text_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_gravity="right"
+            android:baselineAligned="@id/desc"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/favour_icon" />
+
+            <TextView
+                android:id="@+id/favour_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:maxLength="4"
+                android:text="233"
+                android:textColor="@color/common_list_text_color"
+                android:textSize="8dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/msg_icon" />
+
+            <TextView
+                android:id="@+id/msg_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:maxLength="4"
+                android:text="1233"
+                android:textColor="@color/common_list_text_color"
+                android:textSize="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
