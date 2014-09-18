@@ -24,6 +24,8 @@ public class AdvAdapter extends PagerAdapter{
 	private void initWeather() {
 		View view = LayoutInflater.from(mActivity).inflate(R.layout.weather_layout, null);
 		mViewList.add(view);
+		view = LayoutInflater.from(mActivity).inflate(R.layout.weather_layout, null);
+		mViewList.add(view);
 	}
 	
 	@Override

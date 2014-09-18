@@ -6,8 +6,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
@@ -16,7 +19,7 @@ import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.PostsTypeAdapter;
 
-public class HomeFragment extends BaseExtraLayoutFragment {
+public class HomeFragment extends BaseExtraLayoutFragment implements OnClickListener {
 	
 	//标题栏相关
 	private ImageView phoneIv;
@@ -32,6 +35,10 @@ public class HomeFragment extends BaseExtraLayoutFragment {
 	private ListView postsTypeLv;
 	private PostsTypeAdapter typeAdapter;
 	
+	//快捷入口
+	private ImageButton shortcutIn;
+	private ImageButton shortcutOut;
+	private RelativeLayout shortcutLayout;
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -66,5 +73,28 @@ public class HomeFragment extends BaseExtraLayoutFragment {
 		postsTypeLv = (ListView) view.findViewById(R.id.list);
 		typeAdapter = new PostsTypeAdapter(getActivity());
 		postsTypeLv.setAdapter(typeAdapter);
+		
+		shortcutIn = (ImageButton) view.findViewById(R.id.shortcut_in);
+		shortcutIn.setOnClickListener(this);
+		shortcutOut = (ImageButton) view.findViewById(R.id.shortcut_out);
+		shortcutOut.setOnClickListener(this);
+		shortcutLayout = (RelativeLayout) view.findViewById(R.id.shortcut_layout);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		
+		switch(v.getId()) {
+		case R.id.shortcut_in:
+			shortcutIn.setVisibility(View.GONE);
+			shortcutLayout.setVisibility(View.VISIBLE);
+			break;
+			
+		case R.id.shortcut_out:
+			shortcutIn.setVisibility(View.VISIBLE);
+			shortcutLayout.setVisibility(View.GONE);
+			break;
+		}
 	}
 }

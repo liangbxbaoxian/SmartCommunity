@@ -5,6 +5,97 @@
     android:orientation="vertical" 
     android:background="@drawable/weather_bg">
     
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal">
+        <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+            <ImageView 
+                android:id="@+id/icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:src="@drawable/taiyang"/>
+            
+            <TextView 
+                android:id="@+id/temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:text="26°C"/>
+        </LinearLayout>
+        <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            
+            <LinearLayout 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/weather_toast_icon"/>
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="温馨提示"
+                    android:textColor="#005788"/>
+            </LinearLayout>
+            
+            <TextView 
+                android:id="@+id/weather_toast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="高温天气，注意防暑!/n物业处可免费领取藿香正气水!"
+                android:textSize="12sp"/>
+        </LinearLayout>
+    </LinearLayout>
+	
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="11dp">
+        <TextView 
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"            
+            android:textSize="19.5sp"
+            android:textColor="@android:color/white"
+            android:text="福州"/>
+        
+        <TextView 
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8.5dp"
+            android:textSize="8.5sp"
+            android:textColor="@android:color/white"
+            android:layout_toRightOf="@id/city"
+            android:text="2014年8月27号"/>
+        
+        <TextView 
+            android:id="@+id/week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date"
+            android:layout_marginLeft="8.5dp"
+            android:textSize="8.5sp"
+            android:textColor="@android:color/white"
+            android:layout_toRightOf="@id/city"
+            android:text="星期三"/>
+    </RelativeLayout>
     
-
 </LinearLayout>
