@@ -15,7 +15,7 @@ import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 
 public class FindFragment extends BaseExtraLayoutFragment {
-	
+	// add test for linyongzhen
 	private ViewPager advVp;
 	private CirclePageIndicator advIndicator;
 	private AdvAdapter advAdapter;
