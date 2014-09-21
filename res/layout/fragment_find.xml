@@ -4,6 +4,47 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/tu_one" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/tu_two" />
+
+            <ImageView
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/tu_three" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,13 +101,23 @@
             app:radius="4dp"
             app:strokeColor="#FF000000"
             app:strokeWidth="0dp" />
-    </RelativeLayout>
-    
-    <ListView 
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-    </ListView>
+    </RelativeLayout> -->
+
+    <LinearLayout
+        android:id="@+id/menu_view_pay"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/bg_style" >
+
+        <GridView
+            android:id="@+id/yipay_server"
+            android:layout_width="fill_parent"
+            android:layout_height="186dip"
+            android:horizontalSpacing="1dp"
+            android:numColumns="3"
+            android:scrollbars="none"
+            android:verticalSpacing="1dp" >
+        </GridView>
+    </LinearLayout>
 
 </LinearLayout>

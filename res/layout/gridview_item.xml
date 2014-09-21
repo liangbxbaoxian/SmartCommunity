@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dip"
+    android:layout_height="95dip"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layout_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center" >
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/img_async"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dip"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY" >
+        </com.android.volley.toolbox.NetworkImageView>
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_async"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:singleLine="true"
+            android:text=""
+            android:textSize="14dp" />
+    </RelativeLayout>
+
+</RelativeLayout>
