@@ -59,8 +59,8 @@ public class FindFragment extends BaseExtraLayoutFragment {
 	
 	private void initData() {
 		categoryTableList.clear();
-		int resId [] = {R.drawable.driver_normal, R.drawable.coupon_normal, R.drawable.tuan_normal,
-				R.drawable.trade_normal, R.drawable.together_normal, R.drawable.car_normal};
+		int resId [] = {R.drawable.driver_selector, R.drawable.coupon_selector, R.drawable.tuan_selector,
+				R.drawable.trade_selector, R.drawable.together_selector, R.drawable.car_selector};
 		
 		String categoryname [] = {"送到家", "捡便宜", "天天团",
 				"做买卖", "一起玩", "来拼车"};
