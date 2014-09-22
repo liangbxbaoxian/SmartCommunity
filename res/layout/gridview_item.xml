@@ -14,8 +14,8 @@
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/img_async"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+            android:layout_width="61.5dp"
+            android:layout_height="61.5dp"
             android:layout_marginTop="10dip"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY" >

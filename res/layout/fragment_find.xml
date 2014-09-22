@@ -42,7 +42,7 @@
 
         <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="240dp"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -52,33 +52,33 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_height="match_parent"
                 android:background="@drawable/tu_one" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical" >
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/tu_two" />
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/tu_three" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/menu_view_pay"
+        android:paddingTop="@dimen/normal_margin"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/bg_style" >
@@ -86,11 +86,11 @@
         <GridView
             android:id="@+id/yipay_server"
             android:layout_width="fill_parent"
-            android:layout_height="186dip"
-            android:horizontalSpacing="1dp"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="@dimen/normal_margin"
             android:numColumns="3"
             android:scrollbars="none"
-            android:verticalSpacing="1dp" >
+            android:verticalSpacing="@dimen/normal_margin" >
         </GridView>
     </LinearLayout>
 

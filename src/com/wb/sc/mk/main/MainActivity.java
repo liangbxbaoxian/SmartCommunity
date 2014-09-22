@@ -24,7 +24,7 @@ import com.wb.sc.R;
 public class MainActivity extends FragmentActivity implements OnClickListener{
 	
 	private Class fragments[] = {HomeFragment.class, FindFragment.class, HomeFragment.class,
-			HomeFragment.class, HomeFragment.class,};
+			ButlerFragment.class, HomeFragment.class,};
 	
 	private ViewGroup homeVg;
 	private ViewGroup discoverVg;
