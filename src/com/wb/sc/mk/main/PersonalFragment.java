@@ -6,11 +6,12 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
@@ -19,8 +20,9 @@ import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.widget.SelectPicPopupWindow;
 
-public class PersonalFindFragment extends BaseExtraLayoutFragment {
+public class PersonalFragment extends BaseExtraLayoutFragment {
 	// add test for linyongzhen
 	private ViewPager advVp;
 	private CirclePageIndicator advIndicator;
@@ -33,6 +35,9 @@ public class PersonalFindFragment extends BaseExtraLayoutFragment {
 	private ImageView leftIv;
 	private ImageView rightIv;
 	private TextView nameIv;
+	
+	//自定义的弹出框类
+	private	SelectPicPopupWindow menuWindow;
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -47,13 +52,13 @@ public class PersonalFindFragment extends BaseExtraLayoutFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return setContentView(inflater, R.layout.fragment_find);
+		return setContentView(inflater, R.layout.fragment_personal);
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		initData();
+//		initData();
 		initView(view);
 	}
 	
@@ -73,15 +78,27 @@ public class PersonalFindFragment extends BaseExtraLayoutFragment {
 		}
 	}
 
-	private void initView(View view) {
+	private void initView(final View view) {
 //		advVp = (ViewPager) view.findViewById(R.id.adv_pager);
 //		advIndicator = (CirclePageIndicator) view.findViewById(R.id.adv_indicator);
 //		advAdapter = new AdvAdapter(getActivity());
 //		advVp.setAdapter(advAdapter);
 //		advIndicator.setViewPager(advVp);
-		yipayGriAdapter = new CategoryAdapter(getActivity(), categoryTableList);
-		final GridView yipay_server = (GridView) view.findViewById(R.id.yipay_server);
-		yipay_server.setSelector(R.color.transparent);
-		yipay_server.setAdapter(yipayGriAdapter);
+//		yipayGriAdapter = new CategoryAdapter(getActivity(), categoryTableList);
+//		final GridView yipay_server = (GridView) view.findViewById(R.id.yipay_server);
+//		yipay_server.setSelector(R.color.transparent);
+//		yipay_server.setAdapter(yipayGriAdapter);
+		LinearLayout portrait = (LinearLayout) view.findViewById(R.id.portrait);
+		portrait.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				//实例化SelectPicPopupWindow
+				menuWindow = new SelectPicPopupWindow(getActivity(), null);
+				//显示窗口
+				menuWindow.showAtLocation(view, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+			}
+		});
 	}
 }

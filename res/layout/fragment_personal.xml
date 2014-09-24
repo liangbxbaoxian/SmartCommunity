@@ -42,9 +42,11 @@
         android:layout_width="match_parent"
         android:layout_height="102dp"
         android:gravity="center"
+        android:layout_margin="@dimen/normal_margin"
         android:orientation="horizontal" >
 
         <LinearLayout
+            android:id="@+id/portrait"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center" >
