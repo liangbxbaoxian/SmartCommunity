@@ -52,6 +52,7 @@
             android:gravity="center" >
 
             <ImageView
+                android:id="@+id/img_portrait"
                 android:layout_width="70.5dp"
                 android:layout_height="70.5dp"
                 android:background="@drawable/touxiang" />

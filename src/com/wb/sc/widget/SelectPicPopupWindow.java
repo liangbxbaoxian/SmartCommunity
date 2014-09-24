@@ -20,7 +20,7 @@ public class SelectPicPopupWindow extends PopupWindow {
 	private Button btn_take_photo, btn_pick_photo, btn_cancel;
 	private View mMenuView;
 
-	public SelectPicPopupWindow(Activity context,OnClickListener itemsOnClick) {
+	public SelectPicPopupWindow(Activity context, OnClickListener itemsOnClick) {
 		super(context);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
