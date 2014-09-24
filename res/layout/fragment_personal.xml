@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/bottom_bar_discover"
+            android:text="@string/bottom_bar_center"
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/title_bar_text_size" />
     </RelativeLayout>
@@ -63,7 +63,7 @@
             android:orientation="vertical" >
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
@@ -81,6 +81,228 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2楼11室" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/my_complaint" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:text="我的投诉" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" >
+
+            <ImageView
+                android:layout_width="6dp"
+                android:layout_height="8.5dp"
+                android:layout_marginRight="@dimen/normal_margin"
+                android:background="@drawable/arrow_right" />
+        </LinearLayout>
+    </LinearLayout>
+    
+    
+    <include 
+         android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
+        layout="@layout/divide_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/my_repair" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:text="我的报修" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" >
+
+            <ImageView
+                android:layout_width="6dp"
+                android:layout_height="8.5dp"
+                android:layout_marginRight="@dimen/normal_margin"
+                android:background="@drawable/arrow_right" />
+        </LinearLayout>
+    </LinearLayout>
+    
+        <include 
+         android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
+        layout="@layout/divide_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/my_note" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:text="我的帖子" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" >
+
+            <ImageView
+                android:layout_width="6dp"
+                android:layout_height="8.5dp"
+                android:layout_marginRight="@dimen/normal_margin"
+                android:background="@drawable/arrow_right" />
+        </LinearLayout>
+    </LinearLayout>
+    
+        <include 
+         android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
+        layout="@layout/divide_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/my_post" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:text="我的快递" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" >
+
+            <ImageView
+                android:layout_width="6dp"
+                android:layout_height="8.5dp"
+                android:layout_marginRight="@dimen/normal_margin"
+                android:background="@drawable/arrow_right" />
+        </LinearLayout>
+    </LinearLayout>
+    
+        <include 
+         android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
+        layout="@layout/divide_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/my_recommend" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:text="注册邀请" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" >
+
+            <ImageView
+                android:layout_width="6dp"
+                android:layout_height="8.5dp"
+                android:layout_marginRight="@dimen/normal_margin"
+                android:background="@drawable/arrow_right" />
+        </LinearLayout>
+    </LinearLayout>
+    
+        <include 
+         android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
+        layout="@layout/divide_line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/my_setting" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:text="设置" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right" >
+
+            <ImageView
+                android:layout_width="6dp"
+                android:layout_height="8.5dp"
+                android:layout_marginRight="@dimen/normal_margin"
+                android:background="@drawable/arrow_right" />
         </LinearLayout>
     </LinearLayout>
 
