@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fc433f"
+    android:orientation="vertical" >
+    
+    <Button
+        android:id="@+id/photo_del"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:text="@string/photo_del" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/take_picture"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:text="@string/take_picture" />
+
+    <Button
+        android:id="@+id/photo_album"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:text="@string/photo_album" />       
+
+</LinearLayout>

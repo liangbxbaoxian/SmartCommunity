@@ -56,8 +56,8 @@
             android:name="com.wb.sc.mk.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
-            android:theme="@android:style/Theme.Black.NoTitleBar"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,13 +77,12 @@
             android:name="com.umeng.common.net.DownloadingService"
             android:process=":DownloadingService" >
         </service>
-        
-		<!-- 消息推送组件  -->
+
+        <!-- 消息推送组件 -->
         <receiver
             android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
             android:exported="false" >
         </receiver>
-        
         <receiver android:name="com.umeng.message.RegistrationReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -94,7 +93,6 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-        
         <receiver android:name="com.umeng.message.UmengBroadcastReceiver" >
             <intent-filter>
                 <action android:name="org.agoo.android.intent.action.RECEIVE" />
@@ -121,7 +119,6 @@
                 <action android:name="org.agoo.android.intent.action.PING" />
             </intent-filter>
         </service>
-        
         <service
             android:name="org.android.agoo.service.ElectionService"
             android:exported="true"
@@ -130,12 +127,11 @@
                 <action android:name="org.agoo.android.intent.action.ELECTION_V2" />
             </intent-filter>
         </service>
-        
         <service android:name="com.umeng.message.UmengIntentService" />
-        
+
         <!-- V1.3.0添加的service，负责下载通知的资源 -->
         <service android:name="com.umeng.message.UmengDownloadResourceService" />
-		
+
         <!-- 友盟Key -->
         <meta-data
             android:name="UMENG_APPKEY"

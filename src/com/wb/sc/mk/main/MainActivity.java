@@ -3,6 +3,7 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -23,7 +24,7 @@ import com.wb.sc.R;
 
 public class MainActivity extends FragmentActivity implements OnClickListener{
 	
-	private Class fragments[] = {HomeFragment.class, FindFragment.class, HomeFragment.class,
+	private Class fragments[] = {HomeFragment.class, FindFragment.class, PostFragment.class,
 			HomeFragment.class, HomeFragment.class,};
 	
 	private ViewGroup homeVg;
@@ -194,4 +195,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 			return fragments.length;
 		}
 	}
+	
+	/**
+	 * 处理在拍照时屏幕翻转的问题
+	 */
+	public void onConfigurationChanged(Configuration newConfig) {  
+
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {   
+            Configuration o = newConfig;  
+            o.orientation = Configuration.ORIENTATION_PORTRAIT;  
+            newConfig.setTo(o);  
+        }   
+        super.onConfigurationChanged(newConfig);  
+    }
 }
