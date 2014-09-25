@@ -286,6 +286,6 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 	}
 
 	@SuppressLint("NewApi") public void setPhotoBitmap(Bitmap bitmap) {
-		img_portrait.setBackground(new BitmapDrawable(bitmap));
+		img_portrait.setImageBitmap(bitmap);
 	}
 }
