@@ -67,21 +67,26 @@ public class PhotoAdapter extends BaseAdapter {
 			view = convertView;
 			holder = (ViewHolder) view.getTag();
 		}
-		
-		Bitmap bmp = null;
-		if(position >= photoList.size()) {
-			bmp = BitmapHelper.getReSizeBmp(fileList.get(position).getAbsolutePath(), itemWidth, itemWidth, Bitmap.Config.RGB_565);
-			photoList.add(new SoftReference<Bitmap>(bmp));
+				
+		File photoFile = fileList.get(position);
+		if(photoFile == null) {
+			holder.photoIv.setImageResource(R.drawable.photo_add_icon);
 		} else {
-			bmp = photoList.get(position).get();
-			if(bmp == null) {
+			Bitmap bmp = null;			
+			if(position >= photoList.size()) {
 				bmp = BitmapHelper.getReSizeBmp(fileList.get(position).getAbsolutePath(), itemWidth, itemWidth, Bitmap.Config.RGB_565);
-				photoList.set(position, new SoftReference<Bitmap>(bmp));
+				photoList.add(new SoftReference<Bitmap>(bmp));
+			} else {
+				bmp = photoList.get(position).get();
+				if(bmp == null) {
+					bmp = BitmapHelper.getReSizeBmp(fileList.get(position).getAbsolutePath(), itemWidth, itemWidth, Bitmap.Config.RGB_565);
+					photoList.set(position, new SoftReference<Bitmap>(bmp));
+				}
 			}
-		}
 		
-		if(bmp != null) {
-			holder.photoIv.setImageBitmap(bmp);
+			if(bmp != null) {
+				holder.photoIv.setImageBitmap(bmp);
+			}
 		}
 		
 		return view;

@@ -3,6 +3,7 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.IUmengUnregisterCallback;
@@ -36,6 +35,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	
 	private ViewPager contentVp;
 	private MenuAdapter menuAdapter;
+	private Fragment[] instanceFragments;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +72,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		
 		setBottomState(homeVg);
 		
+		instanceFragments = new Fragment[fragments.length];
 		contentVp = (ViewPager) findViewById(R.id.content_pager);
 		menuAdapter = new MenuAdapter(getSupportFragmentManager());
 		contentVp.setAdapter(menuAdapter);
+		contentVp.setOffscreenPageLimit(1);
 		contentVp.setOnPageChangeListener(new OnPageChangeListener() {
 			
 			@Override
@@ -187,12 +189,28 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
+			instanceFragments[position] = fg;
 			return fg;
 		}
 		
 		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			instanceFragments[position] = null;
+			super.destroyItem(container, position, object);
+		}
+
+		@Override
 		public int getCount() {
 			return fragments.length;
+		}		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
+		int position = contentVp.getCurrentItem();
+		Fragment fragment = instanceFragments[position];
+		if(fragment != null) {
+			fragment.onActivityResult(requestCode, requestCode, data);
 		}
 	}
 	
