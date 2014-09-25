@@ -30,6 +30,7 @@ import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.widget.CircleImageView;
 import com.wb.sc.widget.SelectPicPopupWindow;
 
 public class PersonalFragment extends BaseExtraLayoutFragment {
@@ -95,7 +96,7 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 	private ImageView rightIv;
 	private TextView nameIv;
 
-	private ImageView img_portrait;
+	private com.wb.sc.widget.CircleImageView img_portrait;
 
 	public static final int REQUEST_TAKE_CAMERA = 1;
 	public static final int REQUEST_PICK_LOCAL = 2;
@@ -170,7 +171,7 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 			}
 		});
 
-		img_portrait = (ImageView) view.findViewById(R.id.img_portrait);
+		img_portrait = (CircleImageView) view.findViewById(R.id.img_portrait);
 	}
 
 	public class listenner implements View.OnClickListener {
