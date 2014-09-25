@@ -2,33 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fc433f"
+    android:background="@android:color/white"
     android:orientation="vertical" >
     
     <Button
         android:id="@+id/photo_del"
+        style="@style/button_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_weight="1"
         android:text="@string/photo_del" 
+        android:background="@drawable/btn_selector"
         android:visibility="gone"/>
 
     <Button
         android:id="@+id/take_picture"
+        style="@style/button_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_weight="1"
+        android:background="@drawable/btn_selector"
         android:text="@string/take_picture" />
 
     <Button
         android:id="@+id/photo_album"
+        style="@style/button_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_weight="1"
-        android:text="@string/photo_album" />       
+        android:background="@drawable/btn_selector"
+        android:text="@string/photo_album" />      
+        
+    <Button 
+        android:id="@+id/cancle"
+        style="@style/button_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="65dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="38dp"
+        android:layout_weight="1"
+        android:background="@drawable/cancel_selector"
+        android:text="@string/cancle" />
 
 </LinearLayout>

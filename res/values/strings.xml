@@ -20,4 +20,5 @@
     <string name="photo_del">删除</string>
     <string name="phot_load_fail">照片添加失败，请重试</string>
     <string name="sdcard_error">请确认SD卡是否已插入</string>
+    <string name="cancle">取消</string>
 </resources>

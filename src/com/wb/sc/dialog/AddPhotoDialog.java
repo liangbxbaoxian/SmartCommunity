@@ -18,6 +18,7 @@ public class AddPhotoDialog extends Dialog implements OnClickListener {
 	private Button takePictureBtn;
 	private Button photoAlbumBtn;
 	private Button delPhotoBtn;
+	private Button cancleBtn;
 	private Context mContext;
 	private int delState;
 	
@@ -55,10 +56,12 @@ public class AddPhotoDialog extends Dialog implements OnClickListener {
 		takePictureBtn = (Button) findViewById(R.id.take_picture);
 		photoAlbumBtn = (Button) findViewById(R.id.photo_album);
 		delPhotoBtn = (Button) findViewById(R.id.photo_del);
+		cancleBtn = (Button) findViewById(R.id.cancle);
 		
 		takePictureBtn.setOnClickListener(this);
 		photoAlbumBtn.setOnClickListener(this);
 		delPhotoBtn.setOnClickListener(this);
+		cancleBtn.setOnClickListener(this);
 	}
 	
 	public void setListener(android.view.View.OnClickListener listener) {
@@ -68,7 +71,11 @@ public class AddPhotoDialog extends Dialog implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (listener != null)
-			listener.onClick(v);		
+			listener.onClick(v);	
+		
+		if(v.getId() == R.id.cancle) {
+			dismiss();
+		}
 	}
 	
 	public void hidDel() {
