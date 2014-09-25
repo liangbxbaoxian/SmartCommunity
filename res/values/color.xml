@@ -48,4 +48,7 @@
     <color name="banner_nor_text_color">#ff732d</color>
     <color name="banner_sel_text_color">#e66524</color>
     
+     <!-- Find gridview bg -->
+     <color name="bg_style">#f6f5f3</color>
+    
 </resources>

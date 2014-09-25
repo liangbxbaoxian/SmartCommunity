@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_style"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_bar_bg"
+        android:paddingLeft="@dimen/title_bar_padding"
+        android:paddingRight="@dimen/title_bar_padding"
+        android:visibility="visible" >
+
+        <ImageView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/title_bar_icon_phone"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/title_bar_icon_scan" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/bottom_bar_steward"
+            android:textColor="@color/title_text_color"
+            android:textSize="@dimen/title_bar_text_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="136dp" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/adv_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.viewpagerindicator.CirclePageIndicator
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adv_indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            android:paddingBottom="5dp"
+            app:fillColor="#FFFFFFFF"
+            app:pageColor="#FFC7C7C7"
+            app:radius="4dp"
+            app:strokeColor="#FF000000"
+            app:strokeWidth="0dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_view_pay"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         android:layout_margin="@dimen/normal_margin"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="本地房产新闻1" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="2014-9-11 >>" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/background_repeat"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:id="@+id/menu_view_pay"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/bg_style"
+        android:paddingTop="@dimen/normal_margin" >
+
+        <GridView
+            android:id="@+id/yipay_server"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="@dimen/normal_margin"
+            android:numColumns="3"
+            android:scrollbars="none"
+            android:verticalSpacing="@dimen/normal_margin" >
+        </GridView>
+    </LinearLayout>
+
+</LinearLayout>

@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,35 +40,58 @@
             android:textSize="@dimen/title_bar_text_size" />
     </RelativeLayout>
 
-    <RelativeLayout
+        <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="136dp" >
+        android:layout_height="240dp"
+        android:orientation="horizontal" >
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/adv_pager"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
 
-        <com.viewpagerindicator.CirclePageIndicator
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adv_indicator"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/tu_one" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tu_two" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tu_three" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_view_pay"
+        android:paddingTop="@dimen/normal_margin"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/bg_style" >
+
+        <GridView
+            android:id="@+id/yipay_server"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@android:color/transparent"
-            android:paddingBottom="5dp"
-            app:fillColor="#FFC7C7C7"
-            app:pageColor="#FFFFFFFF"
-            app:radius="4dp"
-            app:strokeColor="#FF000000"
-            app:strokeWidth="0dp" />
-    </RelativeLayout>
-    
-    <ListView 
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-    </ListView>
+            android:layout_height="match_parent"
+            android:horizontalSpacing="@dimen/normal_margin"
+            android:numColumns="3"
+            android:scrollbars="none"
+            android:verticalSpacing="@dimen/normal_margin" >
+        </GridView>
+    </LinearLayout>
 
 </LinearLayout>
