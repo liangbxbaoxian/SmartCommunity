@@ -41,8 +41,12 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
-//		super.onActivityResult(requestCode, resultCode, data);
+		super.onActivityResult(requestCode, resultCode, data);
 
+	    requestCode = requestCode>> 16;
+	    if (requestCode != 0) {
+	    	requestCode--;
+	    }
 		switch (requestCode) {
 		case REQUEST_TAKE_CAMERA:
 			if (data != null) {
@@ -68,7 +72,6 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 			break;
 
 		case REQUEST_PICK_LOCAL:
-			if (resultCode == Activity.RESULT_OK) {
 				Uri uri = data.getData();
 				path[index] = getPath(uri);
 				try {
@@ -77,7 +80,6 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
 			break;
 		}
 
