@@ -51,4 +51,6 @@
      <!-- Find gridview bg -->
      <color name="bg_style">#f6f5f3</color>
     
+     <!-- divide line color -->
+     <color name="divide_line_color">#ebeced</color>
 </resources>
