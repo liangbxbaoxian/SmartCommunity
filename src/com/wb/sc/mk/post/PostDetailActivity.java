@@ -26,6 +26,7 @@ import com.wb.sc.adapter.CommentListAdapter;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.config.RespParams;
+import com.wb.sc.dialog.OptDialog;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
@@ -57,6 +58,8 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		
 	private CommentListRequest mCommentListRequest;
 	private CommentList mCommentList;
+	
+	private OptDialog mOptDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -134,12 +137,33 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	}
 	
 	/**
-	 * 列表选项点击的处理
+	 * 评论列表选项点击的处理
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
+		if(mOptDialog == null) {
+			mOptDialog = new OptDialog(this, R.style.popupStyle);
+			mOptDialog.setOpt1Btn("回复", true);
+			mOptDialog.setOpt2Btn("复制", true);
+			mOptDialog.setOpt3Btn("", false);
+			mOptDialog.setListener(this);
+		}
 		
+		mOptDialog.show();
+	}
+	
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		
+		switch(v.getId()) {
+		case R.id.opt_1:
+			break;
+			
+		case R.id.opt_2:
+			break;			
+		}
 	}
 		
 	/**
