@@ -1,10 +1,6 @@
-﻿package ${PackageName};
+﻿package com.wb.sc;
 
 import java.util.HashMap;
-<#if isList == "false">
-<#else>
-import java.util.List;
-</#if>
 import java.util.Map;
 
 import android.os.Bundle;
@@ -21,11 +17,11 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.common.util.PageInfo;
-import ${PackageName}.activity.base.BaseActivity;
-import ${PackageName}.activity.base.ReloadListener;
-import ${PackageName}.config.NetConfig;
-import ${PackageName}.config.RespCode;
-import ${PackageName}.config.RespParams;
+import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.ReloadListener;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.config.RespParams;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.common.widget.helper.PullRefreshListViewHelper;
@@ -34,34 +30,24 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import ${PackageName}.bean.${DataName};
-import ${PackageName}.task.${TaskName};
+import com.wb.sc.bean.CommentList;
+import com.wb.sc.task.CommentListRequest;
 
-<#if isList == "false">
-public class ${ClassName} extends BaseActivity implements Listener<${DataName}>, 
+public class CommentActivity extends BaseActivity implements Listener<CommentList>, 
 	ErrorListener, OnItemClickListener, ReloadListener{
-<#else>
-public class ${ClassName} extends BaseActivity implements Listener<List<${DataName}>>, 
-	ErrorListener, OnItemClickListener, ReloadListener{
-</#if>	
 	
 	private PullToRefreshListView mPullListView;
 	private PullRefreshListViewHelper mPullHelper;
 	private ListView mListView;
-	private PageInfo mPage = new PageInfo();
+	private PageInfo mPage;
 	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;
 		
-	private ${TaskName} m${TaskName};
-	<#if isList == "false">
-	private ${DataName} m${DataName};
-	<#else>
-	private List<${DataName}> m${DataName}List;
-	</#if>
+	private CommentListRequest mCommentRequest;
+	private CommentList mComment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.${LayoutName});
 		
 		getIntentData();
 		initView();			
@@ -81,7 +67,7 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 				//处理下拉刷新
 				mPage.pageNo = 1;
-				start${DataName}Request();
+				startCommentRequest();
 			}
 
 			@Override
@@ -95,15 +81,15 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 			@Override
 			public void onLastItemVisible() {
 				//滑动到底部的处理
-				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE && m${DataName}.hasNextPage) {
+				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE && mComment.hasNextPage) {
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPage.pageNo++;		
-					start${DataName}Request();
+					startCommentRequest();
 				}
 			}
 		});
 		
-		//设置刷新时请允许滑动的开关使能    		
+		//设置刷新时请允许滑动的开关使�?   		
 		mPullListView.setScrollingWhileRefreshingEnabled(true);
 		
 		//设置自动刷新功能
@@ -121,34 +107,15 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 			@Override
 			public void onClick(View v) {
 				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_FAIL) {
-					//加载失败，点击重试
+					//加载失败，点击重�?
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPullHelper.setBottomState(loadState);		
-					start${DataName}Request();
+					startCommentRequest();
 				}
 			}
 		});
 	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		//此处设置菜单		
-		setDisplayHomeAsUpEnabled(true);
-		setDisplayShowHomeEnabled(false);
 		
-		start${DataName}Request();
-		
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	/**
-	 * 菜单点击处理
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {			
-		return super.onOptionsItemSelected(item);
-	}
-	
 	/**
 	 * 列表选项点击的处理
 	 */
@@ -162,15 +129,15 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	 * 
 	 * @描述:启动请求
 	 */
-	private void start${DataName}Request() {
-		//request${DataName}(Method.${ReqType}, "请求方法", get${TaskName}Params(), this, this);
+	private void startCommentRequest() {
+		//requestComment(Method.GET, "请求方法", getCommentRequestParams(), this, this);
 	}
 		
 	/**
 	 * 获取请求参数
 	 * @return
 	 */
-	private Map<String, String> get${TaskName}Params() {
+	private Map<String, String> getCommentRequestParams() {
 		Map<String, String> params = new HashMap<String, String>();
 		
 		params.put(RespParams.PAGE_SIZE, mPage.pageSize+"");
@@ -187,19 +154,14 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	<#if isList == "false">
-	private void request${DataName}(int method, String methodUrl, Map<String, String> params,	 
-			Listener<${DataName}> listenre, ErrorListener errorListener) {			
-	<#else>
-			private void executeRequest(int method, String methodUrl, Map<String, String> params,		
-			Listener<List<${DataName}>> listenre, ErrorListener errorListener) {
-	</#if>
-		if(m${TaskName} != null) {
-			m${TaskName}.cancel();
+	private void requestComment(int method, String methodUrl, Map<String, String> params,	 
+			Listener<CommentList> listenre, ErrorListener errorListener) {			
+		if(mCommentRequest != null) {
+			mCommentRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-		m${TaskName} = new ${TaskName}(method, url, params, listenre, errorListener);
-		startRequest(m${TaskName});		
+		mCommentRequest = new CommentListRequest(method, url, params, listenre, errorListener);
+		startRequest(mCommentRequest);		
 	}
 	
 	/**
@@ -223,18 +185,14 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	public void onReload() {
 		mPage.pageNo = 1;		
 		showLoading();
-		start${DataName}Request();
+		startCommentRequest();
 	}
 	
 	/**
 	 * 请求完成，处理UI更新
 	 */
 	@Override
-	<#if isList == "false">
-	public void onResponse(${DataName} response) {		
-	<#else>
-	public void onResponse(List<${DataName}> response) {		
-	</#if>
+	public void onResponse(CommentList response) {		
 		showContent();	
 		if(response.respCode == RespCode.SUCCESS) {			
 			if(response.datas.size() <= 0) {
@@ -243,17 +201,17 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 			}
 			
 			if(mPage.pageNo == 1) {
-				m${DataName} = response;
+				mComment = response;
 				// set adapter
 				showContent();
 			} else {
-				m${DataName}.hasNextPage = response.hasNextPage;
-				m${DataName}.datas.addAll(response.datas);
+				mComment.hasNextPage = response.hasNextPage;
+				mComment.datas.addAll(response.datas);
 				//adapter notifyDataSetChanged
 			}
 			
 			loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;	
-			if(m${DataName}.hasNextPage) {
+			if(mComment.hasNextPage) {
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_LOADING);
 			} else {
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);

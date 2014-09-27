@@ -1,13 +1,20 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 	<!-- 智慧社区全局样式 -->
-    <style name="SC.Light" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="SC.Light" parent="@style/Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/SC.ActionBar</item>
         <item name="actionBarDivider">@drawable/actionbar_divider</item>
         <item name="homeAsUpIndicator">@drawable/actionbar_up_indicator</item>
+        <item name="actionBarItemBackground">@drawable/actionbar_menu_selector</item>
+        <item name="actionMenuTextColor">@color/actionbar_menu_text_color</item>
     </style>
     
     <!-- ActionBar样式  -->
     <style name="SC.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+    </style>
+    
+    <style name="SCActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">@dimen/actionbar_title_size</item>
+        <item name="android:textColor">@color/actionbar_tittle_color</item>
     </style>
     
     <!-- 底部弹出样式对话框 -->

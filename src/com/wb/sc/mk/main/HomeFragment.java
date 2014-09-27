@@ -1,12 +1,15 @@
 package com.wb.sc.mk.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -17,9 +20,11 @@ import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
-import com.wb.sc.adapter.PostsTypeAdapter;
+import com.wb.sc.adapter.PostTypeAdapter;
+import com.wb.sc.mk.post.PostListActivity;
 
-public class HomeFragment extends BaseExtraLayoutFragment implements OnClickListener {
+public class HomeFragment extends BaseExtraLayoutFragment implements OnClickListener,
+	OnItemClickListener{
 	
 	//标题栏相关
 	private ImageView phoneIv;
@@ -33,7 +38,7 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 	
 	//帖子栏
 	private ListView postsTypeLv;
-	private PostsTypeAdapter typeAdapter;
+	private PostTypeAdapter typeAdapter;
 	
 	//快捷入口
 	private ImageButton shortcutIn;
@@ -71,8 +76,9 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 		advIndicator.setViewPager(advVp);
 		
 		postsTypeLv = (ListView) view.findViewById(R.id.list);
-		typeAdapter = new PostsTypeAdapter(getActivity());
+		typeAdapter = new PostTypeAdapter(getActivity());
 		postsTypeLv.setAdapter(typeAdapter);
+		postsTypeLv.setOnItemClickListener(this);
 		
 		shortcutIn = (ImageButton) view.findViewById(R.id.shortcut_in);
 		shortcutIn.setOnClickListener(this);
@@ -96,5 +102,11 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 			shortcutLayout.setVisibility(View.GONE);
 			break;
 		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Intent intent =  new Intent(getActivity(), PostListActivity.class);
+		startActivity(intent);
 	}
 }

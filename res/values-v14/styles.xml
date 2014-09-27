@@ -1,12 +1,24 @@
 <resources>
 
-    <!--
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- API 14 theme customizations can go here. -->
+	<!-- 智慧社区全局样式 -->
+    <style name="SC.Light" parent="@style/Theme.AppCompat.Light">
+        <item name="actionBarStyle">@style/SC.ActionBar</item>
+        <item name="android:actionBarStyle">@style/SC.ActionBar</item> 
+        <item name="actionBarDivider">@drawable/actionbar_divider</item>
+        <item name="android:actionBarDivider">@drawable/actionbar_divider</item> 
+        <item name="homeAsUpIndicator">@drawable/actionbar_up_indicator</item>
+        <item name="android:homeAsUpIndicator">@drawable/actionbar_up_indicator</item>
+        <item name="actionBarItemBackground">@drawable/actionbar_menu_selector</item>
+        <item name="android:actionBarItemBackground">@drawable/actionbar_menu_selector</item>
+        <item name="actionMenuTextColor">@color/actionbar_menu_text_color</item>
+        <item name="android:actionMenuTextColor">@color/actionbar_menu_text_color</item>
+    </style>
+    
+    <!-- ActionBar样式  -->
+    <style name="SC.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@drawable/title_bar_bg</item>
+        <item name="android:background">@drawable/title_bar_bg</item>
+        <item name="android:titleTextStyle">@style/SCActionBar.TitleTextStyle</item>
     </style>
 
 </resources>

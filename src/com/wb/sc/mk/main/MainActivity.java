@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -20,8 +19,9 @@ import com.umeng.message.IUmengUnregisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseActivity;
 
-public class MainActivity extends FragmentActivity implements OnClickListener{
+public class MainActivity extends BaseActivity implements OnClickListener{
 	
 	private Class fragments[] = {HomeFragment.class, FindFragment.class, PostFragment.class,
 			ButlerFragment.class, PersonalFragment.class,};

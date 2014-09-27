@@ -10,11 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class PostsTypeAdapter extends BaseAdapter {
+public class PostTypeAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	public PostsTypeAdapter(Context context) {
+	public PostTypeAdapter(Context context) {
 		mContext = context;
 	}
 

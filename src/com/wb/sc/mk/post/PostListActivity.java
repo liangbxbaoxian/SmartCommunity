@@ -1,12 +1,10 @@
-﻿package ${PackageName};
+﻿package com.wb.sc.mk.post;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-<#if isList == "false">
-<#else>
-import java.util.List;
-</#if>
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,60 +14,60 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.common.util.PageInfo;
-import ${PackageName}.activity.base.BaseActivity;
-import ${PackageName}.activity.base.ReloadListener;
-import ${PackageName}.config.NetConfig;
-import ${PackageName}.config.RespCode;
-import ${PackageName}.config.RespParams;
 import com.common.net.volley.VolleyErrorHelper;
+import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
 import com.common.widget.helper.PullRefreshListViewHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import ${PackageName}.bean.${DataName};
-import ${PackageName}.task.${TaskName};
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.activity.base.ReloadListener;
+import com.wb.sc.adapter.PostListAdapter;
+import com.wb.sc.bean.PostList;
+import com.wb.sc.config.IntentExtraConfig;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.config.RespParams;
+import com.wb.sc.task.PostListRequest;
 
-<#if isList == "false">
-public class ${ClassName} extends BaseActivity implements Listener<${DataName}>, 
+public class PostListActivity extends BaseHeaderActivity implements Listener<PostList>, 
 	ErrorListener, OnItemClickListener, ReloadListener{
-<#else>
-public class ${ClassName} extends BaseActivity implements Listener<List<${DataName}>>, 
-	ErrorListener, OnItemClickListener, ReloadListener{
-</#if>	
 	
 	private PullToRefreshListView mPullListView;
 	private PullRefreshListViewHelper mPullHelper;
 	private ListView mListView;
+	private PostListAdapter mAdapter;
 	private PageInfo mPage = new PageInfo();
 	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;
 		
-	private ${TaskName} m${TaskName};
-	<#if isList == "false">
-	private ${DataName} m${DataName};
-	<#else>
-	private List<${DataName}> m${DataName}List;
-	</#if>
+	private PostListRequest mPostListRequest;
+	private PostList mPostList;
+	
+	private int postType;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.${LayoutName});
+		setContentView(R.layout.activity_postlist);
 		
 		getIntentData();
-		initView();			
+		initHeader(getResources().getStringArray(R.array.post_type)[postType]);
+		initView();	
+		
+		test();
 	}
 			
 	@Override
 	public void getIntentData() {
-		
+		postType = getIntent().getIntExtra(IntentExtraConfig.POST_TYPE, 
+				IntentExtraConfig.POST_TYPE_SHARE);
 	}
 	
 	@Override
@@ -81,7 +79,7 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 				//处理下拉刷新
 				mPage.pageNo = 1;
-				start${DataName}Request();
+				startPostListRequest();
 			}
 
 			@Override
@@ -95,15 +93,15 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 			@Override
 			public void onLastItemVisible() {
 				//滑动到底部的处理
-				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE && m${DataName}.hasNextPage) {
+				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE && mPostList.hasNextPage) {
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPage.pageNo++;		
-					start${DataName}Request();
+					startPostListRequest();
 				}
 			}
 		});
 		
-		//设置刷新时请允许滑动的开关使能    		
+		//设置刷新时请允许滑动的开关使能   		
 		mPullListView.setScrollingWhileRefreshingEnabled(true);
 		
 		//设置自动刷新功能
@@ -114,8 +112,7 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 		
 		mListView = mPullListView.getRefreshableView();
 		mListView.setOnItemClickListener(this);
-		
-		mPage = new PageInfo();
+				
 		mPullHelper = new PullRefreshListViewHelper(this, mListView, mPage.pageSize);
 		mPullHelper.setBottomClick(new OnClickListener() {
 			@Override
@@ -124,7 +121,7 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 					//加载失败，点击重试
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPullHelper.setBottomState(loadState);		
-					start${DataName}Request();
+					startPostListRequest();
 				}
 			}
 		});
@@ -133,10 +130,8 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		//此处设置菜单		
-		setDisplayHomeAsUpEnabled(true);
-		setDisplayShowHomeEnabled(false);
 		
-		start${DataName}Request();
+		startPostListRequest();
 		
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -155,22 +150,23 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		
+		Intent intent = new Intent(this, PostDetailActivity.class);
+		startActivity(intent);
 	}
 	
 	/**
 	 * 
 	 * @描述:启动请求
 	 */
-	private void start${DataName}Request() {
-		//request${DataName}(Method.${ReqType}, "请求方法", get${TaskName}Params(), this, this);
+	private void startPostListRequest() {
+		//requestPostList(Method.POST, "请求方法", getPostListRequestParams(), this, this);
 	}
 		
 	/**
 	 * 获取请求参数
 	 * @return
 	 */
-	private Map<String, String> get${TaskName}Params() {
+	private Map<String, String> getPostListRequestParams() {
 		Map<String, String> params = new HashMap<String, String>();
 		
 		params.put(RespParams.PAGE_SIZE, mPage.pageSize+"");
@@ -187,19 +183,14 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	<#if isList == "false">
-	private void request${DataName}(int method, String methodUrl, Map<String, String> params,	 
-			Listener<${DataName}> listenre, ErrorListener errorListener) {			
-	<#else>
-			private void executeRequest(int method, String methodUrl, Map<String, String> params,		
-			Listener<List<${DataName}>> listenre, ErrorListener errorListener) {
-	</#if>
-		if(m${TaskName} != null) {
-			m${TaskName}.cancel();
+	private void requestPostList(int method, String methodUrl, Map<String, String> params,	 
+			Listener<PostList> listenre, ErrorListener errorListener) {			
+		if(mPostListRequest != null) {
+			mPostListRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-		m${TaskName} = new ${TaskName}(method, url, params, listenre, errorListener);
-		startRequest(m${TaskName});		
+		mPostListRequest = new PostListRequest(method, url, params, listenre, errorListener);
+		startRequest(mPostListRequest);		
 	}
 	
 	/**
@@ -223,18 +214,14 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	public void onReload() {
 		mPage.pageNo = 1;		
 		showLoading();
-		start${DataName}Request();
+		startPostListRequest();
 	}
 	
 	/**
 	 * 请求完成，处理UI更新
 	 */
 	@Override
-	<#if isList == "false">
-	public void onResponse(${DataName} response) {		
-	<#else>
-	public void onResponse(List<${DataName}> response) {		
-	</#if>
+	public void onResponse(PostList response) {		
 		showContent();	
 		if(response.respCode == RespCode.SUCCESS) {			
 			if(response.datas.size() <= 0) {
@@ -243,17 +230,17 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 			}
 			
 			if(mPage.pageNo == 1) {
-				m${DataName} = response;
+				mPostList = response;
 				// set adapter
 				showContent();
 			} else {
-				m${DataName}.hasNextPage = response.hasNextPage;
-				m${DataName}.datas.addAll(response.datas);
+				mPostList.hasNextPage = response.hasNextPage;
+				mPostList.datas.addAll(response.datas);
 				//adapter notifyDataSetChanged
 			}
 			
 			loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;	
-			if(m${DataName}.hasNextPage) {
+			if(mPostList.hasNextPage) {
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_LOADING);
 			} else {
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
@@ -261,5 +248,15 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 		} else {
 			ToastHelper.showToastInBottom(this, response.respMsg);
 		}
+	}
+	
+	private void test() {
+		mPostList = new PostList();
+		mPostList.datas = new ArrayList<PostList.Item>();
+		for(int i=0; i<10; i++) {
+			mPostList.datas.add(mPostList.new Item());
+		}
+		mAdapter = new PostListAdapter(this, mPostList);
+		mListView.setAdapter(mAdapter);
 	}
 }

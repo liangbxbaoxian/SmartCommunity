@@ -7,17 +7,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.wb.sc.activity.base.BaseActivity;
-import com.wb.sc.activity.base.ReloadListener;
-import com.wb.sc.config.NetConfig;
-import com.wb.sc.config.RespCode;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
+import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.bean.BaseBean;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
 import com.wb.sc.task.BaseRequest;
 
 public class BaseBeanActivity extends BaseActivity implements Listener<BaseBean>, 
@@ -46,25 +45,7 @@ public class BaseBeanActivity extends BaseActivity implements Listener<BaseBean>
 	public void initView() {
 		
 	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		//此处设置菜单		
-		setDisplayHomeAsUpEnabled(true);
-		setDisplayShowHomeEnabled(false);
-		
-		//requestBase(Method.GET, "请求方法", getBaseRequestParams(), this, this);		
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	/**
-	 * 菜单点击处理
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {			
-		return super.onOptionsItemSelected(item);
-	}
-		
+			
 	/**
 	 * 获取请求参数
 	 * @return

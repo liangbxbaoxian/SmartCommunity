@@ -14,7 +14,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Spinner;
 
 import com.common.file.FileDirUtil;
 import com.common.media.CameraHelper;
@@ -46,6 +48,8 @@ public class PostFragment extends BaseExtraLayoutFragment implements OnItemClick
 	private int selPos;
 	private AddPhotoDialog optDialog;
 	
+	private Spinner typeSp;
+	
 	@Override
     public void onAttach(Activity activity) {
        super.onAttach(activity);
@@ -76,7 +80,14 @@ public class PostFragment extends BaseExtraLayoutFragment implements OnItemClick
     	listView = (HorizontalListView) view.findViewById(android.R.id.list); 
     	listView.setOnItemClickListener(this);
     	photoAdapter = new PhotoAdapter(getActivity(), fileList);
-    	listView.setAdapter(photoAdapter);    	
+    	listView.setAdapter(photoAdapter);    
+    	
+    	typeSp = (Spinner) view.findViewById(R.id.type);
+    	String[] types = getResources().getStringArray(R.array.post_type);
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), 
+    			R.layout.spinner_text_layout, types);
+    	adapter.setDropDownViewResource(R.layout.spinner_text_layout);
+    	typeSp.setAdapter(adapter);
     }
     
     @Override

@@ -90,7 +90,7 @@ public class PullRefActivity extends BaseActivity implements Listener<PullRef>,
 			}
 		});
 		
-		//设置刷新时请允许滑动的开关使�?   		
+		//设置刷新时请允许滑动的开关使�?   		
 		mPullListView.setScrollingWhileRefreshingEnabled(true);
 		
 		//设置自动刷新功能
@@ -108,7 +108,7 @@ public class PullRefActivity extends BaseActivity implements Listener<PullRef>,
 			@Override
 			public void onClick(View v) {
 				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_FAIL) {
-					//加载失败，点击重�?
+					//加载失败，点击重�?
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPullHelper.setBottomState(loadState);		
 					startPullRefRequest();
@@ -120,8 +120,6 @@ public class PullRefActivity extends BaseActivity implements Listener<PullRef>,
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		//此处设置菜单		
-		setDisplayHomeAsUpEnabled(true);
-		setDisplayShowHomeEnabled(false);
 		
 		startPullRefRequest();
 		
@@ -137,7 +135,7 @@ public class PullRefActivity extends BaseActivity implements Listener<PullRef>,
 	}
 	
 	/**
-	 * 列表选项点击的处�?
+	 * 列表选项点击的处�?
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,

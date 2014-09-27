@@ -3,6 +3,8 @@
     <string name="app_name">智慧社区</string>
     
     <string name="ac_main">主界面</string>
+    <string name="ac_post_list">帖子列表</string>
+    <string name="ac_post_detail">帖子详情</string>
     	
     <!-- 无内容时的提示  -->
     <string name="empty_toast">暂无内容哦</string>
@@ -21,4 +23,11 @@
     <string name="phot_load_fail">照片添加失败，请重试</string>
     <string name="sdcard_error">请确认SD卡是否已插入</string>
     <string name="cancle">取消</string>
+    
+    <string-array name="post_type">
+        <item>社区分享</item>
+        <item>邻里互助</item>
+        <item>社区雷锋</item>
+    </string-array>
+  	
 </resources>

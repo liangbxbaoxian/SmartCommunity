@@ -56,14 +56,29 @@
             android:name="com.wb.sc.mk.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:screenOrientation="portrait">
+             
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
         </activity>
+                
+        <!-- 帖子列表  -->
+        <activity
+            android:name="com.wb.sc.mk.post.PostListActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_post_list"
+            android:screenOrientation="portrait" />
+        
+        <!-- 帖子详情  -->
+        <activity
+            android:name="com.wb.sc.mk.post.PostDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_post_detail"
+            android:screenOrientation="portrait" />
 
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->

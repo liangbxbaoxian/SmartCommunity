@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 
 
+
 import com.wb.sc.R;
 
 import android.content.res.Resources;
@@ -19,6 +20,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.widget.TextView;
@@ -42,11 +44,13 @@ public class BaseActionBarActivity extends ActionBarActivity implements MenuBuil
 	private int mMenuId;
 	private int mOverflowMenuIconId;
 	private OnMenuItemClickListener mMenuItemClickListener;
+	
+	private TextView titleTv;
 				
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);		
+		super.onCreate(savedInstanceState);	
+		hideActionBar();
 	}
 	
 	@Override
@@ -167,14 +171,14 @@ public class BaseActionBarActivity extends ActionBarActivity implements MenuBuil
 	 * 设置标题
 	 */
 	public void setTitle(int resId) {
-		getSupportActionBar().setTitle(resId);
+		titleTv.setText(resId);
 	}
 	
 	/**
 	 * 设置标题
 	 */
 	public void setTitle(CharSequence title) {
-		getSupportActionBar().setTitle(title);
+		titleTv.setText(title);
 	}
 	
 	/**
@@ -195,11 +199,14 @@ public class BaseActionBarActivity extends ActionBarActivity implements MenuBuil
 	}
 		
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {						
+	public boolean onCreateOptionsMenu(Menu menu) {	
+		getSupportActionBar().setTitle("");
 		
-		setDisplayShowHomeEnabled(true);
-		setLogo(R.drawable.ic_launcher);
-		
+		MenuItem menuItem = menu.add("title");
+		MenuItemCompat.setActionView(menuItem, R.layout.action_bar_title_layout);
+		MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+		initTitleView(MenuItemCompat.getActionView(menuItem));
+				
 		if(mShowOverflowMenu) {
 			MenuItem moreItem = menu.add(0, ID_ACTION_OVERFLOW, 0, R.string.action_more);         
 	        moreItem.setIcon(mOverflowMenuIconId);
@@ -210,8 +217,12 @@ public class BaseActionBarActivity extends ActionBarActivity implements MenuBuil
 			MenuInflater inflater = new MenuInflater(this);			
 			inflater.inflate(mMenuId, mMenuBuilder);
 		}
-		
+				
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	private void initTitleView(View view) {
+		titleTv = (TextView) view.findViewById(R.id.title);
 	}
 	
 	@Override

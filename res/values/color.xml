@@ -17,10 +17,10 @@
     <color name="common_list_text_color">#ff9d9d9d</color>
     
     <!-- actionbar 菜单文字颜色  -->
-    <color name="actionbar_menu_text_color">#ffff732e</color>
+    <color name="actionbar_menu_text_color">#ffffffff</color>
         
     <!-- actionbar 标题颜色  -->
-    <color name="actionbar_tittle_color">#ffff732e</color>
+    <color name="actionbar_tittle_color">#ffffffff</color>
     
     <!-- 通用菜单字体颜色  -->
     <color name="common_menu_text_color">#ffff732e</color>
