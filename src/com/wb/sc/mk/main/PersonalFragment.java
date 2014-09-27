@@ -43,6 +43,10 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 
+//	    requestCode = requestCode>> 16;
+//	    if (requestCode != 0) {
+//	    	requestCode--;
+//	    }
 		switch (requestCode) {
 		case REQUEST_TAKE_CAMERA:
 			if (data != null) {
@@ -68,7 +72,6 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 			break;
 
 		case REQUEST_PICK_LOCAL:
-			if (resultCode == Activity.RESULT_OK) {
 				Uri uri = data.getData();
 				path[index] = getPath(uri);
 				try {
@@ -77,7 +80,6 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
 			break;
 		}
 
@@ -98,8 +100,8 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 
 	private com.wb.sc.widget.CircleImageView img_portrait;
 
-	public static final int REQUEST_TAKE_CAMERA = 1;
-	public static final int REQUEST_PICK_LOCAL = 2;
+	public static final int REQUEST_TAKE_CAMERA = 10;
+	public static final int REQUEST_PICK_LOCAL = 20;
 
 	// 自定义的弹出框类
 	private SelectPicPopupWindow menuWindow;
@@ -199,7 +201,7 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 	 */
 	public void takePhoto() {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		startActivityForResult(intent, REQUEST_TAKE_CAMERA);
+		getActivity().startActivityForResult(intent, REQUEST_TAKE_CAMERA);
 	}
 
 	/**
@@ -208,7 +210,7 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 	public void pickLocalPic() {
 		Intent intent = new Intent(Intent.ACTION_PICK);
 		intent.setType("image/*");
-		startActivityForResult(intent, REQUEST_PICK_LOCAL);
+		getActivity().startActivityForResult(intent, REQUEST_PICK_LOCAL);
 	}
 
 	private Bitmap getBitmap(String imagePath) {
