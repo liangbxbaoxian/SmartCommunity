@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@color/bg_common" android:state_selected="true"></item>
+    <item android:drawable="@color/bg_common" android:state_focused="true"></item>
+    <item android:drawable="@color/bg_common" android:state_checked="true"></item>
+    <item android:drawable="@color/bg_common" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/common_bg"></item>
+</selector>
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@color/bg_common" android:state_selected="true"></item>
+    <item android:drawable="@color/bg_common" android:state_focused="true"></item>
+    <item android:drawable="@color/bg_common" android:state_checked="true"></item>
+    <item android:drawable="@color/bg_common" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/common_bg"></item>
+
+</selector> -->
