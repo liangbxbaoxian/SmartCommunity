@@ -34,5 +34,12 @@
         <item>邻里互助</item>
         <item>社区雷锋</item>
     </string-array>
-  	
+  	<string-array name="spinnername">
+  <item>北京</item> 
+  <item>上海</item> 
+  <item>广州</item> 
+  <item>深圳</item> 
+  </string-array>
+
+    
 </resources>

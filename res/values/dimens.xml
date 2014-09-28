@@ -29,7 +29,10 @@
     <dimen name="header_footer_left_right_padding">24dp</dimen>
     <dimen name="header_footer_top_bottom_padding">12dp</dimen>
     
-      <dimen name="normal_margin">12dp</dimen>
-        
+    <dimen name="normal_margin">12dp</dimen>
+    <dimen name="marginTop">15dip</dimen>
+    <dimen name="SmallerTextSize">13.0dip</dimen>
+    <dimen name="wallet_info_margin_top_left_right">12dp</dimen>
+    <dimen name="title_textsize">18dp</dimen>
     
 </resources>

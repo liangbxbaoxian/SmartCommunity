@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.mk.main.SentHomeActivity;
 
 public class CategoryAdapter extends BaseAdapter {
 
@@ -136,18 +137,15 @@ public class CategoryAdapter extends BaseAdapter {
 	}
 	
 	private void jumpToMerchantsActivity(List<CategoryTable> categoryTableList, int position) {
-//		CategoryTable categoryTable = categoryTableList.get(position);
-//		Long categoryid = categoryTable.getCategoryid();
-////		Constant.setCategoryid(categoryid);
-//		PageHome activity = (PageHome)context;
-//		Intent intent = new Intent(activity,
-//				MerchantsActivity.class);
-//		if (activity.locData != null) {
-//			intent.putExtra("latitude", activity.locData.latitude);
-//			intent.putExtra("longitude", activity.locData.longitude);
-//		}
-//		intent.putExtra("categoryid", categoryid);
-//		activity.startActivity(intent);
+		switch (position) {
+		case 0:
+			Intent intent = new Intent(context, SentHomeActivity.class);
+			context.startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	class ViewHolder {

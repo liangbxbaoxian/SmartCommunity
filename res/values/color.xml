@@ -53,4 +53,8 @@
     
      <!-- divide line color -->
      <color name="divide_line_color">#ebeced</color>
+     <color name="text_personal">#7c818d</color>
+     <color name="common_bg">#ffe6e6e6</color>
+     <color name="bg_common">#c2c2c2</color>
+      <color name="white">#ffffffff</color>
 </resources>
