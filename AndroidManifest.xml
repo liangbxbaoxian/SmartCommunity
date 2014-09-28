@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wb.sc"
     android:versionCode="1"
@@ -163,6 +163,17 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="smart" />
+        
+        
+         <activity
+            android:name="com.wb.sc.mk.main.SentHomeActivity"
+            >
+        </activity>
+        
+             <activity
+            android:name="com.wb.sc.mk.main.SentHomeDetialActivity"
+            >
+        </activity>
     </application>
 
 </manifest>
