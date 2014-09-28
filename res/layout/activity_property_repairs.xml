@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ebeced"
+    android:orientation="vertical" >
+
+    <include layout="@layout/common_header_layout" >
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/personal_repairs"
+            android:layout_width="0dp"
+            android:layout_height="34.5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="个人报修"
+            android:textColor="@color/bottom_bar_text_selector"
+            android:textSize="14.5sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/post_list_item_divider" />
+
+        <TextView
+            android:id="@+id/public_repairs"
+            android:layout_width="0dp"
+            android:layout_height="34.5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="公共报修"
+            android:textColor="@color/bottom_bar_text_selector"
+            android:textSize="14.5sp" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/content_pager"
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0" />
+
+</LinearLayout>

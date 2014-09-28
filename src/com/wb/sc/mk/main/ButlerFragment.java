@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,9 +21,15 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
+import com.wb.sc.adapter.CategoryAdapter.ItemClickListener;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.mk.butler.HouseTradeActivity;
+import com.wb.sc.mk.butler.PropertyBillActivity;
+import com.wb.sc.mk.butler.PropertyComplain;
+import com.wb.sc.mk.butler.PropertyPraiseActivity;
+import com.wb.sc.mk.butler.PropertyRepairsActivity;
 
-public class ButlerFragment extends BaseExtraLayoutFragment {
+public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClickListener{
 	// add test for linyongzhen
 	private ViewPager advVp;
 	private CirclePageIndicator advIndicator;
@@ -83,5 +92,36 @@ public class ButlerFragment extends BaseExtraLayoutFragment {
 		final GridView yipay_server = (GridView) view.findViewById(R.id.yipay_server);
 		yipay_server.setSelector(R.color.transparent);
 		yipay_server.setAdapter(yipayGriAdapter);
+		yipayGriAdapter.setListener(this);
+	}
+
+	@Override
+	public void onItemClick(int position) {
+		switch(position) {
+		case 0:{
+			Intent intent = new Intent(getActivity(), PropertyComplain.class);
+			startActivity(intent);
+		}break;
+		
+		case 1:{
+			Intent intent = new Intent(getActivity(), PropertyRepairsActivity.class);
+			startActivity(intent);
+		}break;
+		
+		case 2:{
+			Intent intent = new Intent(getActivity(), PropertyPraiseActivity.class);
+			startActivity(intent);
+		}break;
+		
+		case 3:{
+			Intent intent = new Intent(getActivity(), HouseTradeActivity.class);
+			startActivity(intent);
+		}break;
+		
+		case 4:{
+			Intent intent = new Intent(getActivity(), PropertyBillActivity.class);
+			startActivity(intent);
+		}break;
+		}
 	}
 }

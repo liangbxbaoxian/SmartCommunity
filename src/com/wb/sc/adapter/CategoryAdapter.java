@@ -29,6 +29,8 @@ public class CategoryAdapter extends BaseAdapter {
 	
 	private Context context;
 	
+	private ItemClickListener mListener;
+	
 	public CategoryAdapter(Context context, List<CategoryTable> list) {
 		this.list = list;
 		this.context = context;
@@ -54,6 +56,7 @@ public class CategoryAdapter extends BaseAdapter {
 			viewholder = new ViewHolder();
 			view = layoutinflator.inflate(R.layout.gridview_item, null);
 			viewholder.img_async = (NetworkImageView) view.findViewById(R.id.img_async);
+			viewholder.img_async.setTag(position+"");
 			viewholder.txt_name = (TextView) view.findViewById(R.id.txt_name);
 			view.setTag(viewholder);
 		} else {
@@ -86,6 +89,10 @@ public class CategoryAdapter extends BaseAdapter {
 				Animation animation = AnimationUtils.loadAnimation(context, R.anim.img_scale_in);
 				v.startAnimation(animation);
 				jumpToMerchantsActivity(list, position);
+				if(mListener != null) {
+					int position = Integer.valueOf(v.getTag().toString());
+					mListener.onItemClick(position);
+				}
 			}
 		});
 		viewholder.img_async.setOnTouchListener(new OnTouchListener() {
@@ -149,4 +156,11 @@ public class CategoryAdapter extends BaseAdapter {
 		NetworkImageView img_async;
 	}
 	
+	public interface ItemClickListener {
+		public void onItemClick(int position);
+	}
+	
+	public void setListener(ItemClickListener listener) {
+		this.mListener = listener;
+	}
 }

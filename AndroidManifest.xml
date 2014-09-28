@@ -79,6 +79,42 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_post_detail"
             android:screenOrientation="portrait" />
+        
+        <!-- 物业投诉  -->
+        <activity
+            android:name="com.wb.sc.mk.butler.PropertyComplain"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_property_complain"
+            android:screenOrientation="portrait" />
+        
+        <!-- 房屋交易  -->
+        <activity
+            android:name="com.wb.sc.mk.butler.HouseTradeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_property_complain"
+            android:screenOrientation="portrait" />
+        
+        
+        <!-- 物业账单  -->
+        <activity
+            android:name="com.wb.sc.mk.butler.PropertyBillActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_property_bill"
+            android:screenOrientation="portrait" />
+        
+        <!-- 物业报修  -->
+        <activity
+            android:name="com.wb.sc.mk.butler.PropertyRepairsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_property_repairs"
+            android:screenOrientation="portrait" />
+        
+        <!-- 物业表扬  -->
+        <activity
+            android:name="com.wb.sc.mk.butler.PropertyPraiseActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_property_praise"
+            android:screenOrientation="portrait" />
 
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->
