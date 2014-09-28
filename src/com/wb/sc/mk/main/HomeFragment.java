@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +22,8 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.PostTypeAdapter;
+import com.wb.sc.mk.butler.PropertyComplain;
+import com.wb.sc.mk.butler.PropertyRepairsActivity;
 import com.wb.sc.mk.post.PostListActivity;
 
 public class HomeFragment extends BaseExtraLayoutFragment implements OnClickListener,
@@ -44,6 +47,8 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 	private ImageButton shortcutIn;
 	private ImageButton shortcutOut;
 	private RelativeLayout shortcutLayout;
+	private ImageButton complaint;
+	private ImageButton repair;
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -85,6 +90,11 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 		shortcutOut = (ImageButton) view.findViewById(R.id.shortcut_out);
 		shortcutOut.setOnClickListener(this);
 		shortcutLayout = (RelativeLayout) view.findViewById(R.id.shortcut_layout);
+		
+		complaint = (ImageButton) view.findViewById(R.id.complaint);
+		complaint.setOnClickListener(this);
+		repair = (ImageButton) view.findViewById(R.id.repair);
+		repair.setOnClickListener(this);
 	}
 	
 	@Override
@@ -101,7 +111,16 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 			shortcutIn.setVisibility(View.VISIBLE);
 			shortcutLayout.setVisibility(View.GONE);
 			break;
+		case R.id.complaint:
+			Intent intent = new Intent(getActivity(), PropertyComplain.class);
+			startActivity(intent);
+			break;
+		case R.id.repair:
+			Intent repair = new Intent(getActivity(), PropertyRepairsActivity.class);
+			startActivity(repair);
+			break;
 		}
+		
 	}
 
 	@Override

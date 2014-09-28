@@ -141,6 +141,7 @@
                 android:orientation="vertical" >
 
                 <ImageButton
+                    android:id="@+id/complaint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
@@ -167,6 +168,7 @@
                 android:orientation="vertical" >
 
                 <ImageButton
+                    android:id="@+id/repair"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
@@ -176,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="物业投诉"
+                    android:text="物业报修"
                     android:textColor="#cc0001"
                     android:textSize="12sp" />
             </LinearLayout>

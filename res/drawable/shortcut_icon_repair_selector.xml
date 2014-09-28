@@ -2,6 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/bottom_icon_wuyebaoxiu2" android:state_selected="true"/>
-    <item android:drawable="@drawable/bottom_icon_wuyebaoxiu1" android:state_selected="false"/>
+    <item android:drawable="@drawable/bottom_icon_wuyebaoxiu2" android:state_focused="true"/>
+    <item android:drawable="@drawable/bottom_icon_wuyebaoxiu2" android:state_pressed="true"/>
+    <item android:drawable="@drawable/bottom_icon_wuyebaoxiu1"/>
 
 </selector>
