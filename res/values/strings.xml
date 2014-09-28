@@ -1,7 +1,6 @@
 <resources>
 
     <string name="app_name">智慧社区</string>
-    
     <string name="ac_main">主界面</string>
     <string name="ac_post_list">帖子列表</string>
     <string name="ac_post_detail">帖子详情</string>
@@ -10,36 +9,35 @@
     <string name="ac_property_bill">物业账单</string>
     <string name="ac_property_repairs">物业报修</string>
     <string name="ac_property_praise">物业表扬</string>
-    	
-    <!-- 无内容时的提示  -->
+
+    <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>
-    
+
     <!-- 底部一级菜单 -->
     <string name="bottom_bar_home">首页</string>
     <string name="bottom_bar_discover">发现</string>
-    <string name="bottom_bar_post">贴子</string>    
+    <string name="bottom_bar_post">贴子</string>
     <string name="bottom_bar_steward">管家</string>
     <string name="bottom_bar_center">个人中心</string>
-    
-    <!-- 照片上传  -->
+
+    <!-- 照片上传 -->
     <string name="take_picture">拍照</string>
     <string name="photo_album">相册</string>
     <string name="photo_del">删除</string>
     <string name="phot_load_fail">照片添加失败，请重试</string>
     <string name="sdcard_error">请确认SD卡是否已插入</string>
     <string name="cancle">取消</string>
-    
+
     <string-array name="post_type">
         <item>社区分享</item>
         <item>邻里互助</item>
         <item>社区雷锋</item>
     </string-array>
-  	<string-array name="spinnername">
-  <item>北京</item> 
-  <item>上海</item> 
-  <item>广州</item> 
-  <item>深圳</item> 
-  </string-array>
+    <string-array name="spinnername">
+        <item>酒店餐饮</item>
+        <item>旅游美食</item>
+        <item>时鲜花店</item>
+        <item>果蔬海鲜</item>
+    </string-array>
 
-    
 </resources>

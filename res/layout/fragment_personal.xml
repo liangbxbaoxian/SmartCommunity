@@ -84,12 +84,39 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="美女" />
+
+                        <TextView
+                            android:id="@+id/txt_auth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/normal_margin"
+                            android:text="已认证"
+                            android:textSize="12sp"
+                            android:textColor="#229222" />
                     </LinearLayout>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="融汇天下" />
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="融汇天下" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="right|center_vertical" >
+
+                            <ImageView
+                                android:layout_width="6dp"
+                                android:layout_height="8.5dp"
+                                android:layout_marginRight="@dimen/normal_margin"
+                                android:background="@drawable/arrow_right" />
+                        </LinearLayout>
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -361,7 +388,7 @@
                 android:orientation="vertical" >
 
                 <Button
-                    android:id="@+id/btn_take_photo"
+                    android:id="@+id/btn_exit"
                     android:layout_width="fill_parent"
                     android:layout_height="52dp"
                     android:layout_margin="@dimen/normal_margin"

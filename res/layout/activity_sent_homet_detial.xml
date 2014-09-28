@@ -27,7 +27,6 @@
                 android:id="@+id/btn_back"
                 android:layout_width="12dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="@dimen/normal_margin"
                 android:background="@drawable/back"
                 android:clickable="false"
                 android:focusable="false"

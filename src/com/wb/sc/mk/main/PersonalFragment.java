@@ -6,13 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,9 +21,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
@@ -174,6 +176,21 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 		});
 
 		img_portrait = (CircleImageView) view.findViewById(R.id.img_portrait);
+		final TextView txt_auth = (TextView) view.findViewById(R.id.txt_auth);
+		Button btn_exit = (Button) view.findViewById(R.id.btn_exit);
+		btn_exit.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				int state = txt_auth.getVisibility();
+				if (state == View.VISIBLE) {
+					state =View.GONE;
+				} else {
+					state = View.VISIBLE;
+				}
+				txt_auth.setVisibility(state);
+			}
+		});
 	}
 
 	public class listenner implements View.OnClickListener {
