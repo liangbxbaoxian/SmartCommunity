@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="app_name">智慧社区</string>
-    <string name="ac_main">主界面</string>
+    <string name="app_name">融汇.汇生活</string>
+    <string name="ac_main">融汇.汇生活</string>
     <string name="ac_post_list">帖子列表</string>
     <string name="ac_post_detail">帖子详情</string>
     <string name="ac_property_complain">物业投诉</string>
