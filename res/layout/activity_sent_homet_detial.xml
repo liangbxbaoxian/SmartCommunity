@@ -156,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/normal_margin"
-            android:text="我的投诉" />
+            android:text="价格表" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -202,7 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/normal_margin"
-            android:text="我的投诉" />
+            android:text="福州市鼓楼区杨桥西路588号(洪山桥公交站)" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -248,7 +248,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/normal_margin"
-            android:text="我的投诉" />
+            android:text="0591-87547389" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -137,15 +137,18 @@ public class CategoryAdapter extends BaseAdapter {
 	}
 	
 	private void jumpToMerchantsActivity(List<CategoryTable> categoryTableList, int position) {
-		switch (position) {
-		case 0:
-			Intent intent = new Intent(context, SentHomeActivity.class);
-			context.startActivity(intent);
-			break;
+		if (categoryTableList.size()  <= 3) {   //临时修改，这个bug
+			switch (position) {
+			case 0:
+				Intent intent = new Intent(context, SentHomeActivity.class);
+				context.startActivity(intent);
+				break;
 
-		default:
-			break;
+			default:
+				break;
+			}
 		}
+	
 	}
 
 	class ViewHolder {
