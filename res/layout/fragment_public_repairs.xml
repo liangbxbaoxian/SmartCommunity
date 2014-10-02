@@ -61,29 +61,15 @@
                 android:textSize="15.5dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
-                android:layout_marginRight="11dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/spinner_bg" >
-
-                <Spinner
-                    android:id="@+id/type"
-                    style="@android:style/Widget.Spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="14dp"
-                    android:background="@drawable/spinner_indicator_down" />
-            </RelativeLayout>
-        </LinearLayout>
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginTop="5.5dp"
+            android:background="@drawable/white_bg"
+            android:padding="10dp"
+            android:textSize="15dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

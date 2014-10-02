@@ -1,5 +1,7 @@
 package com.wb.sc.mk.butler;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,6 +12,7 @@ import android.view.View.OnClickListener;
 
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.activity.base.BasePhotoActivity;
 
 public class PropertyRepairsActivity extends BaseHeaderActivity implements OnClickListener{
 	
@@ -19,6 +22,8 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 	private View publicV;
 	private ViewPager contentVp;
 	private RepairsAdapter adapter;
+	
+	private Fragment[] instanceFragments;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 		publicV = findViewById(R.id.public_repairs);
 		publicV.setOnClickListener(this);
 		
+		instanceFragments = new Fragment[fragments.length];
 		contentVp = (ViewPager) findViewById(R.id.content_pager);
 		adapter = new RepairsAdapter(getSupportFragmentManager());
 		contentVp.setAdapter(adapter);
@@ -109,6 +115,7 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
+			instanceFragments[position] = fg;
 			return fg;
 		}
 
@@ -117,4 +124,26 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 			return fragments.length;
 		}
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
+		int position = contentVp.getCurrentItem();
+		Fragment fragment = instanceFragments[position];
+		if(fragment != null) {
+			fragment.onActivityResult(requestCode, requestCode, data);
+		}
+	}
+	
+	/**
+	 * 处理在拍照时屏幕翻转的问题
+	 */
+	public void onConfigurationChanged(Configuration newConfig) {  
+
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {   
+            Configuration o = newConfig;  
+            o.orientation = Configuration.ORIENTATION_PORTRAIT;  
+            newConfig.setTo(o);  
+        }   
+        super.onConfigurationChanged(newConfig);  
+    }
 }

@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wb.sc.R;
-import com.wb.sc.activity.base.BaseExtraLayoutFragment;
+import com.wb.sc.activity.base.BasePhotoFragment;
 
-public class PublicRepairsFragment extends BaseExtraLayoutFragment {
+public class PublicRepairsFragment extends BasePhotoFragment {
 	
 	@Override
     public void onAttach(Activity activity) {
@@ -35,6 +35,8 @@ public class PublicRepairsFragment extends BaseExtraLayoutFragment {
     }
    
     private void initView(View view) {
-      
+    	initPhoto(view);
     }
+    
+    
 }

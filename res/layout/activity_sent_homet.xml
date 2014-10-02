@@ -70,19 +70,16 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <RelativeLayout
+    <Spinner
+        android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:paddingRight="10dp"
-        android:background="@drawable/spinner_bg" >
-
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/spinner_indicator_down" />
-    </RelativeLayout>
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/spinner_bg_nor"
+        android:paddingRight="0dp" />
 
     <TextView
         android:id="@+id/keyword"

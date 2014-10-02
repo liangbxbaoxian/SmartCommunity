@@ -195,7 +195,7 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 		
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			instanceFragments[position] = null;
+//			instanceFragments[position] = null;
 			super.destroyItem(container, position, object);
 		}
 

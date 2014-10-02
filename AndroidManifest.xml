@@ -93,8 +93,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_complain"
             android:screenOrientation="portrait" />
-        
-        
+                
         <!-- 物业账单  -->
         <activity
             android:name="com.wb.sc.mk.butler.PropertyBillActivity"

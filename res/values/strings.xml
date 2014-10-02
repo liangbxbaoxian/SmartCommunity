@@ -33,11 +33,38 @@
         <item>邻里互助</item>
         <item>社区雷锋</item>
     </string-array>
+    
     <string-array name="spinnername">
         <item>酒店餐饮</item>
         <item>旅游美食</item>
         <item>时鲜花店</item>
         <item>果蔬海鲜</item>
+    </string-array>
+    
+    <string-array name="property_complain_type">
+        <item>安全秩序</item>
+        <item>清洁绿化</item>
+        <item>设施设备</item>
+        <item>物业人员</item>
+        <item>其他</item>
+    </string-array>
+    
+    <string-array name="property_repairs_time">
+        <item>9:00~10:00</item>
+        <item>10:00~11:00</item>
+        <item>11:00~12:00</item>
+        <item>14:00~15:00</item>
+        <item>15:00~16:00</item>
+        <item>16:00~17:00</item>
+        <item>17:00~18:00</item>
+        <item>18:00~19:00</item>
+    </string-array>
+    
+    <string-array name="house_trade_type">
+        <item>出售</item>
+        <item>求购</item>
+        <item>出租</item>
+        <item>求租</item>
     </string-array>
 
 </resources>

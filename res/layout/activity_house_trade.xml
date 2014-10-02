@@ -69,15 +69,16 @@
                     android:textSize="15.5dp" />
             </LinearLayout>
 
-            <EditText
+            <Spinner
+                android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
                 android:layout_marginRight="11dp"
-                android:layout_marginTop="5.5dp"
-                android:background="@drawable/white_bg"
-                android:padding="10dp"
-                android:textSize="15dp" />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/spinner_bg_nor"
+                android:paddingRight="0dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

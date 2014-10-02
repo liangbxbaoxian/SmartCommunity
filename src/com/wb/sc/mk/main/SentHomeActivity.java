@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -100,7 +101,11 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 		// 建立数据源
 		String[] mItems = getResources().getStringArray(R.array.spinnername);
 		// 建立Adapter并且绑定数据源
-		mSpinner.setAdapter(new SpinnerAdapter(this, R.layout.custom_spinner, mItems));
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+    			R.layout.spinner_text_layout, mItems);
+    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+		mSpinner.setAdapter(adapter);
+		
 	}
 	
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> {

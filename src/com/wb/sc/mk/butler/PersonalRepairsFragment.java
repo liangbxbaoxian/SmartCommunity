@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.wb.sc.R;
-import com.wb.sc.activity.base.BaseExtraLayoutFragment;
+import com.wb.sc.activity.base.BasePhotoFragment;
 
-public class PersonalRepairsFragment extends BaseExtraLayoutFragment {
+public class PersonalRepairsFragment extends BasePhotoFragment{
+	
+	private Spinner timeSp;
 	
 	@Override
     public void onAttach(Activity activity) {
@@ -34,7 +38,15 @@ public class PersonalRepairsFragment extends BaseExtraLayoutFragment {
        initView(view);
     }
    
-    private void initView(View view) {
-      
+    private void initView(View view) {    
+    	initPhoto(view);
+    	
+    	timeSp = (Spinner) view.findViewById(R.id.time);
+    	String[] types = getResources().getStringArray(R.array.property_repairs_time);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), 
+    			R.layout.spinner_text_layout, types);
+    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+    	timeSp.setAdapter(adapter);
+    	
     }
 }

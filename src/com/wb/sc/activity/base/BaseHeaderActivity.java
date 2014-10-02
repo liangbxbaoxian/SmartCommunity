@@ -18,7 +18,9 @@ public abstract class BaseHeaderActivity extends BaseActivity implements OnClick
 		homeIv = findViewById(R.id.common_header_home);
 		titleTv = (TextView)findViewById(R.id.common_header_title);
 		titleTv.setText(title);
-		homeIv.setVisibility(View.GONE);
+		if(homeIv != null) {
+			homeIv.setVisibility(View.GONE);
+		}
 	}
 	
 	@Override

@@ -18,20 +18,24 @@ import com.common.media.BitmapHelper;
 import com.wb.sc.R;
 
 public class PhotoAdapter extends BaseAdapter {
-	
-	public int itemWidth = 83;
-	
+		
+	private int itemWidth;
+	private int itemHeight;
 	private Activity mActivity;
 	private List<File> fileList;
 	private List<SoftReference<Bitmap>> photoList = new ArrayList<SoftReference<Bitmap>>();
 	
-	public PhotoAdapter(Activity activity, List<File> fileList) {
+	public PhotoAdapter(Activity activity, List<File> fileList,
+			int width, int height) {
 		mActivity = activity;
-		this.fileList = fileList;
+		this.fileList = fileList;		
+		itemWidth = width;
+		itemHeight = height;
 		
 		DisplayMetrics dm = new DisplayMetrics();
 		activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
 		itemWidth = (int) (itemWidth * dm.density);
+		itemHeight = (int) (itemHeight * dm.density);
 	}
 
 	@Override
@@ -74,12 +78,14 @@ public class PhotoAdapter extends BaseAdapter {
 		} else {
 			Bitmap bmp = null;			
 			if(position >= photoList.size()) {
-				bmp = BitmapHelper.getReSizeBmp(fileList.get(position).getAbsolutePath(), itemWidth, itemWidth, Bitmap.Config.RGB_565);
+				bmp = BitmapHelper.getReSizeBmp(fileList.get(position).getAbsolutePath(), 
+						itemWidth, itemHeight, Bitmap.Config.RGB_565);
 				photoList.add(new SoftReference<Bitmap>(bmp));
 			} else {
 				bmp = photoList.get(position).get();
 				if(bmp == null) {
-					bmp = BitmapHelper.getReSizeBmp(fileList.get(position).getAbsolutePath(), itemWidth, itemWidth, Bitmap.Config.RGB_565);
+					bmp = BitmapHelper.getReSizeBmp(fileList.get(position).getAbsolutePath(), itemWidth, 
+							itemHeight, Bitmap.Config.RGB_565);
 					photoList.set(position, new SoftReference<Bitmap>(bmp));
 				}
 			}
