@@ -1,6 +1,6 @@
 package com.wb.sc.adapter;
 
-import com.wb.sc.R;
+import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,18 +10,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wb.sc.R;
+import com.wb.sc.bean.Forum;
+
 public class PostTypeAdapter extends BaseAdapter {
 
 	private Context mContext;
+	private List<Forum> forums;
 
-	public PostTypeAdapter(Context context) {
+	public PostTypeAdapter(Context context, List<Forum> forums) {
 		mContext = context;
+		this.forums = forums;
 	}
 
 	@Override
 	public int getCount() {
 
-		return 4;
+		return forums.size();
 	}
 
 	@Override
@@ -58,6 +63,10 @@ public class PostTypeAdapter extends BaseAdapter {
 			view = convertView;
 			holder = (ViewHolder) view.getTag();
 		}
+		
+		holder.typeTv.setText(forums.get(position).type);
+		holder.titleTv.setText(forums.get(position).title);
+		holder.descTv.setText(forums.get(position).content);
 
 		return view;
 	}

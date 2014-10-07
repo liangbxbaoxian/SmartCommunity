@@ -45,6 +45,9 @@
     <!-- 桌面图标权限 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    
+     <!-- 拨打电话权限 -->
+    <uses-permission  android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name="com.wb.sc.app.SCApp"
@@ -124,6 +127,16 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_praise"
             android:screenOrientation="portrait" />
+        
+        <!-- 发帖  -->
+        <activity
+            android:name="com.wb.sc.mk.main.PostActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/ac_property_praise"
+            android:screenOrientation="portrait" />
+       
+        
 
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->

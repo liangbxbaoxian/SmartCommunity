@@ -1,5 +1,8 @@
 package com.wb.sc.mk.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +25,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.PostTypeAdapter;
+import com.wb.sc.bean.Forum;
 import com.wb.sc.mk.butler.PropertyComplain;
 import com.wb.sc.mk.butler.PropertyRepairsActivity;
 import com.wb.sc.mk.post.PostListActivity;
@@ -50,6 +54,8 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 	private ImageButton complaint;
 	private ImageButton repair;
 	
+	private List<Forum> forums = new ArrayList<Forum>();
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -69,7 +75,7 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
+		initData();
 		initView(view);
 	}
 
@@ -81,7 +87,7 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 		advIndicator.setViewPager(advVp);
 		
 		postsTypeLv = (ListView) view.findViewById(R.id.list);
-		typeAdapter = new PostTypeAdapter(getActivity());
+		typeAdapter = new PostTypeAdapter(getActivity(), forums);
 		postsTypeLv.setAdapter(typeAdapter);
 		postsTypeLv.setOnItemClickListener(this);
 		
@@ -95,6 +101,20 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 		complaint.setOnClickListener(this);
 		repair = (ImageButton) view.findViewById(R.id.repair);
 		repair.setOnClickListener(this);
+	}
+	
+	private void initData() {
+		String [] type = {"[社区分享]", "[邻里互助]", "[社区雷锋]", ""};
+		String [] title = {"宝宝爬行大赛", "谁家丢了泰迪？", "泰迪狗失而复得", ""};
+		String [] content =  {"宝宝们今天爬啊爬啊可厉害了，照片是天线宝宝冠军", "谁家丢了泰迪？我把它放在放在物业处了", "今天上午在遛狗时不慎走失小泰迪狗，幸亏24号楼305业主……"};
+		for (int j = 0; j < content.length; j++) {
+			Forum forum = new Forum();
+			forum.content = content[j];
+			forum.type = type[j];
+			forum.title = title[j];
+			forums.add(forum);
+		}
+		
 	}
 	
 	@Override
