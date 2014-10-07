@@ -54,32 +54,32 @@ public class MyComplaintAdpater extends BaseAdapter {
 		ViewHolder viewHolder;
 		if(arg1 == null){
 			viewHolder = new ViewHolder();
-		    arg1 = LayoutInflater.from(mContext).inflate(R.layout.itme_sent_home, null);
-		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
-			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
-			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
-			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
+		    arg1 = LayoutInflater.from(mContext).inflate(R.layout.itme_my_complaint, null);
+//		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
+//			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
+//			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
+//			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
 			arg1.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
 		SentHome sentHome = (SentHome) mList.get(position);
 		
-		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
-		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
-		if(sentHome.url != null && !sentHome.url.equals("")) {
-			viewHolder.networkImageView.setImageUrl(NetConfig.getPictureUrl(sentHome.url), 
-					SCApp.getInstance().getImageLoader());
-		}
-		viewHolder.call.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				createAlterDialog("", "15980000000");
-			}
-		});
-		viewHolder.district_name.setText(sentHome.name);
-		viewHolder.district_address.setText(sentHome.category);
+//		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
+//		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
+//		if(sentHome.url != null && !sentHome.url.equals("")) {
+//			viewHolder.networkImageView.setImageUrl(NetConfig.getPictureUrl(sentHome.url), 
+//					SCApp.getInstance().getImageLoader());
+//		}
+//		viewHolder.call.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View arg0) {
+//				createAlterDialog("", "15980000000");
+//			}
+//		});
+//		viewHolder.district_name.setText(sentHome.name);
+//		viewHolder.district_address.setText(sentHome.category);
 		return arg1;
 	}
 	

@@ -24,19 +24,35 @@
                 android:layout_width="82.5dp"
                 android:layout_height="82.5dp"
                 android:layout_gravity="center_vertical"
-                 android:background="@drawable/touxiang"
+                 android:background="@drawable/test_comment_user_header"
                 android:layout_marginRight="12dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="vertical" >
+                
+                   <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:id="@+id/district_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="软件园小区" />
+                    android:text="李四" />
+                
+                     <TextView
+                    android:id="@+id/district_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="融汇江山5号楼303室投诉" />
+                
+                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -50,17 +66,23 @@
                         android:singleLine="true"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/wallet_info_margin_top_left_right"
-                        android:text="福州市" />
+                        android:text="2014-08-07" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/call"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                       android:layout_alignParentRight="true"
+                        android:layout_toRightOf="@id/district_address"
                         android:background="@drawable/icon_dianhua" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
+        
+         <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_margin="@dimen/normal_margin"
+                    android:layout_height="wrap_content"
+                    android:text="强电井门上的插销不见了还是什么，风稍微大一点就吹开了！！！" />
     </LinearLayout>
 
 </FrameLayout>
