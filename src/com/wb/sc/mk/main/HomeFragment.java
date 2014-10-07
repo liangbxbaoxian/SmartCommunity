@@ -104,6 +104,7 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 	}
 	
 	private void initData() {
+		forums.clear();
 		String [] type = {"[社区分享]", "[邻里互助]", "[社区雷锋]", ""};
 		String [] title = {"宝宝爬行大赛", "谁家丢了泰迪？", "泰迪狗失而复得", ""};
 		String [] content =  {"宝宝们今天爬啊爬啊可厉害了，照片是天线宝宝冠军", "谁家丢了泰迪？我把它放在放在物业处了", "今天上午在遛狗时不慎走失小泰迪狗，幸亏24号楼305业主……"};

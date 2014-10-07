@@ -1,4 +1,4 @@
-package com.wb.sc.mk.main;
+package com.wb.sc.mk.personal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +22,14 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleLis
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
+import com.wb.sc.adapter.MyComplaintAdpater;
 import com.wb.sc.adapter.SentHomeAdpater;
-import com.wb.sc.adapter.SpinnerAdapter;
 import com.wb.sc.bean.SentHome;
 
-public class SentHomeActivity extends Activity implements OnMenuItemClickListener{
+public class MyComplaintActivity extends Activity implements OnMenuItemClickListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
-	private SentHomeAdpater mAdpter;
+	private MyComplaintAdpater mAdpter;
 	
 	private String mKeyword;
 	private String sId;
@@ -46,7 +46,7 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_sent_home);
+		setContentView(R.layout.activity_my_complaint);
 		getIntentData();
 		initView();
 	}
@@ -85,14 +85,14 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(SentHomeActivity.this, SentHomeDetialActivity.class);
+				Intent intent = new Intent(MyComplaintActivity.this, MyComplaintActivity.class);
 				startActivity(intent);
 			}
 		});
 		
 		
 		initData();
-		mAdpter = new SentHomeAdpater(SentHomeActivity.this, list);
+		mAdpter = new MyComplaintAdpater(MyComplaintActivity.this, list);
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
 		
