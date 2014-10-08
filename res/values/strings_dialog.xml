@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	
+    <!-- 确认类型对话框相关  -->
+    <string name="dialog_confirm">确认</string>
+    <string name="dialog_cancle">取消</string>
+    
+    <!-- 照片上传 -->
+    <string name="take_picture">拍照</string>
+    <string name="photo_album">相册</string>
+    <string name="photo_del">删除</string>
+    <string name="phot_load_fail">照片添加失败，请重试</string>
+    <string name="sdcard_error">请确认SD卡是否已插入</string>
+    <string name="cancle">取消</string>
+</resources>

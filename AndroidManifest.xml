@@ -8,6 +8,13 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -46,6 +53,26 @@
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
 
+    <!-- 摄像头 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" />
+
     <application
         android:name="com.wb.sc.app.SCApp"
         android:allowBackup="true"
@@ -56,64 +83,70 @@
             android:name="com.wb.sc.mk.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
-            android:screenOrientation="portrait">
-             
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
         </activity>
-                
-        <!-- 帖子列表  -->
+
+        <!-- 帖子列表 -->
         <activity
             android:name="com.wb.sc.mk.post.PostListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_post_list"
             android:screenOrientation="portrait" />
-        
-        <!-- 帖子详情  -->
+
+        <!-- 帖子详情 -->
         <activity
             android:name="com.wb.sc.mk.post.PostDetailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_post_detail"
             android:screenOrientation="portrait" />
-        
-        <!-- 物业投诉  -->
+
+        <!-- 物业投诉 -->
         <activity
             android:name="com.wb.sc.mk.butler.PropertyComplain"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_complain"
             android:screenOrientation="portrait" />
-        
-        <!-- 房屋交易  -->
+
+        <!-- 房屋交易 -->
         <activity
             android:name="com.wb.sc.mk.butler.HouseTradeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_complain"
             android:screenOrientation="portrait" />
-                
-        <!-- 物业账单  -->
+
+        <!-- 物业账单 -->
         <activity
             android:name="com.wb.sc.mk.butler.PropertyBillActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_bill"
             android:screenOrientation="portrait" />
-        
-        <!-- 物业报修  -->
+
+        <!-- 物业报修 -->
         <activity
             android:name="com.wb.sc.mk.butler.PropertyRepairsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_repairs"
             android:screenOrientation="portrait" />
-        
-        <!-- 物业表扬  -->
+
+        <!-- 物业表扬 -->
         <activity
             android:name="com.wb.sc.mk.butler.PropertyPraiseActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_praise"
             android:screenOrientation="portrait" />
+
+        <!-- 扫一扫 -->
+        <activity
+            android:name="com.common.zxing.CaptureActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_scan"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->
@@ -198,16 +231,10 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="smart" />
-        
-        
-         <activity
-            android:name="com.wb.sc.mk.main.SentHomeActivity"
-            >
+
+        <activity android:name="com.wb.sc.mk.main.SentHomeActivity" >
         </activity>
-        
-             <activity
-            android:name="com.wb.sc.mk.main.SentHomeDetialActivity"
-            >
+        <activity android:name="com.wb.sc.mk.main.SentHomeDetialActivity" >
         </activity>
     </application>
 

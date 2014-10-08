@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.common.zxing.CaptureActivity;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
@@ -20,7 +23,7 @@ import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
 import com.wb.sc.bean.CategoryTable;
 
-public class FindFragment extends BaseExtraLayoutFragment {
+public class FindFragment extends BaseExtraLayoutFragment implements OnClickListener {
 	// add test for linyongzhen
 	private ViewPager advVp;
 	private CirclePageIndicator advIndicator;
@@ -31,7 +34,7 @@ public class FindFragment extends BaseExtraLayoutFragment {
 	
 	//标题栏相关
 	private ImageView leftIv;
-	private ImageView rightIv;
+	private View rightBtn;
 	private TextView nameIv;
 	
 	@Override
@@ -74,6 +77,9 @@ public class FindFragment extends BaseExtraLayoutFragment {
 	}
 
 	private void initView(View view) {
+		rightBtn = view.findViewById(R.id.scan);
+		rightBtn.setOnClickListener(this);
+		
 //		advVp = (ViewPager) view.findViewById(R.id.adv_pager);
 //		advIndicator = (CirclePageIndicator) view.findViewById(R.id.adv_indicator);
 //		advAdapter = new AdvAdapter(getActivity());
@@ -83,5 +89,17 @@ public class FindFragment extends BaseExtraLayoutFragment {
 		final GridView yipay_server = (GridView) view.findViewById(R.id.yipay_server);
 		yipay_server.setSelector(R.color.transparent);
 		yipay_server.setAdapter(yipayGriAdapter);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		
+		switch(v.getId()) {
+		case R.id.scan:
+			Intent intent = new Intent(getActivity(), CaptureActivity.class);
+			startActivity(intent);
+			break;
+		}
 	}
 }

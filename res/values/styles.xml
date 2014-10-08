@@ -1,5 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-	<!-- 智慧社区全局样式 -->
+
+    <!-- 智慧社区全局样式 -->
     <style name="SC.Light" parent="@style/Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/SC.ActionBar</item>
         <item name="actionBarDivider">@drawable/actionbar_divider</item>
@@ -8,15 +9,21 @@
         <item name="actionMenuTextColor">@color/actionbar_menu_text_color</item>
     </style>
     
-    <!-- ActionBar样式  -->
-    <style name="SC.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+    <!-- 扫一扫界面样式 -->
+    <style name="CaptureTheme" parent="@style/SC.Light">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
-    
+
+    <!-- ActionBar样式 -->
+    <style name="SC.ActionBar" parent="@style/Widget.AppCompat.ActionBar"></style>
+
     <style name="SCActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">@dimen/actionbar_title_size</item>
         <item name="android:textColor">@color/actionbar_tittle_color</item>
     </style>
-    
+
     <!-- 底部弹出样式对话框 -->
     <style name="popupStyle" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
@@ -28,25 +35,25 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/AnimationBottom</item>
     </style>
-    
+
     <style name="AnimationBottom">
         <item name="android:windowEnterAnimation">@anim/push_up_in</item>
         <item name="android:windowExitAnimation">@anim/push_up_out</item>
     </style>
-    
+
     <style name="button_text">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:gravity">center</item>
     </style>
-    
-           <style name="title_textstyle">
+
+    <style name="title_textstyle">
         <item name="android:textSize">@dimen/title_textsize</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:shadowColor">@color/transparent</item>
         <item name="android:shadowDx">0.0</item>
         <item name="android:shadowDy">1.0</item>
         <item name="android:shadowRadius">10.0</item>
-        
     </style>
+
 </resources>

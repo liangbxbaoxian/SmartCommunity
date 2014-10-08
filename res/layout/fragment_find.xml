@@ -4,31 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bg"
-        android:paddingLeft="@dimen/title_bar_padding"
-        android:paddingRight="@dimen/title_bar_padding" 
-        android:visibility="visible">
+        android:visibility="visible" >
 
         <ImageView
             android:id="@+id/phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/title_bar_icon_phone" 
-            android:visibility="invisible"/>
+            android:src="@drawable/title_bar_icon_phone"
+            android:visibility="invisible" />
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/scan"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/title_bar_icon_scan" />
+            android:gravity="center"
+            android:paddingLeft="@dimen/title_bar_padding"
+            android:paddingRight="@dimen/title_bar_padding"
+            android:background="@drawable/header_btn_selector" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/title_bar_icon_scan" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/name"
@@ -40,7 +45,7 @@
             android:textSize="@dimen/title_bar_text_size" />
     </RelativeLayout>
 
-        <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:orientation="horizontal" >
@@ -78,10 +83,10 @@
 
     <LinearLayout
         android:id="@+id/menu_view_pay"
-        android:paddingTop="@dimen/normal_margin"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/bg_style" >
+        android:background="@color/bg_style"
+        android:paddingTop="@dimen/normal_margin" >
 
         <GridView
             android:id="@+id/yipay_server"
