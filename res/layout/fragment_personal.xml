@@ -133,6 +133,7 @@
                 android:layout_marginTop="@dimen/normal_margin"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="myComplaint"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 

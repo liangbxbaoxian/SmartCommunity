@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
@@ -23,7 +25,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
 import com.wb.sc.adapter.MyComplaintAdpater;
-import com.wb.sc.adapter.SentHomeAdpater;
 import com.wb.sc.bean.SentHome;
 
 public class MyComplaintActivity extends Activity implements OnMenuItemClickListener{
@@ -99,12 +100,31 @@ public class MyComplaintActivity extends Activity implements OnMenuItemClickList
 	      // 初始化控件
 		mSpinner = (Spinner) findViewById(R.id.spinner1);
 		// 建立数据源
-		String[] mItems = getResources().getStringArray(R.array.spinnername);
+		String[] mItems = getResources().getStringArray(R.array.my_complaint);
 		// 建立Adapter并且绑定数据源
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
     			R.layout.spinner_text_layout, mItems);
     	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
 		mSpinner.setAdapter(adapter);
+		mSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				if (arg2 == 1) {
+					mAdpter.stateFilter(true);
+				} else {
+					mAdpter.stateFilter(false);
+				}
+				mAdpter.notifyDataSetChanged();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 	}
 	

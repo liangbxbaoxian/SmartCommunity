@@ -1,5 +1,6 @@
 package com.wb.sc.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -13,12 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.CategoryTable;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.config.NetConfig;
 
@@ -26,6 +30,8 @@ public class MyComplaintAdpater extends BaseAdapter {
 
 	private Context mContext;
 	private List<?> mList;
+	private boolean isStateChanged;
+	
 	public MyComplaintAdpater(Context mContext, List<?> list ) {
 		this.mContext = mContext;
 		this.mList = list;
@@ -47,6 +53,10 @@ public class MyComplaintAdpater extends BaseAdapter {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public void stateFilter(boolean isStateChanged) {
+		this.isStateChanged = isStateChanged;
+	}
 
 	@Override
 	public View getView(int position, View arg1, ViewGroup arg2) {
@@ -55,6 +65,9 @@ public class MyComplaintAdpater extends BaseAdapter {
 		if(arg1 == null){
 			viewHolder = new ViewHolder();
 		    arg1 = LayoutInflater.from(mContext).inflate(R.layout.itme_my_complaint, null);
+		    viewHolder.gridView = (GridView) arg1.findViewById(R.id.yipay_server);
+		    viewHolder.state = (Button) arg1.findViewById(R.id.state);
+		    viewHolder.finish_time = (TextView) arg1.findViewById(R.id.finish_time);
 //		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
 //			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
 //			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
@@ -64,6 +77,26 @@ public class MyComplaintAdpater extends BaseAdapter {
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
 		SentHome sentHome = (SentHome) mList.get(position);
+		
+		if (isStateChanged) {
+			viewHolder.state.setText("已处理");
+			viewHolder.finish_time.setText("2014-9-19  18:00");
+			viewHolder.state.setBackgroundResource(R.drawable.chuli);
+		} else {
+			viewHolder.state.setText("已受理");
+			viewHolder.finish_time.setText("");
+			viewHolder.state.setBackgroundResource(R.drawable.shouli);
+		}
+		
+		List<CategoryTable> list = new ArrayList<CategoryTable>();
+		int resId [] = {R.drawable.test_my_complaint_one, R.drawable.test_my_complaint_two};
+		for (int i = 0; i < resId.length; i++) {
+			CategoryTable categroy = new CategoryTable();
+			categroy.setId(resId[i]);
+			list.add(categroy);
+		}
+		ImageAdapter adapter = new ImageAdapter(mContext, list);
+		viewHolder.gridView.setAdapter(adapter);
 		
 //		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
 //		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
@@ -91,6 +124,9 @@ public class MyComplaintAdpater extends BaseAdapter {
 		public TextView district_name;
 		public TextView district_address;
 		public ImageView call;
+		public GridView gridView;
+		public Button state;
+		public TextView finish_time;
 		
 	}
 	

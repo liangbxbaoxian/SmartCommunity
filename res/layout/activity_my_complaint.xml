@@ -43,18 +43,16 @@
                 android:gravity="center_vertical"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:text="送到家" />
+                android:text="我的投诉" />
         </LinearLayout>
 
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="103dp"
-            android:layout_height="37.5dp"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="11dp"
-            android:layout_marginRight="11dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             android:layout_toRightOf="@id/linear_back"
             android:background="@drawable/spinner_bg_nor"
             android:paddingRight="0dp" />
