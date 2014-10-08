@@ -10,6 +10,7 @@
     <string name="ac_property_repairs">物业报修</string>
     <string name="ac_property_praise">物业表扬</string>
     <string name="ac_scan">扫一扫</string>
+    <string name="ac_msg_center">消息中心</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>
@@ -65,6 +66,17 @@
         <item>已处理</item>
     </string-array>
 
+	 <string-array name="msg_type">
+        <item>全部</item>
+        <item>社区公告</item>
+        <item>系统消息</item>
+        <item>缴费通知</item>
+        <item>我的快递</item>
+        <item>物业投诉处理</item>
+        <item>物业报修处理</item>
+    </string-array>
+    
+    <!-- ==============================扫码相关=========================================================== -->
     <string name="app_picker_name">应用</string>
     <string name="bookmark_picker_name">书签</string>
     <string name="button_add_calendar">添加事件至日历</string>

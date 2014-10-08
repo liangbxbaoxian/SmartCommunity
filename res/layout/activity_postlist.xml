@@ -10,8 +10,6 @@
         android:layout_height="0dp"
         android:layout_weight="1" >
 
-        
-
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/pull_refresh_list"
             android:layout_width="fill_parent"
