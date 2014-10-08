@@ -35,6 +35,7 @@ import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.config.RespParams;
+import com.wb.sc.mk.main.PostActivity;
 import com.wb.sc.task.PostListRequest;
 
 public class PostListActivity extends BaseHeaderActivity implements Listener<PostList>, 
@@ -173,6 +174,11 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		params.put(RespParams.PAGE_NO, mPage.pageNo+"");	
 			
 		return params;
+	}
+	
+	public void share(View view) {
+		Intent intent = new Intent(PostListActivity.this, PostActivity.class);
+		startActivity(intent);
 	}
 	
 	/**

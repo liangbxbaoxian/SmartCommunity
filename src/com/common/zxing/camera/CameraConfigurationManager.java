@@ -16,22 +16,6 @@
 
 package com.common.zxing.camera;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.MergeCursor;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.hardware.Camera;
-import android.os.Build.VERSION;
-import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
-import android.view.Window;
-import android.view.WindowManager;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +23,19 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.hardware.Camera;
+import android.os.Build.VERSION;
+import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.WindowManager;
 
 import com.wb.sc.R;
 
@@ -83,9 +80,8 @@ final class CameraConfigurationManager {
     ((Activity) context).getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
     int statusBarHeight = frame.top;
     
-    int contentTop = ((Activity) context).getWindow().findViewById(Window.ID_ANDROID_CONTENT).getTop();
-    int titleBarHeight = contentTop - statusBarHeight;
-    theScreenResolution.y -= context.getResources().getDimension(R.dimen.title_bar_height);
+    int titleBarHeight = (int) context.getResources().getDimension(R.dimen.title_bar_height);
+    theScreenResolution.y -= titleBarHeight + statusBarHeight;
     
     screenResolution = theScreenResolution;
     Log.i(TAG, "Screen resolution: " + screenResolution);

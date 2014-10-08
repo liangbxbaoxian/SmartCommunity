@@ -52,6 +52,9 @@
     <!-- 桌面图标权限 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    
+     <!-- 拨打电话权限 -->
+    <uses-permission  android:name="android.permission.CALL_PHONE" />
 
     <!-- 摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -79,8 +82,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/SC.Light" >
+        
+        
         <activity
-            android:name="com.wb.sc.mk.main.MainActivity"
+            android:name="com.wb.sc.mk.main.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
             android:screenOrientation="portrait" >
@@ -88,7 +93,14 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>           
+        </activity>
+        
+        <activity
+            android:name="com.wb.sc.mk.main.MainActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_main"
+            android:screenOrientation="portrait">            
         </activity>
 
         <!-- 帖子列表 -->
@@ -147,6 +159,21 @@
             android:label="@string/ac_scan"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <!-- 发帖  -->
+        <activity
+            android:name="com.wb.sc.mk.main.PostActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/ac_property_praise"
+            android:screenOrientation="portrait" />
+       
+         <!-- 个人信息  -->
+        <activity
+            android:name="com.wb.sc.mk.personal.PersonalInfoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_property_praise"
+            android:screenOrientation="portrait" />
 
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->

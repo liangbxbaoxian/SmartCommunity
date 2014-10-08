@@ -32,6 +32,7 @@ import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.mk.personal.PersonalInfoActivity;
 import com.wb.sc.widget.CircleImageView;
 import com.wb.sc.widget.SelectPicPopupWindow;
 
@@ -212,7 +213,7 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 		}
 
 	}
-
+	
 	/**
 	 * 拍照获取
 	 */

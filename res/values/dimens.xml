@@ -2,8 +2,8 @@
 
     <!-- 标题栏高度 -->
     <dimen name="title_bar_height">51dp</dimen>
-    
-    <!-- 标题栏字体大小 -->
+      
+    <!-- 标题栏字体大小  -->
     <dimen name="title_bar_text_size">19.5sp</dimen>
     <dimen name="title_bar_padding">15dp</dimen>
 
@@ -33,8 +33,7 @@
     <dimen name="SmallerTextSize">13.0dip</dimen>
     <dimen name="wallet_info_margin_top_left_right">12dp</dimen>
     <dimen name="title_textsize">18dp</dimen>
-    
-    
+ 
     <dimen name="standard_padding">8dip</dimen>
     <dimen name="half_padding">4dip</dimen>
 
