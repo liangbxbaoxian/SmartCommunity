@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/title_bar_height"
     android:background="#ebeced"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bg"
-        android:paddingLeft="@dimen/title_bar_padding"
-        android:paddingRight="@dimen/title_bar_padding"
         android:visibility="visible" >
 
         <ImageView
@@ -20,14 +18,23 @@
             android:layout_centerVertical="true"
             android:src="@drawable/title_bar_icon_phone"
             android:visibility="invisible" />
-
-        <ImageView
+        
+        <LinearLayout
             android:id="@+id/my_posts"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/my_posts_icon" />
+            android:gravity="center"
+            android:paddingLeft="@dimen/title_bar_padding"
+            android:paddingRight="@dimen/title_bar_padding"
+            android:background="@drawable/header_btn_selector" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/my_posts_icon" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/name"
