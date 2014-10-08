@@ -18,11 +18,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.bean.CategoryTable;
 import com.wb.sc.mk.main.SentHomeActivity;
 
-public class CategoryAdapter extends BaseAdapter {
+public class FindAdapter extends BaseAdapter {
 
 	private List<CategoryTable> list;
 
@@ -32,7 +33,7 @@ public class CategoryAdapter extends BaseAdapter {
 	
 	private ItemClickListener mListener;
 	
-	public CategoryAdapter(Context context, List<CategoryTable> list) {
+	public FindAdapter(Context context, List<CategoryTable> list) {
 		this.list = list;
 		this.context = context;
 		layoutinflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -137,17 +138,21 @@ public class CategoryAdapter extends BaseAdapter {
 	}
 	
 	private void jumpToMerchantsActivity(List<CategoryTable> categoryTableList, int position) {
-//		if (categoryTableList.size()  <= 3) {   //临时修改，这个bug
 			switch (position) {
 			case 0:
 				Intent intent = new Intent(context, SentHomeActivity.class);
 				context.startActivity(intent);
 				break;
 
+			
+			case 1:
+			case 2:
+			case 3:
+				
+				ToastHelper.showToastInBottom(context, "我们还在奔向你的途中，请耐心等待，么么哒~");
 			default:
 				break;
-			}
-//		}
+		}
 	
 	}
 

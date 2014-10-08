@@ -63,7 +63,7 @@ public class PostTypeAdapter extends BaseAdapter {
 			view = convertView;
 			holder = (ViewHolder) view.getTag();
 		}
-		
+		holder.picIv.setImageResource(forums.get(position).resId);
 		holder.typeTv.setText(forums.get(position).type);
 		holder.titleTv.setText(forums.get(position).title);
 		holder.descTv.setText(forums.get(position).content);
