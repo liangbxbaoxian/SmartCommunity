@@ -68,6 +68,7 @@ public class MyComplaintAdpater extends BaseAdapter {
 		    viewHolder.gridView = (GridView) arg1.findViewById(R.id.yipay_server);
 		    viewHolder.state = (Button) arg1.findViewById(R.id.state);
 		    viewHolder.finish_time = (TextView) arg1.findViewById(R.id.finish_time);
+		    viewHolder.progress = (TextView) arg1.findViewById(R.id.tip_progress);
 //		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
 //			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
 //			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
@@ -82,10 +83,12 @@ public class MyComplaintAdpater extends BaseAdapter {
 			viewHolder.state.setText("已处理");
 			viewHolder.finish_time.setText("2014-9-19  18:00");
 			viewHolder.state.setBackgroundResource(R.drawable.chuli);
+			viewHolder.progress.setVisibility(View.GONE);
 		} else {
 			viewHolder.state.setText("已受理");
 			viewHolder.finish_time.setText("");
 			viewHolder.state.setBackgroundResource(R.drawable.shouli);
+			viewHolder.progress.setVisibility(View.VISIBLE);
 		}
 		
 		List<CategoryTable> list = new ArrayList<CategoryTable>();
@@ -127,6 +130,7 @@ public class MyComplaintAdpater extends BaseAdapter {
 		public GridView gridView;
 		public Button state;
 		public TextView finish_time;
+		public TextView progress;
 		
 	}
 	

@@ -1,0 +1,97 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@color/common_bg_color">
+
+    <include
+        android:layout_width="wrap_content"
+        layout="@layout/post_list_item" >
+    </include>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/post_list_divider" />
+
+    <RelativeLayout
+       
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <RelativeLayout
+             android:visibility="gone"
+            android:id="@+id/comment_title"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" >
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_centerVertical="true"
+                android:text="最新评论"
+                android:textColor="#cc0001"/>
+            
+            <ImageView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:src="@drawable/xianxian"
+                android:layout_alignParentBottom="true"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px" 
+                android:background="#cacaca"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
+            android:layout_below="@+id/comment_title"
+            android:id="@+id/pull_refresh_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="#19000000"
+            android:dividerHeight="0dp"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:smoothScrollbar="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+         android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/huidi"
+        android:gravity="center_vertical"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bottom_icon_biaoqing" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/shurukuangdi" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bottom_icon_pinglun" />
+    </LinearLayout>
+
+</LinearLayout>

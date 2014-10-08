@@ -189,6 +189,20 @@
             android:label="@string/ac_msg_center"
             android:screenOrientation="portrait" />
 		
+		<!-- 我的报修 -->
+		<activity
+            android:name="com.wb.sc.mk.personal.MyRepairActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_msg_center"
+            android:screenOrientation="portrait" />
+		
+		<!-- 我的帖子 -->
+		<activity
+            android:name="com.wb.sc.mk.personal.MyForumActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_msg_center"
+            android:screenOrientation="portrait" />
+		
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->
         <activity

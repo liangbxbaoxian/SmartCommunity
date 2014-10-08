@@ -47,8 +47,9 @@
                         android:text="李四" />
 
                     <TextView
+                        android:layout_marginLeft="5dp"
                         android:id="@+id/district_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="融汇江山5号楼303室投诉" />
                 </LinearLayout>
@@ -77,7 +78,7 @@
                         android:background="@drawable/shouli"
                         android:text="已受理"
                         android:textColor="@color/white"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -92,10 +93,12 @@
             android:id="@+id/yipay_server"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:horizontalSpacing="@dimen/normal_margin"
-            android:numColumns="3"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_marginRight="@dimen/normal_margin"
+            android:horizontalSpacing="3dp"
+            android:numColumns="4"
             android:scrollbars="none"
-            android:verticalSpacing="@dimen/normal_margin" >
+            android:verticalSpacing="3dp" >
         </GridView>
 
         <LinearLayout
@@ -118,8 +121,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginLeft="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/normal_margin"
                 android:background="@android:color/white"
                 android:gravity="center"
                 android:orientation="horizontal" >
@@ -154,9 +157,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:layout_marginLeft="@dimen/normal_margin"
                 android:layout_marginTop="@dimen/normal_margin"
-                 android:layout_marginLeft="@dimen/normal_margin"
-                  android:layout_marginBottom="@dimen/normal_margin"
                 android:background="@android:color/white"
                 android:gravity="center"
                 android:orientation="horizontal" >
@@ -188,6 +191,15 @@
                         android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tip_progress"
+                android:layout_margin="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="处理中……" />
         </LinearLayout>
     </LinearLayout>
 
