@@ -28,14 +28,15 @@ import com.wb.sc.adapter.PostTypeAdapter;
 import com.wb.sc.bean.Forum;
 import com.wb.sc.mk.butler.PropertyComplain;
 import com.wb.sc.mk.butler.PropertyRepairsActivity;
+import com.wb.sc.mk.personal.MsgCenterActivity;
 import com.wb.sc.mk.post.PostListActivity;
 
 public class HomeFragment extends BaseExtraLayoutFragment implements OnClickListener,
 	OnItemClickListener{
 	
 	//标题栏相关
-	private ImageView phoneIv;
-	private ImageView msgIv;
+	private View phoneV;
+	private View msgV;
 	private TextView nameIv;
 	
 	//广告
@@ -80,6 +81,9 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 	}
 
 	private void initView(View view) {
+		msgV = view.findViewById(R.id.msg);
+		msgV.setOnClickListener(this);
+		
 		advVp = (ViewPager) view.findViewById(R.id.adv_pager);
 		advIndicator = (CirclePageIndicator) view.findViewById(R.id.adv_indicator);
 		advAdapter = new AdvAdapter(getActivity());
@@ -126,6 +130,11 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 		super.onClick(v);
 		
 		switch(v.getId()) {
+		case R.id.msg:{
+			Intent intent = new Intent(getActivity(), MsgCenterActivity.class);
+			startActivity(intent);
+		}break;
+			
 		case R.id.shortcut_in:
 			shortcutIn.setVisibility(View.GONE);
 			shortcutLayout.setVisibility(View.VISIBLE);

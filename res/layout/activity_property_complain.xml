@@ -7,26 +7,36 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/title_bar_bg"
-        android:paddingLeft="@dimen/title_bar_padding"
-        android:paddingRight="@dimen/title_bar_padding" >
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg" >
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/common_header_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:src="@drawable/bottom_fanhui" />
+            android:background="@drawable/header_btn_selector"
+            android:gravity="center"
+            android:paddingLeft="@dimen/title_bar_padding"
+            android:paddingRight="@dimen/title_bar_padding" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottom_fanhui" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/my_complain"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical" >
+            android:background="@drawable/header_btn_selector"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/title_bar_padding"
+            android:paddingRight="@dimen/title_bar_padding" >
 
             <ImageView
                 android:layout_width="wrap_content"
