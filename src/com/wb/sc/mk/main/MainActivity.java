@@ -20,6 +20,9 @@ import com.umeng.message.PushAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.mk.personal.MyComplaintActivity;
+import com.wb.sc.mk.personal.MyForumActivity;
+import com.wb.sc.mk.personal.MyRepairActivity;
 import com.wb.sc.mk.personal.PersonalInfoActivity;
 
 public class MainActivity extends BaseActivity implements OnClickListener{
@@ -217,6 +220,21 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	
 	public void personalInfo(View view) {
 		Intent intent = new Intent(this, PersonalInfoActivity.class);
+		startActivity(intent);
+	}
+	
+	public void myComplaint(View view) {
+		Intent intent = new Intent(this, MyComplaintActivity.class);
+		startActivity(intent);
+	}
+	
+	public void myRepair(View view) {
+		Intent intent = new Intent(this, MyRepairActivity.class);
+		startActivity(intent);
+	}
+	
+	public void myForum(View view) {
+		Intent intent = new Intent(this, MyForumActivity.class);
 		startActivity(intent);
 	}
 	

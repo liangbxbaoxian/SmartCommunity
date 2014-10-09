@@ -69,5 +69,6 @@
  <!-- Android standard ICS color -->
     <color name="result_text">#ffffffff</color>
     <color name="status_text">#ffffffff</color>
+    <color name="red">#cc0001</color>
 
 </resources>

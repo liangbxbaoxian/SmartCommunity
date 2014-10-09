@@ -64,6 +64,18 @@
         android:text="师大的雕刻时光很不错哦，适合发呆放空，下次有没有一起去的？"
         android:textColor="#535353"
         android:textSize="15sp" />
+    
+    <GridView
+            android:id="@+id/yipay_server"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_marginRight="@dimen/normal_margin"
+            android:horizontalSpacing="3dp"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:verticalSpacing="3dp" >
+        </GridView>
 
     <LinearLayout
         android:id="@+id/pic_layout"

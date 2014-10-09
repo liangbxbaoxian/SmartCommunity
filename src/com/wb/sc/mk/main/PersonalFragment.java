@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,14 +33,17 @@ import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.mk.personal.MsgCenterActivity;
 import com.wb.sc.mk.personal.PersonalInfoActivity;
 import com.wb.sc.widget.CircleImageView;
 import com.wb.sc.widget.SelectPicPopupWindow;
 
-public class PersonalFragment extends BaseExtraLayoutFragment {
+public class PersonalFragment extends BaseExtraLayoutFragment implements OnClickListener{
 
 	private String path[] = new String[3];
 	private int index = 0;
+	
+	private View msgV;
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -149,6 +153,8 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 	}
 
 	private void initView(final View view) {
+		msgV = view.findViewById(R.id.msg);
+		msgV.setOnClickListener(this);
 		// advVp = (ViewPager) view.findViewById(R.id.adv_pager);
 		// advIndicator = (CirclePageIndicator)
 		// view.findViewById(R.id.adv_indicator);
@@ -307,5 +313,16 @@ public class PersonalFragment extends BaseExtraLayoutFragment {
 
 	@SuppressLint("NewApi") public void setPhotoBitmap(Bitmap bitmap) {
 		img_portrait.setImageBitmap(bitmap);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		switch(v.getId()) {
+		case R.id.msg:
+			Intent intent = new Intent(getActivity(), MsgCenterActivity.class);
+			startActivity(intent);
+			break;
+		}
 	}
 }

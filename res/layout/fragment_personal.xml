@@ -7,10 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bg"
-        android:paddingLeft="@dimen/title_bar_padding"
-        android:paddingRight="@dimen/title_bar_padding"
         android:visibility="visible" >
 
         <ImageView
@@ -20,14 +18,23 @@
             android:layout_centerVertical="true"
             android:src="@drawable/title_bar_icon_phone"
             android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/scan"
+        
+        <LinearLayout
+            android:id="@+id/msg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/title_bar_icon_scan" />
+            android:gravity="center"
+            android:paddingLeft="@dimen/title_bar_padding"
+            android:paddingRight="@dimen/title_bar_padding"
+            android:background="@drawable/header_btn_selector" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottom_icon_wodexiaoxi" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/name"
@@ -133,6 +140,7 @@
                 android:layout_marginTop="@dimen/normal_margin"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="myComplaint"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 
@@ -177,6 +185,7 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="myRepair"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 
@@ -221,6 +230,7 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="myForum"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 

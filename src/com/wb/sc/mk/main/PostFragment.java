@@ -1,6 +1,7 @@
 package com.wb.sc.mk.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.wb.sc.activity.base.BasePhotoFragment;
 
 public class PostFragment extends BasePhotoFragment implements OnItemClickListener{
 	
+	private View postBtn;
 	private Spinner typeSp;
 	
 	@Override
@@ -41,6 +43,8 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
    
     private void initView(View view) {
     	initPhoto(view);  
+    	postBtn = view.findViewById(R.id.my_posts);
+    	postBtn.setOnClickListener(this);
     	
     	typeSp = (Spinner) view.findViewById(R.id.type);
     	String[] types = getResources().getStringArray(R.array.post_type);
@@ -48,5 +52,15 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
     			R.layout.spinner_text_layout, types);
     	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
     	typeSp.setAdapter(adapter);
+    }
+    
+    @Override
+	public void onClick(View v) {
+		super.onClick(v);
+		switch(v.getId()) {
+		case R.id.my_posts:
+			//跳转至我的帖子
+			break;
+		}
     }
 }
