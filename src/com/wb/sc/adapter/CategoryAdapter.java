@@ -140,9 +140,9 @@ public class CategoryAdapter extends BaseAdapter {
 //		if (categoryTableList.size()  <= 3) {   //临时修改，这个bug
 			switch (position) {
 			case 0:
-				Intent intent = new Intent(context, SentHomeActivity.class);
-				context.startActivity(intent);
-				break;
+//				Intent intent = new Intent(context, SentHomeActivity.class);
+//				context.startActivity(intent);
+//				break;
 
 			default:
 				break;
