@@ -63,10 +63,10 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 	
 	private void initData() {
 		categoryTableList.clear();
-		int resId [] = {R.drawable.driver_selector, R.drawable.coupon_selector, R.drawable.tuan_selector, R.drawable.huishenghuo/*,
+		int resId [] = {R.drawable.huishenghuo, R.drawable.driver_selector, R.drawable.tuan_selector,  R.drawable.coupon_selector/*,
 		R.drawable.trade_selector, R.drawable.together_selector, R.drawable.car_selector*/};
 
-        String categoryname [] = {"送到家", "捡便宜", "天天团",
+        String categoryname [] = {"汇.商城", "送到家", "天天团", "捡便宜", 
 		"惠商城", "一起玩", "来拼车"};
 		
 		for (int i = 0; i < resId.length; i++) {

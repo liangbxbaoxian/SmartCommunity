@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             android:src="@drawable/title_bar_icon_scan" />
 
         <TextView
@@ -93,7 +94,6 @@
         android:orientation="horizontal" />
 
     <LinearLayout
-        android:id="@+id/menu_view_pay"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/bg_style"
