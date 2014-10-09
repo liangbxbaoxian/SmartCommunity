@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.activity.base.BasePhotoActivity;
+import com.wb.sc.mk.personal.MyRepairActivity;
 
 public class PropertyRepairsActivity extends BaseHeaderActivity implements OnClickListener{
 	
@@ -24,6 +25,8 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 	private RepairsAdapter adapter;
 	
 	private Fragment[] instanceFragments;
+	
+	private View myRepairBtn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,9 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 
 	@Override
 	public void initView() {
+		myRepairBtn = findViewById(R.id.my_repairs);
+		myRepairBtn.setOnClickListener(this);
+		
 		personalV = findViewById(R.id.personal_repairs);
 		personalV.setSelected(true);
 		personalV.setOnClickListener(this);
@@ -83,6 +89,11 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 		super.onClick(v);
 		
 		switch(v.getId()) {
+		case R.id.my_repairs:
+			Intent intent = new Intent(this, MyRepairActivity.class);
+			startActivity(intent);
+			break;
+			
 		case R.id.personal_repairs:
 			contentVp.setCurrentItem(0);
 			personalV.setSelected(true);

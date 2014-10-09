@@ -190,7 +190,7 @@ public class MyRepairActivity extends Activity implements OnMenuItemClickListene
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		
 		switch(v.getId()) {
 		case R.id.personal_repairs:
 //			contentVp.setCurrentItem(0);
@@ -202,7 +202,7 @@ public class MyRepairActivity extends Activity implements OnMenuItemClickListene
 //			contentVp.setCurrentItem(1);
 			personalV.setSelected(false);
 			publicV.setSelected(true);
-			break;
+			break;					
 		}
 	}
 	

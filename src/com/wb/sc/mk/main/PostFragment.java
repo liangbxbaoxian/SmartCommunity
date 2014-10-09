@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BasePhotoFragment;
+import com.wb.sc.mk.personal.MyForumActivity;
 
 public class PostFragment extends BasePhotoFragment implements OnItemClickListener{
 	
@@ -60,6 +61,8 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 		switch(v.getId()) {
 		case R.id.my_posts:
 			//跳转至我的帖子
+			Intent intent = new Intent(getActivity(), MyForumActivity.class);
+			startActivity(intent);
 			break;
 		}
     }
