@@ -8,14 +8,14 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/umeng_update_dialog_bg"
+        android:background="@drawable/white_bg"
         android:orientation="vertical" >
 
         <!-- Title -->
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="40dp" >
+            android:layout_height="wrap_content" >
 
             <ImageView
                 android:id="@+id/umeng_update_wifi_indicator"
@@ -29,10 +29,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:layout_marginRight="11dp"
                 android:layout_centerInParent="true"
                 android:text="@string/UMUpdateTitle"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#63C2FF" />
+                android:textSize="20sp"
+                android:textColor="@color/red" />
             
             <Button
                 android:id="@+id/umeng_update_id_close"
@@ -51,10 +53,8 @@
 
         <View
             android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#2AACFF" />
+            android:layout_height="1px"
+            android:background="#cacaca" />
         <!-- Content -->
 
         <ScrollView
@@ -76,7 +76,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
                     android:focusable="true"
-                    android:textColor="#AAABAF" />
+                    android:textColor="@android:color/black" />
             </LinearLayout>
         </ScrollView>
         
@@ -85,9 +85,11 @@
 		<CheckBox
 		    android:id="@+id/umeng_update_id_check"
 	        android:layout_width="fill_parent"
-	        android:layout_height="32dp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="8.5dp"
 	        android:text="@string/UMIgnore"
-	        android:button="@drawable/umeng_update_button_check_selector"
+	        android:button="@drawable/checkbox_selector"
+	        android:paddingLeft="10dp"
 	        android:textColor="#AAABAF" />
 
         <!-- OK&Cancel Button -->
@@ -102,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/umeng_update_button_ok_bg_selector"
+                android:background="@drawable/red_btn_selector"
                 android:gravity="center"
                 android:padding="12dp"
                 android:text="@string/UMUpdateNow"
@@ -115,12 +117,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/umeng_update_button_cancel_bg_selector"
+                android:background="@drawable/cancel_selector"
                 android:gravity="center"
                 android:padding="12dp"
                 android:text="@string/UMNotNow"
 				android:focusable="true"
-                android:textColor="#AAABAF" />
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/umeng_update_id_ignore"

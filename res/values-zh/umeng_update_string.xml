@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="UMBreak_Network">未联网</string>
-	<string name="UMUpdateTitle">发现新版本</string>
+	<string name="UMUpdateTitle">版本更新提示</string>
 	<string name="UMNewVersion">最新版本: </string>
 	<string name="UMUpdateContent">更新内容</string>
 	<string name="UMUpdateSize">仅需要下载:</string>

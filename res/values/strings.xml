@@ -14,6 +14,7 @@
     <string name="ac_login">登录</string>
     <string name="ac_register">注册</string>
     <string name="ac_reset_password">重置密码</string>
+    <string name="ac_feedbak">意见反馈</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>
@@ -28,6 +29,8 @@
     <!-- 扫码 -->
     <string name="barcode_scan">正在识别...</string>
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+    
+    <string name="hint_feedback">您的意见对我们很重要，请提出您的宝贵意见\n我们会做的更好••••••</string>
 
     <string-array name="post_type">
         <item>社区分享</item>
