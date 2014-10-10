@@ -94,7 +94,6 @@
         android:orientation="horizontal" />
 
     <LinearLayout
-        android:id="@+id/menu_view_pay"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/bg_style"

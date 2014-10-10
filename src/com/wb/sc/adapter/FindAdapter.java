@@ -139,17 +139,20 @@ public class FindAdapter extends BaseAdapter {
 	
 	private void jumpToMerchantsActivity(List<CategoryTable> categoryTableList, int position) {
 			switch (position) {
+			
 			case 0:
+				ToastHelper.showToastInBottom(context, "我们还在奔向你的途中，请耐心等待，么么哒~");
+				break;
+			case 1:
 				Intent intent = new Intent(context, SentHomeActivity.class);
 				context.startActivity(intent);
 				break;
-
-			
-			case 1:
 			case 2:
 			case 3:
 				
 				ToastHelper.showToastInBottom(context, "我们还在奔向你的途中，请耐心等待，么么哒~");
+				
+				
 			default:
 				break;
 		}

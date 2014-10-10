@@ -28,6 +28,8 @@ import com.wb.sc.R;
 import com.wb.sc.adapter.MyComplaintAdpater;
 import com.wb.sc.adapter.MyForumAdpater;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.mk.main.PostActivity;
+import com.wb.sc.mk.post.PostListActivity;
 
 public class MyForumActivity extends Activity implements OnMenuItemClickListener, OnClickListener{
 
@@ -174,6 +176,11 @@ public class MyForumActivity extends Activity implements OnMenuItemClickListener
 			list.add(sentHome);
 		}
  	}
+	
+	public void share(View view) {
+		Intent intent = new Intent(this, PostActivity.class);
+		startActivity(intent);
+	}
 
 
 	public void getIntentData() {
