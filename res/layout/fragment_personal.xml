@@ -275,6 +275,7 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="myExpress"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 
@@ -363,6 +364,7 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="setting"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 

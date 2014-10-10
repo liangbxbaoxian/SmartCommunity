@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/title_bar_height"
+    android:background="@drawable/title_bar_bg"
+    android:paddingLeft="@dimen/title_bar_padding"
+    android:paddingRight="@dimen/title_bar_padding"
+    android:visibility="visible" >
+
+    <LinearLayout
+        android:id="@+id/common_header_back"
+        android:layout_width="100dip"
+        android:layout_height="fill_parent"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:onClick="back"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="12dp"
+            android:layout_height="20dp"
+            android:background="@drawable/back"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+        <TextView
+            android:id="@+id/common_header_title"
+            style="@style/title_textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="送到家" />
+    </LinearLayout>
+
+</RelativeLayout>

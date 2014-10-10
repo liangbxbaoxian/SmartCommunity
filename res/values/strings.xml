@@ -15,6 +15,8 @@
     <string name="ac_register">注册</string>
     <string name="ac_reset_password">重置密码</string>
     <string name="ac_feedbak">意见反馈</string>
+    <string name="ac_setting">设置</string>
+    <string name="ac_my_express">我的快递</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>

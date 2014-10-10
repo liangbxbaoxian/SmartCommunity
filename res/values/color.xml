@@ -70,5 +70,8 @@
     <color name="result_text">#ffffffff</color>
     <color name="status_text">#ffffffff</color>
     <color name="red">#cc0001</color>
+    
+    <color name="no_data_color">#BABABA</color>
+    <color name="no_data_bg_color">#EBECED</color>
 
 </resources>

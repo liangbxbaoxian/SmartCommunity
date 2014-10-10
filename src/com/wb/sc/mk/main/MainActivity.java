@@ -21,9 +21,11 @@ import com.umeng.update.UmengUpdateAgent;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.mk.personal.MyComplaintActivity;
+import com.wb.sc.mk.personal.MyExpressActivity;
 import com.wb.sc.mk.personal.MyForumActivity;
 import com.wb.sc.mk.personal.MyRepairActivity;
 import com.wb.sc.mk.personal.PersonalInfoActivity;
+import com.wb.sc.mk.personal.SettingActivity;
 
 public class MainActivity extends BaseActivity implements OnClickListener{
 	
@@ -235,6 +237,16 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	
 	public void myForum(View view) {
 		Intent intent = new Intent(this, MyForumActivity.class);
+		startActivity(intent);
+	}
+	
+	public void myExpress(View view) {
+		Intent intent = new Intent(this, MyExpressActivity.class);
+		startActivity(intent);
+	}
+	
+	public void setting(View view) {
+		Intent intent = new Intent(this, SettingActivity.class);
 		startActivity(intent);
 	}
 	
