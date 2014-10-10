@@ -11,6 +11,10 @@ public abstract class BaseHeaderActivity extends BaseActivity implements OnClick
 	protected View backIv;
 	protected View homeIv;
 	protected TextView titleTv;
+	
+	public void initHeader(int titleId) {
+		initHeader(getResources().getString(titleId));
+	}
 		
 	public void initHeader(String title) {
 		backIv = findViewById(R.id.common_header_back);

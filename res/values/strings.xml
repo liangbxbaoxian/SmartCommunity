@@ -11,6 +11,9 @@
     <string name="ac_property_praise">物业表扬</string>
     <string name="ac_scan">扫一扫</string>
     <string name="ac_msg_center">消息中心</string>
+    <string name="ac_login">登录</string>
+    <string name="ac_register">注册</string>
+    <string name="ac_reset_password">重置密码</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>

@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/title_bar_icon_scan" />
+            android:src="@drawable/title_bar_icon_scan" 
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/name"

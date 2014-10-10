@@ -52,9 +52,9 @@
     <!-- 桌面图标权限 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-    
-     <!-- 拨打电话权限 -->
-    <uses-permission  android:name="android.permission.CALL_PHONE" />
+
+    <!-- 拨打电话权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <!-- 摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -82,8 +82,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/SC.Light" >
-        
-        
         <activity
             android:name="com.wb.sc.mk.main.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -93,14 +91,13 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>           
+            </intent-filter>
         </activity>
-        
         <activity
             android:name="com.wb.sc.mk.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
-            android:screenOrientation="portrait">            
+            android:screenOrientation="portrait" >
         </activity>
 
         <!-- 帖子列表 -->
@@ -159,23 +156,23 @@
             android:label="@string/ac_scan"
             android:screenOrientation="portrait" >
         </activity>
-        
-        <!-- 发帖  -->
+
+        <!-- 发帖 -->
         <activity
             android:name="com.wb.sc.mk.main.PostActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar"
             android:label="@string/ac_property_praise"
-            android:screenOrientation="portrait" />
-       
-         <!-- 个人信息  -->
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+
+        <!-- 个人信息 -->
         <activity
             android:name="com.wb.sc.mk.personal.PersonalInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_praise"
             android:screenOrientation="portrait" />
-                
-        <!-- 我的投诉  -->
+
+        <!-- 我的投诉 -->
         <activity
             android:name="com.wb.sc.mk.personal.MyComplaintActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -183,26 +180,58 @@
             android:screenOrientation="portrait" />
 
         <!-- 消息中心 -->
-		<activity
+        <activity
             android:name="com.wb.sc.mk.personal.MsgCenterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_msg_center"
             android:screenOrientation="portrait" />
-		
-		<!-- 我的报修 -->
-		<activity
+
+        <!-- 我的报修 -->
+        <activity
             android:name="com.wb.sc.mk.personal.MyRepairActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_msg_center"
             android:screenOrientation="portrait" />
-		
-		<!-- 我的帖子 -->
-		<activity
+
+        <!-- 我的帖子 -->
+        <activity
             android:name="com.wb.sc.mk.personal.MyForumActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_msg_center"
             android:screenOrientation="portrait" />
-		
+
+        <!-- 登录 -->
+        <activity
+            android:name="com.wb.sc.mk.personal.LoginActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_login"
+            android:screenOrientation="portrait" >
+            <!--  
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+
+        <!-- 注册 -->
+        <activity
+            android:name="com.wb.sc.mk.personal.RegisterActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_register"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        
+        <!-- 重置密码 -->
+        <activity
+            android:name="com.wb.sc.mk.personal.ResetPasswordActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_reset_password"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        
+
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->
         <activity
