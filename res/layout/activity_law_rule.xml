@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/title_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:onClick="myComplaint"
+                android:orientation="horizontal"
+                android:padding="@dimen/normal_margin" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:visibility="gone"
+                    android:background="@drawable/my_complaint" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:text="【物业法规】xxxxxxxxxx" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right" >
+
+                    <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="8.5dp"
+                        android:layout_marginRight="@dimen/normal_margin"
+                        android:background="@drawable/arrow_right" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin" >
+
+                <include layout="@layout/divide_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:onClick="myRepair"
+                android:orientation="horizontal"
+                android:padding="@dimen/normal_margin" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:visibility="gone"
+                    android:background="@drawable/my_repair" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:text="【房产法规】xxxxxxxxxx" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right" >
+
+                    <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="8.5dp"
+                        android:layout_marginRight="@dimen/normal_margin"
+                        android:background="@drawable/arrow_right" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin" >
+
+                <include layout="@layout/divide_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:onClick="myForum"
+                android:orientation="horizontal"
+                android:padding="@dimen/normal_margin" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:visibility="gone"
+                    android:background="@drawable/my_note" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:text="【物业法规】xxxxxxxxxx" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right" >
+
+                    <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="8.5dp"
+                        android:layout_marginRight="@dimen/normal_margin"
+                        android:background="@drawable/arrow_right" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin" >
+
+                <include layout="@layout/divide_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/normal_margin" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:visibility="gone"
+                    android:background="@drawable/my_post" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:text="【物业法规】xxxxxxxxxx" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right" >
+
+                    <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="8.5dp"
+                        android:layout_marginRight="@dimen/normal_margin"
+                        android:background="@drawable/arrow_right" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin" >
+
+                <include layout="@layout/divide_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/normal_margin" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:visibility="gone"
+                    android:background="@drawable/my_recommend" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:text="【房产法规】xxxxxxxxxx" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right" >
+
+                    <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="8.5dp"
+                        android:layout_marginRight="@dimen/normal_margin"
+                        android:background="@drawable/arrow_right" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin" >
+
+                <include layout="@layout/divide_line" />
+            </LinearLayout>
+   
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -234,6 +234,7 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
         </activity>
         
+
         <!-- 修改密码  -->
         <activity
             android:name="com.wb.sc.mk.personal.ModifyPasswordActivity"
@@ -243,6 +244,34 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
         </activity>
 
+        <!-- 设置 -->
+        <activity
+            android:name="com.wb.sc.mk.personal.SettingActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_feedbak"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
+                
+         <!-- 法律法规  -->
+        <activity
+            android:name="com.wb.sc.mk.personal.LawRuleActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_feedbak"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
+        
+        <!-- 我的快递  -->
+        <activity
+            android:name="com.wb.sc.mk.personal.MyExpressActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_my_express"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
+        
+          
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->
         <activity
