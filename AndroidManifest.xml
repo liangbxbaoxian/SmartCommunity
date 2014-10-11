@@ -234,6 +234,14 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
         </activity>
         
+        <!-- 修改密码  -->
+        <activity
+            android:name="com.wb.sc.mk.personal.ModifyPasswordActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_modify_password"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
 
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->
