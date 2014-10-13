@@ -31,8 +31,7 @@
                 <EditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="27.5dp"
                     android:background="@null"
                     android:hint="输入被邀请人的手机号码"
                     android:textSize="13sp" />
@@ -59,7 +58,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="102dp"
                         android:text="嗨，快来和我一起体验业主装束的智慧社区APP吧！投诉、保修、快递查询、邻里交流，就在指尖完成。下周URL:http://xxxxxxxx"
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />

@@ -18,6 +18,7 @@
     <string name="ac_modify_password">修改密码</string>
     <string name="ac_setting">设置</string>
     <string name="ac_my_express">我的快递</string>
+    <string name="ac_bulletin">社区公告</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>
@@ -238,4 +239,9 @@
     <string name="wifi_ssid_label">网络SSID</string>
     <string name="wifi_type_label">类型</string>
 
+    
+    <string name="forbidden_said">由于您被多次举报, 因为我们将对您禁言.剩余时间(%s 分钟).</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    
 </resources>

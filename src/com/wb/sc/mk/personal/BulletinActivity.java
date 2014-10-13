@@ -8,15 +8,15 @@ import android.view.View.OnClickListener;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 
-public class RegisterInviteActivity extends BaseHeaderActivity implements OnClickListener{
+public class BulletinActivity extends BaseHeaderActivity implements OnClickListener{
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_register_invite);
+		setContentView(R.layout.activity_bulletin);
 
-		initHeader(R.string.ac_setting);
+		initHeader(R.string.ac_bulletin);
 		getIntentData();
 		initView();		
 		
