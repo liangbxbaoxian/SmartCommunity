@@ -178,7 +178,7 @@ public class PullRefActivity extends BaseActivity implements Listener<PullRef>,
 			mPullRefRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-		mPullRefRequest = new PullRefRequest(method, url, params, listenre, errorListener);
+//		mPullRefRequest = new PullRefRequest(method, url, params, listenre, errorListener);
 		startRequest(mPullRefRequest);		
 	}
 	
@@ -235,7 +235,7 @@ public class PullRefActivity extends BaseActivity implements Listener<PullRef>,
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
 			}		
 		} else {
-			ToastHelper.showToastInBottom(this, response.respMsg);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
 }

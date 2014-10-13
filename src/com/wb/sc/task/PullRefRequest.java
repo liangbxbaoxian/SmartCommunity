@@ -1,5 +1,6 @@
 package com.wb.sc.task;
 
+import java.util.List;
 import java.util.Map;
 
 import com.android.volley.AuthFailureError;
@@ -13,9 +14,9 @@ import com.wb.sc.parser.PullRefParser;
 import com.wb.sc.bean.PullRef;
 
 public class PullRefRequest extends ParamsRequest<PullRef> {
-	public PullRefRequest (int method, String url, Map<String, String> params, 
+	public PullRefRequest (String url, List<String> params, 
 			Listener<PullRef> listenre, ErrorListener errorListener) {
-		super(method, url, params, listenre, errorListener);
+		super(url, params, listenre, errorListener);
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package com.wb.sc.task;
 
+import java.util.List;
 import java.util.Map;
 
 import com.android.volley.AuthFailureError;
@@ -8,23 +9,24 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.common.net.volley.ParamsRequest;
-import com.wb.sc.config.DebugConfig;
-import com.wb.sc.parser.CommentListParser;
 import com.wb.sc.bean.CommentList;
+import com.wb.sc.parser.BaseParser;
+import com.wb.sc.parser.CommentListParser;
 
 public class CommentListRequest extends ParamsRequest<CommentList> {
-	public CommentListRequest (int method, String url, Map<String, String> params, 
+	public CommentListRequest (String url, List<String> params, 
 			Listener<CommentList> listenre, ErrorListener errorListener) {
-		super(method, url, params, listenre, errorListener);
+		super(url, params, listenre, errorListener);
 	}
 	
 	@Override
 	protected Response<CommentList> parseNetworkResponse(NetworkResponse response) {
-		String resultStr = new String(response.data);
-		DebugConfig.showLog("volleyresponse", resultStr);
-							
-		CommentListParser parser = new CommentListParser();
-		return Response.success(parser.parse(resultStr), getCacheEntry());
+		String resultStr = new String(response.data);		
+		CommentList commentList = new CommentList();
+		
+		BaseParser.parse(commentList, resultStr);
+		new CommentListParser().parse(commentList);
+		return Response.success(commentList, getCacheEntry());
 	}
 	
 	@Override

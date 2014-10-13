@@ -8,6 +8,6 @@ package com.wb.sc.config;
  */
 public interface RespCode {
 	
-	public static final int SUCCESS = 0;
+	public static final String SUCCESS = "00000";
 	
 }

@@ -190,7 +190,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			mPostDetailRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-		mPostDetailRequest = new PostDetailRequest(method, url, params, listenre, errorListener);
+//		mPostDetailRequest = new PostDetailRequest(method, url, params, listenre, errorListener);
 		startRequest(mPostDetailRequest);		
 	}
 	
@@ -222,7 +222,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		if(response.respCode == RespCode.SUCCESS) {			
 				mPostDetail = response;
 		} else {
-			ToastHelper.showToastInBottom(this, response.respMsg);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
 	
@@ -261,7 +261,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			mCommentListRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-		mCommentListRequest = new CommentListRequest(method, url, params, listenre, errorListener);
+//		mCommentListRequest = new CommentListRequest(method, url, params, listenre, errorListener);
 		startRequest(mCommentListRequest);		
 	}
 	
@@ -301,7 +301,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 					mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
 				}		
 			} else {
-				ToastHelper.showToastInBottom(mActivity, response.respMsg);
+				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}
 		}
 		

@@ -1,11 +1,7 @@
 ﻿package ${PackageName};
 
-import java.util.HashMap;
-<#if isList == "false">
-<#else>
+import java.util.ArrayList;
 import java.util.List;
-</#if>
-import java.util.Map;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -163,19 +159,16 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	 * @描述:启动请求
 	 */
 	private void start${DataName}Request() {
-		//request${DataName}(Method.${ReqType}, "请求方法", get${TaskName}Params(), this, this);
+		//request${DataName}(get${TaskName}Params(), this, this);
 	}
-		
+	
 	/**
 	 * 获取请求参数
 	 * @return
 	 */
-	private Map<String, String> get${TaskName}Params() {
-		Map<String, String> params = new HashMap<String, String>();
+	private List<String> get${TaskName}Params() {
+		List<String> params = new ArrayList<String>();
 		
-		params.put(RespParams.PAGE_SIZE, mPage.pageSize+"");
-		params.put(RespParams.PAGE_NO, mPage.pageNo+"");	
-			
 		return params;
 	}
 	
@@ -188,7 +181,7 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	 * @param errorListener
 	 */	
 	<#if isList == "false">
-	private void request${DataName}(int method, String methodUrl, Map<String, String> params,	 
+	private void request${DataName}(List<String> params,	 
 			Listener<${DataName}> listenre, ErrorListener errorListener) {			
 	<#else>
 			private void executeRequest(int method, String methodUrl, Map<String, String> params,		
@@ -197,8 +190,8 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 		if(m${TaskName} != null) {
 			m${TaskName}.cancel();
 		}	
-		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-		m${TaskName} = new ${TaskName}(method, url, params, listenre, errorListener);
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		m${TaskName} = new ${TaskName}(url, params, listenre, errorListener);
 		startRequest(m${TaskName});		
 	}
 	
@@ -236,7 +229,7 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	public void onResponse(List<${DataName}> response) {		
 	</#if>
 		showContent();	
-		if(response.respCode == RespCode.SUCCESS) {			
+		if(response.respCode.equals(RespCode.SUCCESS)) {			
 			if(response.datas.size() <= 0) {
 				showEmpty();
 				return;
@@ -259,7 +252,7 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
 			}		
 		} else {
-			ToastHelper.showToastInBottom(this, response.respMsg);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
 }

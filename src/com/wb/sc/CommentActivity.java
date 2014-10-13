@@ -160,7 +160,7 @@ public class CommentActivity extends BaseActivity implements Listener<CommentLis
 			mCommentRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-		mCommentRequest = new CommentListRequest(method, url, params, listenre, errorListener);
+//		mCommentRequest = new CommentListRequest(method, url, params, listenre, errorListener);
 		startRequest(mCommentRequest);		
 	}
 	
@@ -217,7 +217,7 @@ public class CommentActivity extends BaseActivity implements Listener<CommentLis
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
 			}		
 		} else {
-			ToastHelper.showToastInBottom(this, response.respMsg);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
 }

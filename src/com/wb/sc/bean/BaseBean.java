@@ -2,6 +2,10 @@ package com.wb.sc.bean;
 
 public class BaseBean {
 	
-	public int respCode;
-	public String respMsg;
+	public String respCode;
+	public String respCodeMsg;
+	public String data;
+	public byte[] dataBytes;
+	public int position;
+	
 }

@@ -195,7 +195,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 			mPostListRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-		mPostListRequest = new PostListRequest(method, url, params, listenre, errorListener);
+//		mPostListRequest = new PostListRequest(method, url, params, listenre, errorListener);
 		startRequest(mPostListRequest);		
 	}
 	
@@ -252,7 +252,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
 			}		
 		} else {
-			ToastHelper.showToastInBottom(this, response.respMsg);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
 	

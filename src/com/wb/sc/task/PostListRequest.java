@@ -1,5 +1,6 @@
 package com.wb.sc.task;
 
+import java.util.List;
 import java.util.Map;
 
 import com.android.volley.AuthFailureError;
@@ -13,9 +14,9 @@ import com.wb.sc.parser.PostListParser;
 import com.wb.sc.bean.PostList;
 
 public class PostListRequest extends ParamsRequest<PostList> {
-	public PostListRequest (int method, String url, Map<String, String> params, 
+	public PostListRequest (String url, List<String> params, 
 			Listener<PostList> listenre, ErrorListener errorListener) {
-		super(method, url, params, listenre, errorListener);
+		super(url, params, listenre, errorListener);
 	}
 	
 	@Override

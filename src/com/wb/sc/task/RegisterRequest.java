@@ -2,27 +2,28 @@ package com.wb.sc.task;
 
 import java.util.List;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.common.net.volley.ParamsRequest;
-import com.wb.sc.bean.PostDetail;
 import com.wb.sc.parser.BaseParser;
-import com.wb.sc.parser.PostDetailParser;
+import com.wb.sc.parser.RegisterParser;
+import com.wb.sc.bean.Register;
 
-public class PostDetailRequest extends ParamsRequest<PostDetail> {
-	public PostDetailRequest (String url, List<String> params, 
-			Listener<PostDetail> listenre, ErrorListener errorListener) {
+public class RegisterRequest extends ParamsRequest<Register> {
+	public RegisterRequest (String url, List<String> params, 
+			Listener<Register> listenre, ErrorListener errorListener) {
 		super(url, params, listenre, errorListener);
 	}
 	
 	@Override
-	protected Response<PostDetail> parseNetworkResponse(NetworkResponse response) {
+	protected Response<Register> parseNetworkResponse(NetworkResponse response) {
 		String resultStr = new String(response.data);
-		PostDetail dataBean = new PostDetail();	
+		Register dataBean = new Register();	
 		BaseParser.parse(dataBean, resultStr);			
-		new PostDetailParser().parse(dataBean);
+		new RegisterParser().parse(dataBean);
 		return Response.success(dataBean, getCacheEntry());
 	}
 }

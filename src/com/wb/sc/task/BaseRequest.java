@@ -1,5 +1,7 @@
 package com.wb.sc.task;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Map;
 
 import com.android.volley.AuthFailureError;
@@ -13,18 +15,22 @@ import com.wb.sc.parser.BaseParser;
 import com.wb.sc.bean.BaseBean;
 
 public class BaseRequest extends ParamsRequest<BaseBean> {
-	public BaseRequest (int method, String url, Map<String, String> params, 
+	public BaseRequest (String url, List<String> params, 
 			Listener<BaseBean> listenre, ErrorListener errorListener) {
-		super(method, url, params, listenre, errorListener);
+		super(url, params, listenre, errorListener);
 	}
 	
 	@Override
 	protected Response<BaseBean> parseNetworkResponse(NetworkResponse response) {
-		String resultStr = new String(response.data);
-		DebugConfig.showLog("volleyresponse", resultStr);
-							
-		BaseParser parser = new BaseParser();
-		return Response.success(parser.parse(resultStr), getCacheEntry());
+		String resultStr = null;
+		try {
+			resultStr = new String(response.data, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		BaseBean baseBean = new BaseBean();
+		BaseParser.parse(baseBean, resultStr);
+		return Response.success(baseBean, getCacheEntry());
 	}
 	
 	@Override

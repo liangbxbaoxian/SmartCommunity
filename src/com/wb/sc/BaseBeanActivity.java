@@ -1,11 +1,9 @@
 ﻿package com.wb.sc;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -18,7 +16,14 @@ import com.wb.sc.bean.BaseBean;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.task.BaseRequest;
+import com.wb.sc.util.ParamsUtil;
 
+/**
+ * 
+ * @描述：用于接口调试
+ * @作者：liang bao xian
+ * @时间：2014年10月11日 下午2:39:11
+ */
 public class BaseBeanActivity extends BaseActivity implements Listener<BaseBean>, 
 	ErrorListener, ReloadListener{
 		
@@ -28,14 +33,16 @@ public class BaseBeanActivity extends BaseActivity implements Listener<BaseBean>
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_basebean);
+		setContentView(R.layout.activity_login);
 		
 		getIntentData();
 		initView();		
 		
 		showLoading();		
+		
+		requestBase(getBaseRequestParams(), this, this);
 	}
-			
+	
 	@Override
 	public void getIntentData() {
 		
@@ -45,17 +52,23 @@ public class BaseBeanActivity extends BaseActivity implements Listener<BaseBean>
 	public void initView() {
 		
 	}
-			
+	
 	/**
-	 * 获取请求参数
+	 * 获取请求参数,请按照接口文档列表排列
 	 * @return
 	 */
-	private Map<String, String> getBaseRequestParams() {
-		Map<String, String> params = new HashMap<String, String>();
-				
+	private List<String> getBaseRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG01", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam("00", 2));
+		params.add(ParamsUtil.getReqParam("13675013092", 15));
+		params.add(ParamsUtil.getReqParam("12345678900987654321123456789009", 32));
+		
 		return params;
 	}
-	
+		
 	/**
 	 * 执行任务请求
 	 * @param method
@@ -64,13 +77,13 @@ public class BaseBeanActivity extends BaseActivity implements Listener<BaseBean>
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestBase(int method, String methodUrl, Map<String, String> params,	 
+	private void requestBase(List<String> paramsList,	 
 			Listener<BaseBean> listenre, ErrorListener errorListener) {			
 		if(mBaseRequest != null) {
 			mBaseRequest.cancel();
 		}	
-		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-		mBaseRequest = new BaseRequest(method, url, params, listenre, errorListener);
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mBaseRequest = new BaseRequest(url, paramsList, listenre, errorListener);
 		startRequest(mBaseRequest);		
 	}
 	
@@ -90,7 +103,7 @@ public class BaseBeanActivity extends BaseActivity implements Listener<BaseBean>
 	@Override
 	public void onReload() {
 		showLoading();
-		//requestBase(Method.GET, "请求方法", getBaseRequestParams(), this, this);			
+		requestBase(getBaseRequestParams(), this, this);
 	}
 	
 	/**
@@ -98,12 +111,12 @@ public class BaseBeanActivity extends BaseActivity implements Listener<BaseBean>
 	 */
 	@Override
 	public void onResponse(BaseBean response) {		
-		if(response.respCode == RespCode.SUCCESS) {
+		if(response.respCode.equals(RespCode.SUCCESS)) {
 			showContent();
-				mBase = response;
+			mBase = response;
 		} else {
 			showLoadError(this);
-			ToastHelper.showToastInBottom(this, response.respMsg);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
 }

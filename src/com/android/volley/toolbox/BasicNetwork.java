@@ -226,7 +226,9 @@ public class BasicNetwork implements Network {
                 	request.getProgressListener().onLoad(totalCount * 100 / contentLength);
                 }
             }
-            request.getProgressListener().onLoad(100);
+            if(request.getProgressListener() != null) {
+            	request.getProgressListener().onLoad(100);
+            }
             return bytes.toByteArray();
         } finally {
             try {

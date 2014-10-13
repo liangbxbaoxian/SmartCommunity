@@ -1,8 +1,7 @@
 ﻿package ${PackageName};
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -53,8 +51,7 @@ public class ${ClassName} extends Activity implements Listener<List<${DataName}>
 		getIntentData();
 		initView();
 		
-		mQueue = Volley.newRequestQueue(getApplicationContext()); 
-		//executeRequest("请在这里填写请求的方法", get${TaskName}Params(), this, this);					
+		//request${DataName}(get${TaskName}Params(), this, this);					
 	}
 	
 	/**
@@ -125,14 +122,20 @@ public class ${ClassName} extends Activity implements Listener<List<${DataName}>
 	 */
 	@Override
 	<#if isList == "false">
-	public void onResponse(${DataName} response) {
-		m${DataName} = response;
+	public void onResponse(${DataName} response) {		
 	<#else>
-	public void onResponse(List<${DataName}> response) {
-		m${DataName}List = response;
-	</#if>	
-		loadLayout.setVisibility(View.GONE);
-		contentLayout.setVisibility(View.VISIBLE);
+	public void onResponse(List<${DataName}> response) {		
+	</#if>
+		showContent();	
+		if(response.respCode == RespCode.SUCCESS) {			
+			<#if isList == "false">
+				m${DataName} = response;
+			<#else>
+				m${DataName}List = response;
+			</#if>
+		} else {
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
+		}
 	}
 	
 }

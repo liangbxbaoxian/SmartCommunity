@@ -16,6 +16,11 @@
 
 package com.android.volley;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.Map;
+
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Handler;
@@ -24,11 +29,7 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 
 import com.android.volley.VolleyLog.MarkerLog;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.Map;
+import com.common.format.HexStringBytes;
 
 /**
  * Base class for all network requests.
@@ -351,10 +352,10 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         // here instead of simply calling the getBody() function because this function must
         // call getPostParams() and getPostParamsEncoding() since legacy clients would have
         // overridden these two member functions for POST requests.
-        Map<String, String> postParams = getPostParams();
-        if (postParams != null && postParams.size() > 0) {
-            return encodeParameters(postParams, getPostParamsEncoding());
-        }
+//    	List<String> postParams = getPostParams();
+//        if (postParams != null && postParams.size() > 0) {
+//            return encodeParameters(postParams, getPostParamsEncoding());
+//        }
         return null;
     }
 
@@ -396,7 +397,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      * @throws AuthFailureError in the event of auth failure
      */
     public byte[] getBody() throws AuthFailureError {
-        Map<String, String> params = getParams();
+    	Map<String, String> params = getParams();
         if (params != null && params.size() > 0) {
             return encodeParameters(params, getParamsEncoding());
         }
@@ -407,20 +408,26 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      * Converts <code>params</code> into an application/x-www-form-urlencoded encoded string.
      */
     private byte[] encodeParameters(Map<String, String> params, String paramsEncoding) {
-        StringBuilder encodedParams = new StringBuilder();
-        try {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                encodedParams.append(URLEncoder.encode(entry.getKey(), paramsEncoding));
-                encodedParams.append('=');
-                encodedParams.append(URLEncoder.encode(entry.getValue(), paramsEncoding));
-                encodedParams.append('&');
-            }
-            return encodedParams.toString().getBytes(paramsEncoding);
-        } catch (UnsupportedEncodingException uee) {
-            throw new RuntimeException("Encoding not supported: " + paramsEncoding, uee);
-        }
+//        StringBuilder encodedParams = new StringBuilder();
+//        try {
+//            for (Map.Entry<String, String> entry : params.entrySet()) {
+//                encodedParams.append(URLEncoder.encode(entry.getKey(), paramsEncoding));
+//                encodedParams.append('=');
+//                encodedParams.append(URLEncoder.encode(entry.getValue(), paramsEncoding));
+//                encodedParams.append('&');
+//            }
+//            return encodedParams.toString().getBytes(paramsEncoding);
+//        } catch (UnsupportedEncodingException uee) {
+//            throw new RuntimeException("Encoding not supported: " + paramsEncoding, uee);
+//        }
+    	try {
+			return params.get("request").getBytes(paramsEncoding);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	return null;
     }
-
+    
     /**
      * Set whether or not responses to this request should be cached.
      */

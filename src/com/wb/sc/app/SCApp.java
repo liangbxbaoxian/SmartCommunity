@@ -1,17 +1,22 @@
 package com.wb.sc.app;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 import net.tsz.afinal.FinalDb;
 import net.tsz.afinal.utils.Utils;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.common.format.HexStringBytes;
 import com.common.net.volley.VolleyX509TrustManager;
 import com.common.net.volley.cache.VolleyImageCache;
 import com.wb.sc.config.DbConfig;
 import com.wb.sc.config.DebugConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.db.DbUpdateHandler;
+import com.wb.sc.security.RSA;
 
 import android.app.Application;
 
@@ -27,8 +32,15 @@ public class SCApp extends Application {
 	private long requestTag = 0;
 
 	// 数据库
-	private FinalDb mFinalDb;
-
+	private FinalDb mFinalDb;	
+	// 公钥
+	private PublicKey mPublicKey;
+	// 私钥
+//	private PrivateKey mPrivateKey;
+	// 3DES密钥
+	private String des3KeyStr = "37313358324234596561343467353131";
+	private byte[] mDes3Key = null;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -50,7 +62,17 @@ public class SCApp extends Application {
 		// 创建数据库
 		mFinalDb = FinalDb.create(this, DbConfig.DB_NAME,
 				DebugConfig.SHOW_DEBUG_MESSAGE, DbConfig.DB_VERSION,
-				new DbUpdateHandler());			
+				new DbUpdateHandler());		
+		RSA rsa = new RSA();
+		try {
+			mPublicKey = rsa.getPublicKeyByCertificate(getApplicationContext(), "publickey.cer");
+//			DebugConfig.showLog("SC_RSA", mPublicKey.toString());
+//			mPrivateKey = rsa.getCertInfoByKeyStore(getApplicationContext(), "privateKey.p12", "111111");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		
+		mDes3Key = HexStringBytes.String2Bytes(des3KeyStr);
 	}
 
 	/**
@@ -97,5 +119,28 @@ public class SCApp extends Application {
 	public synchronized String getRequestTag() {
 		requestTag++;
 		return requestTag + "";
+	}
+	
+	/**
+	 * 获取公钥
+	 * @描述: 
+	 * @return
+	 */
+	public PublicKey getPublicKey() {
+		return mPublicKey;
+	}
+	
+//	/**
+//	 * 获取私钥
+//	 */
+//	public PrivateKey getPrivateKey() {
+//		return mPrivateKey;
+//	}
+	
+	/**
+	 * 获取3DES密钥
+	 */
+	public byte[] getDes3Key() {
+		return mDes3Key;
 	}
 }
