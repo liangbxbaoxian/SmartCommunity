@@ -28,21 +28,21 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 
 	private PullToRefreshListView mPullToRefreshListView;
 	private MyComplaintAdpater mAdpter;
-	
+
 	private String mKeyword;
 	private String sId;
-	
+
 	private int pageNo;
 	private boolean hasNextPage;
 	private String mDistrictName;
-	
+
 	private List<SentHome> list = new ArrayList<SentHome>();
-	
-	
+
+
 	private View current_express;
 	private View deprecated_express;
 	private View history_express;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,8 +50,8 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 		initView();
 		initHeader(R.string.ac_my_express);
 	}
-	
-	
+
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return super.onOptionsItemSelected(item);
@@ -59,7 +59,7 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 
 	public void back (View view) {
 		finish();
-     }
+	}
 
 	public void initView() {
 		mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_scroll);
@@ -70,7 +70,7 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 				new GetDataTask().execute();
 			}
 		});
-		
+
 		mPullToRefreshListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 
 			@Override
@@ -78,8 +78,8 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 				// TODO Auto-generated method stub
 			}
 		});
-		
-		
+
+
 		mPullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -89,28 +89,28 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 				startActivity(intent);
 			}
 		});
-		
-		
-//		initData();
+
+
+		//		initData();
 		mAdpter = new MyComplaintAdpater(MyExpressActivity.this, list);
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
-		
-		
+
+
 		current_express = findViewById(R.id.current_express);
 		current_express.setSelected(true);
 		current_express.setOnClickListener(this);
-		
+
 		deprecated_express = findViewById(R.id.deprecated_express);
 		deprecated_express.setSelected(false);
 		deprecated_express.setOnClickListener(this);
-		
+
 		history_express = findViewById(R.id.history_express);
 		history_express.setSelected(false);
 		history_express.setOnClickListener(this);
-		
+
 	}
-	
+
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
 
 		@Override
@@ -133,7 +133,7 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 			super.onPostExecute(result);
 		}
 	}
-	
+
 
 
 	public void getIntentData() {
@@ -151,30 +151,34 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 
 	@Override
 	public void onClick(View v) {
-		
+
 		switch(v.getId()) {
 		case R.id.deprecated_express:
-//			contentVp.setCurrentItem(0);
+			//contentVp.setCurrentItem(0);
 			deprecated_express.setSelected(true);
 			current_express.setSelected(false);
 			history_express.setSelected(false);
 			break;
-			
+
 		case R.id.current_express:
-//			contentVp.setCurrentItem(1);
+			//contentVp.setCurrentItem(1);
 			deprecated_express.setSelected(false);
 			current_express.setSelected(true);
 			history_express.setSelected(false);
 			break;
 		case R.id.history_express:
-//			contentVp.setCurrentItem(1);
+			//	contentVp.setCurrentItem(1);
 			deprecated_express.setSelected(false);
 			current_express.setSelected(false);
 			history_express.setSelected(true);
 			break;			
+
+		case R.id.common_header_back:
+			finish();
+			break;			
 		}
 	}
-	
-	
+
+
 
 }

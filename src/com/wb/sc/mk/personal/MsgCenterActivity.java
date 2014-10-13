@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -160,7 +161,12 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		
+		bulletin();
+	}
+	
+	public void bulletin() {
+		Intent intent = new Intent(this, BulletinActivity.class);
+		startActivity(intent);
 	}
 	
 	/**

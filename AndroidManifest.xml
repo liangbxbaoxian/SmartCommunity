@@ -87,7 +87,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
             android:screenOrientation="portrait" >
-            
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>  
         </activity>
         <activity
             android:name="com.wb.sc.mk.main.MainActivity"
@@ -272,14 +276,27 @@
             android:name="com.wb.sc.BaseBeanActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" >   
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>  
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >               
         </activity>
-          
+
+        <!-- 注册邀请  -->
+        <activity
+            android:name="com.wb.sc.mk.personal.RegisterInviteActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_my_express"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
+        
+        <!-- 社区公告 -->
+        <activity
+            android:name="com.wb.sc.mk.personal.BulletinActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_bulletin"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
+                         
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->
         <activity

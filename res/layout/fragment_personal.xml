@@ -320,6 +320,7 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="registerInvite"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 
