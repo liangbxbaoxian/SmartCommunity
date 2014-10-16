@@ -30,18 +30,4 @@ public interface DbConfig {
 	 */
 	public static final String TN_USER = "user";
 	
-	/**
-	 * 栏目
-	 */
-	public static final String TN_CHANNEL = "channel";	
-	
-	/**
-	 * 滚动新闻
-	 */
-	public static final String TN_SCROLL_NEWS = "scroll_news";
-	
-	/**
-	 * 我的消息
-	 */
-	public static final String TN_MSG = "msg";
 }

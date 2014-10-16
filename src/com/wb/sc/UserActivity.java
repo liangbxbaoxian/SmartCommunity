@@ -1,4 +1,4 @@
-﻿package ${PackageName};
+﻿package com.wb.sc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,34 +10,25 @@ import android.view.MenuItem;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import ${PackageName}.activity.base.BaseActivity;
-import ${PackageName}.activity.base.ReloadListener;
-import ${PackageName}.config.NetConfig;
-import ${PackageName}.config.RespCode;
+import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.ReloadListener;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 
-import ${PackageName}.bean.${DataName};
-import ${PackageName}.task.${TaskName};
+import com.wb.sc.bean.User;
+import com.wb.sc.task.UserRequest;
 
-<#if isList == "false">
-public class ${ClassName} extends BaseActivity implements Listener<${DataName}>, 
+public class UserActivity extends BaseActivity implements Listener<User>, 
 	ErrorListener, ReloadListener{
-<#else>
-public class ${ClassName} extends BaseActivity implements Listener<List<${DataName}>>, ErrorListener{
-</#if>	
 		
-	private ${TaskName} m${TaskName};
-	<#if isList == "false">
-	private ${DataName} m${DataName};
-	<#else>
-	private List<${DataName}> m${DataName}List;
-	</#if>
+	private UserRequest mUserRequest;
+	private User mUser;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.${LayoutName});
 		
 		getIntentData();
 		initView();		
@@ -61,7 +52,7 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 		setDisplayHomeAsUpEnabled(true);
 		setDisplayShowHomeEnabled(false);
 		
-		//request${DataName}(get${TaskName}Params(), this, this);		
+		//requestUser(getUserRequestParams(), this, this);		
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -77,11 +68,9 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	 * 获取请求参数
 	 * @return
 	 */
-	private List<String> get${TaskName}Params() {
+	private List<String> getUserRequestParams() {
 		List<String> params = new ArrayList<String>();
-		params.add(ParamsUtil.getReqParam("填写接口文档中的消息类型", 4));
-		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
-		params.add(ParamsUtil.getReqParam("00001", 20));
+		
 		return params;
 	}
 	
@@ -93,19 +82,14 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	<#if isList == "false">
-	private void request${DataName}(List<String> params,	 
-			Listener<${DataName}> listenre, ErrorListener errorListener) {			
-	<#else>
-			private void executeRequest(int method, String methodUrl, Map<String, String> params,		
-			Listener<List<${DataName}>> listenre, ErrorListener errorListener) {
-	</#if>
-		if(m${TaskName} != null) {
-			m${TaskName}.cancel();
+	private void requestUser(List<String> params,	 
+			Listener<User> listenre, ErrorListener errorListener) {			
+		if(mUserRequest != null) {
+			mUserRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
-		m${TaskName} = new ${TaskName}(url, params, listenre, errorListener);
-		startRequest(m${TaskName});		
+		mUserRequest = new UserRequest(url, params, listenre, errorListener);
+		startRequest(mUserRequest);		
 	}
 	
 	/**
@@ -124,25 +108,17 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	@Override
 	public void onReload() {
 		showLoading();
-		//request${DataName}(get${TaskName}Params(), this, this);			
+		//requestUser(getUserRequestParams(), this, this);			
 	}
 	
 	/**
 	 * 请求完成，处理UI更新
 	 */
 	@Override
-	<#if isList == "false">
-	public void onResponse(${DataName} response) {		
-	<#else>
-	public void onResponse(List<${DataName}> response) {		
-	</#if>
+	public void onResponse(User response) {		
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
-			<#if isList == "false">
-			m${DataName} = response;
-			<#else>
-			m${DataName}List = response;
-			</#if>
+			mUser = response;
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}

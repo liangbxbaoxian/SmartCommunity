@@ -5,6 +5,7 @@ import java.security.PublicKey;
 
 import net.tsz.afinal.FinalDb;
 import net.tsz.afinal.utils.Utils;
+import android.app.Application;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -12,13 +13,12 @@ import com.android.volley.toolbox.Volley;
 import com.common.format.HexStringBytes;
 import com.common.net.volley.VolleyX509TrustManager;
 import com.common.net.volley.cache.VolleyImageCache;
+import com.wb.sc.bean.User;
 import com.wb.sc.config.DbConfig;
 import com.wb.sc.config.DebugConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.db.DbUpdateHandler;
 import com.wb.sc.security.RSA;
-
-import android.app.Application;
 
 public class SCApp extends Application {
 
@@ -36,10 +36,12 @@ public class SCApp extends Application {
 	// 公钥
 	private PublicKey mPublicKey;
 	// 私钥
-//	private PrivateKey mPrivateKey;
+	private PrivateKey mPrivateKey;
 	// 3DES密钥
 	private String des3KeyStr = "37313358324234596561343467353131";
 	private byte[] mDes3Key = null;
+	
+	private User mUser;
 	
 	@Override
 	public void onCreate() {
@@ -65,9 +67,9 @@ public class SCApp extends Application {
 				new DbUpdateHandler());		
 		RSA rsa = new RSA();
 		try {
-			mPublicKey = rsa.getPublicKeyByCertificate(getApplicationContext(), "publickey.cer");
-//			DebugConfig.showLog("SC_RSA", mPublicKey.toString());
-//			mPrivateKey = rsa.getCertInfoByKeyStore(getApplicationContext(), "privateKey.p12", "111111");
+			mPublicKey = rsa.getPublicKeyByCertificate(getApplicationContext(), "publicKey.cer");
+			DebugConfig.showLog("SC_RSA", mPublicKey.toString());
+			mPrivateKey = rsa.getCertInfoByKeyStore(getApplicationContext(), "privateKey.p12", "123456");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -130,12 +132,12 @@ public class SCApp extends Application {
 		return mPublicKey;
 	}
 	
-//	/**
-//	 * 获取私钥
-//	 */
-//	public PrivateKey getPrivateKey() {
-//		return mPrivateKey;
-//	}
+	/**
+	 * 获取私钥
+	 */
+	public PrivateKey getPrivateKey() {
+		return mPrivateKey;
+	}
 	
 	/**
 	 * 获取3DES密钥
@@ -143,4 +145,12 @@ public class SCApp extends Application {
 	public byte[] getDes3Key() {
 		return mDes3Key;
 	}
+
+	public User getUser() {
+		return mUser;
+	}
+
+	public void setUser(User mUser) {
+		this.mUser = mUser;
+	}		
 }

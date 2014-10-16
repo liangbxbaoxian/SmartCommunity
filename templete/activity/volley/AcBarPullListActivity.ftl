@@ -168,7 +168,9 @@ public class ${ClassName} extends BaseActivity implements Listener<List<${DataNa
 	 */
 	private List<String> get${TaskName}Params() {
 		List<String> params = new ArrayList<String>();
-		
+		params.add(ParamsUtil.getReqParam("填写接口文档中的消息类型", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
 		return params;
 	}
 	

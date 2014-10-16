@@ -45,7 +45,7 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/phone"
+                    android:id="@+id/userPhone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

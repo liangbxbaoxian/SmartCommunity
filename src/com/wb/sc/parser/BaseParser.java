@@ -39,7 +39,6 @@ public class BaseParser {
 		//截取字符长度,获取data内容,暂时忽略最后2字节的CRC16检验
 		int length = (int)(((content[0]&0xff) << 8) | content[1] & 0xff) - 2;		
 		content = ByteHelper.byteArraySub(content, 2, length);
-		System.out.println(HexStringBytes.bytes2HexString(content));
 		if(DebugConfig.SHOW_DEBUG_MESSAGE) {
 			Log.d(TAG, HexStringBytes.bytes2HexString(content));
 		}

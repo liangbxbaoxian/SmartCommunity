@@ -9,6 +9,6 @@ public class RegisterParser {
 	public void parse(Register dataBean) {	
 			
 		//进行数据解析处理
-		dataBean.userId = ParamsUtil.getRespNextParam(dataBean, 64);
+		dataBean.userId = ParamsUtil.getRespParamNext(dataBean, 64);
 	}
 }

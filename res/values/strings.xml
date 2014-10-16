@@ -119,6 +119,7 @@
     <string name="gender_modify_success">性别修改成功</string>
     <string name="logout">退出当前账号</string>    
     <string name="please_login">请先登录</string>
+    <string name="loging_toast">正在登录中，请稍候...</string>
     
     <!-- ==============================扫码相关=========================================================== -->
     <string name="app_picker_name">应用</string>

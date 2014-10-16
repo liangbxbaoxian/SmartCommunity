@@ -54,7 +54,7 @@ public class BaseBeanActivity extends BaseActivity implements Listener<BaseBean>
 	}
 	
 	/**
-	 * 获取请求参数,请按照接口文档列表排列
+	 * 获取请求参数,请按照接口文档列表顺序排列
 	 * @return
 	 */
 	private List<String> getBaseRequestParams() {

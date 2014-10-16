@@ -46,7 +46,12 @@ public abstract class BaseActivity extends BaseNetActivity {
 		super.onPause();
 	}
 	
-	public void showDialog(String message) {
+	
+	public void showProcess(int id) {
+		showProcess(getResources().getString(id));
+	}
+	
+	public void showProcess(String message) {
 		pDialog = new ProgressDialog(this);
 		pDialog.setIndeterminate(true);
 		pDialog.setMessage(message);
@@ -54,7 +59,7 @@ public abstract class BaseActivity extends BaseNetActivity {
 		pDialog.show();
 	}
 	
-	public void dismissDialog () {
+	public void dismissProcess () {
 		pDialog.dismiss();
 	}
 	

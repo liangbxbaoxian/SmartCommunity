@@ -10,9 +10,8 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.common.net.volley.ParamsRequest;
-import com.wb.sc.config.DebugConfig;
-import com.wb.sc.parser.BaseParser;
 import com.wb.sc.bean.BaseBean;
+import com.wb.sc.parser.BaseParser;
 
 public class BaseRequest extends ParamsRequest<BaseBean> {
 	public BaseRequest (String url, List<String> params, 
