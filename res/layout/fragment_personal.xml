@@ -407,7 +407,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="52dp"
                     android:layout_margin="@dimen/normal_margin"
-                    android:background="@drawable/cancel_selector"
+                     android:background="@drawable/red_btn_selector"
                     android:padding="@dimen/normal_margin"
                     android:text="退出登录"
                     android:textColor="@android:color/white"
