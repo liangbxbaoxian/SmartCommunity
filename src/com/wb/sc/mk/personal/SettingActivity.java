@@ -35,6 +35,11 @@ public class SettingActivity extends BaseHeaderActivity implements OnClickListen
 		startActivity(intent);
 	}
 	
+	public void alterPasswd(View view) {
+		Intent intent = new Intent(this, ResetPasswordActivity.class);
+		startActivity(intent);
+	}
+	
 	public void updateApp(View view) {
 		CustomDialog dialog = new CustomDialog(this, R.style.mystyle,
 				R.layout.update_custom_dialog, new DialogFinish() {

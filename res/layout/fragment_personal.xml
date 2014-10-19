@@ -59,7 +59,7 @@
                 android:id="@+id/personalInfo"
                 android:layout_width="match_parent"
                 android:layout_height="102dp"
-                android:background="@android:color/white"
+                android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:onClick="personalInfo"
                 android:orientation="horizontal"
@@ -138,7 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:background="@android:color/white"
+                android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:onClick="myComplaint"
                 android:orientation="horizontal"
@@ -171,7 +171,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/normal_margin"
@@ -183,7 +183,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:onClick="myRepair"
                 android:orientation="horizontal"
@@ -216,7 +216,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/normal_margin"
@@ -228,7 +228,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:onClick="myForum"
                 android:orientation="horizontal"
@@ -261,7 +261,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/normal_margin"
@@ -273,7 +273,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:onClick="myExpress"
                 android:orientation="horizontal"
@@ -306,7 +306,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/normal_margin"
@@ -318,7 +318,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:onClick="registerInvite"
                 android:orientation="horizontal"
@@ -351,7 +351,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/normal_margin"
@@ -363,7 +363,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center"
                 android:onClick="setting"
                 android:orientation="horizontal"
@@ -398,7 +398,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:background="@android:color/white"
+                 android:background="@drawable/layout_selector"
                 android:gravity="center_horizontal"
                 android:orientation="vertical" >
 
