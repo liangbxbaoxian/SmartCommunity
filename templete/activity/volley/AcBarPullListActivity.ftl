@@ -32,6 +32,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import ${PackageName}.bean.${DataName};
 import ${PackageName}.task.${TaskName};
+import com.wb.sc.util.ParamsUtil;
 
 <#if isList == "false">
 public class ${ClassName} extends BaseActivity implements Listener<${DataName}>, 

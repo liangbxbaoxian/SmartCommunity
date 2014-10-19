@@ -7,6 +7,7 @@
         <item name="homeAsUpIndicator">@drawable/actionbar_up_indicator</item>
         <item name="actionBarItemBackground">@drawable/actionbar_menu_selector</item>
         <item name="actionMenuTextColor">@color/actionbar_menu_text_color</item>
+        <item name="android:windowAnimationStyle">@style/SCAnimation.Activity</item>
     </style>
 
 </resources>

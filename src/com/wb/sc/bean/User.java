@@ -11,8 +11,15 @@ public class User extends BaseBean{
 	@Id(column="id")
 	public int id;
 	
+	/**
+	 * 用户ID
+	 */
     public String userId;
+    /**
+     * 社区ID
+     */
     public String communityId;
+    
     public String account;
     public String name;
     public String avatarUrl;

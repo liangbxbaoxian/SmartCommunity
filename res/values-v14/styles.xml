@@ -12,6 +12,7 @@
         <item name="android:actionBarItemBackground">@drawable/actionbar_menu_selector</item>
         <item name="actionMenuTextColor">@color/actionbar_menu_text_color</item>
         <item name="android:actionMenuTextColor">@color/actionbar_menu_text_color</item>
+        <item name="android:windowAnimationStyle">@style/SCAnimation.Activity</item>
     </style>
     
     <!-- ActionBar样式  -->

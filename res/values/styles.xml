@@ -7,6 +7,15 @@
         <item name="homeAsUpIndicator">@drawable/actionbar_up_indicator</item>
         <item name="actionBarItemBackground">@drawable/actionbar_menu_selector</item>
         <item name="actionMenuTextColor">@color/actionbar_menu_text_color</item>
+        <item name="android:windowAnimationStyle">@style/SCAnimation.Activity</item>
+    </style>
+    
+    <!-- 城市生活Activity动画切换效果 -->
+    <style name="SCAnimation.Activity" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
     </style>
     
     <!-- 扫一扫界面样式 -->

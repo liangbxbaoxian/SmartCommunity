@@ -26,6 +26,7 @@ import com.common.widget.ToastHelper;
 
 import ${PackageName}.bean.${DataName};
 import ${PackageName}.task.${TaskName};
+import com.wb.sc.util.ParamsUtil;
 
 <#if isList == "false">
 public class ${ClassName} extends Activity implements Listener<${DataName}>, ErrorListener{

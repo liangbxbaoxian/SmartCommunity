@@ -29,6 +29,7 @@
                     android:src="@drawable/xihao" />
 
                 <EditText
+                    android:id="@+id/name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -37,6 +38,7 @@
                     android:hint=" 填写用户名"
                     android:imeOptions="actionNext"
                     android:inputType="text"
+                    android:maxLength="32"
                     android:paddingBottom="20dp"
                     android:paddingTop="20dp"
                     android:textCursorDrawable="@drawable/et_cursor"
@@ -62,6 +64,7 @@
                     android:src="@drawable/xihao" />
 
                 <EditText
+                    android:id="@+id/phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -70,6 +73,7 @@
                     android:hint=" 输入手机号"
                     android:imeOptions="actionNext"
                     android:inputType="phone"
+                    android:maxLength="11"
                     android:paddingBottom="20dp"
                     android:paddingTop="20dp"
                     android:textCursorDrawable="@drawable/et_cursor"
@@ -105,6 +109,7 @@
                     android:src="@drawable/xihao" />
 
                 <EditText
+                    android:id="@+id/verify_code"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -114,12 +119,13 @@
                     android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:paddingBottom="20dp"
+                    android:maxLength="6"
                     android:paddingTop="20dp"
                     android:textCursorDrawable="@drawable/et_cursor"
                     android:textSize="16sp" />
 
                 <Button
-                    android:id="@+id/get_verify_code"
+                    android:id="@+id/time"
                     style="@style/button_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -149,6 +155,7 @@
                     android:src="@drawable/xihao" />
 
                 <EditText
+                    android:id="@+id/password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -156,14 +163,14 @@
                     android:background="@null"
                     android:hint=" 输入密码（至少6位）"
                     android:imeOptions="actionNext"
-                    android:inputType="phone"
+                    android:inputType="textPassword"                    
                     android:paddingBottom="20dp"
                     android:paddingTop="20dp"
                     android:textCursorDrawable="@drawable/et_cursor"
                     android:textSize="16sp" />
 
                 <CheckBox
-                    android:id="@+id/save_password"
+                    android:id="@+id/show_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkbox_selector"
@@ -193,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkbox_selector"
                     android:paddingLeft="5dp"
-                    android:text="我同意"
+                    android:text="我阅读并同意"
                     android:textColor="@android:color/black"
                     android:textSize="15sp" />
 
@@ -209,15 +216,18 @@
                     android:layout_height="wrap_content"
                     android:text="和"
                     android:textColor="@android:color/black"
-                    android:textSize="15sp" />
-
-                <TextView
+                    android:textSize="15sp" 
+                    android:visibility="gone"/>
+                
+            </LinearLayout>
+            
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="140dp"
                     android:text="《入网协议》"
                     android:textColor="@color/red"
                     android:textSize="15sp" />
-            </LinearLayout>
 
             <Button
                 android:id="@+id/register"
