@@ -245,8 +245,10 @@
     <string name="wifi_type_label">类型</string>
 
     
-    <string name="forbidden_said">由于您被多次举报, 因为我们将对您禁言.剩余时间(%s 分钟).</string>
+    <string name="copy_right">福建升腾咨询有限公司  \n Copyright 2014 \n All right reversed.</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
+    <string name="about_me">关于</string>
+     <string name="update_tips">版本更新提示</string>
     
 </resources>

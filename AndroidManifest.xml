@@ -83,6 +83,7 @@
         android:label="@string/app_name"
         android:theme="@style/SC.Light" >
         <activity
+            android:exported="true"
             android:name="com.wb.sc.mk.main.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"

@@ -10,18 +10,7 @@ import android.widget.TextView;
 
 import com.wb.sc.R;
 
-/**
- * <p>
- * Title: CustomDialog
- * </p>
- * <p>
- * Description:自定义Dialog（参数传入Dialog样式文件，Dialog布局文件）
- * </p>
- * <p>
- * Copyright: Copyright (c) 2014
- * </p>
- *  
- */
+
 public class CustomDialog extends Dialog implements
 		android.view.View.OnClickListener {
 
@@ -77,6 +66,13 @@ public class CustomDialog extends Dialog implements
 		this.context = context;
 		this.layoutRes = resLayout;
 	}
+	
+	public CustomDialog(Context context, int theme, int resLayout, DialogFinish listener) {
+		super(context, theme);
+		this.context = context;
+		this.layoutRes = resLayout;
+		this.listener = listener;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,22 +84,24 @@ public class CustomDialog extends Dialog implements
 		// 根据id在布局中找到控件对象
 		confirmBtn = (Button) findViewById(R.id.confirm_btn);
 		cancelBtn = (Button) findViewById(R.id.btn_cancel);
-		myRadioButton = (RadioButton) findViewById(R.id.my_rbtn);
+//		myRadioButton = (RadioButton) findViewById(R.id.my_rbtn);
 
 		// 设置按钮的文本颜色
-		confirmBtn.setTextColor(0xff1E90FF);
-		cancelBtn.setTextColor(0xff1E90FF);
-		content = (TextView) findViewById(R.id.content);
+//		confirmBtn.setTextColor(0xff1E90FF);
+//		cancelBtn.setTextColor(0xff1E90FF);
+//		content = (TextView) findViewById(R.id.content);
 		
-		String format = getContext().getResources().getString(R.string.forbidden_said);  
+//		String format = getContext().getResources().getString(R.string.forbidden_said);  
 		  
-		String sFinal = String.format(format, repalceStr);
-		content.setText(sFinal);
+//		String sFinal = String.format(format, repalceStr);
+//		content.setText(sFinal);
 
 		// 为按钮绑定点击事件监听器
 		confirmBtn.setOnClickListener(this);
-		cancelBtn.setOnClickListener(this);
-		myRadioButton.setOnClickListener(this);
+		if (cancelBtn != null) {
+			cancelBtn.setOnClickListener(this);
+		}
+//		myRadioButton.setOnClickListener(this);
 	}
 	@Override
 	public void onClick(View v) {
