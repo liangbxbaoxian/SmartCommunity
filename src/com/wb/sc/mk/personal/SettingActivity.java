@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.common.zxing.FinishListener;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.widget.CustomDialog;
+import com.wb.sc.widget.CustomDialog.DialogFinish;
 
 public class SettingActivity extends BaseHeaderActivity implements OnClickListener{
 	
@@ -32,6 +35,24 @@ public class SettingActivity extends BaseHeaderActivity implements OnClickListen
 		startActivity(intent);
 	}
 	
+	public void updateApp(View view) {
+		CustomDialog dialog = new CustomDialog(this, R.style.mystyle,
+				R.layout.update_custom_dialog, new DialogFinish() {
+					
+					@Override
+					public void getFinish() {
+						
+					}
+				});
+		dialog.show();
+	}
+	
+	public void aboutMe(View view) {
+		CustomDialog dialog = new CustomDialog(this, R.style.mystyle,
+				R.layout.about_custom_dialog);
+		dialog.show();
+	}
+	
 	@Override
 	public void getIntentData() {
 	}
@@ -50,5 +71,6 @@ public class SettingActivity extends BaseHeaderActivity implements OnClickListen
 			break;
 		}
 	}
+
 	
 }

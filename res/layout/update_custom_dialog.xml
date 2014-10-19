@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="320dp"
-    android:layout_height="wrap_content"
+    android:layout_height="350dp"
+
     android:layout_gravity="center" >
 
     <LinearLayout
         android:id="@+id/layout"
+            android:layout_marginLeft="@dimen/normal_margin"
+    android:layout_marginRight="@dimen/normal_margin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -16,46 +19,50 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:visibility="gone"
-            android:textColor="@android:color/black"
+            android:text="@string/update_tips"
+            android:textColor="@color/red"
             android:textSize="18sp" />
+        
+                <LinearLayout
+            android:id="@+id/divier"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="1dip"
+            android:background="#D1D1D1" />
+                
+                
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:padding="@dimen/normal_margin"
-            android:orientation="horizontal" >
-
+            android:orientation="vertical" >
+            
             <TextView
                 android:id="@+id/content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:text="V1.1"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="最新版本：V1.1 \n最新版本大小：13.1M \n更新下载：3.5M \n \n 更新内容： \n 1、部分功能优化  \n 2、修复BUG"
+                android:gravity="left"
+                android:lineSpacingExtra="3dp"
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="vertical" >
 
-            <RadioButton
-                android:id="@+id/my_rbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="35sp"
-                android:layout_marginLeft="10dp"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/divier"
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="#D1D1D1" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -71,7 +78,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/confirm_btn_select"
+                android:textColor="@color/white"
+                android:background="@drawable/red_btn_selector"
                 android:text="@string/ok" />
                  <LinearLayout
             android:layout_width="1dp"
@@ -80,11 +88,13 @@
             android:orientation="vertical" >
         </LinearLayout>
             <Button
+                android:layout_marginLeft="@dimen/normal_margin"
                 android:id="@+id/btn_cancel"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/confirm_btn_select"
+                android:background="@drawable/cancel_selector"
+                android:textColor="@color/white"
                 android:text="@string/cancel" />
             
         </LinearLayout>

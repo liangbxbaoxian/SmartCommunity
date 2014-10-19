@@ -83,11 +83,16 @@
         android:label="@string/app_name"
         android:theme="@style/SC.Light" >
         <activity
+            android:exported="true"
             android:name="com.wb.sc.mk.main.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
             android:screenOrientation="portrait" >
-             
+              <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>   
         </activity>
         <activity
             android:name="com.wb.sc.mk.main.MainActivity"
@@ -203,11 +208,11 @@
             android:label="@string/ac_login"
             android:screenOrientation="portrait" 
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
-            <intent-filter>
+           <!--  <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>   
+            </intent-filter>    -->
         </activity>
 
         <!-- 注册 -->
