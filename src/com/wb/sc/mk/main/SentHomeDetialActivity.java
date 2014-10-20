@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.MenuItem;
@@ -82,6 +87,40 @@ public class SentHomeDetialActivity extends Activity implements OnMenuItemClickL
 		return false;
 	}
 	
+	public void call(View view) {
+		createAlterDialog("缇斯西饼", "0591-87547389");
+	}
 	
+	private void createAlterDialog(String name, final String phoneNum) {
+		AlertDialog.Builder builder = new Builder(this);
+		builder.setMessage(phoneNum);
+
+		builder.setTitle(name);
+
+		builder.setPositiveButton("呼叫", new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				callPhone(phoneNum.split("/")[0]);
+				//				dialog.dismiss();
+
+			}
+		});
+
+		builder.setNegativeButton("取消", new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+
+		builder.create().show();
+	}
+
+	private void callPhone(String phoneNum) {
+		Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));  
+		this.startActivity(intent);  
+	}
 
 }

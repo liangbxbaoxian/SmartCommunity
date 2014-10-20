@@ -1,11 +1,14 @@
 package com.wb.sc.mk.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.mk.personal.PublicInfoActivity;
 
 public class ButlerActivity extends BaseActivity {
 		
@@ -28,6 +31,11 @@ public class ButlerActivity extends BaseActivity {
 	@Override
 	public void initView() {
 		
+	}
+	
+	public void goPublicInfo(View view) {
+		Intent intent = new Intent(this, PublicInfoActivity.class);
+		startActivity(intent);
 	}
 	
 	public void replaceFragment(Fragment fragment, boolean toBack) {

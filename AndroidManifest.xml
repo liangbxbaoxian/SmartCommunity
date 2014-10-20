@@ -328,6 +328,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
         </activity>
+        
+        <!-- 社区房产推送 -->
+        <activity
+            android:name="com.wb.sc.mk.personal.PublicInfoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_public_info"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
                          
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->

@@ -58,6 +58,7 @@ public class SentHomeAdpater extends BaseAdapter {
 		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
 			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
 			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
+			viewHolder.district  = (TextView) arg1.findViewById(R.id.district);
 			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
 			arg1.setTag(viewHolder);
 		}else{
@@ -80,6 +81,7 @@ public class SentHomeAdpater extends BaseAdapter {
 		});
 		viewHolder.district_name.setText(sentHome.name);
 		viewHolder.district_address.setText(sentHome.category);
+		viewHolder.district.setText(sentHome.distance);
 		return arg1;
 	}
 	
@@ -90,6 +92,7 @@ public class SentHomeAdpater extends BaseAdapter {
 		public NetworkImageView networkImageView;
 		public TextView district_name;
 		public TextView district_address;
+		public TextView district;
 		public ImageView call;
 		
 	}
