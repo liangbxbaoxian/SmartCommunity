@@ -15,6 +15,11 @@ public abstract class BaseHeaderActivity extends BaseActivity implements OnClick
 	public void initHeader(int titleId) {
 		initHeader(getResources().getString(titleId));
 	}
+	
+	public void initHeaderBack() {
+		backIv = findViewById(R.id.common_header_back);
+		backIv.setOnClickListener(this);
+	}
 		
 	public void initHeader(String title) {
 		backIv = findViewById(R.id.common_header_back);

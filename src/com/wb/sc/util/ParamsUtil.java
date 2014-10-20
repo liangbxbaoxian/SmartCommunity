@@ -8,6 +8,9 @@ import com.wb.sc.security.RSA;
 
 public class ParamsUtil {
 	
+	public static final String ITEMS_DIVIDER = "-|";
+	public static final String ITEM_DIVIDER = "-@";
+	
 	/**
 	 * 
 	 * @描述: 封装请求参数
@@ -67,5 +70,20 @@ public class ParamsUtil {
 	public static String getRespParam(BaseBean baseBean, int start, int length) {
 		byte[] paramBytes = ByteHelper.byteArraySub(baseBean.dataBytes, start, length);
 		return new String(paramBytes).trim();
+	}
+	
+	/**
+	 * 
+	 * @描述: 获取是否有下一页标志
+	 * @param baseBean
+	 * @return
+	 */
+	public static boolean getNextPageFlag(BaseBean baseBean) {
+		boolean hasNextPage = false;
+		byte flag = baseBean.dataBytes[baseBean.dataBytes.length-1];
+		if(flag == (byte)0x1) {
+			hasNextPage = true;
+		}
+		return hasNextPage;
 	}
 }

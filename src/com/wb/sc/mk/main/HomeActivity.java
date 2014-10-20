@@ -65,6 +65,12 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		initMenu();
 		menuAdapter = new MenuAdapter(this, menuList);
 		menuGv.setAdapter(menuAdapter);
+		
+		advVp = (ViewPager) findViewById(R.id.adv_pager);
+		advIndicator = (CirclePageIndicator) findViewById(R.id.adv_indicator);
+		advAdapter = new AdvAdapter(mActivity);
+		advVp.setAdapter(advAdapter);
+		advIndicator.setViewPager(advVp);
 	}
 	
 	private void initMenu() {

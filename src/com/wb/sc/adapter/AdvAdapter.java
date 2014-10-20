@@ -3,6 +3,7 @@ package com.wb.sc.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 
 import android.app.Activity;
@@ -22,10 +23,13 @@ public class AdvAdapter extends PagerAdapter{
 	}
 	
 	private void initWeather() {
-		View view = LayoutInflater.from(mActivity).inflate(R.layout.weather_layout, null);
+		View view = LayoutInflater.from(mActivity).inflate(R.layout.adv_layout, null);
 		mViewList.add(view);
-		view = LayoutInflater.from(mActivity).inflate(R.layout.weather_layout, null);
-		mViewList.add(view);
+		ViewHolder holder = new ViewHolder();
+		holder.imgIv = (NetworkImageView) view.findViewById(R.id.img);
+		holder.imgIv.setDefaultImageResId(R.drawable.test_banner);
+//		view = LayoutInflater.from(mActivity).inflate(R.layout.weather_layout, null);
+//		mViewList.add(view);
 	}
 	
 	@Override
@@ -55,5 +59,9 @@ public class AdvAdapter extends PagerAdapter{
 		View view = mViewList.get(position);
 		container.addView(view);
 		return view;
+	}
+	
+	class ViewHolder {
+		NetworkImageView imgIv;
 	}
 }
