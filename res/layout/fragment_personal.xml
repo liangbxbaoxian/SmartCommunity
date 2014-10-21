@@ -19,6 +19,26 @@
             android:src="@drawable/title_bar_icon_phone"
             android:visibility="invisible" />
         
+               <LinearLayout
+            android:id="@+id/linear_back"
+            android:layout_width="100dip"
+            android:layout_height="fill_parent"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:onClick="back"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="12dp"
+                android:layout_height="20dp"
+                android:background="@drawable/back"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
+
+        </LinearLayout>
+        
         <LinearLayout
             android:id="@+id/msg"
             android:layout_width="wrap_content"
