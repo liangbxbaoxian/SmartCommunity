@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -63,6 +64,8 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		initData();
+		
+		initHead(view, getString(R.string.bottom_bar_steward));
 		initView(view);
 	}
 	
@@ -80,6 +83,10 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 			category.setCategoryname(categoryname[i]);
 			categoryTableList.add(category);
 		}
+	}
+	
+	private void initHead(View view, String title) {
+		initHeader(view, title);
 	}
 
 	private void initView(View view) {

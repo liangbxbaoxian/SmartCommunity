@@ -5,7 +5,7 @@
     android:background="@color/bg_style"
     android:orientation="vertical" >
 
-    <RelativeLayout
+<!--     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/title_bar_bg"
@@ -38,7 +38,9 @@
             android:text="@string/bottom_bar_steward"
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/title_bar_text_size" />
-    </RelativeLayout>
+    </RelativeLayout> -->
+    
+     <include layout="@layout/common_header_layout"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
