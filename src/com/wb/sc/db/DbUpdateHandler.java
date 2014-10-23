@@ -1,5 +1,7 @@
 package com.wb.sc.db;
 
+import com.wb.sc.config.DbConfig;
+
 import net.tsz.afinal.FinalDb.DbUpdateListener;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -14,6 +16,10 @@ public class DbUpdateHandler implements DbUpdateListener {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		
+		if(oldVersion == 1 && newVersion == 2) {
+			db.execSQL("DROP TABLE " + DbConfig.TN_USER);
+			return;
+		}
 	}
 
 }

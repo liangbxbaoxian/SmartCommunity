@@ -3,8 +3,10 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.GridView;
 
 import com.android.volley.VolleyError;
@@ -24,14 +26,27 @@ import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.MenuAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Adv;
+import com.wb.sc.bean.ComNotice;
+import com.wb.sc.bean.Menu;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.mk.personal.MsgCenterActivity;
 import com.wb.sc.mk.post.PostListActivity;
-import com.wb.sc.parser.Menu;
 import com.wb.sc.task.AdvRequest;
+import com.wb.sc.task.ComNoticeRequest;
 import com.wb.sc.util.ParamsUtil;
 
+/**
+ * 
+ * @描述：主页面
+ * @作者：liang bao xian
+ * @时间：2014年10月23日 上午10:19:21
+ */
 public class HomeActivity extends BaseActivity implements ErrorListener{
+	
+	//标题栏相关
+	private View phoneV;
+	private View msgV;
 	
 	//菜单
 	private GridView menuGv;
@@ -43,8 +58,13 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 	private CirclePageIndicator advIndicator;
 	private AdvAdapter advAdapter;
 	private AdvRequest mAdvRequest;
+	private AdvListener mAdvListener = new AdvListener();
 	private Adv mAdv;
 	private PageInfo advPageInfo;
+	
+	//社区公告
+	private ComNoticeRequest mComNoticeRequest;
+	private ComNotice mComNotice;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +74,8 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		getIntentData();
 		initView();
 		setUmeng();
+		
+//		requestAdv(getAdvRequestParams(), mAdvListener, this);
 	}
 
 	public void getIntentData() {
@@ -61,10 +83,21 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 	}
 
 	public void initView() {
+		phoneV = findViewById(R.id.phone);
+		phoneV.setOnClickListener(this);
+		msgV = findViewById(R.id.msg);
+		msgV.setOnClickListener(this);
+		
 		menuGv = (GridView) findViewById(R.id.menu);
 		initMenu();
 		menuAdapter = new MenuAdapter(this, menuList);
 		menuGv.setAdapter(menuAdapter);
+		
+		advVp = (ViewPager) findViewById(R.id.adv_pager);
+		advIndicator = (CirclePageIndicator) findViewById(R.id.adv_indicator);
+		advAdapter = new AdvAdapter(mActivity);
+		advVp.setAdapter(advAdapter);
+		advIndicator.setViewPager(advVp);
 	}
 	
 	private void initMenu() {
@@ -104,6 +137,22 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		menu.type = 0;
 		menuList.add(menu);
 		
+	}
+	
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		
+		switch(v.getId()) {
+		case R.id.msg:{
+			Intent intent = new Intent(mActivity, MsgCenterActivity.class);
+			startActivity(intent);
+		}break;
+		
+		case R.id.phone:{
+			
+		}break;
+		}
 	}
 
 	private void setUmeng() {
@@ -178,6 +227,12 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		startRequest(mAdvRequest);		
 	}
 	
+	/**
+	 * 
+	 * @描述：广告监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月23日 上午10:20:51
+	 */
 	class AdvListener implements Listener<Adv> {
 		/**
 		 * 请求完成，处理UI更新
@@ -186,6 +241,56 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		public void onResponse(Adv response) {		
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mAdv = response;
+			} else {
+				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
+			}
+		}
+	}
+	
+	/**
+	 * 获取请求参数
+	 * @return
+	 */
+	private List<String> getComNoticeRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG12", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestComNotice(List<String> params,	 
+			Listener<ComNotice> listenre, ErrorListener errorListener) {			
+		if(mComNoticeRequest != null) {
+			mComNoticeRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mComNoticeRequest = new ComNoticeRequest(url, params, listenre, errorListener);
+		startRequest(mComNoticeRequest);		
+	}
+	
+	/**
+	 * 
+	 * @描述：社区通知监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月23日 上午10:20:32
+	 */
+	class ComNoticeListener implements Listener<ComNotice> {
+		/**
+		 * 请求完成，处理UI更新
+		 */
+		@Override
+		public void onResponse(ComNotice response) {			
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				mComNotice = response;
 			} else {
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}

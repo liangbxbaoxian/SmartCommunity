@@ -6,13 +6,14 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.common.net.volley.ParamsRequest;
+import com.common.net.volley.ParamsEncryptRequest;
 import ${PackageName}.parser.BaseParser;
 import ${PackageName}.parser.${ParserName};
 import ${PackageName}.bean.${DataClassName};
+import com.wb.sc.config.RespCode;
 
 <#if isList == "false">
-public class ${ClassName} extends ParamsRequest<${DataClassName}> {
+public class ${ClassName} extends ParamsEncryptRequest<${DataClassName}> {
 	public ${ClassName} (String url, List<String> params, 
 			Listener<${DataClassName}> listenre, ErrorListener errorListener) {
 		super(url, params, listenre, errorListener);
@@ -22,8 +23,10 @@ public class ${ClassName} extends ParamsRequest<${DataClassName}> {
 	protected Response<${DataClassName}> parseNetworkResponse(NetworkResponse response) {
 		String resultStr = new String(response.data);
 		${DataClassName} dataBean = new ${DataClassName}();	
-		BaseParser.parse(dataBean, resultStr);			
-		new ${ParserName}().parse(dataBean);
+		BaseParser.parse(dataBean, resultStr);		
+		if(dataBean.respCode.equals(RespCode.SUCCESS)) {	
+			new ${ParserName}().parse(dataBean);
+		}
 		return Response.success(dataBean, getCacheEntry());
 	}
 }

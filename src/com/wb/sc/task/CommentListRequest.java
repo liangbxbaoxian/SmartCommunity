@@ -8,12 +8,13 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.common.net.volley.ParamsRequest;
+import com.common.net.volley.ParamsEncryptRequest;
 import com.wb.sc.bean.CommentList;
+import com.wb.sc.config.RespCode;
 import com.wb.sc.parser.BaseParser;
 import com.wb.sc.parser.CommentListParser;
 
-public class CommentListRequest extends ParamsRequest<CommentList> {
+public class CommentListRequest extends ParamsEncryptRequest<CommentList> {
 	public CommentListRequest (String url, List<String> params, 
 			Listener<CommentList> listenre, ErrorListener errorListener) {
 		super(url, params, listenre, errorListener);
@@ -25,7 +26,7 @@ public class CommentListRequest extends ParamsRequest<CommentList> {
 		CommentList commentList = new CommentList();
 		
 		BaseParser.parse(commentList, resultStr);
-		new CommentListParser().parse(commentList);
+		new CommentListParser().parse(commentList);		
 		return Response.success(commentList, getCacheEntry());
 	}
 	

@@ -20,6 +20,12 @@ import com.common.widget.ToastHelper;
 import com.wb.sc.bean.User;
 import com.wb.sc.task.LoginRequest;
 
+/**
+ * 
+ * @描述：登录页面
+ * @作者：liang bao xian
+ * @时间：2014年10月23日 上午10:38:40
+ */
 public class LoginActivity extends BaseActivity implements Listener<User>, 
 	ErrorListener, ReloadListener{
 		

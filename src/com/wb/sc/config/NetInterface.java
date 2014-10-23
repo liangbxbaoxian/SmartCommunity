@@ -11,4 +11,7 @@ public interface NetInterface {
 	//获取验证码
 	public static final String METHOD_GET_VERIFY_CODE = "FG01";
 	
+	//照片上传
+	public static final String METHOD_UPLOAD_PHOTO = "MCGP/servlet/UploadPhotoInterface";
+	
 }

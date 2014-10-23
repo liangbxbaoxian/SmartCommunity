@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ScrollView
+    <com.common.widget.CompatViewPagerScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -62,34 +62,35 @@
                     android:textSize="@dimen/title_bar_text_size" />
             </RelativeLayout>
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/home_logo" />
+                android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:id="@+id/menu_layout"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:paddingTop="@dimen/normal_margin" >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/home_logo" />
 
                 <com.common.widget.GrideViewForScrollView
                     android:id="@+id/menu"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="204dp"
                     android:horizontalSpacing="@dimen/normal_margin"
+                    android:listSelector="@color/transparent"
                     android:numColumns="3"
                     android:scrollbars="none"
                     android:verticalSpacing="@dimen/normal_margin" >
                 </com.common.widget.GrideViewForScrollView>
-            </LinearLayout>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="136dp" >
+                android:layout_height="137.5dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp" >
 
-                <com.common.widget.CompatViewPagerScrollView
+                <android.support.v4.view.ViewPager
                     android:id="@+id/adv_pager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -108,7 +109,9 @@
                     app:strokeColor="#FF000000"
                     app:strokeWidth="0dp" />
             </RelativeLayout>
+
+            
         </LinearLayout>
-    </ScrollView>
+    </com.common.widget.CompatViewPagerScrollView>
 
 </LinearLayout>

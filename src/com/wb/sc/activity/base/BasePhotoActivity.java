@@ -1,26 +1,44 @@
 package com.wb.sc.activity.base;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.tsz.afinal.FinalHttp;
+import net.tsz.afinal.http.AjaxCallBack;
+import net.tsz.afinal.http.AjaxParams;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Debug;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.common.file.FileDirUtil;
+import com.common.media.BitmapHelper;
 import com.common.media.CameraHelper;
+import com.common.security.MD5Tools;
 import com.common.widget.ToastHelper;
 import com.common.widget.hzlib.HorizontalAdapterView;
 import com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener;
 import com.common.widget.hzlib.HorizontalListView;
 import com.wb.sc.R;
 import com.wb.sc.adapter.PhotoAdapter;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.PhotoUpload;
 import com.wb.sc.config.AcResultCode;
+import com.wb.sc.config.DebugConfig;
+import com.wb.sc.config.ImageConfig;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.NetInterface;
+import com.wb.sc.config.RespCode;
 import com.wb.sc.dialog.AddPhotoDialog;
+import com.wb.sc.dialog.ConfirmDialog;
+import com.wb.sc.parser.PhotoUploadParser;
 
 public abstract class BasePhotoActivity extends BaseHeaderActivity implements OnItemClickListener{
 	
@@ -41,6 +59,12 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 	private int state = 0; // 0:新增  1：替换
 	private int selPos;
 	private AddPhotoDialog optDialog;
+	private int currentUploadIndex;
+	private PhotoUploadListener listener;
+	
+	//照片上传时的页面类型
+	protected String messageType;
+	protected List<String> imgUrlList = new ArrayList<String>();
 	
 	public void initPhoto() {
 		cameraHelper = new CameraHelper(this);
@@ -95,6 +119,15 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
     		
     	case R.id.photo_del:
     		optDialog.dismiss();
+    		fileList.remove(selPos);			
+    		photoAdapter.getPhotoList().get(selPos).get().recycle();
+    		photoAdapter.getPhotoList().get(selPos).clear();
+    		photoAdapter.getPhotoList().remove(selPos);
+			if(fileList.get(0) != null) {
+				fileList.add(0, null);
+				photoAdapter.getPhotoList().add(0, new SoftReference<Bitmap>(null));
+			}
+			photoAdapter.notifyDataSetChanged();
     		break;
     	}
     }
@@ -196,5 +229,108 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 	protected void onDestroy() {
 		photoAdapter.recycleBmp();
 		super.onDestroy();
+	}
+    
+    /**
+     * 
+     * @描述:开始上传用户照片
+     */
+    public void startUploadPhot() {
+    	imgUrlList.clear();
+    	if(fileList.size() > 1) {
+    		if(fileList.get(0) != null) {
+    			currentUploadIndex = 0;    			
+    		} else {
+    			currentUploadIndex = 1;
+    		}
+    		uploadIndexPhoto(currentUploadIndex);
+    	} else {
+    		if(listener != null) {
+    			listener.onUploadComplete(imgUrlList);
+    		}
+    	}
+    }
+    
+    /**
+     * 
+     * @描述: 上传用户照片
+     */
+    public void uploadIndexPhoto(int index) {
+    	//压缩照片，进行上传
+    	File scalePhoto = BitmapHelper.getScaleBitmapFile(this, fileList.get(currentUploadIndex).getAbsolutePath(), ImageConfig.MAX_WIDTH);
+    	uploadPhoto(scalePhoto);
+    }
+    
+    /**
+	 * 上传照片
+	 * @param file
+	 */
+	private void uploadPhoto(File file) {		
+//		String suffixName = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".")+1);
+		
+		try {			
+			String urlParams = "?userId=" + SCApp.getInstance().getUser().userId;
+			urlParams += "&messageType=" + messageType;
+			urlParams += "&checkcodeMD5=" + MD5Tools.getDigestFromFile(file);
+			
+			AjaxParams params = new AjaxParams();
+			params.put("photo", file);				
+
+			FinalHttp fh = new FinalHttp(); 
+			fh.configTimeout(NetConfig.UPLOAD_IMG_TIMEOUT);
+			String url = NetConfig.getServerBaseUrl() + NetInterface.METHOD_UPLOAD_PHOTO + urlParams;
+			DebugConfig.showLog("volley_request", url);
+			fh.post(url, params, new AjaxCallBack<String>(){
+
+				@Override
+				public void onSuccess(String result) {
+					PhotoUpload pUpload = new PhotoUploadParser().parse(result);
+					DebugConfig.showLog("volley_response", result);
+					if(pUpload.respCode.equals(RespCode.SUCCESS)) {
+						imgUrlList.add(pUpload.imgUrl);
+						currentUploadIndex++;
+						if(currentUploadIndex < fileList.size()) {
+							uploadIndexPhoto(currentUploadIndex);
+						} else {
+							if(listener != null) {
+								listener.onUploadComplete(imgUrlList);
+							}
+						}
+					} else {
+						ToastHelper.showToastInBottom(mActivity, pUpload.respCodeMsg);
+					}
+				}
+				
+				@Override
+				public void onFailure(Throwable t, int errorNo,
+						String strMsg) {
+					dismissProcess();
+					
+					ConfirmDialog dialog = new ConfirmDialog();
+					dialog.getDialog(BasePhotoActivity.this, "提示", "照片上传失败，是否重试?", 
+							new DialogInterface.OnClickListener(){
+
+								@Override
+								public void onClick(DialogInterface dialog, int which) {											
+									uploadIndexPhoto(currentUploadIndex);
+									showProcess("照片上传中，请稍候...");
+									dialog.dismiss();
+								}
+						
+					}).show();
+				}				
+			});
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public interface PhotoUploadListener {
+		
+		public void onUploadComplete(List<String> imgUrlList);
+	}
+	
+	public void setUploadListener(PhotoUploadListener listener) {
+		this.listener = listener;
 	}
 }

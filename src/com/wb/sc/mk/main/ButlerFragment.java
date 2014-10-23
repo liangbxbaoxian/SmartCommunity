@@ -9,13 +9,11 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.common.zxing.FinishListener;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
@@ -30,7 +28,7 @@ import com.wb.sc.mk.butler.PropertyPraiseActivity;
 import com.wb.sc.mk.butler.PropertyRepairsActivity;
 
 public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClickListener{
-	// add test for linyongzhen
+
 	private ViewPager advVp;
 	private CirclePageIndicator advIndicator;
 	private AdvAdapter advAdapter;
@@ -39,9 +37,7 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 	private CategoryAdapter yipayGriAdapter;
 	
 	//标题栏相关
-	private ImageView leftIv;
-	private ImageView rightIv;
-	private TextView nameIv;
+	private View backBtn;
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -63,6 +59,8 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		initData();
+		
+		initHead(view, getString(R.string.bottom_bar_steward));
 		initView(view);
 	}
 	
@@ -81,6 +79,10 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 			categoryTableList.add(category);
 		}
 	}
+	
+	private void initHead(View view, String title) {
+		initHeader(view, title);
+	}
 
 	private void initView(View view) {
 		advVp = (ViewPager) view.findViewById(R.id.adv_pager);
@@ -93,6 +95,9 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 		yipay_server.setSelector(R.color.transparent);
 		yipay_server.setAdapter(yipayGriAdapter);
 		yipayGriAdapter.setListener(this);
+		
+//		backBtn = view.findViewById(R.id.back);
+//		backBtn.setOnClickListener(this);
 	}
 
 	@Override
@@ -128,4 +133,15 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 //		}break;
 		}
 	}
+	
+//	@Override
+//	public void onClick(View v) {
+//		super.onClick(v);
+//		
+//		switch(v.getId()) {
+//		case R.id.back:
+//			getActivity().finish();
+//			break;
+//		}
+//	}
 }

@@ -60,7 +60,9 @@ public abstract class BaseActivity extends BaseNetActivity {
 	}
 	
 	public void dismissProcess () {
-		pDialog.dismiss();
+		if(pDialog != null) {
+			pDialog.dismiss();
+		}
 	}
 	
 	public void setViewOnClick(int id, OnClickListener listener) {

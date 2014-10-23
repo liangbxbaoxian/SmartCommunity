@@ -5,40 +5,40 @@
     android:background="@color/bg_style"
     android:orientation="vertical" >
 
-    <RelativeLayout
+<!--     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bg"
-        android:paddingLeft="@dimen/title_bar_padding"
-        android:paddingRight="@dimen/title_bar_padding"
         android:visibility="visible" >
 
-        <ImageView
-            android:id="@+id/phone"
+        <LinearLayout
+            android:id="@+id/back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:src="@drawable/title_bar_icon_phone"
-            android:visibility="invisible" />
+            android:background="@drawable/header_btn_selector"
+            android:gravity="center"
+            android:paddingLeft="@dimen/title_bar_padding"
+            android:paddingRight="@dimen/title_bar_padding" >
 
-        <ImageView
-            android:id="@+id/scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/title_bar_icon_scan" 
-            android:visibility="gone"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottom_fanhui" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/bottom_bar_steward"
+            android:layout_toRightOf="@id/btn_back"
+            android:text="@string/ac_property"
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/title_bar_text_size" />
-    </RelativeLayout>
+    </RelativeLayout> -->
+    
+     <include layout="@layout/common_header_layout"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -67,6 +67,7 @@
     <LinearLayout
         android:id="@+id/menu_view_pay"
         android:layout_width="fill_parent"
+        android:layout_margin="@dimen/normal_margin"
         android:layout_height="40dp"
         android:onClick="goPublicInfo"
         android:gravity="center"

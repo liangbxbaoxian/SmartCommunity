@@ -6,28 +6,14 @@
     
     <include layout="@layout/common_header_layout" >
     </include>
-
-    <!--
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp" 
-            android:orientation="vertical"/>
-        	
-			        
-        
-        </LinearLayout>
-    </ScrollView>
-    -->
-
-    <ImageView
+    
+    <ListView 
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/test_bill" />
+        android:listSelector="@color/transparent"
+        android:divider="@null"
+        android:dividerHeight="0dp">        
+    </ListView>
 
 </LinearLayout>

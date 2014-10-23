@@ -28,6 +28,12 @@ import com.wb.sc.task.ResetPwdRequest;
 import com.wb.sc.task.VerifyCodeRequest;
 import com.wb.sc.util.ParamsUtil;
 
+/**
+ * 
+ * @描述：重置密码
+ * @作者：liang bao xian
+ * @时间：2014年10月23日 上午11:31:28
+ */
 public class ResetPasswordActivity extends BaseHeaderActivity implements OnClickListener,
 	Listener<ResetPwd>, ErrorListener{
 	
@@ -89,6 +95,11 @@ public class ResetPasswordActivity extends BaseHeaderActivity implements OnClick
 		
 		switch(v.getId()) {
 		case R.id.get_verify_code:
+			phone = phoneEt.getText().toString();
+			if(TextUtils.isEmpty(phone)) {
+				ToastHelper.showToastInBottom(this, R.string.phone_empty_toast);
+				return;
+			}
 			requestGetVerifyCode(getVerifyCodeRequestParams(), new VerifyCodeListener(), this);
 			break;
 			
@@ -99,7 +110,7 @@ public class ResetPasswordActivity extends BaseHeaderActivity implements OnClick
 	}
 	
 	private void resetPwd() {
-		phone = phoneEt.getText().toString();
+//		phone = phoneEt.getText().toString();
 		verifyCode = verifyCodeEt.getText().toString();
 		pwd = pwdEt.getText().toString();
 		pwdAgain = pwdAgainEt.getText().toString();
@@ -205,7 +216,7 @@ public class ResetPasswordActivity extends BaseHeaderActivity implements OnClick
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {		
 			finish();
-			ToastHelper.showToastInBottom(this, R.string.password_modify_success);
+			ToastHelper.showToastInBottom(this, "密码重置成功");
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
@@ -220,6 +231,7 @@ public class ResetPasswordActivity extends BaseHeaderActivity implements OnClick
 		params.add(ParamsUtil.getReqParam("FG01", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam("01", 2));
 		params.add(ParamsUtil.getReqParam(phone, 15));
 		String imei = TelephonyHelper.getInstance(this).getDeviceId();
 		params.add(ParamsUtil.getReqParam(imei, 32));

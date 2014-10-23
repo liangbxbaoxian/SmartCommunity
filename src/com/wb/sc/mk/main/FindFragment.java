@@ -58,6 +58,7 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		initData();
+		initHead(view, getString(R.string.bottom_bar_discover));
 		initView(view);
 	}
 	
@@ -76,10 +77,23 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 			categoryTableList.add(category);
 		}
 	}
+	
+	private void initHead(View view, String title) {
+		initHeader(view, title);
+		setHomeBackground(R.drawable.bottom_icon_wodexiaoxi);
+		setHomeListenner(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(getActivity(), CaptureActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
 
 	private void initView(View view) {
-		rightBtn = view.findViewById(R.id.scan);
-		rightBtn.setOnClickListener(this);
+//		rightBtn = view.findViewById(R.id.scan);
+//		rightBtn.setOnClickListener(this);
 		
 //		advVp = (ViewPager) view.findViewById(R.id.adv_pager);
 //		advIndicator = (CirclePageIndicator) view.findViewById(R.id.adv_indicator);

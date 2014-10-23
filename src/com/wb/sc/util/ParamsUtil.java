@@ -8,6 +8,9 @@ import com.wb.sc.security.RSA;
 
 public class ParamsUtil {
 	
+	public static final String ITEMS_DIVIDER = "-|";
+	public static final String ITEM_DIVIDER = "-@";
+	
 	/**
 	 * 
 	 * @描述: 封装请求参数
@@ -43,6 +46,15 @@ public class ParamsUtil {
 	public static String getReqHexParam(String value, int length) {
 		return value + "&" + length + "&" + "Hex";
 	}
+	
+	public static String getReqIntParam(int value, int length) {
+		byte[] bLocalArr = new byte[length];
+	    for (int i = 0, j=length-1; (i < 4) && (i < length); i++, j--) {
+	        bLocalArr[j] = (byte) (value >> 8 * i & 0xFF);
+	    }
+	    return getReqHexParam(HexStringBytes.bytes2HexString(bLocalArr), length);
+	}
+	
 	/**
 	 * 
 	 * @描述: 获取响应字段中的参数，并自动下移指针位置
@@ -67,5 +79,20 @@ public class ParamsUtil {
 	public static String getRespParam(BaseBean baseBean, int start, int length) {
 		byte[] paramBytes = ByteHelper.byteArraySub(baseBean.dataBytes, start, length);
 		return new String(paramBytes).trim();
+	}
+	
+	/**
+	 * 
+	 * @描述: 获取是否有下一页标志
+	 * @param baseBean
+	 * @return
+	 */
+	public static boolean getNextPageFlag(BaseBean baseBean) {
+		boolean hasNextPage = false;
+		byte flag = baseBean.dataBytes[baseBean.dataBytes.length-1];
+		if(flag == (byte)0x1) {
+			hasNextPage = true;
+		}
+		return hasNextPage;
 	}
 }

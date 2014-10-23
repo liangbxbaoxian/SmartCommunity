@@ -67,7 +67,7 @@ public class NetConfig {
 		if(url.indexOf("http://")!=-1 || url.indexOf("https://")!=-1){
 			return url;
 		}else{
-			return getServerBaseUrl() + EXTEND_URL + url;
+			return getServerBaseUrl() + "MCGP" + url;
 		}
 	}
 }

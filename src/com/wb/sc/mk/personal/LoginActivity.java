@@ -6,8 +6,10 @@ import java.util.List;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.common.format.HexStringBytes;
 import com.common.net.volley.VolleyErrorHelper;
+import com.common.security.Des3Tools;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
@@ -24,10 +27,15 @@ import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.db.DbHelper;
-import com.wb.sc.security.RSA;
 import com.wb.sc.task.LoginRequest;
 import com.wb.sc.util.ParamsUtil;
 
+/**
+ * 
+ * @描述：登录
+ * @作者：liang bao xian
+ * @时间：2014年10月23日 上午11:37:15
+ */
 public class LoginActivity extends BaseActivity implements OnClickListener,
 	Listener<User>, ErrorListener{
 	
@@ -36,11 +44,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private TextView forgetPasswordTv;
 	private EditText userphoneEt;
 	private EditText passwordEt;
+	private CheckBox savePwdCb;
 	
 	private LoginRequest mLoginRequest;
 	private User mUser;
 	
-	private String userphone;
+	private String userPhone;
+	private String password;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +79,26 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		
 		userphoneEt = (EditText) findViewById(R.id.userPhone);
 		passwordEt = (EditText) findViewById(R.id.password);
+		
+		savePwdCb = (CheckBox) findViewById(R.id.save_password);
+		
+		User user = SCApp.getInstance().getUser();
+		
+		if(!TextUtils.isEmpty(user.phone)) {
+			userphoneEt.setText(user.phone);
+		}
+		
+		if(!TextUtils.isEmpty(user.pssword)) {
+			byte[] result = null;
+	    	try {
+	    		result = Des3Tools.deTripleDES(SCApp.getInstance().getDes3Key(), 
+	    				HexStringBytes.String2Bytes(user.pssword));  
+	    		String pwd = new String(result).trim();
+	    		passwordEt.setText(pwd);	    		
+	    	} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
@@ -93,8 +123,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	private void login() {
-		String userPhone = userphoneEt.getText().toString();
-		String password = passwordEt.getText().toString();
+		userPhone = userphoneEt.getText().toString();
+		password = passwordEt.getText().toString();
 		
 		if(userPhone == null || userPhone.equals("")) {
 			ToastHelper.showToastInBottom(this, R.string.username_empty_toast);
@@ -106,7 +136,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			return;
 		}
 		
-		this.userphone = userPhone;
 		showProcess(R.string.loging_toast);
 		requestLogin(getLoginRequestParams(userPhone, password), this, this);
 	}
@@ -161,11 +190,34 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		dismissProcess();
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
 			mUser = response;
+			mUser.isLogin = 1;
+			mUser.phone = userPhone;
+			if(savePwdCb.isChecked()) {
+				savePassword(mUser, password);
+			} else {
+				mUser.pssword = "";
+			}
 			SCApp.getInstance().setUser(mUser);
 			DbHelper.saveUser(mUser);
-//			finish();
+			finish();
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
+		}
+	}
+	
+	/**
+	 * 
+	 * @描述:选择保存密码，则把密码保存在本地
+	 */
+	private void savePassword(User user, String password) {
+		// 3DES 加密
+    	byte[] des3Result = null;
+		try {
+			des3Result = Des3Tools.enTripleDES(SCApp.getInstance().getDes3Key(), 
+					Des3Tools.extendMsgForDes(password.getBytes()));
+			user.pssword = HexStringBytes.bytes2HexString(des3Result);
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 }

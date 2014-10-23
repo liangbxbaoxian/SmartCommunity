@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -51,6 +53,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	private PostListRequest mPostListRequest;
 	private PostList mPostList;
 	
+	private Spinner typeSp;
 	private int postType;
 	
 	@Override
@@ -59,7 +62,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		setContentView(R.layout.activity_postlist);
 		
 		getIntentData();
-		initHeader(getResources().getStringArray(R.array.post_type)[postType]);
+		initHeaderBack();
 		initView();	
 		
 		test();
@@ -73,6 +76,13 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	
 	@Override
 	public void initView() {
+		typeSp = (Spinner) findViewById(R.id.type);
+		String[] types = getResources().getStringArray(R.array.post_type);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+    			R.layout.spinner_text_layout, types);
+    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+    	typeSp.setAdapter(adapter);
+		
 		mPullListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_list);		
 		mPullListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 

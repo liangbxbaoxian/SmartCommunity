@@ -88,4 +88,8 @@ public class PersonalActivity extends BaseActivity {
 		Intent intent = new Intent(this, RegisterInviteActivity.class);
 		startActivity(intent);
 	}
+	
+	public void back(View view) {
+		finish();
+	}
 }

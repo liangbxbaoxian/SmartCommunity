@@ -108,4 +108,8 @@ public class PhotoAdapter extends BaseAdapter {
 				bmp.get().recycle();
 		}
 	}
+	
+	public List<SoftReference<Bitmap>> getPhotoList() {
+		return photoList;
+	}
 }

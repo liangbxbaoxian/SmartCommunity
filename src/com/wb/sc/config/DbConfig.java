@@ -16,7 +16,7 @@ public interface DbConfig {
 	/**
 	 * 数据库当前版本 （从1开始）
 	 */
-	public static final int DB_VERSION = 1;
+	public static final int DB_VERSION = 2;
 	
 	/**
 	 * 数据库存放路径（可选如需要请修改FinalDb.create, 默认存储在 /data/data/应用包名/databases目录下)

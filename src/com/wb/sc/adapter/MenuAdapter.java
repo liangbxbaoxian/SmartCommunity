@@ -18,7 +18,8 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
-import com.wb.sc.parser.Menu;
+import com.wb.sc.bean.Menu;
+import com.wb.sc.dialog.ToastLoginDialog;
 
 public class MenuAdapter extends BaseAdapter {
 
@@ -92,27 +93,29 @@ public class MenuAdapter extends BaseAdapter {
 	}
 	
 	private void jumpToActivity(List<Menu> list, int position) {
-		if(position != 3) {
-			Intent intent = new Intent(context, list.get(position).menuClass);
-			context.startActivity(intent);
-		} else {
-			ToastHelper.showToastInBottom(context, "我们还在奔向你的途中，请耐心等待，么么哒~");
-		}
 		
-//			switch (position) {
-//			
-//			case 0:
-//				break;
-//			case 1:
-//				Intent intent = new Intent(context, SentHomeActivity.class);
-//				context.startActivity(intent);
-//				break;
-//			case 2:
-//			case 3:
-//								
-//			default:
-//				break;
-//		}
+			switch (position) {
+			
+			case 0:
+			case 1:
+			case 2:{
+				Intent intent = new Intent(context, list.get(position).menuClass);
+				context.startActivity(intent);
+			}break;
+			
+			case 3:
+				ToastHelper.showToastInBottom(context, "我们还在奔向你的途中，请耐心等待，么么哒~");
+				break;
+				
+			case 4:
+				if(ToastLoginDialog.checkLogin(context)) {
+					Intent intent = new Intent(context, list.get(position).menuClass);
+					context.startActivity(intent);
+				}
+				break;
+			default:
+				break;
+		}
 	}
 
 	class ViewHolder {

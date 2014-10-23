@@ -20,8 +20,8 @@ import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,9 +32,10 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
+import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.db.DbHelper;
 import com.wb.sc.mk.personal.MsgCenterActivity;
-import com.wb.sc.mk.personal.PersonalInfoActivity;
 import com.wb.sc.widget.CircleImageView;
 import com.wb.sc.widget.SelectPicPopupWindow;
 
@@ -47,7 +48,6 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 
 //	    requestCode = requestCode>> 16;
@@ -133,6 +133,7 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		// initData();
+		initHead(view, getString(R.string.bottom_bar_center));
 		initView(view);
 	}
 
@@ -151,10 +152,23 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 			categoryTableList.add(category);
 		}
 	}
+	
+	private void initHead(View view, String title) {
+		initHeader(view, title);
+		setHomeBackground(R.drawable.bottom_icon_wodexiaoxi);
+		setHomeListenner(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(getActivity(), MsgCenterActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
 
 	private void initView(final View view) {
-		msgV = view.findViewById(R.id.msg);
-		msgV.setOnClickListener(this);
+//		msgV = view.findViewById(R.id.msg);
+//		msgV.setOnClickListener(this);
 		// advVp = (ViewPager) view.findViewById(R.id.adv_pager);
 		// advIndicator = (CirclePageIndicator)
 		// view.findViewById(R.id.adv_indicator);
@@ -196,6 +210,11 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 					state = View.VISIBLE;
 				}
 				txt_auth.setVisibility(state);
+				
+				//登出处理
+				SCApp.getInstance().getUser().isLogin = 0;
+				DbHelper.saveUser(SCApp.getInstance().getUser());
+				getActivity().finish();
 			}
 		});
 	}

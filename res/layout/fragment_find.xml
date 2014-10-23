@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <RelativeLayout
+<!--     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bg"
@@ -43,7 +43,9 @@
             android:text="@string/bottom_bar_discover"
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/title_bar_text_size" />
-    </RelativeLayout>
+    </RelativeLayout> -->
+    
+    <include layout="@layout/common_header_layout"/>	
 
     <LinearLayout
         android:layout_width="match_parent"
