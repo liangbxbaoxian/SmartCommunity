@@ -17,25 +17,20 @@ import com.wb.sc.config.RespCode;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 
-import com.wb.sc.bean.User;
-import com.wb.sc.task.LoginRequest;
+import com.wb.sc.bean.ModifyPwd;
+import com.wb.sc.task.ModifyPwdRequest;
+import com.wb.sc.util.ParamsUtil;
 
-/**
- * 
- * @描述：登录页面
- * @作者：liang bao xian
- * @时间：2014年10月23日 上午10:38:40
- */
-public class LoginActivity extends BaseActivity implements Listener<User>, 
+public class ModifyPwdActivity extends BaseActivity implements Listener<ModifyPwd>, 
 	ErrorListener, ReloadListener{
 		
-	private LoginRequest mLoginRequest;
-	private User mUser;
+	private ModifyPwdRequest mModifyPwdRequest;
+	private ModifyPwd mModifyPwd;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+//		setContentView(R.layout.activity_modifypwd);
 		
 		getIntentData();
 		initView();		
@@ -59,7 +54,7 @@ public class LoginActivity extends BaseActivity implements Listener<User>,
 		setDisplayHomeAsUpEnabled(true);
 		setDisplayShowHomeEnabled(false);
 		
-		//requestUser(getLoginRequestParams(), this, this);		
+		//requestModifyPwd(getModifyPwdRequestParams(), this, this);		
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -75,9 +70,11 @@ public class LoginActivity extends BaseActivity implements Listener<User>,
 	 * 获取请求参数
 	 * @return
 	 */
-	private List<String> getLoginRequestParams() {
+	private List<String> getModifyPwdRequestParams() {
 		List<String> params = new ArrayList<String>();
-		
+		params.add(ParamsUtil.getReqParam("填写接口文档中的消息类型", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
 		return params;
 	}
 	
@@ -89,14 +86,14 @@ public class LoginActivity extends BaseActivity implements Listener<User>,
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestUser(List<String> params,	 
-			Listener<User> listenre, ErrorListener errorListener) {			
-		if(mLoginRequest != null) {
-			mLoginRequest.cancel();
+	private void requestModifyPwd(List<String> params,	 
+			Listener<ModifyPwd> listenre, ErrorListener errorListener) {			
+		if(mModifyPwdRequest != null) {
+			mModifyPwdRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
-		mLoginRequest = new LoginRequest(url, params, listenre, errorListener);
-		startRequest(mLoginRequest);		
+		mModifyPwdRequest = new ModifyPwdRequest(url, params, listenre, errorListener);
+		startRequest(mModifyPwdRequest);		
 	}
 	
 	/**
@@ -115,17 +112,17 @@ public class LoginActivity extends BaseActivity implements Listener<User>,
 	@Override
 	public void onReload() {
 		showLoading();
-		//requestUser(getLoginRequestParams(), this, this);			
+		//requestModifyPwd(getModifyPwdRequestParams(), this, this);			
 	}
 	
 	/**
 	 * 请求完成，处理UI更新
 	 */
 	@Override
-	public void onResponse(User response) {		
+	public void onResponse(ModifyPwd response) {		
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
-			mUser = response;
+			mModifyPwd = response;
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}

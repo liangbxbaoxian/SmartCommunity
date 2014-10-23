@@ -10,6 +10,7 @@ import com.common.net.volley.ParamsEncryptRequest;
 import com.wb.sc.parser.BaseParser;
 import com.wb.sc.parser.VerifyCodeParser;
 import com.wb.sc.bean.VerifyCode;
+import com.wb.sc.config.RespCode;
 
 public class VerifyCodeRequest extends ParamsEncryptRequest<VerifyCode> {
 	public VerifyCodeRequest (String url, List<String> params, 
@@ -22,7 +23,9 @@ public class VerifyCodeRequest extends ParamsEncryptRequest<VerifyCode> {
 		String resultStr = new String(response.data);
 		VerifyCode dataBean = new VerifyCode();	
 		BaseParser.parse(dataBean, resultStr);			
-		new VerifyCodeParser().parse(dataBean);
+		if(dataBean.respCode.equals(RespCode.SUCCESS)) {
+			new VerifyCodeParser().parse(dataBean);
+		}
 		return Response.success(dataBean, getCacheEntry());
 	}
 }

@@ -26,6 +26,12 @@ import com.wb.sc.db.DbHelper;
 import com.wb.sc.task.LoginRequest;
 import com.wb.sc.util.ParamsUtil;
 
+/**
+ * 
+ * @描述：登录
+ * @作者：liang bao xian
+ * @时间：2014年10月23日 上午11:37:15
+ */
 public class LoginActivity extends BaseActivity implements OnClickListener,
 	Listener<User>, ErrorListener{
 	
@@ -161,7 +167,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			mUser = response;
 			SCApp.getInstance().setUser(mUser);
 			DbHelper.saveUser(mUser);
-//			finish();
+			finish();
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}

@@ -36,6 +36,12 @@ import com.wb.sc.task.AdvRequest;
 import com.wb.sc.task.ComNoticeRequest;
 import com.wb.sc.util.ParamsUtil;
 
+/**
+ * 
+ * @描述：主页面
+ * @作者：liang bao xian
+ * @时间：2014年10月23日 上午10:19:21
+ */
 public class HomeActivity extends BaseActivity implements ErrorListener{
 	
 	//标题栏相关
@@ -218,6 +224,12 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		startRequest(mAdvRequest);		
 	}
 	
+	/**
+	 * 
+	 * @描述：广告监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月23日 上午10:20:51
+	 */
 	class AdvListener implements Listener<Adv> {
 		/**
 		 * 请求完成，处理UI更新
@@ -262,7 +274,13 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		startRequest(mComNoticeRequest);		
 	}
 	
-	class Notice implements Listener<ComNotice> {
+	/**
+	 * 
+	 * @描述：社区通知监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月23日 上午10:20:32
+	 */
+	class ComNoticeListener implements Listener<ComNotice> {
 		/**
 		 * 请求完成，处理UI更新
 		 */

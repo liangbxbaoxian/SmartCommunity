@@ -10,6 +10,7 @@ import com.common.net.volley.ParamsEncryptRequest;
 import ${PackageName}.parser.BaseParser;
 import ${PackageName}.parser.${ParserName};
 import ${PackageName}.bean.${DataClassName};
+import com.wb.sc.config.RespCode;
 
 <#if isList == "false">
 public class ${ClassName} extends ParamsEncryptRequest<${DataClassName}> {
@@ -22,8 +23,10 @@ public class ${ClassName} extends ParamsEncryptRequest<${DataClassName}> {
 	protected Response<${DataClassName}> parseNetworkResponse(NetworkResponse response) {
 		String resultStr = new String(response.data);
 		${DataClassName} dataBean = new ${DataClassName}();	
-		BaseParser.parse(dataBean, resultStr);			
-		new ${ParserName}().parse(dataBean);
+		BaseParser.parse(dataBean, resultStr);		
+		if(dataBean.respCode.equals(RespCode.SUCCESS)) {	
+			new ${ParserName}().parse(dataBean);
+		}
 		return Response.success(dataBean, getCacheEntry());
 	}
 }

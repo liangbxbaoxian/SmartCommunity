@@ -111,6 +111,11 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 		
 		switch(v.getId()) {		
 		case R.id.get_verify_code:
+			phone = phoneEt.getText().toString();
+			if(TextUtils.isEmpty(phone)) {
+				ToastHelper.showToastInBottom(this, R.string.phone_empty_toast);
+				return;
+			}
 			requestGetVerifyCode(getVerifyCodeRequestParams(), new VerifyCodeListener(), this);
 			break;
 		
@@ -122,7 +127,7 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 	
 	private void register() {
 		name = nameEt.getText().toString();
-		phone = phoneEt.getText().toString();
+//		phone = phoneEt.getText().toString();
 		verifyCode = verifyCodeEt.getText().toString();
 		pwd = pwdEt.getText().toString();
 		boolean isCheck = checkCb.isChecked();
@@ -152,6 +157,7 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 			return;
 		}
 		
+		showProcess("提交注册。。。");
 		requestRegister(getRegisterRequestParams(), this, this);
 	}
 	
@@ -226,8 +232,11 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 	 */
 	@Override
 	public void onResponse(Register response) {		
+		dismissProcess();
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
 			mRegister = response;
+			ToastHelper.showToastInBottom(this, "注册成功");
+			finish();
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
@@ -242,6 +251,7 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 		params.add(ParamsUtil.getReqParam("FG01", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam("00", 2));
 		params.add(ParamsUtil.getReqParam(phone, 15));
 		String imei = TelephonyHelper.getInstance(this).getDeviceId();
 		params.add(ParamsUtil.getReqParam(imei, 32));

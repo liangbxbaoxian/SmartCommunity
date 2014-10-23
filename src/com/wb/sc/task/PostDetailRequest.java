@@ -8,6 +8,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.common.net.volley.ParamsEncryptRequest;
 import com.wb.sc.bean.PostDetail;
+import com.wb.sc.config.RespCode;
 import com.wb.sc.parser.BaseParser;
 import com.wb.sc.parser.PostDetailParser;
 
@@ -21,8 +22,10 @@ public class PostDetailRequest extends ParamsEncryptRequest<PostDetail> {
 	protected Response<PostDetail> parseNetworkResponse(NetworkResponse response) {
 		String resultStr = new String(response.data);
 		PostDetail dataBean = new PostDetail();	
-		BaseParser.parse(dataBean, resultStr);			
-		new PostDetailParser().parse(dataBean);
+		BaseParser.parse(dataBean, resultStr);	
+		if(dataBean.respCode.equals(RespCode.SUCCESS)) {
+			new PostDetailParser().parse(dataBean);
+		}
 		return Response.success(dataBean, getCacheEntry());
 	}
 }

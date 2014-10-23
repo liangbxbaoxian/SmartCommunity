@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.BaseBean;
 import com.wb.sc.config.DebugConfig;
+import com.wb.sc.util.ParamsUtil;
 
 public class BaseParser {
 	public static final String TAG = "volley_response";
@@ -26,25 +27,28 @@ public class BaseParser {
 		
 		//进行base 64解码
 		byte[] des3Content = Base64Tools.decode(baseBean.data);
-		if(DebugConfig.SHOW_DEBUG_MESSAGE) {
-			Log.d(TAG, HexStringBytes.bytes2HexString(des3Content));
-		}
+//		if(DebugConfig.SHOW_DEBUG_MESSAGE) {
+//			Log.d(TAG, HexStringBytes.bytes2HexString(des3Content));
+//		}
 		
 		//进行3des解密
 		byte[] content = Des3Tools.deTripleDES(SCApp.getInstance().getDes3Key(), des3Content);
-		if(DebugConfig.SHOW_DEBUG_MESSAGE) {
-			Log.d(TAG, HexStringBytes.bytes2HexString(des3Content));
-		}
+//		if(DebugConfig.SHOW_DEBUG_MESSAGE) {
+//			Log.d(TAG, HexStringBytes.bytes2HexString(des3Content));
+//		}
 		
 		//截取字符长度,获取data内容,暂时忽略最后2字节的CRC16检验
 		int length = (int)(((content[0]&0xff) << 8) | content[1] & 0xff) - 2;		
 		content = ByteHelper.byteArraySub(content, 2, length);
 		if(DebugConfig.SHOW_DEBUG_MESSAGE) {
-			Log.d(TAG, HexStringBytes.bytes2HexString(content));
+//			Log.d(TAG, HexStringBytes.bytes2HexString(content));
+			Log.d(TAG, new String(content));
 		}
-		
-		baseBean.dataBytes = content;	
+				
+		baseBean.dataBytes = content;			
 		baseBean.position = 5;
+		
+		baseBean.respCode = ParamsUtil.getRespParam(baseBean, 0, 5);
 		return baseBean;
 	}
 }

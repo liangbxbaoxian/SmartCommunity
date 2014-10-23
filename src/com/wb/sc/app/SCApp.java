@@ -147,6 +147,9 @@ public class SCApp extends Application {
 	}
 
 	public User getUser() {
+		if(mUser == null) {
+			mUser = new User();
+		}
 		return mUser;
 	}
 

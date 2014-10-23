@@ -10,6 +10,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.common.net.volley.ParamsEncryptRequest;
 import com.wb.sc.bean.CommentList;
+import com.wb.sc.config.RespCode;
 import com.wb.sc.parser.BaseParser;
 import com.wb.sc.parser.CommentListParser;
 
@@ -25,7 +26,7 @@ public class CommentListRequest extends ParamsEncryptRequest<CommentList> {
 		CommentList commentList = new CommentList();
 		
 		BaseParser.parse(commentList, resultStr);
-		new CommentListParser().parse(commentList);
+		new CommentListParser().parse(commentList);		
 		return Response.success(commentList, getCacheEntry());
 	}
 	

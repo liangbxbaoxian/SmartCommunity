@@ -1,5 +1,8 @@
 package com.wb.sc.mk.personal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -7,13 +10,30 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.ModifyPwd;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.task.ModifyPwdRequest;
+import com.wb.sc.task.VerifyCodeRequest;
+import com.wb.sc.util.ParamsUtil;
 
-public class ModifyPasswordActivity extends BaseHeaderActivity implements OnClickListener{
+/**
+ * 
+ * @描述：修改密码
+ * @作者：liang bao xian
+ * @时间：2014年10月23日 上午11:31:18
+ */
+public class ModifyPasswordActivity extends BaseHeaderActivity implements OnClickListener,
+	Listener<ModifyPwd>, ErrorListener{	
 	
 	private EditText oldPwdEt;
 	private EditText newPwdEt;
@@ -24,6 +44,9 @@ public class ModifyPasswordActivity extends BaseHeaderActivity implements OnClic
 	
 	private String oldPwd;
 	private String newPwd;
+		
+	//修改密码
+	private ModifyPwdRequest mModifyPwdRequest;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +134,63 @@ public class ModifyPasswordActivity extends BaseHeaderActivity implements OnClic
 			newPwdEt.startAnimation(shake);
 			newPwd2Et.startAnimation(shake);
 			return;
+		}
+		
+		requestModifyPwd(getModifyPwdRequestParams(), this, this);
+	}
+	
+	/**
+	 * 获取请求参数
+	 * @return
+	 */
+	private List<String> getModifyPwdRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG52", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqRsaParam(newPwd, 256));
+		params.add(ParamsUtil.getReqRsaParam(oldPwd, 256));
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestModifyPwd(List<String> params,	 
+			Listener<ModifyPwd> listenre, ErrorListener errorListener) {			
+		if(mModifyPwdRequest != null) {
+			mModifyPwdRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mModifyPwdRequest = new ModifyPwdRequest(url, params, listenre, errorListener);
+		startRequest(mModifyPwdRequest);		
+	}
+	
+	/**
+	 * 网络请求错误处理
+	 *
+	 */
+	@Override
+	public void onErrorResponse(VolleyError error) {		
+		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
+	}
+		
+	/**
+	 * 请求完成，处理UI更新
+	 */
+	@Override
+	public void onResponse(ModifyPwd response) {			
+		if(response.respCode.equals(RespCode.SUCCESS)) {			
+			ToastHelper.showToastInBottom(this, "密码修改成功");
+			finish();
+		} else {
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
 }
