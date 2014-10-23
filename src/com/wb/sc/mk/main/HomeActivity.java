@@ -58,6 +58,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 	private CirclePageIndicator advIndicator;
 	private AdvAdapter advAdapter;
 	private AdvRequest mAdvRequest;
+	private AdvListener mAdvListener = new AdvListener();
 	private Adv mAdv;
 	private PageInfo advPageInfo;
 	
@@ -73,6 +74,8 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		getIntentData();
 		initView();
 		setUmeng();
+		
+//		requestAdv(getAdvRequestParams(), mAdvListener, this);
 	}
 
 	public void getIntentData() {

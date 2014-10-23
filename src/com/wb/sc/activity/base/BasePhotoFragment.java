@@ -263,7 +263,7 @@ public class BasePhotoFragment extends BaseExtraLayoutFragment implements OnItem
 			params.put("photo", file);			
 			FinalHttp fh = new FinalHttp(); 
 			fh.configTimeout(NetConfig.UPLOAD_IMG_TIMEOUT);
-			String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + NetInterface.METHOD_PHOTO_UPLOAD;
+			String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + NetInterface.METHOD_UPLOAD_PHOTO;
 			fh.post(url, params, new AjaxCallBack<String>(){
 
 				@Override

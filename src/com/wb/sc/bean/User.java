@@ -36,6 +36,16 @@ public class User extends BaseBean{
     public String avatarUrl;
     
     /**
+     * 手机号码
+     */
+    public String phone;
+    
+    /**
+     * 用户密码
+     */
+    public String pssword;
+    
+    /**
 	 * 登录状态 0：为登出 1：为登录
 	 */
 	public int isLogin;
@@ -94,5 +104,23 @@ public class User extends BaseBean{
 
 	public void setIsLogin(int isLogin) {
 		this.isLogin = isLogin;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getPssword() {
+		return pssword;
+	}
+
+	public void setPssword(String pssword) {
+		this.pssword = pssword;
 	}	
+	
+	
 }

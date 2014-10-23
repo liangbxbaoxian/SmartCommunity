@@ -58,6 +58,8 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 		
 		getIntentData();
 		initView();
+		
+		messageType = "FG37";
 	}
 	
 	@Override

@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Debug;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.view.View;
 import com.common.file.FileDirUtil;
 import com.common.media.BitmapHelper;
 import com.common.media.CameraHelper;
+import com.common.security.MD5Tools;
 import com.common.widget.ToastHelper;
 import com.common.widget.hzlib.HorizontalAdapterView;
 import com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener;
@@ -29,6 +31,7 @@ import com.wb.sc.adapter.PhotoAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.PhotoUpload;
 import com.wb.sc.config.AcResultCode;
+import com.wb.sc.config.DebugConfig;
 import com.wb.sc.config.ImageConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.NetInterface;
@@ -265,19 +268,24 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 	private void uploadPhoto(File file) {		
 //		String suffixName = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".")+1);
 		
-		try {
+		try {			
+			String urlParams = "?userId=" + SCApp.getInstance().getUser().userId;
+			urlParams += "&messageType=" + messageType;
+			urlParams += "&checkcodeMD5=" + MD5Tools.getDigestFromFile(file);
+			
 			AjaxParams params = new AjaxParams();
-			params.put("userId", SCApp.getInstance().getUser().userId);
-			params.put("messageType", messageType);
-			params.put("photo", file);			
+			params.put("photo", file);				
+
 			FinalHttp fh = new FinalHttp(); 
 			fh.configTimeout(NetConfig.UPLOAD_IMG_TIMEOUT);
-			String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + NetInterface.METHOD_PHOTO_UPLOAD;
+			String url = NetConfig.getServerBaseUrl() + NetInterface.METHOD_UPLOAD_PHOTO + urlParams;
+			DebugConfig.showLog("volley_request", url);
 			fh.post(url, params, new AjaxCallBack<String>(){
 
 				@Override
 				public void onSuccess(String result) {
 					PhotoUpload pUpload = new PhotoUploadParser().parse(result);
+					DebugConfig.showLog("volley_response", result);
 					if(pUpload.respCode.equals(RespCode.SUCCESS)) {
 						imgUrlList.add(pUpload.imgUrl);
 						currentUploadIndex++;
@@ -288,7 +296,9 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 								listener.onUploadComplete(imgUrlList);
 							}
 						}
-					} 
+					} else {
+						ToastHelper.showToastInBottom(mActivity, pUpload.respCodeMsg);
+					}
 				}
 				
 				@Override

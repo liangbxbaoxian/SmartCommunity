@@ -1,10 +1,8 @@
 package com.wb.sc.bean;
 
 
-public class PhotoUpload {
+public class PhotoUpload extends BaseBean {
 	
-	public String respCode;
-	public String respMsg;
     public String imgUrl;
 	
 }

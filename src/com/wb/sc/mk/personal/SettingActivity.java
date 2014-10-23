@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.common.zxing.FinishListener;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.widget.CustomDialog;
@@ -36,7 +35,7 @@ public class SettingActivity extends BaseHeaderActivity implements OnClickListen
 	}
 	
 	public void alterPasswd(View view) {
-		Intent intent = new Intent(this, ResetPasswordActivity.class);
+		Intent intent = new Intent(this, ModifyPasswordActivity.class);
 		startActivity(intent);
 	}
 	
