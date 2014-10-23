@@ -8,21 +8,21 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.common.net.volley.ParamsEncryptRequest;
 import com.wb.sc.parser.BaseParser;
-import com.wb.sc.parser.ResetPwdParser;
-import com.wb.sc.bean.ResetPwd;
+import com.wb.sc.parser.PostParser;
+import com.wb.sc.bean.Post;
 
-public class ResetPwdRequest extends ParamsEncryptRequest<ResetPwd> {
-	public ResetPwdRequest (String url, List<String> params, 
-			Listener<ResetPwd> listenre, ErrorListener errorListener) {
+public class PostRequest extends ParamsEncryptRequest<Post> {
+	public PostRequest (String url, List<String> params, 
+			Listener<Post> listenre, ErrorListener errorListener) {
 		super(url, params, listenre, errorListener);
 	}
 	
 	@Override
-	protected Response<ResetPwd> parseNetworkResponse(NetworkResponse response) {
+	protected Response<Post> parseNetworkResponse(NetworkResponse response) {
 		String resultStr = new String(response.data);
-		ResetPwd dataBean = new ResetPwd();	
+		Post dataBean = new Post();	
 		BaseParser.parse(dataBean, resultStr);			
-		new ResetPwdParser().parse(dataBean);
+		new PostParser().parse(dataBean);
 		return Response.success(dataBean, getCacheEntry());
 	}
 }

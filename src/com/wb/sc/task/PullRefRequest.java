@@ -8,12 +8,12 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.common.net.volley.ParamsRequest;
+import com.common.net.volley.ParamsEncryptRequest;
 import com.wb.sc.config.DebugConfig;
 import com.wb.sc.parser.PullRefParser;
 import com.wb.sc.bean.PullRef;
 
-public class PullRefRequest extends ParamsRequest<PullRef> {
+public class PullRefRequest extends ParamsEncryptRequest<PullRef> {
 	public PullRefRequest (String url, List<String> params, 
 			Listener<PullRef> listenre, ErrorListener errorListener) {
 		super(url, params, listenre, errorListener);

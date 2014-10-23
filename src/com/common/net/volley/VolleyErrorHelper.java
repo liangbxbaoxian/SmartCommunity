@@ -13,6 +13,7 @@ import com.android.volley.ParseError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.google.gson.JsonSyntaxException;
 import com.wb.sc.R;
 
 public class VolleyErrorHelper {
@@ -50,7 +51,7 @@ public class VolleyErrorHelper {
 			errorMsg = resources.getString(R.string.net_error_auth_failure);
 		} else if(error instanceof ServerError) {
 			errorMsg = resources.getString(R.string.net_error_server, error.networkResponse.statusCode);
-		} else if(error instanceof ParseError){
+		} else if(error instanceof ParseError || error.getCause() instanceof JsonSyntaxException){
 			errorMsg = resources.getString(R.string.net_error_parser);
 		} else if(error.getCause() instanceof NullPointerException){
 			errorMsg = resources.getString(R.string.net_error_null_pointer);

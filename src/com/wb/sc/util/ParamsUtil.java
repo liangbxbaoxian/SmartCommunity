@@ -46,6 +46,15 @@ public class ParamsUtil {
 	public static String getReqHexParam(String value, int length) {
 		return value + "&" + length + "&" + "Hex";
 	}
+	
+	public static String getReqIntParam(int value, int length) {
+		byte[] bLocalArr = new byte[length];
+	    for (int i = 0, j=length-1; (i < 4) && (i < length); i++, j--) {
+	        bLocalArr[j] = (byte) (value >> 8 * i & 0xFF);
+	    }
+	    return getReqHexParam(HexStringBytes.bytes2HexString(bLocalArr), length);
+	}
+	
 	/**
 	 * 
 	 * @描述: 获取响应字段中的参数，并自动下移指针位置

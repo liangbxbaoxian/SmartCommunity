@@ -6,13 +6,13 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.common.net.volley.ParamsRequest;
+import com.common.net.volley.ParamsEncryptRequest;
 import ${PackageName}.parser.BaseParser;
 import ${PackageName}.parser.${ParserName};
 import ${PackageName}.bean.${DataClassName};
 
 <#if isList == "false">
-public class ${ClassName} extends ParamsRequest<${DataClassName}> {
+public class ${ClassName} extends ParamsEncryptRequest<${DataClassName}> {
 	public ${ClassName} (String url, List<String> params, 
 			Listener<${DataClassName}> listenre, ErrorListener errorListener) {
 		super(url, params, listenre, errorListener);

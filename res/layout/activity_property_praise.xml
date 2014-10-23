@@ -39,6 +39,7 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/house_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
@@ -46,7 +47,8 @@
                 android:layout_marginTop="5.5dp"
                 android:background="@drawable/white_bg"
                 android:padding="10dp"
-                android:textSize="15dp" />
+                android:textSize="15dp" 
+                android:maxLength="16"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -70,6 +72,7 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/desc"
                 android:layout_width="match_parent"
                 android:layout_height="108dp"
                 android:layout_marginLeft="11dp"
@@ -79,7 +82,8 @@
                 android:gravity="center_vertical"
                 android:hint="请您详细描述..."
                 android:padding="10dp"
-                android:textSize="15dp" />
+                android:textSize="15dp" 
+                android:maxLength="170"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -134,6 +138,7 @@
                 android:orientation="horizontal" >
 
                 <CheckBox
+                    android:id="@+id/share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkbox_selector"

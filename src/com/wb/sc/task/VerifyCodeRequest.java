@@ -6,12 +6,12 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.common.net.volley.ParamsRequest;
+import com.common.net.volley.ParamsEncryptRequest;
 import com.wb.sc.parser.BaseParser;
 import com.wb.sc.parser.VerifyCodeParser;
 import com.wb.sc.bean.VerifyCode;
 
-public class VerifyCodeRequest extends ParamsRequest<VerifyCode> {
+public class VerifyCodeRequest extends ParamsEncryptRequest<VerifyCode> {
 	public VerifyCodeRequest (String url, List<String> params, 
 			Listener<VerifyCode> listenre, ErrorListener errorListener) {
 		super(url, params, listenre, errorListener);

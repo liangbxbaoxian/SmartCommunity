@@ -1,4 +1,4 @@
-package com.wb.sc.parser;
+package com.wb.sc.bean;
 
 public class Menu {
 	

@@ -6,12 +6,12 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.common.net.volley.ParamsRequest;
+import com.common.net.volley.ParamsEncryptRequest;
 import com.wb.sc.parser.BaseParser;
 import com.wb.sc.parser.UserParser;
 import com.wb.sc.bean.User;
 
-public class LoginRequest extends ParamsRequest<User> {
+public class LoginRequest extends ParamsEncryptRequest<User> {
 	public LoginRequest (String url, List<String> params, 
 			Listener<User> listenre, ErrorListener errorListener) {
 		super(url, params, listenre, errorListener);

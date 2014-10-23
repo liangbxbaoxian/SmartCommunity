@@ -20,8 +20,19 @@ public class User extends BaseBean{
      */
     public String communityId;
     
+    /**
+     * 帐号名称
+     */
     public String account;
+    
+    /**
+     * 真实姓名
+     */
     public String name;
+    
+    /**
+     * 头像地址
+     */
     public String avatarUrl;
     
     /**

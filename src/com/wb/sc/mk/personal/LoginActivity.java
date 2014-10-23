@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.common.format.HexStringBytes;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
@@ -24,7 +23,6 @@ import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.db.DbHelper;
-import com.wb.sc.security.RSA;
 import com.wb.sc.task.LoginRequest;
 import com.wb.sc.util.ParamsUtil;
 

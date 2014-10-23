@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
-import com.wb.sc.parser.Menu;
+import com.wb.sc.bean.Menu;
 
 public class MenuAdapter extends BaseAdapter {
 
