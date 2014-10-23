@@ -41,6 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:gravity="bottom"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -50,6 +51,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/wallet_info_margin_top_left_right"
                         android:text="福州市" />
+                    
+                             <TextView
+                        android:id="@+id/district"
+                        android:layout_width="wrap_content"
+                        android:singleLine="true"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/district_address"
+                        android:layout_marginTop="@dimen/wallet_info_margin_top_left_right"
+                        android:layout_marginLeft="@dimen/wallet_info_margin_top_left_right"
+                        android:text="100米" />
 
                     <ImageView
                         android:id="@+id/call"

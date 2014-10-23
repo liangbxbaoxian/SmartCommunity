@@ -23,6 +23,11 @@ public class BaseExtraLayoutFragment extends Fragment implements OnClickListener
 	
 	private ReloadListener listener;
 	
+	protected View backIv;
+	protected View homeIv;
+	protected View header_home;
+	protected TextView titleTv;                 //添加头部返回
+	
 	protected View setContentView(LayoutInflater inflater, int layoutResID) {
 		rootLayout = (FrameLayout) inflater.inflate(R.layout.root_layout, null);
 		
@@ -134,4 +139,33 @@ public class BaseExtraLayoutFragment extends Fragment implements OnClickListener
 			getFragmentManager().popBackStack();
 		}
 	}
+	
+	public void initHeader(View view, String title) {
+		backIv = view.findViewById(R.id.common_header_back);
+		backIv.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				getActivity().finish();
+			}
+		});
+		homeIv = view.findViewById(R.id.common_header_home);
+		titleTv = (TextView)view.findViewById(R.id.common_header_title);
+		titleTv.setText(title);
+		if(homeIv != null) {
+			homeIv.setVisibility(View.GONE);
+		}
+		
+		header_home = view.findViewById(R.id.header_home);
+	}
+	
+	public void setHomeBackground(int resId) {
+		homeIv.setBackgroundResource(resId);
+		homeIv.setVisibility(View.VISIBLE);
+	}
+	
+	public void setHomeListenner(View.OnClickListener listenner) {
+		header_home.setOnClickListener(listenner);
+	}
+	
 }

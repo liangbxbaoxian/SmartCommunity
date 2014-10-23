@@ -44,7 +44,7 @@
                 android:gravity="center_vertical"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:text="送到家" />
+                android:text="商户信息" />
         </LinearLayout>
 
         <LinearLayout
@@ -236,13 +236,14 @@
         android:layout_marginTop="@dimen/normal_margin"
         android:background="@android:color/white"
         android:gravity="center"
+        android:onClick="call"
         android:orientation="horizontal"
         android:padding="@dimen/normal_margin" >
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/my_complaint" />
+            android:background="@drawable/icon_dianhua" />
 
         <TextView
             android:layout_width="wrap_content"

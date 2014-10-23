@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
@@ -58,16 +59,18 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		initData();
+		
+		initHead(view, getString(R.string.bottom_bar_steward));
 		initView(view);
 	}
 	
 	private void initData() {
 		categoryTableList.clear();
 		int resId [] = {R.drawable.complain_selector, R.drawable.repair_selector, R.drawable.praise_selector,
-				R.drawable.business_selector, R.drawable.bill_selector};
+				/*R.drawable.business_selector*/ R.drawable.bill_selector};
 		
 		String categoryname [] = {"物业投诉", "物业报修", "物业表扬",
-				"房屋交易", "物业账单"};
+				/*"房屋交易"*/ "物业账单"};
 		
 		for (int i = 0; i < resId.length; i++) {
 			CategoryTable category = new CategoryTable();
@@ -75,6 +78,10 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 			category.setCategoryname(categoryname[i]);
 			categoryTableList.add(category);
 		}
+	}
+	
+	private void initHead(View view, String title) {
+		initHeader(view, title);
 	}
 
 	private void initView(View view) {
@@ -89,8 +96,8 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 		yipay_server.setAdapter(yipayGriAdapter);
 		yipayGriAdapter.setListener(this);
 		
-		backBtn = view.findViewById(R.id.back);
-		backBtn.setOnClickListener(this);
+//		backBtn = view.findViewById(R.id.back);
+//		backBtn.setOnClickListener(this);
 	}
 
 	@Override
@@ -112,25 +119,29 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 		}break;
 		
 		case 3:{
-			Intent intent = new Intent(getActivity(), HouseTradeActivity.class);
-			startActivity(intent);
-		}break;
-		
-		case 4:{
+			
 			Intent intent = new Intent(getActivity(), PropertyBillActivity.class);
 			startActivity(intent);
+			
+//			Intent intent = new Intent(getActivity(), HouseTradeActivity.class);
+//			startActivity(intent);
 		}break;
+		
+//		case 4:{
+//			Intent intent = new Intent(getActivity(), PropertyBillActivity.class);
+//			startActivity(intent);
+//		}break;
 		}
 	}
 	
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		
-		switch(v.getId()) {
-		case R.id.back:
-			getActivity().finish();
-			break;
-		}
-	}
+//	@Override
+//	public void onClick(View v) {
+//		super.onClick(v);
+//		
+//		switch(v.getId()) {
+//		case R.id.back:
+//			getActivity().finish();
+//			break;
+//		}
+//	}
 }

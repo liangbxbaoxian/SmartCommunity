@@ -5,7 +5,7 @@
     android:background="@color/divide_line_color"
     android:orientation="vertical" >
 
-    <RelativeLayout
+ <!--    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bg"
@@ -18,6 +18,26 @@
             android:layout_centerVertical="true"
             android:src="@drawable/title_bar_icon_phone"
             android:visibility="invisible" />
+        
+               <LinearLayout
+            android:id="@+id/linear_back"
+            android:layout_width="100dip"
+            android:layout_height="fill_parent"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:onClick="back"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="12dp"
+                android:layout_height="20dp"
+                android:background="@drawable/back"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
+
+        </LinearLayout>
         
         <LinearLayout
             android:id="@+id/msg"
@@ -44,7 +64,9 @@
             android:text="@string/bottom_bar_center"
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/title_bar_text_size" />
-    </RelativeLayout>
+    </RelativeLayout> -->
+    
+    <include layout="@layout/common_header_layout"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -407,7 +429,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="52dp"
                     android:layout_margin="@dimen/normal_margin"
-                    android:background="@drawable/cancel_selector"
+                     android:background="@drawable/red_btn_selector"
                     android:padding="@dimen/normal_margin"
                     android:text="退出登录"
                     android:textColor="@android:color/white"

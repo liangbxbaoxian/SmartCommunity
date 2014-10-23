@@ -133,6 +133,7 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		// initData();
+		initHead(view, getString(R.string.bottom_bar_center));
 		initView(view);
 	}
 
@@ -151,10 +152,23 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 			categoryTableList.add(category);
 		}
 	}
+	
+	private void initHead(View view, String title) {
+		initHeader(view, title);
+		setHomeBackground(R.drawable.bottom_icon_wodexiaoxi);
+		setHomeListenner(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(getActivity(), MsgCenterActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
 
 	private void initView(final View view) {
-		msgV = view.findViewById(R.id.msg);
-		msgV.setOnClickListener(this);
+//		msgV = view.findViewById(R.id.msg);
+//		msgV.setOnClickListener(this);
 		// advVp = (ViewPager) view.findViewById(R.id.adv_pager);
 		// advIndicator = (CirclePageIndicator)
 		// view.findViewById(R.id.adv_indicator);

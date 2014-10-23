@@ -6,4 +6,5 @@ public class SentHome {
 	public int resId;
 	public String category;
 	public String url;
+	public String distance;
 }

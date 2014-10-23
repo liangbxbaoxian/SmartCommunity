@@ -41,6 +41,7 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 	private List<SentHome> list = new ArrayList<SentHome>();
 	
 	private Spinner mSpinner;
+	private Spinner mDistanceSpinner;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,18 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
     	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
 		mSpinner.setAdapter(adapter);
 		
+		// 初始化控件
+		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
+		// 建立数据源
+		String[] distances = getResources().getStringArray(R.array.spinner_distance);
+		// 建立Adapter并且绑定数据源
+		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
+				R.layout.spinner_text_layout, distances);
+		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+		mDistanceSpinner.setAdapter(distanceAdapter);
+		
+		
+		
 	}
 	
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
@@ -134,12 +147,14 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 	private void initData() {
 		String [] name = {"缇斯西饼(洪山桥)", "安德鲁森(洪山桥太阳城店)", "陌上花开(仓山店)", "比哥鸡排", "那时花开"};
 		String []  category = {"餐饮", "餐饮", "花店", "餐饮", "花店"};
+		String []  distance = {"100米", "100米", "100米", "100米", "100米"};
 		int [] resId = {R.drawable.xibing, R.drawable.mianbao, R.drawable.huadian, R.drawable.jipai, R.drawable.nashihuadian};
 		for (int i = 0; i < resId.length; i++) {
 			SentHome sentHome = new SentHome();
 			sentHome.name = name [i];
 			sentHome.category = category [i];
 			sentHome.resId = resId [i];
+			sentHome.distance = distance[i];
 			list.add(sentHome);
 		}
  	}

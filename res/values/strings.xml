@@ -21,6 +21,7 @@
     <string name="ac_bulletin">社区公告</string>
     <string name="ac_community_interaction">社区互动</string>
     <string name="ac_property">物业服务</string>
+   	<string name="ac_public_info">融汇新品</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>
@@ -29,7 +30,7 @@
     <string name="bottom_bar_home">首页</string>
     <string name="bottom_bar_discover">发现</string>
     <string name="bottom_bar_post">贴子</string>
-    <string name="bottom_bar_steward">管家</string>
+    <string name="bottom_bar_steward">物业服务</string>
     <string name="bottom_bar_center">个人中心</string>
 
     <!-- 扫码 -->
@@ -99,6 +100,13 @@
 	     <item>起止时间：</item>
 	     <item>费用合计：</item>
 	 </string-array>
+
+	<string-array name="spinner_distance">
+        <item>100米</item>
+        <item>200米</item>
+        <item>300米</item>
+        <item>400米</item>
+    </string-array>
     
 	<!-- 用户登录注册  -->    
     <string name="hint_username">请输入想修改的昵称</string>
