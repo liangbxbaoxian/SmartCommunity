@@ -10,30 +10,30 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.common.net.volley.ParamsEncryptRequest;
-import com.wb.sc.bean.UpdateApp;
+import com.wb.sc.bean.MyRepair;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.parser.BaseParser;
-import com.wb.sc.parser.UpdateAppParser;
+import com.wb.sc.parser.MyRepairParser;
 
-public class UpdateAppRequest extends ParamsEncryptRequest<UpdateApp> {
-	public UpdateAppRequest (String url, List<String> params, 
-			Listener<UpdateApp> listenre, ErrorListener errorListener) {
+public class MyRepairRequest extends ParamsEncryptRequest<MyRepair> {
+	public MyRepairRequest (String url, List<String> params, 
+			Listener<MyRepair> listenre, ErrorListener errorListener) {
 		super(url, params, listenre, errorListener);
 	}
 	
 	@Override
-	protected Response<UpdateApp> parseNetworkResponse(NetworkResponse response) {
+	protected Response<MyRepair> parseNetworkResponse(NetworkResponse response) {
 		String resultStr = null;
 		try {
 			resultStr = new String(response.data, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		UpdateApp baseBean = new UpdateApp();
+		MyRepair baseBean = new MyRepair();
 		BaseParser.parse(baseBean, resultStr);
 		
 		if(baseBean.respCode.equals(RespCode.SUCCESS)) {
-			new UpdateAppParser().parse(baseBean);
+			new MyRepairParser().parse(baseBean);
 		}
 		
 		return Response.success(baseBean, getCacheEntry());

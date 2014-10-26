@@ -10,7 +10,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.mk.personal.MyComplaintActivity;
 import com.wb.sc.mk.personal.MyExpressActivity;
-import com.wb.sc.mk.personal.MyForumActivity;
+import com.wb.sc.mk.personal.MyPostActivity;
 import com.wb.sc.mk.personal.MyRepairActivity;
 import com.wb.sc.mk.personal.PersonalInfoActivity;
 import com.wb.sc.mk.personal.RegisterInviteActivity;
@@ -70,7 +70,7 @@ public class PersonalActivity extends BaseActivity {
 	}
 	
 	public void myForum(View view) {
-		Intent intent = new Intent(this, MyForumActivity.class);
+		Intent intent = new Intent(this, MyPostActivity.class);
 		startActivity(intent);
 	}
 	

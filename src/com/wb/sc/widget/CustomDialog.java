@@ -83,7 +83,7 @@ public class CustomDialog extends Dialog implements
 
 		// 根据id在布局中找到控件对象
 		confirmBtn = (Button) findViewById(R.id.confirm_btn);
-		cancelBtn = (Button) findViewById(R.id.btn_cancel);
+		cancelBtn = (Button) findViewById(R.id.cancel_btn);
 //		myRadioButton = (RadioButton) findViewById(R.id.my_rbtn);
 
 		// 设置按钮的文本颜色
@@ -115,7 +115,7 @@ public class CustomDialog extends Dialog implements
 			}
 			break;
 
-		case R.id.btn_cancel:
+		case R.id.cancel_btn:
 			// 点击了取消按钮
 			dismiss();
 			break;

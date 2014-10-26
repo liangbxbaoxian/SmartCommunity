@@ -58,6 +58,9 @@
 
     <!-- 摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
+    
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" /> 
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/> 
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -226,7 +229,7 @@
 
         <!-- 我的帖子 -->
         <activity
-            android:name="com.wb.sc.mk.personal.MyForumActivity"
+            android:name="com.wb.sc.mk.personal.MyPostActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_msg_center"
             android:screenOrientation="portrait" />
@@ -421,6 +424,12 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="smart" />
+        
+          <!-- 配置app渠道 -->
+         <meta-data
+            android:name="APP_CHANNEL"
+            android:value="00001" >
+        </meta-data>
 
         <activity android:name="com.wb.sc.mk.main.SentHomeActivity" >
         </activity>

@@ -24,6 +24,8 @@ import com.wb.sc.bean.PersonalInfo;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.task.PersonalInfoRequest;
+import com.wb.sc.util.Constans;
+import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
 
 public class PersonalInfoActivity extends BaseActivity implements Listener<PersonalInfo>, ErrorListener, ReloadListener {
@@ -48,6 +50,8 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal_info);
 		initView();
+        showLoading();		
+		
 		requestBase(getBaseRequestParams(), this, this);
 	}
 
@@ -114,7 +118,7 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		List<String> params = new ArrayList<String>();
 		params.add(ParamsUtil.getReqParam("FG03", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
-		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
 		
 		return params;

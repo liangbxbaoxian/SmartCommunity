@@ -23,6 +23,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.bean.MyPost;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.config.NetConfig;
 
@@ -73,11 +74,21 @@ public class MyForumAdpater extends BaseAdapter {
 //			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
 //			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
 //			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
+		    viewHolder.postMaster = (TextView) arg1.findViewById(R.id.postMaster);
+		    viewHolder.postTitle = (TextView) arg1.findViewById(R.id.postTitle);
+		    viewHolder.postName = (TextView) arg1.findViewById(R.id.postName);
+		    viewHolder.postTime = (TextView) arg1.findViewById(R.id.postTime);
+		    
 			arg1.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
-		SentHome sentHome = (SentHome) mList.get(position);
+		MyPost.MyPostItem item = (MyPost.MyPostItem) mList.get(position);
+	  
+		viewHolder.postTitle.setText(item.postTitle);
+		viewHolder.postName.setText(item.postTitle);
+		viewHolder.postTime.setText(item.postTime);
+		viewHolder.postMaster.setText(item.postMaster);
 		
 //		if (isStateChanged) {
 //			viewHolder.state.setText("已处理");
@@ -124,8 +135,10 @@ public class MyForumAdpater extends BaseAdapter {
 	public class ViewHolder {
 		
 		public NetworkImageView networkImageView;
-		public TextView district_name;
-		public TextView district_address;
+		public TextView postTitle;
+		public TextView postName;
+		public TextView postTime;
+		public TextView postMaster;
 		public ImageView call;
 		public GridView gridView;
 		public Button state;
