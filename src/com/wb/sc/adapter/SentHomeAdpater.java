@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.OneKm;
+import com.wb.sc.bean.OneKm.MerchantItem;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.config.NetConfig;
 
@@ -64,12 +66,12 @@ public class SentHomeAdpater extends BaseAdapter {
 		}else{
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
-		SentHome sentHome = (SentHome) mList.get(position);
+		MerchantItem oneKm = (MerchantItem) mList.get(position);
 		
-		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
-		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
-		if(sentHome.url != null && !sentHome.url.equals("")) {
-			viewHolder.networkImageView.setImageUrl(NetConfig.getPictureUrl(sentHome.url), 
+//		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
+//		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
+		if(oneKm.merchantLogo != null && !oneKm.merchantLogo.equals("")) {
+			viewHolder.networkImageView.setImageUrl(NetConfig.getPictureUrl(oneKm.merchantLogo), 
 					SCApp.getInstance().getImageLoader());
 		}
 		viewHolder.call.setOnClickListener(new View.OnClickListener() {
@@ -79,9 +81,9 @@ public class SentHomeAdpater extends BaseAdapter {
 				createAlterDialog("", "15980000000");
 			}
 		});
-		viewHolder.district_name.setText(sentHome.name);
-		viewHolder.district_address.setText(sentHome.category);
-		viewHolder.district.setText(sentHome.distance);
+		viewHolder.district_name.setText(oneKm.merchantName);
+//		viewHolder.district_address.setText(sentHome.category); // 一公里未返回商户地址
+//		viewHolder.district.setText(sentHome.distance);
 		return arg1;
 	}
 	

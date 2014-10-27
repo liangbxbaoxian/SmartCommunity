@@ -91,11 +91,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
             android:screenOrientation="portrait" >  
-            <intent-filter>
+          <!--   <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>            
+            </intent-filter>      -->       
         </activity>
                 
         <activity
@@ -240,7 +240,12 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_login"
             android:screenOrientation="portrait" 
-            android:windowSoftInputMode="adjustUnspecified|stateHidden">             
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">        
+              <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>          
         </activity>
 
         <!-- 注册 -->
@@ -433,7 +438,7 @@
 
         <activity android:name="com.wb.sc.mk.main.SentHomeActivity" >
         </activity>
-        <activity android:name="com.wb.sc.mk.main.SentHomeDetialActivity" >
+        <activity android:name="com.wb.sc.mk.main.SentHomeDetailActivity" >
         </activity>
     </application>
 
