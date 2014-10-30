@@ -1,7 +1,9 @@
 package com.wb.sc.adapter;
 
+import com.common.widget.hzlib.HorizontalListView;
 import com.wb.sc.R;
 import com.wb.sc.bean.PostList;
+import com.wb.sc.bean.PostList.Item;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -55,10 +57,24 @@ public class PostListAdapter extends BaseAdapter{
            holder.descTv = (TextView) view.findViewById(R.id.desc);
            holder.msgNumTv = (TextView) view.findViewById(R.id.msg_num);
            holder.favouriteNumTv = (TextView) view.findViewById(R.id.favour_num);
+           holder.imgLv = (HorizontalListView) view.findViewById(R.id.list);
            view.setTag(holder);
        } else {
            view = convertView;
            holder = (ViewHolder) view.getTag();
+       }
+       
+       Item item = mPostList.datas.get(position);
+       holder.nameTv.setText(item.source);
+       holder.timeTv.setText(item.time);
+       holder.descTv.setText(item.content);
+       holder.msgNumTv.setText(item.commentNum);
+       holder.favouriteNumTv.setText(item.favNum);
+       if(item.imgList.size() > 0) {
+    	   PostImgAdapter adapter = new PostImgAdapter(mContext, item.imgList);
+    	   holder.imgLv.setAdapter(adapter);
+       } else {
+    	   holder.imgLv.setVisibility(View.GONE);
        }
        
        return view;
@@ -72,5 +88,6 @@ public class PostListAdapter extends BaseAdapter{
     	TextView descTv;
     	TextView msgNumTv;
     	TextView favouriteNumTv;
+    	HorizontalListView imgLv;
     }
 }

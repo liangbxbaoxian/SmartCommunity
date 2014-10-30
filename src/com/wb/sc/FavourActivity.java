@@ -17,20 +17,20 @@ import com.wb.sc.config.RespCode;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 
-import com.wb.sc.bean.Comment;
-import com.wb.sc.task.CommentRequest;
+import com.wb.sc.bean.Favour;
+import com.wb.sc.task.FavourRequest;
 import com.wb.sc.util.ParamsUtil;
 
-public class CommentActivity extends BaseActivity implements Listener<Comment>, 
+public class FavourActivity extends BaseActivity implements Listener<Favour>, 
 	ErrorListener, ReloadListener{
 		
-	private CommentRequest mCommentRequest;
-	private Comment mComment;
+	private FavourRequest mFavourRequest;
+	private Favour mFavour;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_comment);
+//		setContentView(R.layout.activity_favour);
 		
 		getIntentData();
 		initView();		
@@ -54,7 +54,7 @@ public class CommentActivity extends BaseActivity implements Listener<Comment>,
 		setDisplayHomeAsUpEnabled(true);
 		setDisplayShowHomeEnabled(false);
 		
-		//requestComment(getCommentRequestParams(), this, this);		
+		//requestFavour(getFavourRequestParams(), this, this);		
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -70,7 +70,7 @@ public class CommentActivity extends BaseActivity implements Listener<Comment>,
 	 * 获取请求参数
 	 * @return
 	 */
-	private List<String> getCommentRequestParams() {
+	private List<String> getFavourRequestParams() {
 		List<String> params = new ArrayList<String>();
 		params.add(ParamsUtil.getReqParam("填写接口文档中的消息类型", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
@@ -86,14 +86,14 @@ public class CommentActivity extends BaseActivity implements Listener<Comment>,
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestComment(List<String> params,	 
-			Listener<Comment> listenre, ErrorListener errorListener) {			
-		if(mCommentRequest != null) {
-			mCommentRequest.cancel();
+	private void requestFavour(List<String> params,	 
+			Listener<Favour> listenre, ErrorListener errorListener) {			
+		if(mFavourRequest != null) {
+			mFavourRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
-		mCommentRequest = new CommentRequest(url, params, listenre, errorListener);
-		startRequest(mCommentRequest);		
+		mFavourRequest = new FavourRequest(url, params, listenre, errorListener);
+		startRequest(mFavourRequest);		
 	}
 	
 	/**
@@ -112,17 +112,17 @@ public class CommentActivity extends BaseActivity implements Listener<Comment>,
 	@Override
 	public void onReload() {
 		showLoading();
-		//requestComment(getCommentRequestParams(), this, this);			
+		//requestFavour(getFavourRequestParams(), this, this);			
 	}
 	
 	/**
 	 * 请求完成，处理UI更新
 	 */
 	@Override
-	public void onResponse(Comment response) {		
+	public void onResponse(Favour response) {		
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
-			mComment = response;
+			mFavour = response;
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}

@@ -1,8 +1,7 @@
 ﻿package com.wb.sc.mk.post;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -32,29 +32,43 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.PostListAdapter;
+import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.PostList;
+import com.wb.sc.bean.PostType;
 import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
-import com.wb.sc.config.RespParams;
 import com.wb.sc.mk.main.PostActivity;
 import com.wb.sc.task.PostListRequest;
+import com.wb.sc.task.PostTypeRequest;
+import com.wb.sc.util.ParamsUtil;
 
+/**
+ * 
+ * @描述：社区帖子列表
+ * @作者：liang bao xian
+ * @时间：2014年10月25日 上午9:49:11
+ */
 public class PostListActivity extends BaseHeaderActivity implements Listener<PostList>, 
 	ErrorListener, OnItemClickListener, ReloadListener{
 	
+	//获取帖子分类
+	private Spinner typeSp;
+	private int postType;
+	private int currentTypePos;
+	private PostTypeRequest mPostTypeRequest;
+	private PostTypeListener mPostTypeListener = new PostTypeListener();
+	private PostType mPostType;
+	
+	//获取帖子列表
 	private PullToRefreshListView mPullListView;
 	private PullRefreshListViewHelper mPullHelper;
 	private ListView mListView;
 	private PostListAdapter mAdapter;
 	private PageInfo mPage = new PageInfo();
 	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;
-		
 	private PostListRequest mPostListRequest;
 	private PostList mPostList;
-	
-	private Spinner typeSp;
-	private int postType;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +79,10 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		initHeaderBack();
 		initView();	
 		
-		test();
+		showLoading();
+		requestPostType(getPostTypeRequestParams(), mPostTypeListener, this);
 	}
-			
+	
 	@Override
 	public void getIntentData() {
 		postType = getIntent().getIntExtra(IntentExtraConfig.POST_TYPE, 
@@ -77,11 +92,29 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	@Override
 	public void initView() {
 		typeSp = (Spinner) findViewById(R.id.type);
-		String[] types = getResources().getStringArray(R.array.post_type);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-    			R.layout.spinner_text_layout, types);
-    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-    	typeSp.setAdapter(adapter);
+		typeSp.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, 
+					long id) {
+				if(currentTypePos != position) {
+					currentTypePos = position;	
+					mPage.pageNo = 1;
+					startPostListRequest();
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				
+			}
+		});
+		
+//		String[] types = getResources().getStringArray(R.array.post_type);
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+//    			R.layout.spinner_text_layout, types);
+//    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//    	typeSp.setAdapter(adapter);
 		
 		mPullListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_list);		
 		mPullListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
@@ -95,7 +128,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 
 			@Override
 			public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-				//处理上拉加载
+				//处理上拉加载				
 			}
 		});
 		
@@ -123,7 +156,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		
 		mListView = mPullListView.getRefreshableView();
 		mListView.setOnItemClickListener(this);
-				
+		
 		mPullHelper = new PullRefreshListViewHelper(this, mListView, mPage.pageSize);
 		mPullHelper.setBottomClick(new OnClickListener() {
 			@Override
@@ -170,25 +203,26 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	 * @描述:启动请求
 	 */
 	private void startPostListRequest() {
-		//requestPostList(Method.POST, "请求方法", getPostListRequestParams(), this, this);
+		requestPostList(getPostListRequestParams(), this, this);
 	}
-		
+	
 	/**
 	 * 获取请求参数
 	 * @return
 	 */
-	private Map<String, String> getPostListRequestParams() {
-		Map<String, String> params = new HashMap<String, String>();
-		
-		params.put(RespParams.PAGE_SIZE, mPage.pageSize+"");
-		params.put(RespParams.PAGE_NO, mPage.pageNo+"");	
-			
+	private List<String> getPostListRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG34", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqParam("0", 2));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
+		params.add(ParamsUtil.getReqParam(mPostType.datas.get(currentTypePos).id, 8));
+		params.add(ParamsUtil.getReqParam("01", 2));
+		params.add(ParamsUtil.getReqIntParam(mPage.pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(mPage.pageSize, 2));
 		return params;
-	}
-	
-	public void share(View view) {
-		Intent intent = new Intent(PostListActivity.this, PostActivity.class);
-		startActivity(intent);
 	}
 	
 	/**
@@ -199,14 +233,19 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestPostList(int method, String methodUrl, Map<String, String> params,	 
+	private void requestPostList(List<String> params,	 
 			Listener<PostList> listenre, ErrorListener errorListener) {			
 		if(mPostListRequest != null) {
 			mPostListRequest.cancel();
 		}	
-		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-//		mPostListRequest = new PostListRequest(method, url, params, listenre, errorListener);
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mPostListRequest = new PostListRequest(url, params, listenre, errorListener);
 		startRequest(mPostListRequest);		
+	}
+	
+	public void share(View view) {
+		Intent intent = new Intent(PostListActivity.this, PostActivity.class);
+		startActivity(intent);
 	}
 	
 	/**
@@ -266,6 +305,77 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		}
 	}
 	
+	/**
+	 * 获取帖子分类请求参数
+	 * @return
+	 */
+	private List<String> getPostTypeRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG33", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqIntParam(1, 3));
+		params.add(ParamsUtil.getReqIntParam(10, 2));
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestPostType(List<String> params,	 
+			Listener<PostType> listenre, ErrorListener errorListener) {			
+		if(mPostTypeRequest != null) {
+			mPostTypeRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mPostTypeRequest = new PostTypeRequest(url, params, listenre, errorListener);
+		startRequest(mPostTypeRequest);		
+	}
+	
+	/**
+	 * 
+	 * @描述：帖子分类监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月27日 上午8:51:09
+	 */
+	class PostTypeListener implements Listener<PostType>{
+		/**
+		 * 请求完成，处理UI更新
+		 */
+		@Override
+		public void onResponse(PostType response) {		
+			showContent();	
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				mPostType = response;
+				String[] types = new String[mPostType.datas.size()];
+				for(int i=0; i<mPostType.datas.size(); i++) {
+					types[i] = mPostType.datas.get(i).name;								
+				}
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(PostListActivity.this, 
+		    			R.layout.spinner_text_layout, types);
+		    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+		    	typeSp.setAdapter(adapter);
+		    	currentTypePos = 0;	
+		    	
+		    	//请求帖子列表
+		    	mPage.pageNo = 1;
+		    	startPostListRequest();
+			} else {
+				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @描述:测试数据
+	 */
 	private void test() {
 		mPostList = new PostList();
 		mPostList.datas = new ArrayList<PostList.Item>();

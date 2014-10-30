@@ -1,64 +1,74 @@
 ﻿package com.wb.sc.mk.post;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.wb.sc.R;
-import com.wb.sc.R.layout;
-import com.wb.sc.activity.base.BaseActivity;
-import com.wb.sc.activity.base.BaseHeaderActivity;
-import com.wb.sc.activity.base.ReloadListener;
-import com.wb.sc.adapter.CommentListAdapter;
-import com.wb.sc.config.NetConfig;
-import com.wb.sc.config.RespCode;
-import com.wb.sc.config.RespParams;
-import com.wb.sc.dialog.OptDialog;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
 import com.common.widget.helper.PullRefreshListViewHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.activity.base.ReloadListener;
+import com.wb.sc.adapter.CommentListAdapter;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.Comment;
 import com.wb.sc.bean.CommentList;
+import com.wb.sc.bean.Favour;
 import com.wb.sc.bean.PostDetail;
+import com.wb.sc.config.IntentExtraConfig;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.OptDialog;
 import com.wb.sc.task.CommentListRequest;
+import com.wb.sc.task.CommentRequest;
+import com.wb.sc.task.FavourRequest;
 import com.wb.sc.task.PostDetailRequest;
+import com.wb.sc.util.ParamsUtil;
 
 public class PostDetailActivity extends BaseHeaderActivity implements Listener<PostDetail>, 
 	ErrorListener, ReloadListener, OnItemClickListener{
+	
+	//帖子ID
+	private String postId;
 	
 	//帖子详情
 	private PostDetailRequest mPostDetailRequest;
 	private PostDetail mPostDetail;
 	
-	//评论
+	//评论列表
 	private PullToRefreshListView mPullListView;
 	private PullRefreshListViewHelper mPullHelper;
 	private ListView mListView;
 	private CommentListAdapter mAdapter;
 	private PageInfo mPage = new PageInfo();
-	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;
-		
+	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;		
 	private CommentListRequest mCommentListRequest;
 	private CommentList mCommentList;
 	
+	//发表评论
+	private CommentRequest mCommentRequest;
+	
+	//点赞
+	private FavourRequest mFavourRequest;
+	
+	//操作对话框
 	private OptDialog mOptDialog;
 	
 	@Override
@@ -75,7 +85,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			
 	@Override
 	public void getIntentData() {
-		
+		postId = getIntent().getStringExtra(IntentExtraConfig.DETAIL_ID);
 	}
 	
 	@Override
@@ -170,9 +180,13 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	 * 获取请求参数
 	 * @return
 	 */
-	private Map<String, String> getPostDetailRequestParams() {
-		Map<String, String> params = new HashMap<String, String>();
-				
+	private List<String> getPostDetailRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG35", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));	
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqParam(postId, 64));
 		return params;
 	}
 	
@@ -184,13 +198,13 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestPostDetail(int method, String methodUrl, Map<String, String> params,	 
+	private void requestPostDetail(List<String> params,	 
 			Listener<PostDetail> listenre, ErrorListener errorListener) {			
 		if(mPostDetailRequest != null) {
 			mPostDetailRequest.cancel();
 		}	
-		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-//		mPostDetailRequest = new PostDetailRequest(method, url, params, listenre, errorListener);
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mPostDetailRequest = new PostDetailRequest(url, params, listenre, errorListener);
 		startRequest(mPostDetailRequest);		
 	}
 	
@@ -238,12 +252,15 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	 * 获取请求参数
 	 * @return
 	 */
-	private Map<String, String> getCommentRequestParams() {
-		Map<String, String> params = new HashMap<String, String>();
-		
-		params.put(RespParams.PAGE_SIZE, mPage.pageSize+"");
-		params.put(RespParams.PAGE_NO, mPage.pageNo+"");	
-			
+	private List<String> getCommentListRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG54", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqParam(postId, 64));
+		params.add(ParamsUtil.getReqIntParam(mPage.pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(mPage.pageSize, 2));
 		return params;
 	}
 	
@@ -271,7 +288,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	 * @作者：liang bao xian
 	 * @时间：2014年9月27日 上午11:27:15
 	 */
-	class CommentListener implements Listener<CommentList>, ErrorListener, ReloadListener {
+	class CommentListListener implements Listener<CommentList>, ErrorListener, ReloadListener {
 		/**
 		 * 请求完成，处理UI更新
 		 */
@@ -329,6 +346,108 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_LOAD_FAIL, mPage.pageSize);
 			}
 		}
+	}
+	
+	/**
+	 * 获取请求参数
+	 * @return
+	 */
+	private List<String> getFavourRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG31", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqParam(postId, 64));	
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestFavour(List<String> params,	 
+			Listener<Favour> listenre, ErrorListener errorListener) {			
+		if(mFavourRequest != null) {
+			mFavourRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mFavourRequest = new FavourRequest(url, params, listenre, errorListener);
+		startRequest(mFavourRequest);		
+	}
+	
+	/**
+	 * 
+	 * @描述：点赞监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月27日 下午3:28:03
+	 */
+	class FavourListener implements Listener<Favour> {
+
+		@Override
+		public void onResponse(Favour response) {
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				ToastHelper.showToastInBottom(PostDetailActivity.this, "谢谢您的点赞");
+			} else {
+				ToastHelper.showToastInBottom(PostDetailActivity.this, response.respCodeMsg);
+			}
+		}		
+	}
+	
+	/**
+	 * 获取请求参数
+	 * @return
+	 */
+	private List<String> getCommentRequestParams(String content) {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG32", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqParam(postId, 64));		
+		params.add(ParamsUtil.getReqParam("", 64));
+		params.add(ParamsUtil.getReqParam(content, 250));
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestComment(List<String> params,	 
+			Listener<Comment> listenre, ErrorListener errorListener) {			
+		if(mCommentRequest != null) {
+			mCommentRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mCommentRequest = new CommentRequest(url, params, listenre, errorListener);
+		startRequest(mCommentRequest);		
+	}
+	
+	/**
+	 * 
+	 * @描述：发表评论监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月27日 下午3:13:33
+	 */
+	class CommentListener implements Listener<Comment> {
+		
+		@Override
+		public void onResponse(Comment response) {
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				ToastHelper.showToastInBottom(PostDetailActivity.this, "评论成功");
+			} else {
+				ToastHelper.showToastInBottom(PostDetailActivity.this, response.respCodeMsg);
+			}
+		}		
 	}
 	
 	private void test() {

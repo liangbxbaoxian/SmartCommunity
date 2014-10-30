@@ -17,20 +17,19 @@ import com.wb.sc.config.RespCode;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 
-import com.wb.sc.bean.Comment;
-import com.wb.sc.task.CommentRequest;
+import com.wb.sc.bean.PostType;
+import com.wb.sc.task.PostTypeRequest;
 import com.wb.sc.util.ParamsUtil;
 
-public class CommentActivity extends BaseActivity implements Listener<Comment>, 
+public class PostTypeActivity extends BaseActivity implements Listener<PostType>, 
 	ErrorListener, ReloadListener{
 		
-	private CommentRequest mCommentRequest;
-	private Comment mComment;
+	private PostTypeRequest mPostTypeRequest;
+	private PostType mPostType;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_comment);
 		
 		getIntentData();
 		initView();		
@@ -54,7 +53,7 @@ public class CommentActivity extends BaseActivity implements Listener<Comment>,
 		setDisplayHomeAsUpEnabled(true);
 		setDisplayShowHomeEnabled(false);
 		
-		//requestComment(getCommentRequestParams(), this, this);		
+		//requestPostType(getPostTypeRequestParams(), this, this);		
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -70,7 +69,7 @@ public class CommentActivity extends BaseActivity implements Listener<Comment>,
 	 * 获取请求参数
 	 * @return
 	 */
-	private List<String> getCommentRequestParams() {
+	private List<String> getPostTypeRequestParams() {
 		List<String> params = new ArrayList<String>();
 		params.add(ParamsUtil.getReqParam("填写接口文档中的消息类型", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
@@ -86,14 +85,14 @@ public class CommentActivity extends BaseActivity implements Listener<Comment>,
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestComment(List<String> params,	 
-			Listener<Comment> listenre, ErrorListener errorListener) {			
-		if(mCommentRequest != null) {
-			mCommentRequest.cancel();
+	private void requestPostType(List<String> params,	 
+			Listener<PostType> listenre, ErrorListener errorListener) {			
+		if(mPostTypeRequest != null) {
+			mPostTypeRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
-		mCommentRequest = new CommentRequest(url, params, listenre, errorListener);
-		startRequest(mCommentRequest);		
+		mPostTypeRequest = new PostTypeRequest(url, params, listenre, errorListener);
+		startRequest(mPostTypeRequest);		
 	}
 	
 	/**
@@ -112,17 +111,17 @@ public class CommentActivity extends BaseActivity implements Listener<Comment>,
 	@Override
 	public void onReload() {
 		showLoading();
-		//requestComment(getCommentRequestParams(), this, this);			
+		//requestPostType(getPostTypeRequestParams(), this, this);			
 	}
 	
 	/**
 	 * 请求完成，处理UI更新
 	 */
 	@Override
-	public void onResponse(Comment response) {		
+	public void onResponse(PostType response) {		
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
-			mComment = response;
+			mPostType = response;
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}

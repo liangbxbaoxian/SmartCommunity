@@ -10,6 +10,7 @@ public class ParamsUtil {
 	
 	public static final String ITEMS_DIVIDER = "-|";
 	public static final String ITEM_DIVIDER = "-@";
+	public static final String ITEM_IMG_DIVIDER = "-#";
 	
 	/**
 	 * 

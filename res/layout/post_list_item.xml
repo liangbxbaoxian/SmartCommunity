@@ -64,60 +64,16 @@
         android:text="师大的雕刻时光很不错哦，适合发呆放空，下次有没有一起去的？"
         android:textColor="#535353"
         android:textSize="15sp" />
-    
-    <GridView
-            android:id="@+id/yipay_server"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/normal_margin"
-            android:layout_marginRight="@dimen/normal_margin"
-            android:horizontalSpacing="3dp"
-            android:numColumns="4"
-            android:scrollbars="none"
-            android:verticalSpacing="3dp" >
-        </GridView>
 
-    <LinearLayout
-        android:id="@+id/pic_layout"
+    <com.common.widget.hzlib.HorizontalListView
+        xmlns:hl="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="83dp"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"
         android:layout_marginTop="15dp"
-        android:orientation="horizontal" 
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/pic1"
-            android:layout_width="0dp"
-            android:layout_height="75dp"
-            android:layout_weight="1" 
-            android:src="@drawable/test_post_list_item_pic"/>
-
-        <ImageView
-            android:id="@+id/pic2"
-            android:layout_width="0dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1" 
-            android:src="@drawable/test_post_list_item_pic"/>
-
-        <ImageView
-            android:id="@+id/pic3"
-            android:layout_width="0dp"
-            android:layout_height="75dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1" 
-            android:src="@drawable/test_post_list_item_pic"/>
-        
-        <ImageView
-            android:id="@+id/pic4"
-            android:layout_width="0dp"
-            android:layout_height="75dp"
-            android:layout_weight="1" 
-            android:src="@drawable/test_post_list_item_pic"/>
-    </LinearLayout>
+        hl:listSelector="@android:color/transparent" />
 
     <View
         android:layout_width="match_parent"
@@ -187,7 +143,7 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-		
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

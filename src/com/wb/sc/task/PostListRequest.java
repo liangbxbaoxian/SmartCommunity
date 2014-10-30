@@ -22,8 +22,8 @@ public class PostListRequest extends ParamsEncryptRequest<PostList> {
 	protected Response<PostList> parseNetworkResponse(NetworkResponse response) {
 		String resultStr = new String(response.data);
 		PostList dataBean = new PostList();	
-		BaseParser.parse(dataBean, resultStr);	
-		if(dataBean.respCode.equals(RespCode.SUCCESS)) {
+		BaseParser.parse(dataBean, resultStr);		
+		if(dataBean.respCode.equals(RespCode.SUCCESS)) {	
 			new PostListParser().parse(dataBean);
 		}
 		return Response.success(dataBean, getCacheEntry());

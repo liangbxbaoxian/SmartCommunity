@@ -30,11 +30,11 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import com.wb.sc.bean.PostList;
-import com.wb.sc.task.PostListRequest;
+import com.wb.sc.bean.CommentList;
+import com.wb.sc.task.CommentListRequest;
 import com.wb.sc.util.ParamsUtil;
 
-public class PostListActivity extends BaseActivity implements Listener<PostList>, 
+public class CommentListActivity extends BaseActivity implements Listener<CommentList>, 
 	ErrorListener, OnItemClickListener, ReloadListener{
 	
 	private PullToRefreshListView mPullListView;
@@ -43,13 +43,13 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 	private PageInfo mPage = new PageInfo();
 	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;
 		
-	private PostListRequest mPostListRequest;
-	private PostList mPostList;
+	private CommentListRequest mCommentListRequest;
+	private CommentList mCommentList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_postlist);
+//		setContentView(R.layout.activity_commentlist);
 		
 		getIntentData();
 		initView();			
@@ -69,7 +69,7 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 				//处理下拉刷新
 				mPage.pageNo = 1;
-				startPostListRequest();
+				startCommentListRequest();
 			}
 
 			@Override
@@ -83,15 +83,15 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 			@Override
 			public void onLastItemVisible() {
 				//滑动到底部的处理
-				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE && mPostList.hasNextPage) {
+				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE && mCommentList.hasNextPage) {
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPage.pageNo++;		
-					startPostListRequest();
+					startCommentListRequest();
 				}
 			}
 		});
 		
-		//设置刷新时请允许滑动的开关使�?   		
+		//设置刷新时请允许滑动的开关使�?   		
 		mPullListView.setScrollingWhileRefreshingEnabled(true);
 		
 		//设置自动刷新功能
@@ -109,10 +109,10 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 			@Override
 			public void onClick(View v) {
 				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_FAIL) {
-					//加载失败，点击重�?
+					//加载失败，点击重�?
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPullHelper.setBottomState(loadState);		
-					startPostListRequest();
+					startCommentListRequest();
 				}
 			}
 		});
@@ -124,7 +124,7 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 		setDisplayHomeAsUpEnabled(true);
 		setDisplayShowHomeEnabled(false);
 		
-		startPostListRequest();
+		startCommentListRequest();
 		
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -138,7 +138,7 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 	}
 	
 	/**
-	 * 列表选项点击的处�?
+	 * 列表选项点击的处�?
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -150,15 +150,15 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 	 * 
 	 * @描述:启动请求
 	 */
-	private void startPostListRequest() {
-		//requestPostList(getPostListRequestParams(), this, this);
+	private void startCommentListRequest() {
+		//requestCommentList(getCommentListRequestParams(), this, this);
 	}
 	
 	/**
 	 * 获取请求参数
 	 * @return
 	 */
-	private List<String> getPostListRequestParams() {
+	private List<String> getCommentListRequestParams() {
 		List<String> params = new ArrayList<String>();
 		params.add(ParamsUtil.getReqParam("填写接口文档中的消息类型", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
@@ -174,14 +174,14 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestPostList(List<String> params,	 
-			Listener<PostList> listenre, ErrorListener errorListener) {			
-		if(mPostListRequest != null) {
-			mPostListRequest.cancel();
+	private void requestCommentList(List<String> params,	 
+			Listener<CommentList> listenre, ErrorListener errorListener) {			
+		if(mCommentListRequest != null) {
+			mCommentListRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
-		mPostListRequest = new PostListRequest(url, params, listenre, errorListener);
-		startRequest(mPostListRequest);		
+		mCommentListRequest = new CommentListRequest(url, params, listenre, errorListener);
+		startRequest(mCommentListRequest);		
 	}
 	
 	/**
@@ -205,14 +205,14 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 	public void onReload() {
 		mPage.pageNo = 1;		
 		showLoading();
-		startPostListRequest();
+		startCommentListRequest();
 	}
 	
 	/**
 	 * 请求完成，处理UI更新
 	 */
 	@Override
-	public void onResponse(PostList response) {		
+	public void onResponse(CommentList response) {		
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
 			if(response.datas.size() <= 0) {
@@ -221,17 +221,17 @@ public class PostListActivity extends BaseActivity implements Listener<PostList>
 			}
 			
 			if(mPage.pageNo == 1) {
-				mPostList = response;
+				mCommentList = response;
 				// set adapter
 				showContent();
 			} else {
-				mPostList.hasNextPage = response.hasNextPage;
-				mPostList.datas.addAll(response.datas);
+				mCommentList.hasNextPage = response.hasNextPage;
+				mCommentList.datas.addAll(response.datas);
 				//adapter notifyDataSetChanged
 			}
 			
 			loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;	
-			if(mPostList.hasNextPage) {
+			if(mCommentList.hasNextPage) {
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_LOADING);
 			} else {
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
