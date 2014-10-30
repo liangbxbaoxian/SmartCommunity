@@ -90,6 +90,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/phoneNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -136,6 +137,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/localCommunity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -181,6 +183,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/accountName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -226,6 +229,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -271,6 +275,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -310,12 +315,14 @@
                 android:padding="@dimen/normal_margin" >
 
                                 <TextView
+                                    
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="邮       箱："
                     />
 
                 <TextView
+                    android:id="@+id/mail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -361,6 +368,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/weixinAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -406,6 +414,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/work"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -451,6 +460,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/hobby"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -491,7 +501,7 @@
 
 
                 <TextView
-                    android:id="@+id/zhuhuAuth"
+                    android:id="@+id/userStatue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#1bce1b"

@@ -28,7 +28,7 @@
                 android:paddingRight="12dp" >
 
                 <TextView
-                    android:id="@+id/title"
+                    android:id="@+id/bulletinTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -37,7 +37,7 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/time"
+                    android:id="@+id/notifyTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -58,7 +58,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/content"
+                    android:id="@+id/bulletinContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                      android:layout_margin="@dimen/normal_margin"
@@ -68,6 +68,7 @@
                     android:textSize="13sp" />
                 
                 <TextView
+                    android:id="@+id/notifyShortTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
@@ -77,6 +78,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/notifier"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"

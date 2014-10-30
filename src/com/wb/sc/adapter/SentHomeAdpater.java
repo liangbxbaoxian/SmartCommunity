@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.OneKm;
+import com.wb.sc.bean.OneKm.MerchantItem;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.config.NetConfig;
 
@@ -57,31 +59,32 @@ public class SentHomeAdpater extends BaseAdapter {
 		    arg1 = LayoutInflater.from(mContext).inflate(R.layout.itme_sent_home, null);
 		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
 			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
-			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
+			viewHolder.merchantCategoryName = (TextView) arg1.findViewById(R.id.district_address);
 			viewHolder.district  = (TextView) arg1.findViewById(R.id.district);
 			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
 			arg1.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
-		SentHome sentHome = (SentHome) mList.get(position);
+		final MerchantItem oneKm = (MerchantItem) mList.get(position);
 		
-		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
-		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
-		if(sentHome.url != null && !sentHome.url.equals("")) {
-			viewHolder.networkImageView.setImageUrl(NetConfig.getPictureUrl(sentHome.url), 
+//		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
+//		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
+		if(oneKm.merchantLogo != null && !oneKm.merchantLogo.equals("")) {
+			viewHolder.networkImageView.setImageUrl(NetConfig.getPictureUrl(oneKm.merchantLogo), 
 					SCApp.getInstance().getImageLoader());
 		}
 		viewHolder.call.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
-				createAlterDialog("", "15980000000");
+				createAlterDialog("", oneKm.merchantTel);
 			}
 		});
-		viewHolder.district_name.setText(sentHome.name);
-		viewHolder.district_address.setText(sentHome.category);
-		viewHolder.district.setText(sentHome.distance);
+		viewHolder.district_name.setText(oneKm.merchantName);
+//		viewHolder.district_address.setText(sentHome.category); // 一公里未返回商户地址
+//		viewHolder.district.setText(sentHome.distance);
+		viewHolder.merchantCategoryName.setText(oneKm.merchantCategoryName);
 		return arg1;
 	}
 	
@@ -91,7 +94,7 @@ public class SentHomeAdpater extends BaseAdapter {
 		
 		public NetworkImageView networkImageView;
 		public TextView district_name;
-		public TextView district_address;
+		public TextView merchantCategoryName;
 		public TextView district;
 		public ImageView call;
 		

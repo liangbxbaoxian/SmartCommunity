@@ -76,7 +76,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/merchantLogo"
             android:layout_width="360dp"
             android:layout_height="205dp"
             android:background="@drawable/xibing" />
@@ -107,6 +108,7 @@
             android:background="@drawable/icon_shijian" />
 
         <TextView
+            android:id="@+id/merchantOpenTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/normal_margin"
@@ -153,6 +155,7 @@
             android:background="@drawable/icon_jiage" />
 
         <TextView
+            android:id="@+id/merchantPriceChart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/normal_margin"
@@ -199,6 +202,7 @@
             android:background="@drawable/icon_weizhi" />
 
         <TextView
+            android:id="@+id/merchantPriceAddr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/normal_margin"
@@ -246,6 +250,7 @@
             android:background="@drawable/icon_dianhua" />
 
         <TextView
+            android:id="@+id/merchantPriceTel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/normal_margin"

@@ -5,13 +5,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.activity.base.ReloadListener;
+import com.wb.sc.bean.BaseBean;
+import com.wb.sc.task.UpdateAppRequest;
 import com.wb.sc.widget.CustomDialog;
 import com.wb.sc.widget.CustomDialog.DialogFinish;
 
-public class SettingActivity extends BaseHeaderActivity implements OnClickListener{
+public class SettingActivity extends BaseHeaderActivity implements OnClickListener, Listener<BaseBean>, 
+ErrorListener, ReloadListener{
 	
+	private UpdateAppRequest request;
+	private BaseBean mBase;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +48,7 @@ public class SettingActivity extends BaseHeaderActivity implements OnClickListen
 		startActivity(intent);
 	}
 	
-	public void updateApp(View view) {
+	public void updateApp(View view) {           //使用友盟自动更新！！
 		CustomDialog dialog = new CustomDialog(this, R.style.mystyle,
 				R.layout.update_custom_dialog, new DialogFinish() {
 					
@@ -74,6 +83,21 @@ public class SettingActivity extends BaseHeaderActivity implements OnClickListen
 		case R.id.submit:
 			break;
 		}
+	}
+
+	@Override
+	public void onReload() {
+		
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		
+	}
+
+	@Override
+	public void onResponse(BaseBean response) {
+		
 	}
 
 	

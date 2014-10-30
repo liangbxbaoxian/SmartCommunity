@@ -27,26 +27,26 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/postMaster"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="李四"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/remark"
+                android:id="@+id/postTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
-                android:layout_toRightOf="@id/name"
+                android:layout_toRightOf="@id/postMaster"
                 android:text="发呆放空去"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/time"
+                android:id="@+id/postTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/name"
+                android:layout_below="@id/postMaster"
                 android:layout_marginTop="8dp"
                 android:text="2014-08-07"
                 android:textColor="#b0b0b0"
@@ -55,7 +55,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/desc"
+        android:id="@+id/postName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="11dp"

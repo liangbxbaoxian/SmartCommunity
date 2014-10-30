@@ -58,7 +58,17 @@
 
     <!-- 摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
+    
+     <!-- 快捷方式相关权限 -->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" /> 
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/> 
+    
+    <!-- 获取经纬度权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+   
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -226,7 +236,7 @@
 
         <!-- 我的帖子 -->
         <activity
-            android:name="com.wb.sc.mk.personal.MyForumActivity"
+            android:name="com.wb.sc.mk.personal.MyPostActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_msg_center"
             android:screenOrientation="portrait" />
@@ -237,7 +247,12 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_login"
             android:screenOrientation="portrait" 
-            android:windowSoftInputMode="adjustUnspecified|stateHidden">             
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">        
+            <!--   <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>    -->       
         </activity>
 
         <!-- 注册 -->
@@ -421,11 +436,33 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="smart" />
+        
+          <!-- 配置app渠道 -->
+         <meta-data
+            android:name="APP_CHANNEL"
+            android:value="00001" >
+        </meta-data>
 
         <activity android:name="com.wb.sc.mk.main.SentHomeActivity" >
         </activity>
-        <activity android:name="com.wb.sc.mk.main.SentHomeDetialActivity" >
+        <activity android:name="com.wb.sc.mk.main.SentHomeDetailActivity" >
         </activity>
+        
+         <!-- 百度地图 -->
+         <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
+
+        <!-- meta-data需要写在application中 -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="78NyContqBuPWZHM8iZEzaVs" />
     </application>
 
 </manifest>

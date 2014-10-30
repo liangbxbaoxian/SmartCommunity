@@ -3,7 +3,6 @@ package com.wb.sc.mk.personal;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,17 +17,34 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.common.net.volley.VolleyErrorHelper;
+import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MyComplaintAdpater;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.MyRepair;
+import com.wb.sc.bean.MyRepair.MyRepairItem;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.task.MyRepairRequest;
+import com.wb.sc.util.Constans;
+import com.wb.sc.util.MetaUtil;
+import com.wb.sc.util.ParamsUtil;
 
-public class MyRepairActivity extends Activity implements OnMenuItemClickListener, OnClickListener{
+public class MyRepairActivity extends BaseActivity implements OnMenuItemClickListener, OnClickListener, Listener<MyRepair>, 
+ErrorListener, ReloadListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
 	private MyComplaintAdpater mAdpter;
@@ -37,10 +53,13 @@ public class MyRepairActivity extends Activity implements OnMenuItemClickListene
 	private String sId;
 	
 	private int pageNo;
+	private int pageSize = 10;
+	private MyRepairRequest MmyRepairRequest;
+	
 	private boolean hasNextPage;
 	private String mDistrictName;
 	
-	private List<SentHome> list = new ArrayList<SentHome>();
+	private List<MyRepairItem> list = new ArrayList<MyRepairItem>();
 	
 	private Spinner mSpinner;
 	
@@ -54,6 +73,10 @@ public class MyRepairActivity extends Activity implements OnMenuItemClickListene
 		setContentView(R.layout.activity_my_repair);
 		getIntentData();
 		initView();
+		
+		showLoading();		
+		
+		requestBase(getBaseRequestParams(), this, this);
 	}
 	
 	
@@ -170,9 +193,45 @@ public class MyRepairActivity extends Activity implements OnMenuItemClickListene
 			sentHome.name = name [i];
 			sentHome.category = category [i];
 			sentHome.resId = resId [i];
-			list.add(sentHome);
+//			list.add(sentHome);
 		}
  	}
+	
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestBase(List<String> paramsList,	 
+			Listener<MyRepair> listenre, ErrorListener errorListener) {			
+		if(MmyRepairRequest != null) {
+			MmyRepairRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		MmyRepairRequest = new MyRepairRequest(url, paramsList, this, this);
+		startRequest(MmyRepairRequest);		
+	}
+	
+	
+	/**
+	 * 获取请求参数,请按照接口文档列表顺序排列
+	 * @return
+	 */
+	private List<String> getBaseRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG40", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId +"", 64));
+		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
+		params.add(ParamsUtil.getReqParam(pageSize + "", 2));;
+		
+		return params;
+	}
 
 
 	public void getIntentData() {
@@ -203,6 +262,39 @@ public class MyRepairActivity extends Activity implements OnMenuItemClickListene
 			personalV.setSelected(false);
 			publicV.setSelected(true);
 			break;					
+		}
+	}
+
+
+	@Override
+	public void onReload() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		showLoadError(this);	
+		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
+	}
+
+
+	@Override
+	public void onResponse(MyRepair response) {
+		if(response.respCode.equals(RespCode.SUCCESS)) {
+			pageNo ++;
+
+			list.addAll(response.datas);
+			// Call onRefreshComplete when the list has been refreshed.
+			mPullToRefreshListView.onRefreshComplete();
+			if (!response.hasNextPage) {
+				mPullToRefreshListView.setMode(Mode.DISABLED);
+			}
+			showContent();
+		} else {
+			showLoadError(this);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
 	

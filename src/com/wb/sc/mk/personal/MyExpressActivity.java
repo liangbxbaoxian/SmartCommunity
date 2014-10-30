@@ -10,38 +10,65 @@ import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.common.net.volley.VolleyErrorHelper;
+import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MyComplaintAdpater;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.MyExpress;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.task.MyExpressRequest;
+import com.wb.sc.util.ParamsUtil;
 
-public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemClickListener, OnClickListener{
+public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemClickListener, OnClickListener, Listener<MyExpress>, 
+ErrorListener, ReloadListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
 	private MyComplaintAdpater mAdpter;
+	
+	private MyExpressRequest mMyExpressRequest;
 
 	private String mKeyword;
 	private String sId;
 
-	private int pageNo;
 	private boolean hasNextPage;
 	private String mDistrictName;
 
 	private List<SentHome> list = new ArrayList<SentHome>();
-
+	
+	private List<MyExpress.ExpressItem> current_express_list = new ArrayList<MyExpress.ExpressItem>();
+	private List<MyExpress.ExpressItem> deprecated_express_list = new ArrayList<MyExpress.ExpressItem>();
+	private List<MyExpress.ExpressItem> history_express_list = new ArrayList<MyExpress.ExpressItem>();
+	
+	private boolean has_next_current_express;
+	private boolean has_next_deprecated_express;
+	private boolean has_next_history_express;
+	
 
 	private View current_express;
 	private View deprecated_express;
 	private View history_express;
+	
+	private int pageNo = 1;
+	private int pageSize = 10;
+	
+	private String reqType = "GA06";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +76,9 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 		setContentView(R.layout.activity_my_express);
 		initView();
 		initHeader(R.string.ac_my_express);
+		showLoading();		
+		
+		requestBase(getBaseRequestParams(), this, this);
 	}
 
 
@@ -67,7 +97,7 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				new GetDataTask().execute();
+//				new GetDataTask().execute();
 			}
 		});
 
@@ -92,7 +122,7 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 
 
 		//		initData();
-		mAdpter = new MyComplaintAdpater(MyExpressActivity.this, list);
+		mAdpter = new MyComplaintAdpater(MyExpressActivity.this, list);  //效果圖未給有数据的显示，so  adapter 还没做好显示；
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
 
@@ -134,6 +164,23 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 		}
 	}
 
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestBase(List<String> paramsList,	 
+			Listener<MyExpress> listenre, ErrorListener errorListener) {			
+		if(mMyExpressRequest != null) {
+			mMyExpressRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mMyExpressRequest = new MyExpressRequest(url, paramsList, this, this);
+		startRequest(mMyExpressRequest);		
+	}
 
 
 	public void getIntentData() {
@@ -154,23 +201,64 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 
 		switch(v.getId()) {
 		case R.id.deprecated_express:
+			reqType = "GA22";
 			//contentVp.setCurrentItem(0);
 			deprecated_express.setSelected(true);
 			current_express.setSelected(false);
 			history_express.setSelected(false);
+			
+			pageNo = deprecated_express_list.size() / pageSize;
+			if (pageNo == 0) {
+				pageNo = 1;
+				showLoading();	
+				requestBase(getBaseRequestParams(), this, this);
+			}
+			
+			if (has_next_deprecated_express) {
+				mPullToRefreshListView.setMode(Mode.BOTH);
+			}
+	
+			
 			break;
 
 		case R.id.current_express:
+			reqType = "GA06";
 			//contentVp.setCurrentItem(1);
 			deprecated_express.setSelected(false);
 			current_express.setSelected(true);
 			history_express.setSelected(false);
+			
+			pageNo = current_express_list.size() / pageSize;
+			if (pageNo == 0) {
+				pageNo = 1;
+				showLoading();	
+				requestBase(getBaseRequestParams(), this, this);
+			}
+			
+			if (has_next_current_express) {
+				mPullToRefreshListView.setMode(Mode.BOTH);
+			}
+			
+			
 			break;
 		case R.id.history_express:
+			reqType = "GA23";
 			//	contentVp.setCurrentItem(1);
 			deprecated_express.setSelected(false);
 			current_express.setSelected(false);
 			history_express.setSelected(true);
+			
+			pageNo = history_express_list.size() / pageSize;
+			if (pageNo == 0) {
+				pageNo = 1;
+				showLoading();	
+				requestBase(getBaseRequestParams(), this, this);
+			}
+
+			if (has_next_history_express) {
+				mPullToRefreshListView.setMode(Mode.BOTH);
+			}
+			
 			break;			
 
 		case R.id.common_header_back:
@@ -178,7 +266,66 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 			break;			
 		}
 	}
+	
+	/**
+	 * 获取请求参数,请按照接口文档列表顺序排列
+	 * @return
+	 */
+	private List<String> getBaseRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("GA06", 4));
+		params.add(ParamsUtil.getReqParam("X01_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00", 2));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().phone, 15));
+		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
+		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+		params.add(ParamsUtil.getReqParam("12345678900987654321123456789009", 20));
+		
+		return params;
+	}
 
 
+	@Override
+	public void onReload() {
+		showLoading();
+		requestBase(getBaseRequestParams(), this, this);
+	}
+
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		showLoadError(this);	
+		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
+	}
+
+
+	@Override
+	public void onResponse(MyExpress response) {
+		if(response.respCode.equals(RespCode.SUCCESS)) {
+			pageNo ++;
+			if ("GA06".equals(reqType)) {
+				has_next_current_express = response.hasNextPage;
+				current_express_list.addAll(response.datas);
+			} else if ("GA23".equals(reqType)) {
+				has_next_deprecated_express = response.hasNextPage;
+				deprecated_express_list.addAll(response.datas);
+			} else if ("GA22".equals(reqType)) {
+				has_next_history_express = response.hasNextPage;
+				history_express_list.addAll(response.datas);
+			}
+			
+//			list.clear();  list.addAll and then notification
+			
+//			mPullToRefreshListView.setDividerDrawable(null);
+//			mPullToRefreshListView.setAdapter(mAdpter);
+
+			// Call onRefreshComplete when the list has been refreshed.
+			mPullToRefreshListView.onRefreshComplete();
+			showContent();
+		} else {
+			showLoadError(this);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
+		}
+	}
 
 }

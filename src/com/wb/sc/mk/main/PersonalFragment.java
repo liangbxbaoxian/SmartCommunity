@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Text;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -181,6 +183,9 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 		// view.findViewById(R.id.yipay_server);
 		// yipay_server.setSelector(R.color.transparent);
 		// yipay_server.setAdapter(yipayGriAdapter);
+		TextView name = (TextView) view.findViewById(R.id.name);
+		name.setText(SCApp.getInstance().getUser().account);
+		
 		LinearLayout portrait = (LinearLayout) view.findViewById(R.id.portrait);
 		portrait.setOnClickListener(new View.OnClickListener() {
 

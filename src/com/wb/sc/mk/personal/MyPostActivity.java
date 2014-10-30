@@ -18,20 +18,36 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.common.net.volley.VolleyErrorHelper;
+import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
-import com.wb.sc.adapter.MyComplaintAdpater;
+import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MyForumAdpater;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.MsgCenter;
+import com.wb.sc.bean.MyPost;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
 import com.wb.sc.mk.main.PostActivity;
-import com.wb.sc.mk.post.PostListActivity;
+import com.wb.sc.task.MsgCenterRequest;
+import com.wb.sc.task.MyPostRequest;
+import com.wb.sc.util.Constans;
+import com.wb.sc.util.MetaUtil;
+import com.wb.sc.util.ParamsUtil;
 
-public class MyForumActivity extends Activity implements OnMenuItemClickListener, OnClickListener{
+public class MyPostActivity extends BaseActivity implements OnMenuItemClickListener, OnClickListener,  Listener<MyPost>, 
+ErrorListener, ReloadListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
 	private MyForumAdpater mAdpter;
@@ -40,10 +56,12 @@ public class MyForumActivity extends Activity implements OnMenuItemClickListener
 	private String sId;
 	
 	private int pageNo;
+	private int pageSize;
 	private boolean hasNextPage;
 	private String mDistrictName;
+	private MyPostRequest mMyPostRequest;
 	
-	private List<SentHome> list = new ArrayList<SentHome>();
+	private List<MyPost.MyPostItem> list = new ArrayList<MyPost.MyPostItem>();
 	
 	private Spinner mSpinner;
 	
@@ -57,6 +75,11 @@ public class MyForumActivity extends Activity implements OnMenuItemClickListener
 		setContentView(R.layout.activity_my_forum);
 		getIntentData();
 		initView();
+		
+		
+		showLoading();		
+		
+		requestBase(getBaseRequestParams(), this, this);
 	}
 	
 	
@@ -93,14 +116,14 @@ public class MyForumActivity extends Activity implements OnMenuItemClickListener
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(MyForumActivity.this, MyForumActivity.class);
+				Intent intent = new Intent(MyPostActivity.this, MyPostActivity.class);
 				startActivity(intent);
 			}
 		});
 		
 		
 		initData();
-		mAdpter = new MyForumAdpater(MyForumActivity.this, list);
+		mAdpter = new MyForumAdpater(MyPostActivity.this, list);
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
 		
@@ -173,7 +196,7 @@ public class MyForumActivity extends Activity implements OnMenuItemClickListener
 			sentHome.name = name [i];
 			sentHome.category = category [i];
 			sentHome.resId = resId [i];
-			list.add(sentHome);
+//			list.add(sentHome);
 		}
  	}
 	
@@ -211,6 +234,75 @@ public class MyForumActivity extends Activity implements OnMenuItemClickListener
 			personalV.setSelected(false);
 			publicV.setSelected(true);
 			break;
+		}
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestBase(List<String> paramsList,	 
+			Listener<MyPost> listenre, ErrorListener errorListener) {			
+		if(mMyPostRequest != null) {
+			mMyPostRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mMyPostRequest = new MyPostRequest(url, paramsList, this, this);
+		startRequest(mMyPostRequest);		
+	}
+	
+	
+	/**
+	 * 获取请求参数,请按照接口文档列表顺序排列
+	 * @return
+	 */
+	private List<String> getBaseRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG22", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId +"", 64));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().id +"", 64));  //暂时不知道这个id 是不是社区id
+		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
+		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+		
+		return params;
+	}
+
+
+	@Override
+	public void onReload() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		showLoadError(this);	
+		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
+	}
+
+
+	@Override
+	public void onResponse(MyPost response) {
+		if(response.respCode.equals(RespCode.SUCCESS)) {
+			pageNo ++;
+
+			list.addAll(response.datas);
+			// Call onRefreshComplete when the list has been refreshed.
+			mPullToRefreshListView.onRefreshComplete();
+			if (!response.hasNextPage) {
+				mPullToRefreshListView.setMode(Mode.DISABLED);
+			}
+			showContent();
+		} else {
+			showLoadError(this);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
 	

@@ -3,30 +3,50 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
+import com.common.net.volley.VolleyErrorHelper;
+import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.SentHomeAdpater;
-import com.wb.sc.adapter.SpinnerAdapter;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.OneKm;
+import com.wb.sc.bean.OneKm.MerchantItem;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.task.OneKmRequest;
+import com.wb.sc.util.Constans;
+import com.wb.sc.util.MetaUtil;
+import com.wb.sc.util.ParamsUtil;
 
-public class SentHomeActivity extends Activity implements OnMenuItemClickListener{
+public class SentHomeActivity extends BaseActivity implements OnMenuItemClickListener, Listener<OneKm>, 
+ErrorListener, ReloadListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
 	private SentHomeAdpater mAdpter;
@@ -35,21 +55,72 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 	private String sId;
 	
 	private int pageNo;
+	private int pageSize = 10;
 	private boolean hasNextPage;
 	private String mDistrictName;
 	
-	private List<SentHome> list = new ArrayList<SentHome>();
+	private OneKmRequest mOneKmRequest;
+	
+	private List<MerchantItem> list = new ArrayList<MerchantItem>();
 	
 	private Spinner mSpinner;
 	private Spinner mDistanceSpinner;
 	
+	public String longitude;   // 经度
+	public String latitude;     // 维度
+	public String merchantCategoryId;  // 商户类别
+	private String merchantName;
+	
+	private LocationClient mLocationClient;
+	private LocationMode tempMode = LocationMode.Hight_Accuracy;
+	private String tempcoor="gcj02";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_sent_home);
 		getIntentData();
 		initView();
+		
+		getGps();
+		
+		showLoading();
+		
+//		requestBase(getBaseRequestParams(), this, this);
+	}
+	
+	@Override
+	protected void onStop() {
+		mLocationClient.stop();
+		super.onStop();
+	}
+	
+	private void getGps() {
+		mLocationClient = SCApp.getInstance().mLocationClient;
+		mLocationClient.registerLocationListener(new BDLocationListener() {
+
+			@Override
+			public void onReceiveLocation(BDLocation arg0) {
+				mLocationClient.stop();
+				longitude = arg0.getLongitude() + "";
+				latitude = arg0.getLatitude() + "";
+				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+			}
+			
+		});
+		InitLocation();
+		mLocationClient.start();
+	}
+	
+	private void InitLocation(){
+		LocationClientOption option = new LocationClientOption();
+		option.setLocationMode(tempMode);//设置定位模式
+		option.setCoorType(tempcoor);//返回的定位结果是百度经纬度，默认值gcj02
+		int span=1000;
+		option.setScanSpan(span);//设置发起定位请求的间隔时间为5000ms
+		option.setIsNeedAddress(true);
+		mLocationClient.setLocOption(option);
 	}
 	
 	
@@ -68,7 +139,10 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				new GetDataTask().execute();
+//				new GetDataTask().execute();
+				pageNo = 1;
+				list.clear();
+				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
 			}
 		});
 		
@@ -76,7 +150,7 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 
 			@Override
 			public void onLastItemVisible() {
-				// TODO Auto-generated method stub
+				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
 			}
 		});
 		
@@ -86,7 +160,9 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(SentHomeActivity.this, SentHomeDetialActivity.class);
+				Intent intent = new Intent(SentHomeActivity.this, SentHomeDetailActivity.class);
+				intent.putExtra("merchantTel", list.get(position).merchantTel);
+				intent.putExtra("merchantName", list.get(position).merchantName);
 				startActivity(intent);
 			}
 		});
@@ -155,7 +231,7 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 			sentHome.category = category [i];
 			sentHome.resId = resId [i];
 			sentHome.distance = distance[i];
-			list.add(sentHome);
+//			list.add(sentHome);
 		}
  	}
 
@@ -172,6 +248,75 @@ public class SentHomeActivity extends Activity implements OnMenuItemClickListene
 		return false;
 	}
 	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestBase(List<String> paramsList,	 
+			Listener<OneKm> listenre, ErrorListener errorListener) {			
+		if(mOneKmRequest != null) {
+			mOneKmRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mOneKmRequest = new OneKmRequest(url, paramsList, this, this);
+		startRequest(mOneKmRequest);		
+	}
+	
+	/**
+	 * 获取请求参数,请按照接口文档列表顺序排列
+	 * @return
+	 */
+	private List<String> getBaseRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG46", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
+		params.add(ParamsUtil.getReqParam(merchantName, 32));
+		params.add(ParamsUtil.getReqParam(longitude, 128));
+		params.add(ParamsUtil.getReqParam(latitude, 128));
+		params.add(ParamsUtil.getReqParam(merchantCategoryId, 32));
+		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
+		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+		
+		return params;
+	}
+
+
+	@Override
+	public void onReload() {
+		requestBase(getBaseRequestParams(), this, this);
+	}
+
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		showLoadError(this);	
+		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
+	}
+
+
+	@Override
+	public void onResponse(OneKm response) {
+		if(response.respCode.equals(RespCode.SUCCESS)) {
+			pageNo ++;
+
+			list.addAll(response.datas);
+			// Call onRefreshComplete when the list has been refreshed.
+			mPullToRefreshListView.onRefreshComplete();
+			if (!response.hasNextPage) {
+				mPullToRefreshListView.setMode(Mode.DISABLED);
+			}
+			showContent();
+		} else {
+			showLoadError(this);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
+		}
+		
+	}
 	
 
 }
