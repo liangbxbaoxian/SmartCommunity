@@ -240,7 +240,7 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 		params.add(ParamsUtil.getReqParam(reqType, 4));  //修改系统消息
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
-		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().id +"", 64));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId +"", 64));
 		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
 		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
 		

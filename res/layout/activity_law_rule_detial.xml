@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/title_bar_height"
+    android:background="#ebeced"
+    android:orientation="vertical" >
+
+    <include layout="@layout/title_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/white_bg"
+                android:orientation="vertical"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" >
+
+                <TextView
+                    android:id="@+id/bulletinTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                     android:layout_margin="@dimen/normal_margin"
+                    android:text="关于二期高层1#楼暂停供电的通知"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/notifyTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                     android:layout_margin="@dimen/normal_margin"
+                    android:text="2014-10-18 9:30"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/normal_margin"
+                    android:paddingRight="@dimen/normal_margin" >
+
+                    <include layout="@layout/divide_line" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/bulletinContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                     android:layout_margin="@dimen/normal_margin"
+                    android:background="@null"
+                    android:text="各位业主朋友：\n  你们好！ \n因高层1#楼电缆故障，电力部门正抓紧抢修，届时将于2014年10月20日上午9:00-17:30对小区二期高层1#楼进行停电施工，
+届时将影响停电范围内业主的正常供电，请业主朋友做好准备，感谢您的理解。"
+                    android:textSize="13sp" />
+                
+                <TextView
+                    android:id="@+id/notifyShortTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginTop="35dp"
+                    android:text="2014-10-18"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/notifier"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="融汇江山物业处"
+                     android:layout_marginTop="@dimen/normal_margin"
+                     android:layout_marginBottom="@dimen/normal_margin"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+                
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

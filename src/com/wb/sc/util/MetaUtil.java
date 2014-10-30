@@ -13,7 +13,7 @@ public class MetaUtil {
 			appInfo = ctx.getPackageManager()
 					.getApplicationInfo(ctx.getPackageName(),
 							PackageManager.GET_META_DATA);
-			String data = appInfo.metaData.getString(key);
+			String data = "0000"  + appInfo.metaData.getInt("APP_CHANNEL");  //此处有做特殊处理
 			return data;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();

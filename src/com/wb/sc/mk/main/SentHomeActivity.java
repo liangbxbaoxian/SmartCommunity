@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -19,6 +18,11 @@ import android.widget.Spinner;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -30,6 +34,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.SentHomeAdpater;
+import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.OneKm;
 import com.wb.sc.bean.OneKm.MerchantItem;
 import com.wb.sc.bean.SentHome;
@@ -66,16 +71,56 @@ ErrorListener, ReloadListener{
 	public String merchantCategoryId;  // 商户类别
 	private String merchantName;
 	
+	private LocationClient mLocationClient;
+	private LocationMode tempMode = LocationMode.Hight_Accuracy;
+	private String tempcoor="gcj02";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_sent_home);
 		getIntentData();
 		initView();
 		
-		showLoading();	
-		requestBase(getBaseRequestParams(), this, this);
+		getGps();
+		
+		showLoading();
+		
+//		requestBase(getBaseRequestParams(), this, this);
+	}
+	
+	@Override
+	protected void onStop() {
+		mLocationClient.stop();
+		super.onStop();
+	}
+	
+	private void getGps() {
+		mLocationClient = SCApp.getInstance().mLocationClient;
+		mLocationClient.registerLocationListener(new BDLocationListener() {
+
+			@Override
+			public void onReceiveLocation(BDLocation arg0) {
+				mLocationClient.stop();
+				longitude = arg0.getLongitude() + "";
+				latitude = arg0.getLatitude() + "";
+				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+			}
+			
+		});
+		InitLocation();
+		mLocationClient.start();
+	}
+	
+	private void InitLocation(){
+		LocationClientOption option = new LocationClientOption();
+		option.setLocationMode(tempMode);//设置定位模式
+		option.setCoorType(tempcoor);//返回的定位结果是百度经纬度，默认值gcj02
+		int span=1000;
+		option.setScanSpan(span);//设置发起定位请求的间隔时间为5000ms
+		option.setIsNeedAddress(true);
+		mLocationClient.setLocOption(option);
 	}
 	
 	
@@ -94,7 +139,10 @@ ErrorListener, ReloadListener{
 
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				new GetDataTask().execute();
+//				new GetDataTask().execute();
+				pageNo = 1;
+				list.clear();
+				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
 			}
 		});
 		
@@ -102,7 +150,7 @@ ErrorListener, ReloadListener{
 
 			@Override
 			public void onLastItemVisible() {
-				// TODO Auto-generated method stub
+				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
 			}
 		});
 		
@@ -113,6 +161,8 @@ ErrorListener, ReloadListener{
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent intent = new Intent(SentHomeActivity.this, SentHomeDetailActivity.class);
+				intent.putExtra("merchantTel", list.get(position).merchantTel);
+				intent.putExtra("merchantName", list.get(position).merchantName);
 				startActivity(intent);
 			}
 		});
@@ -238,8 +288,7 @@ ErrorListener, ReloadListener{
 
 	@Override
 	public void onReload() {
-		// TODO Auto-generated method stub
-		
+		requestBase(getBaseRequestParams(), this, this);
 	}
 
 
@@ -268,7 +317,6 @@ ErrorListener, ReloadListener{
 		}
 		
 	}
-	
 	
 
 }

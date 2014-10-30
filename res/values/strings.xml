@@ -22,6 +22,8 @@
     <string name="ac_community_interaction">社区互动</string>
     <string name="ac_property">物业服务</string>
    	<string name="ac_public_info">融汇新品</string>
+    <string name="ac_law_rule">法律法规</string>
+   	  <string name="ac_law_rule_detial">物业法规</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>

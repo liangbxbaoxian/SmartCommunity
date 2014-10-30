@@ -15,6 +15,5 @@ public class UpdateAppParser {
 		dataBean.updateAppUrl = ParamsUtil.getRespParamNext(dataBean, 256);
 		dataBean.versionSerial = ParamsUtil.getRespParamNext(dataBean, 4);
 		dataBean.isForce = ParamsUtil.getRespParamNext(dataBean, 1);
-		dataBean.crc = ParamsUtil.getRespParamNext(dataBean, 2);
 	}
 }

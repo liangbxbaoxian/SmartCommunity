@@ -13,8 +13,8 @@ public class NetConfig {
 	/*************************************测试环境配置************************************/
 	//接口地址
 //	public static final String DEBUG_BASE_URL = "http://121.42.15.225:37986/";
-	public static final String DEBUG_BASE_URL = "http://mcgp2.nat123.net:37986/";
-	public static final String DEBUG_INTRANET_BASE_URL = "http://mcgp2.nat123.net:37986/"; 
+	public static final String DEBUG_BASE_URL = "http://121.42.15.225:27634/";
+	public static final String DEBUG_INTRANET_BASE_URL = "http://121.42.15.225:27634/"; 
 		
 	/*************************************正式环境配置************************************/
 	//接口地址

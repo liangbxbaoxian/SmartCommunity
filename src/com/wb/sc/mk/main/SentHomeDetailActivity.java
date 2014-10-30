@@ -27,6 +27,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.SentHomeAdpater;
+import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.BaseBean;
 import com.wb.sc.bean.OneKmDetail;
 import com.wb.sc.bean.SentHome;
@@ -42,19 +43,12 @@ import com.wb.sc.util.ParamsUtil;
 public class SentHomeDetailActivity extends BaseActivity implements OnMenuItemClickListener, Listener<OneKmDetail>, 
 ErrorListener, ReloadListener{
 
-	private PullToRefreshListView mPullToRefreshListView;
-	private SentHomeAdpater mAdpter;
-	
 	private String mKeyword;
-	private String sId;
-	
-	
 	private OneKmRequestDetail mOneKmRequestDetail;
 	
-	private int pageNo;
-	private boolean hasNextPage;
-	private String mDistrictName;
 	private String mMerchantId;
+	private String tel;
+	private String mMerchantName;
 	
 	private List<SentHome> list = new ArrayList<SentHome>();
 	
@@ -115,7 +109,8 @@ ErrorListener, ReloadListener{
 		Intent intent = getIntent();
 		mKeyword = intent.getStringExtra("mKeyword");
 		mMerchantId = intent.getStringExtra("mMerchantId");
-		pageNo = 1;
+		tel  = intent.getStringExtra("merchantTel");
+		mMerchantName =  intent.getStringExtra("merchantName");
 	}
 
 	@Override
@@ -125,7 +120,7 @@ ErrorListener, ReloadListener{
 	}
 	
 	public void call(View view) {
-		createAlterDialog("缇斯西饼", "0591-87547389");
+		createAlterDialog("缇斯西饼", tel);
 	}
 	
 	private void createAlterDialog(String name, final String phoneNum) {
@@ -215,6 +210,11 @@ ErrorListener, ReloadListener{
 		    merchantOpenTime.setText(response.merchantOpenTime);
 		    merchantPriceAddr.setText(response.merchantPriceAddr);
 		    merchantPriceTel.setText(response.merchantPriceTel);
+		    
+			if(response.merchantLogo != null && !response.merchantLogo.equals("")) {
+				merchantLogo.setImageUrl(NetConfig.getPictureUrl(response.merchantLogo), 
+						SCApp.getInstance().getImageLoader());
+			}
 		} else {
 			showLoadError(this);
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);

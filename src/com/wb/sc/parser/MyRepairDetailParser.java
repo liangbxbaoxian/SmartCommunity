@@ -18,7 +18,7 @@ public class MyRepairDetailParser {
 		dataBean.repairTitle = ParamsUtil.getRespParamNext(dataBean, 50);
 		dataBean.repairContent = ParamsUtil.getRespParamNext(dataBean, 512);
 		//进行数据解析处理		
-		int dataLength = dataBean.dataBytes.length - 5 -64 -2 -64 -50 -512;  //接口未定义有下一页
+		int dataLength = dataBean.dataBytes.length - 5 -64 -2 -64 -50 -512;  //接口未定义有下一页                   次解析有问题！！！待后续修复
 		String datasStr = ParamsUtil.getRespParam(dataBean, 5, 1024);
 		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);
 		dataBean.datas = new ArrayList<MyRepairDetail.PhotoItem>();

@@ -27,6 +27,5 @@ public class PersonalInfoParser {
 		dataBean.localCommunity = ParamsUtil.getRespParamNext(dataBean, 64);
 		dataBean.communityNam = ParamsUtil.getRespParamNext(dataBean, 128);
 		dataBean.imei = ParamsUtil.getRespParamNext(dataBean, 32);
-		dataBean.crc = ParamsUtil.getRespParamNext(dataBean, 2);
 	}
 }
