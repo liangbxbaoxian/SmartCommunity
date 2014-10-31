@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg"
+        android:paddingLeft="@dimen/title_bar_padding"
+        android:paddingRight="@dimen/title_bar_padding"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:id="@+id/linear_back"
+            android:layout_width="100dip"
+            android:layout_height="fill_parent"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:onClick="back"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="12dp"
+                android:layout_height="20dp"
+                android:background="@drawable/back"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
+
+            <TextView
+                android:id="@+id/title_tv"
+                style="@style/title_textstyle"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="@dimen/normal_margin"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="一公里" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="227dp"
+            android:layout_height="37.5dp"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/linear_back"
+            android:gravity="center" >
+
+            <EditText
+                android:id="@+id/input_content"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/search_bar_edit_bg"
+                android:drawableLeft="@drawable/search_bar_icon_normal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="输入商户名"
+                android:singleLine="true"
+                android:textColor="#000" >
+            </EditText>
+        </LinearLayout>
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/keyword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="手动选择社区"
+        android:layout_marginLeft="@dimen/marginTop"
+        android:layout_marginTop="@dimen/marginTop"
+        android:textColor="@color/text_personal"
+        android:textSize="@dimen/SmallerTextSize"
+         />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pull_refresh_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="#00000000"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrDrawable="@drawable/default_ptr_flip"
+        ptr:ptrMode="both" >
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+
+</LinearLayout>
