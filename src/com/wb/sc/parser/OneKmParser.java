@@ -11,7 +11,7 @@ public class OneKmParser {
 	public void parse(OneKm dataBean) {	
 			
 		//进行数据解析处理		
-		dataBean.totalNum = Integer.valueOf(ParamsUtil.getRespParamNext(dataBean, 4));
+		dataBean.totalNum = ParamsUtil.getRespIntParamNext(dataBean, 4);
 		dataBean.hasNextPage = ParamsUtil.getNextPageFlag(dataBean);
 		int dataLength = dataBean.dataBytes.length - 9 - 1;  //接口未定义有下一页
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);

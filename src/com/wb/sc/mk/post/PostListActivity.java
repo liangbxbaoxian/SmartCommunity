@@ -122,8 +122,10 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 			@Override
 			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 				//处理下拉刷新
-				mPage.pageNo = 1;
-				startPostListRequest();
+				if(mPostType != null) {
+					mPage.pageNo = 1;
+					startPostListRequest();
+				}
 			}
 
 			@Override
@@ -170,24 +172,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 			}
 		});
 	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		//此处设置菜单		
 		
-		startPostListRequest();
-		
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	/**
-	 * 菜单点击处理
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {			
-		return super.onOptionsItemSelected(item);
-	}
-	
 	/**
 	 * 列表选项点击的处理
 	 */

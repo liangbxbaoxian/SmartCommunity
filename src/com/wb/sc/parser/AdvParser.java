@@ -12,7 +12,7 @@ public class AdvParser {
 	public void parse(Adv dataBean) {	
 			
 		//进行数据解析处理		
-		dataBean.totalNum = Integer.valueOf(ParamsUtil.getRespParamNext(dataBean, 4));
+		dataBean.totalNum = ParamsUtil.getRespIntParamNext(dataBean, 4);
 		dataBean.hasNextPage = ParamsUtil.getNextPageFlag(dataBean);
 		int dataLength = dataBean.dataBytes.length - 9 - 1;
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
@@ -29,6 +29,9 @@ public class AdvParser {
 			item.linkUrl = values[5];
 			item.type = values[6];
 			dataBean.datas.add(item);
+			if(dataBean.datas.size() >= dataBean.totalNum) {
+				break;
+			}
 		}
 	}
 }

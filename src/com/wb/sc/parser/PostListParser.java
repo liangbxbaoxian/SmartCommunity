@@ -14,8 +14,10 @@ public class PostListParser {
 	public void parse(PostList dataBean) {	
 			
 		//进行数据解析处理
-		dataBean.totalNum = Integer.valueOf(ParamsUtil.getRespParamNext(dataBean, 4));
+		dataBean.totalNum = ParamsUtil.getRespIntParamNext(dataBean, 4);
 		dataBean.hasNextPage = ParamsUtil.getNextPageFlag(dataBean);
+		if(dataBean.totalNum == 0) return;
+		
 		int dataLength = dataBean.dataBytes.length - 9 - 1;
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
 		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);

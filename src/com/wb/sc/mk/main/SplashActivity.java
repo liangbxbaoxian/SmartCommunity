@@ -18,6 +18,7 @@ import android.os.Handler;
 
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.mk.personal.LoginActivity;
 import com.wb.sc.widget.CustomDialog;
 import com.wb.sc.widget.CustomDialog.DialogFinish;
 
@@ -60,8 +61,7 @@ public class SplashActivity extends BaseActivity {
 	private void goToHome () {
 		new Handler().postDelayed(new Runnable() {
 			public void run() {
-				Intent intent = new Intent(SplashActivity.this,
-						HomeActivity.class);
+				Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
 				startActivity(intent);
 				SplashActivity.this.finish();
 			}

@@ -60,11 +60,13 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 	private AdvRequest mAdvRequest;
 	private AdvListener mAdvListener = new AdvListener();
 	private Adv mAdv;
-	private PageInfo advPageInfo;
+	private PageInfo advPgIf = new PageInfo();
 	
 	//社区公告
 	private ComNoticeRequest mComNoticeRequest;
 	private ComNotice mComNotice;
+	private ComNoticeListener mComNoticeListener = new ComNoticeListener();
+	private PageInfo noticePgIf = new PageInfo();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		setUmeng();
 		
 //		requestAdv(getAdvRequestParams(), mAdvListener, this);
+		requestComNotice(getComNoticeRequestParams(), mComNoticeListener, this);
 	}
 
 	public void getIntentData() {
@@ -204,8 +207,8 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
 		params.add(ParamsUtil.getReqParam("1", 2));
-		params.add(ParamsUtil.getReqParam(advPageInfo.pageNo+"", 3));
-		params.add(ParamsUtil.getReqParam(advPageInfo.pageSize+"", 2));
+		params.add(ParamsUtil.getReqIntParam(advPgIf.pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(advPgIf.pageSize, 2));
 		return params;
 	}
 	
@@ -256,6 +259,10 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 		params.add(ParamsUtil.getReqParam("FG12", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().getCommunityId(), 64));
+		params.add(ParamsUtil.getReqIntParam(noticePgIf.pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(noticePgIf.pageSize, 2));
 		return params;
 	}
 	

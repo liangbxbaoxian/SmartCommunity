@@ -27,6 +27,8 @@ import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.db.DbHelper;
+import com.wb.sc.mk.main.HomeActivity;
+import com.wb.sc.mk.main.MainActivity;
 import com.wb.sc.task.LoginRequest;
 import com.wb.sc.util.ParamsUtil;
 
@@ -78,7 +80,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		forgetPasswordTv.setOnClickListener(this);
 		
 		userphoneEt = (EditText) findViewById(R.id.userPhone);
+		userphoneEt.setText("18657436598");
 		passwordEt = (EditText) findViewById(R.id.password);
+		passwordEt.setText("123456");
 		
 		savePwdCb = (CheckBox) findViewById(R.id.save_password);
 		
@@ -192,6 +196,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			mUser = response;
 			mUser.isLogin = 1;
 			mUser.phone = userPhone;
+			//先写死一个社区ID
+			mUser.communityId = "db8eeb11-3e04-4eae-9c05-fd572abb1733";
 			if(savePwdCb.isChecked()) {
 				savePassword(mUser, password);
 			} else {
@@ -199,7 +205,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			}
 			SCApp.getInstance().setUser(mUser);
 			DbHelper.saveUser(mUser);
-			finish();
+//			finish();
+			startActivity(new Intent(this, HomeActivity.class));
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}

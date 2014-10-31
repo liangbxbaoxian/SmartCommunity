@@ -8,10 +8,10 @@ import com.wb.sc.security.RSA;
 
 public class ParamsUtil {
 	
-	public static final String ITEMS_DIVIDER = "-|";
+	public static final String ITEMS_DIVIDER = "-\\|";
 	public static final String ITEM_DIVIDER = "-@";
 	public static final String ITEM_IMG_DIVIDER = "-#";
-	public static final String ITEMS_DIVIDER_LINE = "|";
+	public static final String ITEMS_DIVIDER_LINE = "\\|";
 	
 	/**
 	 * 
@@ -68,6 +68,27 @@ public class ParamsUtil {
 		byte[] paramBytes = ByteHelper.byteArraySub(baseBean.dataBytes, baseBean.position, length);
 		baseBean.position += length;
 		return new String(paramBytes).trim();
+	}
+	
+	/**
+	 * 
+	 * @描述: 获取响应字段中的整形值，并自动下移指针位置
+	 * @param baseBean
+	 * @param length
+	 * @return
+	 */
+	public static int getRespIntParamNext(BaseBean baseBean, int length) {
+		byte[] paramBytes = ByteHelper.byteArraySub(baseBean.dataBytes, baseBean.position, length);
+		baseBean.position += length;
+		
+		int value = 0;
+		int j=0;
+		for(int i=paramBytes.length-1; i>0; i--) {
+			value += (paramBytes[i]&0xff)<<(8*j);
+			j++;
+		}
+		
+		return value;
 	}
 	
 	/**

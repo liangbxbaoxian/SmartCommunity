@@ -48,7 +48,6 @@ public class SCApp extends Application {
 	
 	private User mUser;
 	
-	
 	//百度地图
 	public LocationClient mLocationClient;
 	public GeofenceClient mGeofenceClient;
@@ -88,6 +87,8 @@ public class SCApp extends Application {
 		mDes3Key = HexStringBytes.String2Bytes(des3KeyStr);
 		
 		initMap();
+		
+		
 	}
 
 	/**
