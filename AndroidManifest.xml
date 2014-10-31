@@ -309,6 +309,16 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
         </activity>
         
+        
+        <!-- 法律法规  -->
+        <activity
+            android:name="com.wb.sc.mk.main.SetLocationDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_feedbak"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
+        
         <!-- 我的快递  -->
         <activity
             android:name="com.wb.sc.mk.personal.MyExpressActivity"
@@ -352,6 +362,27 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
         </activity>
+        
+        <!-- 城市社区选择 -->
+        <activity
+            android:name="com.wb.sc.mk.main.SetLocationActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_public_info"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
+        
+        <!-- 城市选择 -->
+        <activity
+            android:name="com.wb.sc.mk.main.SetLocationDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_public_info"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
+        
+        
+        
                          
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->

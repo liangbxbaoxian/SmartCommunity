@@ -8,5 +8,4 @@ public class UpdateApp extends BaseBean {
 	public String updateAppUrl; // 下载地址	char(256)
 	public String versionSerial; //版本序号	hex(4)
 	public String isForce; // 是否强制升级	char(1)	0：否，1：是
-	public String crc; // 校验位 hex(2)
 }

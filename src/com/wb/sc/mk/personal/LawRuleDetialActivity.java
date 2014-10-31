@@ -12,18 +12,21 @@ import android.widget.TextView;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
+import com.common.net.volley.VolleyErrorHelper;
+import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.activity.base.ReloadListener;
-import com.wb.sc.app.SCApp;
-import com.wb.sc.bean.LawRule;
+import com.wb.sc.bean.LawRuleDetial;
 import com.wb.sc.bean.MsgCenter;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.task.LawRuleDetialRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
 
-public class LawRuleDetialActivity extends BaseHeaderActivity implements OnClickListener,  Listener<LawRule>, 
+public class LawRuleDetialActivity extends BaseHeaderActivity implements OnClickListener,  Listener<LawRuleDetial>, 
 ErrorListener, ReloadListener{
 	
 	private TextView bulletinTitle;
@@ -36,6 +39,9 @@ ErrorListener, ReloadListener{
 	private int pageNo;
 	private int pageSize =10;
 	
+	private LawRuleDetialRequest mLawRuleDetialRequest;
+	private String lawRuleId;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,7 +53,7 @@ ErrorListener, ReloadListener{
 		
 		showLoading();		
 		
-//		requestBase(getBaseRequestParams(), this, this);
+		requestBase(getBaseRequestParams(), this, this);
 		
 	}
 	
@@ -64,7 +70,8 @@ ErrorListener, ReloadListener{
 	@Override
 	public void getIntentData() {
 		String msg = getIntent().getStringExtra("msg");
-		item = new Gson().fromJson(msg, MsgCenter.MsgItem.class);
+//		item = new Gson().fromJson(msg, MsgCenter.MsgItem.class);
+		lawRuleId = getIntent().getStringExtra("lawRuleId");
 		pageNo = 10;
 	}
 
@@ -100,28 +107,54 @@ ErrorListener, ReloadListener{
 	 */
 	private List<String> getBaseRequestParams() {
 		List<String> params = new ArrayList<String>();
-		params.add(ParamsUtil.getReqParam("FG48", 4));
+		params.add(ParamsUtil.getReqParam("FG49", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
-		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId + "", 64));
-		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
-		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+		params.add(ParamsUtil.getReqParam(lawRuleId+ "", 64));
 		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestBase(List<String> paramsList,	 
+			Listener<LawRuleDetial> listenre, ErrorListener errorListener) {			
+		if(mLawRuleDetialRequest != null) {
+			mLawRuleDetialRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mLawRuleDetialRequest = new LawRuleDetialRequest(url, paramsList, listenre, errorListener);
+		startRequest(mLawRuleDetialRequest);		
 	}
 
 	@Override
 	public void onReload() {
-		
+		showLoading();
+		requestBase(getBaseRequestParams(), this, this);
 	}
 
 	@Override
 	public void onErrorResponse(VolleyError error) {
-		
+		showLoadError(this);	
+		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
 	}
 
 	@Override
-	public void onResponse(LawRule response) {
-		
+	public void onResponse(LawRuleDetial response) {
+		if(response.respCode.equals(RespCode.SUCCESS)) {
+			showContent();
+//			mBase = response;
+		} else {
+			showLoadError(this);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
+		}
 	}
+
+
 	
 }
