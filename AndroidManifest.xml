@@ -98,18 +98,23 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
             android:screenOrientation="portrait" >  
-            <intent-filter>
+     <!--        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>            
+            </intent-filter>   -->          
         </activity>
                 
         <activity
             android:name="com.wb.sc.mk.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
-            android:screenOrientation="portrait" >            
+            android:screenOrientation="portrait" >    
+                  <!--  <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>      -->     
         </activity>
         
         <!-- 首页  -->
@@ -117,7 +122,12 @@
             android:name="com.wb.sc.mk.main.HomeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
-            android:screenOrientation="portrait" >            
+            android:screenOrientation="portrait" > 
+             <intent-filter>      
+             <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>         
         </activity>
         
         <!-- 发现 -->
@@ -310,9 +320,9 @@
         </activity>
         
         
-        <!-- 法律法规  -->
+        <!-- 法律法规 详情 -->
         <activity
-            android:name="com.wb.sc.mk.main.SetLocationDetailActivity"
+            android:name="com.wb.sc.mk.personal.LawRuleDetialActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_feedbak"
             android:screenOrientation="portrait"

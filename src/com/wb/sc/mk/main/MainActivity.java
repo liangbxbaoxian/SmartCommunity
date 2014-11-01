@@ -3,6 +3,8 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.simonvt.menudrawer.MenuDrawer;
+import net.simonvt.menudrawer.Position;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,6 +15,8 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.IUmengUnregisterCallback;
@@ -20,6 +24,8 @@ import com.umeng.message.PushAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.adapter.LeftMenuAdapter;
+import com.wb.sc.bean.Item;
 import com.wb.sc.mk.personal.MyComplaintActivity;
 import com.wb.sc.mk.personal.MyExpressActivity;
 import com.wb.sc.mk.personal.MyPostActivity;
@@ -28,7 +34,7 @@ import com.wb.sc.mk.personal.PersonalInfoActivity;
 import com.wb.sc.mk.personal.RegisterInviteActivity;
 import com.wb.sc.mk.personal.SettingActivity;
 
-public class MainActivity extends BaseActivity implements OnClickListener{
+public class MainActivity extends BaseActivity implements OnClickListener, LeftMenuAdapter.MenuListener {
 	
 	private Class fragments[] = {HomeFragment.class, FindFragment.class, PostFragment.class,
 			ButlerFragment.class, PersonalFragment.class,};
@@ -44,11 +50,21 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	private MenuAdapter menuAdapter;
 	private Fragment[] instanceFragments;
 	
+    protected MenuDrawer mMenuDrawer;
+
+    protected LeftMenuAdapter mAdapter;
+    protected ListView mList;
+    private int mActivePosition = 0;
+    private static final String STATE_ACTIVE_POSITION =
+            "net.simonvt.menudrawer.samples.LeftDrawerSample.activePosition";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
+//		setContentView(R.layout.activity_main);
+		
+		initMenuDraw(savedInstanceState);
+		
 		getIntentData();
 		initView();
 		setUmeng();
@@ -57,6 +73,55 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	public void getIntentData() {
 
 	}
+	
+	public void initMenuDraw(Bundle inState) {
+		  if (inState != null) {
+	            mActivePosition = inState.getInt(STATE_ACTIVE_POSITION);
+	        }
+	        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.BEHIND, Position.START, MenuDrawer.MENU_DRAG_CONTENT);
+
+	        List<Object> items = new ArrayList<Object>();
+	        items.add(new Item("Item 1", R.drawable.ic_launcher));
+	        items.add(new Item("Item 2", R.drawable.ic_launcher));
+//	        items.add(new Category("Cat 1"));
+	        items.add(new Item("Item 3", R.drawable.ic_launcher));
+	        items.add(new Item("Item 4", R.drawable.ic_launcher));
+//	        items.add(new Category("Cat 2"));
+	        items.add(new Item("Item 5", R.drawable.ic_launcher));
+	        items.add(new Item("Item 6", R.drawable.ic_launcher));
+//	        items.add(new Category("Cat 3"));
+	        items.add(new Item("Item 7", R.drawable.ic_launcher));
+	        items.add(new Item("Item 8", R.drawable.ic_launcher));
+//	        items.add(new Category("Cat 4"));
+	        items.add(new Item("Item 9", R.drawable.ic_launcher));
+	        items.add(new Item("Item 10", R.drawable.ic_launcher));
+
+	        mList = new ListView(this);
+
+	        mAdapter = new LeftMenuAdapter(this, items);
+	        mAdapter.setListener(this);
+	        mAdapter.setActivePosition(mActivePosition);
+
+	        mList.setAdapter(mAdapter);
+	        mList.setOnItemClickListener(mItemClickListener);
+
+	        mMenuDrawer.setMenuView(mList);
+	        
+	        mMenuDrawer.setContentView(R.layout.activity_main);
+	        mMenuDrawer.setTouchMode(MenuDrawer.TOUCH_MODE_FULLSCREEN);
+	        mMenuDrawer.setSlideDrawable(R.drawable.ic_drawer);
+	        mMenuDrawer.setDrawerIndicatorEnabled(true);
+	}
+	
+    private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            mActivePosition = position;
+            mMenuDrawer.setActiveView(view, position);
+            mAdapter.setActivePosition(position);
+//            onMenuItemClicked(position, (Item) mAdapter.getItem(position));
+        }
+    };
 
 	public void initView() {
 		menuViewList = new ArrayList<View>();
@@ -268,4 +333,10 @@ public class MainActivity extends BaseActivity implements OnClickListener{
         }   
         super.onConfigurationChanged(newConfig);  
     }
+
+	@Override
+	public void onActiveViewChanged(View v) {
+		// TODO Auto-generated method stub
+		
+	}
 }

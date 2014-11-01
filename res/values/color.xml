@@ -74,5 +74,7 @@
     <color name="no_data_color">#BABABA</color>
     <color name="no_data_bg_color">#EBECED</color>
     <color name="layout_select">#c3c3c3</color>
+    
+    <color name="md__transparent">#00000000</color>
 
 </resources>

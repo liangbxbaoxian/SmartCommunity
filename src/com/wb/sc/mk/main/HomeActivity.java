@@ -3,11 +3,15 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.simonvt.menudrawer.MenuDrawer;
+import net.simonvt.menudrawer.Position;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
@@ -23,10 +27,13 @@ import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.adapter.AdvAdapter;
+import com.wb.sc.adapter.LeftMenuAdapter;
 import com.wb.sc.adapter.MenuAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Adv;
+import com.wb.sc.bean.Category;
 import com.wb.sc.bean.ComNotice;
+import com.wb.sc.bean.Item;
 import com.wb.sc.bean.Menu;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
@@ -42,7 +49,7 @@ import com.wb.sc.util.ParamsUtil;
  * @作者：liang bao xian
  * @时间：2014年10月23日 上午10:19:21
  */
-public class HomeActivity extends BaseActivity implements ErrorListener{
+public class HomeActivity extends BaseActivity implements ErrorListener, LeftMenuAdapter.MenuListener{
 	
 	//标题栏相关
 	private View phoneV;
@@ -68,11 +75,19 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 	private ComNoticeListener mComNoticeListener = new ComNoticeListener();
 	private PageInfo noticePgIf = new PageInfo();
 	
+	 protected MenuDrawer mMenuDrawer;
+
+	    protected LeftMenuAdapter mAdapter;
+	    protected ListView mList;
+	    private int mActivePosition = 0;
+	    private static final String STATE_ACTIVE_POSITION =
+	            "net.simonvt.menudrawer.samples.LeftDrawerSample.activePosition";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_home);
-
+//		setContentView(R.layout.activity_home);
+		initMenuDraw(savedInstanceState);
 		getIntentData();
 		initView();
 		setUmeng();
@@ -84,6 +99,55 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 	public void getIntentData() {
 
 	}
+	
+	public void initMenuDraw(Bundle inState) {
+		  if (inState != null) {
+	            mActivePosition = inState.getInt(STATE_ACTIVE_POSITION);
+	        }
+	        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.BEHIND, Position.START, MenuDrawer.MENU_DRAG_CONTENT);
+
+	        List<Object> items = new ArrayList<Object>();
+	        items.add(new Category("Cat 1"));
+	        items.add(new Item("Item 1", "0591-12345678"));
+	        items.add(new Item("Item 2", "0591-12345678"));
+	        items.add(new Item("Item 3", "0591-12345678"));
+	        items.add(new Item("Item 4", "0591-12345678"));
+//	        items.add(new Category("Cat 2"));
+	        items.add(new Item("Item 5", "0591-12345678"));
+	        items.add(new Item("Item 6", "0591-12345678"));
+//	        items.add(new Category("Cat 3"));
+	        items.add(new Item("Item 7", "0591-12345678"));
+	        items.add(new Item("Item 8", "0591-12345678"));
+//	        items.add(new Category("Cat 4"));
+	        items.add(new Item("Item 9", "0591-12345678"));
+	        items.add(new Item("Item 10", "0591-12345678"));
+
+	        mList = new ListView(this);
+
+	        mAdapter = new LeftMenuAdapter(this, items);
+	        mAdapter.setListener(this);
+	        mAdapter.setActivePosition(mActivePosition);
+
+	        mList.setAdapter(mAdapter);
+	        mList.setOnItemClickListener(mItemClickListener);
+
+	        mMenuDrawer.setMenuView(mList);
+	        
+	        mMenuDrawer.setContentView(R.layout.activity_home);
+	        mMenuDrawer.setTouchMode(MenuDrawer.TOUCH_MODE_FULLSCREEN);
+	        mMenuDrawer.setSlideDrawable(R.drawable.ic_drawer);
+	        mMenuDrawer.setDrawerIndicatorEnabled(true);
+	}
+	
+  private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+          mActivePosition = position;
+          mMenuDrawer.setActiveView(view, position);
+          mAdapter.setActivePosition(position);
+//          onMenuItemClicked(position, (Item) mAdapter.getItem(position));
+      }
+  };
 
 	public void initView() {
 		phoneV = findViewById(R.id.phone);
@@ -302,5 +366,11 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}
 		}
+	}
+
+	@Override
+	public void onActiveViewChanged(View v) {
+		// TODO Auto-generated method stub
+		
 	}
 }
