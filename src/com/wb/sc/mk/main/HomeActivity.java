@@ -3,12 +3,15 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.simonvt.menudrawer.MenuDrawer;
+import net.simonvt.menudrawer.Position;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -16,19 +19,22 @@ import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.IUmengUnregisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
-import com.wb.sc.activity.base.BaseSlideActivity;
+import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.adapter.AdvAdapter;
+import com.wb.sc.adapter.LeftMenuAdapter;
 import com.wb.sc.adapter.MenuAdapter;
+import com.wb.sc.adapter.PhoneMenuAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Adv;
+import com.wb.sc.bean.Category;
 import com.wb.sc.bean.ComNotice;
+import com.wb.sc.bean.Item;
 import com.wb.sc.bean.Menu;
 import com.wb.sc.bean.PhoneList;
 import com.wb.sc.config.NetConfig;
@@ -46,14 +52,13 @@ import com.wb.sc.util.ParamsUtil;
  * @作者：liang bao xian
  * @时间：2014年10月23日 上午10:19:21
  */
-public class HomeActivity extends BaseSlideActivity implements ErrorListener, 
-	OnClickListener{
+
+public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMenuAdapter.MenuListener{
+
 	
 	//标题栏相关
 	private View phoneV;
 	private View msgV;
-	
-	private SlidingMenu sldMenu;
 	
 	//菜单
 	private GridView menuGv;
@@ -80,12 +85,20 @@ public class HomeActivity extends BaseSlideActivity implements ErrorListener,
 	private PhoneList mPhoneList;
 	private PhoneListListener mPhoneListListener = new PhoneListListener();
 	private PageInfo phonePgIf = new PageInfo(20, 1);
+
+	//滑动菜单
+	protected MenuDrawer mMenuDrawer;
+	protected PhoneMenuAdapter mAdapter;
+	protected ListView mList;
+	private int mActivePosition = 0;
+	private static final String STATE_ACTIVE_POSITION =
+	            "net.simonvt.menudrawer.samples.LeftDrawerSample.activePosition";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_home);
-
+//		setContentView(R.layout.activity_home);
+		initMenuDraw(savedInstanceState);
 		getIntentData();
 		initView();
 		setUmeng();
@@ -97,6 +110,59 @@ public class HomeActivity extends BaseSlideActivity implements ErrorListener,
 	public void getIntentData() {
 
 	}
+	
+	public void initMenuDraw(Bundle inState) {
+		  if (inState != null) {
+	            mActivePosition = inState.getInt(STATE_ACTIVE_POSITION);
+	        }
+	        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.BEHIND, Position.START, MenuDrawer.MENU_DRAG_CONTENT);
+
+	        List<Object> items = new ArrayList<Object>();
+//	        items.add(new Category("常用电话"));
+	        items.add(new Item("物业服务中心", "0591-12345678"));
+	        items.add(new Item("夜间报修电话", "0591-12345678"));
+	        items.add(new Item("洪山派出所", "0591-12345678"));
+	        items.add(new Item("Item 4", "0591-12345678"));
+//	        items.add(new Category("Cat 2"));
+	        items.add(new Item("Item 5", "0591-12345678"));
+	        items.add(new Item("Item 6", "0591-12345678"));
+//	        items.add(new Category("Cat 3"));
+	        items.add(new Item("Item 7", "0591-12345678"));
+	        items.add(new Item("Item 8", "0591-12345678"));
+//	        items.add(new Category("Cat 4"));
+	        items.add(new Item("Item 9", "0591-12345678"));
+	        items.add(new Item("Item 10", "0591-12345678"));
+	        
+	        View menuView = getLayoutInflater().inflate(R.layout.phone_list_layout, null);
+	        mList = (ListView) menuView.findViewById(R.id.phone_list);
+
+	        mAdapter = new PhoneMenuAdapter(this, items);
+	        mAdapter.setListener(this);
+	        mAdapter.setActivePosition(mActivePosition);
+
+	        mList.setAdapter(mAdapter);
+	        mList.setOnItemClickListener(mItemClickListener);
+
+	        mMenuDrawer.setMenuView(menuView);
+	        
+	        mMenuDrawer.setContentView(R.layout.activity_home);
+	        mMenuDrawer.setTouchMode(MenuDrawer.TOUCH_MODE_FULLSCREEN);
+	        mMenuDrawer.setSlideDrawable(R.drawable.ic_drawer);
+	        mMenuDrawer.setDrawerIndicatorEnabled(true);
+	        final float density = getResources().getDisplayMetrics().density;
+	        int size = (int) (180 * density);
+	        mMenuDrawer.setMenuSize(size);
+	}
+	
+  private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+          mActivePosition = position;
+          mMenuDrawer.setActiveView(view, position);
+          mAdapter.setActivePosition(position);
+//          onMenuItemClicked(position, (Item) mAdapter.getItem(position));
+      }
+  };
 
 	public void initView() {
 		phoneV = findViewById(R.id.phone);
@@ -165,7 +231,7 @@ public class HomeActivity extends BaseSlideActivity implements ErrorListener,
 		}break;
 		
 		case R.id.phone:{
-			
+			mMenuDrawer.toggleMenu();
 		}break;
 		}
 	}
@@ -315,6 +381,7 @@ public class HomeActivity extends BaseSlideActivity implements ErrorListener,
 			}
 		}
 	}
+
 	
 	/**
 	 * 获取请求参数
@@ -372,8 +439,8 @@ public class HomeActivity extends BaseSlideActivity implements ErrorListener,
 		}
 	}
 	
-	private void initMenuView() {
-		sldMenu = new SlidingMenu(this);
-		sldMenu.setContent(R.layout.phone_list_layout);
+	@Override
+	public void onActiveViewChanged(View v) {
+		
 	}
 }

@@ -2,7 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@drawable/huiheidi">
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="26dp"
+        android:text="常用电话"
+        android:textColor="#999999"
+        android:textSize="15sp"/>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_marginTop="9dp"
+        android:layout_height="1px"
+        android:background="#5c5d5d"/>
     
     <ListView 
         android:id="@+id/phone_list"

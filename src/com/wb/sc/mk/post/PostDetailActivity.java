@@ -60,13 +60,16 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	private PageInfo mPage = new PageInfo();
 	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;		
 	private CommentListRequest mCommentListRequest;
+	private CommentListListener mCommListListener = new CommentListListener();
 	private CommentList mCommentList;
 	
 	//发表评论
 	private CommentRequest mCommentRequest;
+	private CommentListener mCommentListener = new CommentListener();
 	
 	//点赞
 	private FavourRequest mFavourRequest;
+	private FavourListener mFavourListener = new FavourListener();
 	
 	//操作对话框
 	private OptDialog mOptDialog;
