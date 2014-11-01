@@ -7,33 +7,37 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.GridView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.IUmengUnregisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
-import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.BaseSlideActivity;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.MenuAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Adv;
 import com.wb.sc.bean.ComNotice;
 import com.wb.sc.bean.Menu;
+import com.wb.sc.bean.PhoneList;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.mk.personal.MsgCenterActivity;
 import com.wb.sc.mk.post.PostListActivity;
 import com.wb.sc.task.AdvRequest;
 import com.wb.sc.task.ComNoticeRequest;
+import com.wb.sc.task.PhoneListRequest;
 import com.wb.sc.util.ParamsUtil;
 
 /**
@@ -42,11 +46,14 @@ import com.wb.sc.util.ParamsUtil;
  * @作者：liang bao xian
  * @时间：2014年10月23日 上午10:19:21
  */
-public class HomeActivity extends BaseActivity implements ErrorListener{
+public class HomeActivity extends BaseSlideActivity implements ErrorListener, 
+	OnClickListener{
 	
 	//标题栏相关
 	private View phoneV;
 	private View msgV;
+	
+	private SlidingMenu sldMenu;
 	
 	//菜单
 	private GridView menuGv;
@@ -68,8 +75,14 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 	private ComNoticeListener mComNoticeListener = new ComNoticeListener();
 	private PageInfo noticePgIf = new PageInfo();
 	
+	//常用电话
+	private PhoneListRequest mPhoneListRequest;
+	private PhoneList mPhoneList;
+	private PhoneListListener mPhoneListListener = new PhoneListListener();
+	private PageInfo phonePgIf = new PageInfo(20, 1);
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
@@ -144,7 +157,6 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 	
 	@Override
 	public void onClick(View v) {
-		super.onClick(v);
 		
 		switch(v.getId()) {
 		case R.id.msg:{
@@ -302,5 +314,66 @@ public class HomeActivity extends BaseActivity implements ErrorListener{
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}
 		}
+	}
+	
+	/**
+	 * 获取请求参数
+	 * @return
+	 */
+	private List<String> getPhoneListRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG14", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().getCommunityId(), 64));
+		params.add(ParamsUtil.getReqIntParam(phonePgIf.pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(phonePgIf.pageSize, 2));
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestPhoneList(List<String> params,	 
+			Listener<PhoneList> listenre, ErrorListener errorListener) {			
+		if(mPhoneListRequest != null) {
+			mPhoneListRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mPhoneListRequest = new PhoneListRequest(url, params, listenre, errorListener);
+		startRequest(mPhoneListRequest);		
+	}
+	
+	/**
+	 * 
+	 * @描述：电话列表监听
+	 * @作者：liang bao xian
+	 * @时间：2014年11月1日 上午10:41:31
+	 */
+	class PhoneListListener implements Listener<PhoneList> {
+		
+		/**
+		 * 请求完成，处理UI更新
+		 */
+		@Override
+		public void onResponse(PhoneList response) {		
+			showContent();	
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				mPhoneList = response;
+			} else {
+				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
+			}
+		}
+	}
+	
+	private void initMenuView() {
+		sldMenu = new SlidingMenu(this);
+		sldMenu.setContent(R.layout.phone_list_layout);
 	}
 }
