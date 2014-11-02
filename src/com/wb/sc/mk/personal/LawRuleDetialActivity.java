@@ -149,6 +149,11 @@ ErrorListener, ReloadListener{
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			showContent();
 //			mBase = response;
+			bulletinTitle.setText(response.lawTitle);
+			bulletinContent.setText(response.lawContent);
+			notifyTime.setText(response.releaseTime);
+//			notifyShortTime.setText(item.notifyTime);
+			
 		} else {
 			showLoadError(this);
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);

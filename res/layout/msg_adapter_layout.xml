@@ -7,7 +7,6 @@
        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:layout_marginTop="@dimen/normal_margin"
                 android:background="@android:color/white"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -27,6 +26,7 @@
                     android:text="【物业法规】xxxxxxxxxx" />
 
                 <LinearLayout
+                    android:id="@+id/show_arrow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right" >

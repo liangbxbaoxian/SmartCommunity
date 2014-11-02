@@ -217,10 +217,8 @@ public class BaseItemPhotoFragment extends BaseExtraLayoutFragment {
 					DebugConfig.showLog("volley_response", result);
 					PhotoUpload pUpload = new PhotoUploadParser().parse(result);
 					if(pUpload.respCode.equals(RespCode.SUCCESS)) {						
-//						Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-//						Bitmap roundBmp = BitmapHelper.toRoundCorner(bitmap, bitmap.getHeight()/2);
 						if(listener != null) {
-							listener.onComplete(photoFile);
+							listener.onComplete(pUpload.data, photoFile);
 						}
 						ToastHelper.showToastInBottom(getActivity(), "头像上传成功");
 					} 
@@ -255,6 +253,6 @@ public class BaseItemPhotoFragment extends BaseExtraLayoutFragment {
 	}
 	
 	public interface OnUploadCompleteListener {
-		public void onComplete(File photoFile);
+		public void onComplete(String imgUrl, File imgFile);
 	}
 }

@@ -33,21 +33,22 @@ import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MsgListAdapter;
 import com.wb.sc.app.SCApp;
-import com.wb.sc.bean.MsgCenter;
+import com.wb.sc.bean.Msg;
+import com.wb.sc.bean.Msg.MgItem;
 import com.wb.sc.bean.MsgList;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
-import com.wb.sc.task.MsgCenterRequest;
+import com.wb.sc.task.MsgRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
 
 public class MsgCenterActivity extends BaseHeaderActivity implements 
-	OnItemClickListener, ReloadListener, Listener<MsgCenter>, ErrorListener{
+	OnItemClickListener, ReloadListener, Listener<Msg>, ErrorListener{
 	
 	private Spinner typeSp;
 	private int  spinnerPosition = 0;
-	private String reqType = "FG12";
+	private String reqType = "FG39";
 	
 	private PullToRefreshListView mPullListView;
 	private PullRefreshListViewHelper mPullHelper;
@@ -57,11 +58,11 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	private MsgListAdapter mAdapter;
 	private MsgList mMsgList;
 	
-	private MsgCenterRequest MmsgCenterRequest;
+	private MsgRequest MmsgCenterRequest;
 	private int pageNo = 1;
 	private int pageSize = 10;
 	
-	private List<MsgCenter> list = new ArrayList<MsgCenter>();
+	private List<MgItem> list = new ArrayList<MgItem>();
 			
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -241,8 +242,8 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId +"", 64));
-		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
-		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
 		
 		return params;
 	}
@@ -256,12 +257,12 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	 * @param errorListener
 	 */	
 	private void requestBase(List<String> paramsList,	 
-			Listener<MsgCenter> listenre, ErrorListener errorListener) {			
+			Listener<Msg> listenre, ErrorListener errorListener) {			
 		if(MmsgCenterRequest != null) {
 			MmsgCenterRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
-		MmsgCenterRequest = new MsgCenterRequest(url, paramsList, this, this);
+		MmsgCenterRequest = new MsgRequest(url, paramsList, this, this);
 		startRequest(MmsgCenterRequest);		
 	}
 	
@@ -273,7 +274,7 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	}
 
 	@Override
-	public void onResponse(MsgCenter response) {
+	public void onResponse(Msg response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			pageNo ++;
 

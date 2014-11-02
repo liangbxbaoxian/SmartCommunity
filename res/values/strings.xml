@@ -50,10 +50,9 @@
         <item>社区雷锋</item>
     </string-array>
     <string-array name="spinnername">
-        <item>酒店餐饮</item>
-        <item>旅游美食</item>
-        <item>时鲜花店</item>
-        <item>果蔬海鲜</item>
+        <item>餐饮类</item>
+        <item>文具</item>
+        <item>住宿类</item>
     </string-array>
     <string-array name="property_complain_type">
         <item>安全秩序</item>

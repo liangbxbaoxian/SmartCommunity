@@ -93,7 +93,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center" >
 
-                    <com.wb.sc.widget.CircleImageView
+                    <ImageView
                         android:id="@+id/img_portrait"
                         android:layout_width="70.5dp"
                         android:layout_height="70.5dp"

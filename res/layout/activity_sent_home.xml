@@ -64,6 +64,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:hint="输入商户名"
+                 android:imeOptions="actionSearch"
                 android:singleLine="true"
                 android:textColor="#000" >
             </EditText>

@@ -3,8 +3,7 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.android.agoo.client.IppFacade;
-
+import android.app.Notification.Action;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,65 +14,45 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.TextView.OnEditorActionListener;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
-import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.umeng.message.proguard.aM;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
-import com.wb.sc.activity.base.ReloadListener;
-import com.wb.sc.adapter.SentHomeAdpater;
+import com.wb.sc.adapter.DictionaryAdapter;
 import com.wb.sc.app.SCApp;
-import com.wb.sc.bean.OneKm;
-import com.wb.sc.bean.OneKm.MerchantItem;
+import com.wb.sc.bean.DictionaryItem;
 import com.wb.sc.bean.SentHome;
-import com.wb.sc.config.NetConfig;
-import com.wb.sc.config.RespCode;
 import com.wb.sc.task.OneKmRequest;
-import com.wb.sc.util.Constans;
-import com.wb.sc.util.MetaUtil;
-import com.wb.sc.util.ParamsUtil;
 
-public class SentHomeActivity extends BaseActivity implements OnMenuItemClickListener, Listener<OneKm>, 
-ErrorListener, ReloadListener{
+public class SetCommunityActivity extends BaseActivity implements OnMenuItemClickListener {
 
 	private PullToRefreshListView mPullToRefreshListView;
-	private SentHomeAdpater mAdpter;
+	private DictionaryAdapter mAdpter;
 	
 	private String mKeyword;
-	private String sId;
-	
 	private int pageNo;
 	private int pageSize = 10;
-	private boolean hasNextPage;
-	private String mDistrictName;
-	
 	private OneKmRequest mOneKmRequest;
 	
-	private List<MerchantItem> list = new ArrayList<MerchantItem>();
+//	private List<DictionaryItem> list = new ArrayList<DictionaryItem>();
 	
-	private Spinner mSpinner;
-	private Spinner mDistanceSpinner;
+	private DictionaryItem item;
 	
 	public String longitude;   // 经度
 	public String latitude;     // 维度
@@ -88,21 +67,40 @@ ErrorListener, ReloadListener{
 	protected void onCreate(Bundle savedInstanceState) {
 //		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sent_home);
+		setContentView(R.layout.activity_set_location);
 		getIntentData();
+		initItem();
 		initView();
 		
-		getGps();
+//		getGps();
 		
-		showLoading();
+//		showLoading();
 		
 //		requestBase(getBaseRequestParams(), this, this);
 	}
 	
 	@Override
 	protected void onStop() {
-		mLocationClient.stop();
+//		mLocationClient.stop();
 		super.onStop();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mAdpter.notifyDataSetChanged();
+	}
+	
+	private void initItem() {
+		List<DictionaryItem> list = new ArrayList<DictionaryItem>();
+		String name [] = {"选择省", "选择市", "选择区", "选择社区"};
+		for (int i = 0; i < name.length; i++) {
+			DictionaryItem item = new DictionaryItem();
+			item.dictionaryId = "" + i;
+			item.dictionaryName = name[i];
+			list.add(item);
+		}
+		SCApp.getInstance().setList(list);
 	}
 	
 	private void getGps() {
@@ -114,7 +112,7 @@ ErrorListener, ReloadListener{
 				mLocationClient.stop();
 				longitude = arg0.getLongitude() + "";
 				latitude = arg0.getLatitude() + "";
-				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+//				requestBase(getBaseRequestParams(), SetCommunityActivity.this, SetCommunityActivity.this);
 			}
 			
 		});
@@ -144,14 +142,15 @@ ErrorListener, ReloadListener{
 
 	public void initView() {
 		mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_scroll);
+		mPullToRefreshListView.setMode(Mode.DISABLED);
 		mPullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 //				new GetDataTask().execute();
 				pageNo = 1;
-				list.clear();
-				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+//				list.clear();
+//				requestBase(getBaseRequestParams(), SetCommunityActivity.this, SetCommunityActivity.this);
 			}
 		});
 		
@@ -159,7 +158,7 @@ ErrorListener, ReloadListener{
 
 			@Override
 			public void onLastItemVisible() {
-				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+//				requestBase(getBaseRequestParams(), SetCommunityActivity.this, SetCommunityActivity.this);
 			}
 		});
 		
@@ -169,73 +168,90 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(SentHomeActivity.this, SentHomeDetailActivity.class);
-				intent.putExtra("merchantId", list.get(position -1).merchantId);  //此处还未查明原因
-				intent.putExtra("merchantTel", list.get(position -1).merchantTel);  //此处还未查明原因
-				intent.putExtra("merchantName", list.get(position -1).merchantName);
-				startActivity(intent);
+				
+				
+				
+				item= SCApp.getInstance().getList().get(position -1);
+				
+				boolean success = true;
+				String name [] = {"请先选择省", "请先选择市", "请先选择区", "请先选择社区"};
+				if (position > 1) {
+					if (item.superDictionaryId == null) {
+						ToastHelper.showToastInBottom(SetCommunityActivity.this, name[position -2]);
+						success = false;
+					} else {
+//						if (position >= 2) {
+//							DictionaryItem fatherItem = SCApp.getInstance().getList().get(position -2);
+//							item.superDictionaryId = fatherItem.dictionaryId;
+//						}
+					}
+				}
+				
+				if (success) {
+					Intent intent = new Intent(SetCommunityActivity.this, SetLocationDetailActivity.class);
+//					intent.putExtra("obj", (Serializable)item);
+					intent.putExtra("position", position - 1);
+					startActivity(intent);
+				}
+				
+//				Bundle bundle = new Bundle();
+//				bundle.putSerializable("obj", obj);
+//				intent.putExtras(bundle);
+//				intent.putExtra("merchantName", list.get(position).merchantName);
+				
 			}
 		});
 		
 		
 		initData();
-		mAdpter = new SentHomeAdpater(SentHomeActivity.this, list);
+		mAdpter = new DictionaryAdapter(SetCommunityActivity.this, SCApp.getInstance().getList());
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
 		
-	      // 初始化控件
-		mSpinner = (Spinner) findViewById(R.id.spinner1);
-		// 建立数据源
-		String[] mItems = getResources().getStringArray(R.array.spinnername);
-		// 建立Adapter并且绑定数据源
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-    			R.layout.spinner_text_layout, mItems);
-    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-		mSpinner.setAdapter(adapter);
-		mSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				merchantCategoryId = "" + arg2;
-		  		showLoading();
-        		pageNo = 1;
-        		list.clear();
-        		requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+//	      // 初始化控件
+//		mSpinner = (Spinner) findViewById(R.id.spinner1);
+//		// 建立数据源
+//		String[] mItems = getResources().getStringArray(R.array.spinnername);
+//		// 建立Adapter并且绑定数据源
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+//    			R.layout.spinner_text_layout, mItems);
+//    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//		mSpinner.setAdapter(adapter);
 		
-		// 初始化控件
-		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
-		// 建立数据源
-		String[] distances = getResources().getStringArray(R.array.spinner_distance);
-		// 建立Adapter并且绑定数据源
-		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
-				R.layout.spinner_text_layout, distances);
-		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-		mDistanceSpinner.setAdapter(distanceAdapter);
+//		// 初始化控件
+//		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
+//		// 建立数据源
+//		String[] distances = getResources().getStringArray(R.array.spinner_distance);
+//		// 建立Adapter并且绑定数据源
+//		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
+//				R.layout.spinner_text_layout, distances);
+//		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//		mDistanceSpinner.setAdapter(distanceAdapter);
 		
 		final EditText input_content = (EditText) findViewById(R.id.input_content);
 		input_content.setOnEditorActionListener(new OnEditorActionListener() {  
             @Override  
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {  
             	if (actionId == EditorInfo.IME_ACTION_SEARCH ) {
-            		merchantName = input_content.getText() +"";
-            		showLoading();
-            		pageNo = 1;
-            		list.clear();
-            		requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+            		Intent intent = new Intent(SetCommunityActivity.this, SetLocationDetailActivity.class);
+//					intent.putExtra("obj", (Serializable)item);
+					intent.putExtra("keyword", input_content.getText());
+					intent.putExtra("position", 3);
+					startActivity(intent);
             		return true;
             	} 
                 return false;  
             }  
-        }); 
+        });  
+		
+		Button btn_exit = (Button) findViewById(R.id.btn_exit);
+		btn_exit.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				SetCommunityActivity.this.finish();
+			}
+		});
 		
 	}
 	
@@ -298,69 +314,43 @@ ErrorListener, ReloadListener{
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestBase(List<String> paramsList,	 
-			Listener<OneKm> listenre, ErrorListener errorListener) {			
-		if(mOneKmRequest != null) {
-			mOneKmRequest.cancel();
-		}	
-		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
-		mOneKmRequest = new OneKmRequest(url, paramsList, this, this);
-		startRequest(mOneKmRequest);		
-	}
+//	private void requestBase(List<String> paramsList,	 
+//			Listener<OneKm> listenre, ErrorListener errorListener) {			
+//		if(mOneKmRequest != null) {
+//			mOneKmRequest.cancel();
+//		}	
+//		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+//		mOneKmRequest = new OneKmRequest(url, paramsList, this, this);
+//		startRequest(mOneKmRequest);		
+//	}
 	
 	/**
 	 * 获取请求参数,请按照接口文档列表顺序排列
 	 * @return
 	 */
-	private List<String> getBaseRequestParams() {
-		List<String> params = new ArrayList<String>();
-		params.add(ParamsUtil.getReqParam("FG46", 4));
-		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
-		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
-		String categoryName = merchantName == null ? "":merchantName;
-		params.add(ParamsUtil.getReqParam(categoryName, 32));
-		params.add(ParamsUtil.getReqParam(longitude, 128));
-		params.add(ParamsUtil.getReqParam(latitude, 128));
-		String categoryId = merchantCategoryId == null ? "":merchantCategoryId;
-		params.add(ParamsUtil.getReqParam(categoryId, 32));
-		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
-		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
-		
-		return params;
-	}
+//	private List<String> getBaseRequestParams() {
+//		List<String> params = new ArrayList<String>();
+//		params.add(ParamsUtil.getReqParam("FG46", 4));
+//		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+//		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
+//		params.add(ParamsUtil.getReqParam(merchantName, 32));
+//		params.add(ParamsUtil.getReqParam(longitude, 128));
+//		params.add(ParamsUtil.getReqParam(latitude, 128));
+//		params.add(ParamsUtil.getReqParam(merchantCategoryId, 32));
+//		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
+//		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+//		
+//		return params;
+//	}
 
 
+//	@Override
+//	public void onReload() {
+//		requestBase(getBaseRequestParams(), this, this);
+//	}
 	@Override
-	public void onReload() {
-		requestBase(getBaseRequestParams(), this, this);
+	protected void onDestroy() {
+		super.onDestroy();
 	}
-
-
-	@Override
-	public void onErrorResponse(VolleyError error) {
-		showLoadError(this);	
-		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
-	}
-
-
-	@Override
-	public void onResponse(OneKm response) {
-		if(response.respCode.equals(RespCode.SUCCESS)) {
-			pageNo ++;
-
-			list.addAll(response.datas);
-			// Call onRefreshComplete when the list has been refreshed.
-			mPullToRefreshListView.onRefreshComplete();
-			if (!response.hasNextPage) {
-				mPullToRefreshListView.setMode(Mode.DISABLED);
-			}
-			showContent();
-		} else {
-			showLoadError(this);
-			ToastHelper.showToastInBottom(this, response.respCodeMsg);
-		}
-		
-	}
-	
 
 }

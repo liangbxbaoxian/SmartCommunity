@@ -1,29 +1,33 @@
 package com.wb.sc.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.android.volley.toolbox.NetworkImageView;
-import com.wb.sc.R;
-import com.wb.sc.adapter.MsgListAdapter.ViewHolder;
-import com.wb.sc.bean.LawRule.LawRuleItem;
-import com.wb.sc.bean.MsgList;
-
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class MsgAdapter extends BaseAdapter{  //法律法规
+import com.wb.sc.R;
+import com.wb.sc.bean.Community.CommunityItem;
+import com.wb.sc.bean.DictionaryItem;
+
+public class DictionaryAdapter extends BaseAdapter{  //法律法规
 	
 	private Context mContext;
 	private List<?> mMsgList;
+	private boolean isShowArrow = true;
 	   
-    public MsgAdapter(Context context, List<?> list) {
+    public boolean isShowArrow() {
+		return isShowArrow;
+	}
+
+	public void setShowArrow(boolean isShowArrow) {
+		this.isShowArrow = isShowArrow;
+	}
+
+	public DictionaryAdapter(Context context, List<?> list) {
        mContext = context;
        mMsgList = list;
     }
@@ -49,7 +53,14 @@ public class MsgAdapter extends BaseAdapter{  //法律法规
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       
-    	LawRuleItem item = (LawRuleItem) mMsgList.get(position);
+    	String name = "";
+    	if (mMsgList.get(position) instanceof DictionaryItem) {
+    		DictionaryItem item = (DictionaryItem) mMsgList.get(position);
+    		name = item.dictionaryName;
+    	} else {
+    		CommunityItem item = (CommunityItem) mMsgList.get(position);
+    		name = item.communityName;
+    	}
     	
        View view = null;
        ViewHolder holder;
@@ -66,7 +77,11 @@ public class MsgAdapter extends BaseAdapter{  //法律法规
            holder = (ViewHolder) view.getTag();
        }
        
-       holder.nameTv.setText(item.lawRuleTitle);
+       if (!isShowArrow) {
+    	   view.findViewById(R.id.show_arrow).setVisibility(View.INVISIBLE);;
+       }
+       
+       holder.nameTv.setText(name);
        
        return view;
     }

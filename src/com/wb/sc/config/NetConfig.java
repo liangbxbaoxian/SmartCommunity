@@ -15,6 +15,7 @@ public class NetConfig {
 //	public static final String DEBUG_BASE_URL = "http://121.42.15.225:27634/";
 	public static final String DEBUG_BASE_URL = "http://121.42.15.225:37986/";	
 //	public static final String DEBUG_BASE_URL = "http://121.42.15.225:32412/";
+
 	public static final String DEBUG_INTRANET_BASE_URL = "http://192.168.17.94:8080/"; 
 		
 	/*************************************正式环境配置************************************/
