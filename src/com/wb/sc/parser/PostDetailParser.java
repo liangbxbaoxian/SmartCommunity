@@ -13,8 +13,9 @@ public class PostDetailParser {
 	public void parse(PostDetail baseBean) {	
 			
 		//进行数据解析处理
-		baseBean.id = ParamsUtil.getRespParamNext(baseBean, 64);
-		baseBean.name = ParamsUtil.getRespParamNext(baseBean, 64);
+		baseBean.sourceId = ParamsUtil.getRespParamNext(baseBean, 64);
+		baseBean.sourceName = ParamsUtil.getRespParamNext(baseBean, 64);
+		baseBean.sourceAvatarUrl = ParamsUtil.getRespParamNext(baseBean, 256);
 		baseBean.title = ParamsUtil.getRespParamNext(baseBean, 64);
 		baseBean.content = ParamsUtil.getRespParamNext(baseBean, 256);
 		String[] imgs = ParamsUtil.getRespParamNext(baseBean, 1024).split(ParamsUtil.ITEMS_DIVIDER);

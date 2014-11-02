@@ -1,17 +1,19 @@
 package com.wb.sc.adapter;
 
-import com.common.widget.hzlib.HorizontalListView;
-import com.wb.sc.R;
-import com.wb.sc.bean.PostList;
-import com.wb.sc.bean.PostList.Item;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.volley.toolbox.NetworkImageView;
+import com.common.widget.hzlib.HorizontalListView;
+import com.wb.sc.R;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.PostList;
+import com.wb.sc.bean.PostList.Item;
+import com.wb.sc.config.NetConfig;
 
 public class PostListAdapter extends BaseAdapter{
 	
@@ -50,13 +52,13 @@ public class PostListAdapter extends BaseAdapter{
            LayoutInflater inflater = LayoutInflater.from(mContext);
            view = inflater.inflate(R.layout.post_list_item, null);
            holder = new ViewHolder();
-           holder.avatarIv = (ImageView) view.findViewById(R.id.avatar);
-           holder.nameTv = (TextView) view.findViewById(R.id.name);
-           holder.remarkTv = (TextView) view.findViewById(R.id.remark);
-           holder.timeTv = (TextView) view.findViewById(R.id.time);
-           holder.descTv = (TextView) view.findViewById(R.id.desc);
+           holder.avatarIv = (NetworkImageView) view.findViewById(R.id.avatar);
+           holder.nameTv = (TextView) view.findViewById(R.id.postMaster);
+           holder.titleTv = (TextView) view.findViewById(R.id.postTitle);
+           holder.timeTv = (TextView) view.findViewById(R.id.postTime);
+           holder.descTv = (TextView) view.findViewById(R.id.postName);
            holder.msgNumTv = (TextView) view.findViewById(R.id.msg_num);
-           holder.favouriteNumTv = (TextView) view.findViewById(R.id.favour_num);
+           holder.favNumTv = (TextView) view.findViewById(R.id.favourite_num);
            holder.imgLv = (HorizontalListView) view.findViewById(R.id.list);
            view.setTag(holder);
        } else {
@@ -65,14 +67,18 @@ public class PostListAdapter extends BaseAdapter{
        }
        
        Item item = mPostList.datas.get(position);
-       holder.nameTv.setText(item.source);
+       holder.avatarIv.setImageUrl(NetConfig.getPictureUrl(item.sourceAvatarUrl), 
+    		   SCApp.getInstance().getImageLoader());
+       holder.nameTv.setText(item.sourceName);
+       holder.titleTv.setText(item.title);
        holder.timeTv.setText(item.time);
        holder.descTv.setText(item.content);
        holder.msgNumTv.setText(item.commentNum);
-       holder.favouriteNumTv.setText(item.favNum);
+       holder.favNumTv.setText(item.favNum);
        if(item.imgList.size() > 0) {
-    	   PostImgAdapter adapter = new PostImgAdapter(mContext, item.imgList);
-    	   holder.imgLv.setAdapter(adapter);
+//    	   PostImgAdapter adapter = new PostImgAdapter(mContext, item.imgList);
+//    	   holder.imgLv.setAdapter(adapter);
+    	   holder.imgLv.setVisibility(View.GONE);
        } else {
     	   holder.imgLv.setVisibility(View.GONE);
        }
@@ -81,13 +87,13 @@ public class PostListAdapter extends BaseAdapter{
     }
    
     class ViewHolder {
-    	ImageView avatarIv;
+    	NetworkImageView avatarIv;
     	TextView nameTv;
-    	TextView remarkTv;
+    	TextView titleTv;
     	TextView timeTv;
     	TextView descTv;
     	TextView msgNumTv;
-    	TextView favouriteNumTv;
+    	TextView favNumTv;
     	HorizontalListView imgLv;
     }
 }

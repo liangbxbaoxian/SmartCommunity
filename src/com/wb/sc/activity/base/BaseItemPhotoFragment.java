@@ -218,7 +218,7 @@ public class BaseItemPhotoFragment extends BaseExtraLayoutFragment {
 					PhotoUpload pUpload = new PhotoUploadParser().parse(result);
 					if(pUpload.respCode.equals(RespCode.SUCCESS)) {						
 						if(listener != null) {
-							listener.onComplete(pUpload.imgUrl, photoFile);
+							listener.onComplete(pUpload.data, photoFile);
 						}
 						ToastHelper.showToastInBottom(getActivity(), "头像上传成功");
 					} 

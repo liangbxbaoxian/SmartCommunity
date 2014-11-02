@@ -29,6 +29,7 @@ public class PhotoAdapter extends BaseAdapter {
 			int width, int height) {
 		mActivity = activity;
 		this.fileList = fileList;		
+		photoList.add(new SoftReference<Bitmap>(null));
 		itemWidth = width;
 		itemHeight = height;
 		
@@ -78,12 +79,14 @@ public class PhotoAdapter extends BaseAdapter {
 		} else {
 			Bitmap bmp = null;			
 			if(position >= photoList.size()) {
+				//新增
 				bmp = BitmapHelper.getReSizeBmp(fileList.get(position).getAbsolutePath(), 
 						itemWidth, itemHeight, Bitmap.Config.RGB_565);
 				photoList.add(new SoftReference<Bitmap>(bmp));
-			} else {
+			} else {				
 				bmp = photoList.get(position).get();
 				if(bmp == null) {
+					//如果图片资源被释放，进行图片替换
 					bmp = BitmapHelper.getReSizeBmp(fileList.get(position).getAbsolutePath(), itemWidth, 
 							itemHeight, Bitmap.Config.RGB_565);
 					photoList.set(position, new SoftReference<Bitmap>(bmp));

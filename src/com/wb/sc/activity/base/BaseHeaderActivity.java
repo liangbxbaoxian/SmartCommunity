@@ -8,27 +8,27 @@ import com.wb.sc.R;
 
 public abstract class BaseHeaderActivity extends BaseActivity implements OnClickListener{
 	
-	protected View backIv;
-	protected View homeIv;
-	protected TextView titleTv;
+	protected View headerBackIv;
+	protected View headerHomeIv;
+	protected TextView headerTitleTv;
 	
 	public void initHeader(int titleId) {
 		initHeader(getResources().getString(titleId));
 	}
 	
 	public void initHeaderBack() {
-		backIv = findViewById(R.id.common_header_back);
-		backIv.setOnClickListener(this);
+		headerBackIv = findViewById(R.id.common_header_back);
+		headerBackIv.setOnClickListener(this);
 	}
 		
 	public void initHeader(String title) {
-		backIv = findViewById(R.id.common_header_back);
-		backIv.setOnClickListener(this);
-		homeIv = findViewById(R.id.common_header_home);
-		titleTv = (TextView)findViewById(R.id.common_header_title);
-		titleTv.setText(title);
-		if(homeIv != null) {
-			homeIv.setVisibility(View.GONE);
+		headerBackIv = findViewById(R.id.common_header_back);
+		headerBackIv.setOnClickListener(this);
+		headerHomeIv = findViewById(R.id.common_header_home);
+		headerTitleTv = (TextView)findViewById(R.id.common_header_title);
+		headerTitleTv.setText(title);
+		if(headerHomeIv != null) {
+			headerHomeIv.setVisibility(View.GONE);
 		}
 	}
 	

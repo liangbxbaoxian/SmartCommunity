@@ -2,6 +2,7 @@ package com.wb.sc.activity.base;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import android.view.View;
 import com.common.file.FileDirUtil;
 import com.common.media.BitmapHelper;
 import com.common.media.CameraHelper;
+import com.common.security.MD5Tools;
 import com.common.widget.ToastHelper;
 import com.common.widget.hzlib.HorizontalAdapterView;
 import com.common.widget.hzlib.HorizontalListView;
@@ -29,6 +31,7 @@ import com.wb.sc.adapter.PhotoAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.PhotoUpload;
 import com.wb.sc.config.AcResultCode;
+import com.wb.sc.config.DebugConfig;
 import com.wb.sc.config.ImageConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.NetInterface;
@@ -41,9 +44,7 @@ public class BasePhotoFragment extends BaseExtraLayoutFragment implements OnItem
 	
 	private static final int CROP_WIDTH = 400;
 	private static final int CROP_HEIGHT = 400;
-	
-	public int itemWidth = 83;
-	
+		
 	private List<File> fileList;
 	private File photoFile;
 	private Uri photoUri;
@@ -53,6 +54,8 @@ public class BasePhotoFragment extends BaseExtraLayoutFragment implements OnItem
 	private HorizontalListView listView;	
 	private PhotoAdapter photoAdapter;
 	
+	public int maxNum = 9; //最多上传个数
+	public int itemWidth = 83; //图片宽度
 	private int state = 0; // 0:新增  1：替换
 	private int selPos;
 	private AddPhotoDialog optDialog;
@@ -71,6 +74,11 @@ public class BasePhotoFragment extends BaseExtraLayoutFragment implements OnItem
     	listView.setOnItemClickListener(this);
     	photoAdapter = new PhotoAdapter(getActivity(), fileList, itemWidth, itemWidth);
     	listView.setAdapter(photoAdapter);
+	}
+	
+	public void initPhoto(View view, String messageType) {
+		initPhoto(view);
+		this.messageType = messageType;
 	}
 	
 	@Override
@@ -116,6 +124,15 @@ public class BasePhotoFragment extends BaseExtraLayoutFragment implements OnItem
     		
     	case R.id.photo_del:
     		optDialog.dismiss();
+    		fileList.remove(selPos);
+    		photoAdapter.getPhotoList().get(selPos).get().recycle();
+    		photoAdapter.getPhotoList().get(selPos).clear();
+    		photoAdapter.getPhotoList().remove(selPos);
+			if(fileList.get(0) != null) {
+				fileList.add(0, null);
+				photoAdapter.getPhotoList().add(0, new SoftReference<Bitmap>(null));
+			}
+			photoAdapter.notifyDataSetChanged();
     		break;
     	}
     }
@@ -188,8 +205,18 @@ public class BasePhotoFragment extends BaseExtraLayoutFragment implements OnItem
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(requestCode) {
 		case AcResultCode.REQUEST_CODE_CAMERA_IMAGE:
-			if(resultCode != 0 && photoFile.exists()) {		
-				fileList.add(photoFile);	
+			if(resultCode != 0 && photoFile.exists()) {						
+				if(state == 0) {
+					fileList.add(photoFile);
+					if(fileList.size() > maxNum) {
+						fileList.remove(0);
+						photoAdapter.getPhotoList().remove(0);
+					}
+				} else {
+					fileList.set(selPos, photoFile);
+					photoAdapter.getPhotoList().get(selPos).get().recycle();
+					photoAdapter.getPhotoList().get(selPos).clear();
+				}
 				photoAdapter.notifyDataSetChanged();
 			} else {
 				ToastHelper.showToastInBottom(getActivity(), "拍照取图失败");
@@ -201,7 +228,17 @@ public class BasePhotoFragment extends BaseExtraLayoutFragment implements OnItem
 				String photoPath = FileDirUtil.getPathFromUri(getActivity(), data.getData());
 				if(!TextUtils.isEmpty(photoPath)) {
 					photoFile = new File(photoPath);
-					fileList.add(photoFile);
+					if(state == 0) {
+						fileList.add(photoFile);
+						if(fileList.size() > maxNum) {
+							fileList.remove(0);
+							photoAdapter.getPhotoList().remove(0);
+						}
+					} else {
+						fileList.set(selPos, photoFile);
+						photoAdapter.getPhotoList().get(selPos).get().recycle();
+						photoAdapter.getPhotoList().get(selPos).clear();
+					}
 					photoAdapter.notifyDataSetChanged();
 				} else {
 					ToastHelper.showToastInBottom(getActivity(), "相册选图失败");
@@ -257,20 +294,24 @@ public class BasePhotoFragment extends BaseExtraLayoutFragment implements OnItem
 //		String suffixName = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".")+1);
 		
 		try {
+			String urlParams = "?userId=" + SCApp.getInstance().getUser().userId;
+			urlParams += "&messageType=" + messageType;
+			urlParams += "&checkcodeMD5=" + MD5Tools.getDigestFromFile(file);
+			
 			AjaxParams params = new AjaxParams();
-			params.put("userId", SCApp.getInstance().getUser().userId);
-			params.put("messageType", messageType);
 			params.put("photo", file);			
 			FinalHttp fh = new FinalHttp(); 
 			fh.configTimeout(NetConfig.UPLOAD_IMG_TIMEOUT);
-			String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + NetInterface.METHOD_UPLOAD_PHOTO;
+			String url = NetConfig.getServerBaseUrl() + NetInterface.METHOD_UPLOAD_PHOTO + urlParams;
+			DebugConfig.showLog("volley_request", url);
 			fh.post(url, params, new AjaxCallBack<String>(){
 
 				@Override
 				public void onSuccess(String result) {
+					DebugConfig.showLog("volley_response", result);
 					PhotoUpload pUpload = new PhotoUploadParser().parse(result);
 					if(pUpload.respCode.equals(RespCode.SUCCESS)) {
-						imgUrlList.add(pUpload.imgUrl);
+						imgUrlList.add(pUpload.data);
 						currentUploadIndex++;
 						if(currentUploadIndex < fileList.size()) {
 							uploadIndexPhoto(currentUploadIndex);

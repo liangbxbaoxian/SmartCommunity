@@ -1,16 +1,59 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0099cc"
-    tools:context="com.andfond.helehui.FullscreenActivity" >
+    android:orientation="vertical">
+	
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg"
+        android:visibility="visible" >
+        
+         <LinearLayout
+            android:id="@+id/common_header_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/title_bar_padding"
+            android:paddingRight="@dimen/title_bar_padding"
+            android:background="@drawable/header_btn_selector" >
 
-    <!--
-         The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc.
-    -->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/my_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/title_bar_padding"
+            android:paddingRight="@dimen/title_bar_padding"
+            android:background="@drawable/header_btn_selector" >
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/my_posts_icon" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/common_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我要发帖"
+            android:textColor="@color/title_text_color"
+            android:textSize="@dimen/title_bar_text_size" />
+    </RelativeLayout>
+    
     <FrameLayout
         android:id="@+id/fragment_containner"
         android:layout_width="match_parent"
@@ -18,10 +61,4 @@
         android:gravity="center"
         />
 
-    <!--
-         This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows.
-    -->
-
-
-</FrameLayout>
+</LinearLayout>

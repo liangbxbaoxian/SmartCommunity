@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -42,7 +43,8 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 	private Spinner typeSp;
 	private EditText houseInfoEt;
 	private EditText detailEt;
-	private Button submitBtn;
+	private CheckBox shareCb;
+	private Button submitBtn;	
 	
 	String houseInfo;
 	String detail;
@@ -58,8 +60,6 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 		
 		getIntentData();
 		initView();
-		
-		messageType = "FG37";
 	}
 	
 	@Override
@@ -71,7 +71,8 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 	public void initView() {
 		myComplainV = findViewById(R.id.my_complain);
 		myComplainV.setOnClickListener(this);
-		initPhoto();
+		initPhoto("FG37");
+		setUploadListener(this);
 		
 		typeSp = (Spinner) findViewById(R.id.type);
 		String[] types = getResources().getStringArray(R.array.property_complain_type);
@@ -82,6 +83,7 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
     	
     	houseInfoEt = (EditText) findViewById(R.id.house_info);
     	detailEt = (EditText) findViewById(R.id.detail);
+    	shareCb = (CheckBox) findViewById(R.id.share);
     	
     	submitBtn = (Button) findViewById(R.id.submit);
     	submitBtn.setOnClickListener(this);
@@ -136,7 +138,11 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 		params.add(ParamsUtil.getReqIntParam(type, 2));
 		params.add(ParamsUtil.getReqParam(detail, 512));
 		params.add(ParamsUtil.getReqParam(imgsUrl, 1024));
-		params.add(ParamsUtil.getReqIntParam(0, 2));
+		if(shareCb.isChecked()) {
+			params.add(ParamsUtil.getReqParam("0", 2));
+		} else {
+			params.add(ParamsUtil.getReqParam("1", 2));
+		}
 		return params;
 	}
 	
@@ -173,7 +179,8 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 	@Override
 	public void onResponse(PComplain response) {		
 		showContent();	
-		if(response.respCode.equals(RespCode.SUCCESS)) {			
+		if(response.respCode.equals(RespCode.SUCCESS)) {	
+			finish();
 			ToastHelper.showToastInBottom(this, "您的投诉已提交，我们会尽快处理");
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);

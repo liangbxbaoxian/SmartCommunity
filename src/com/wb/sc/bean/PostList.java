@@ -33,14 +33,19 @@ public class PostList extends BaseBean{
     	 * 发帖时间
     	 */
     	public String time;
+    	
+    	/**
+    	 * 发帖人ID(即帖子来源ID)
+    	 */
+    	public String sourceId;
     	/**
     	 * 发帖人(即帖子来源)
     	 */
-    	public String source;
+    	public String sourceName;
     	/**
-    	 * 发帖名称
+    	 * 发帖人头像Url
     	 */
-    	public String name;
+    	public String sourceAvatarUrl;
     	/**
     	 * 帖子评论数
     	 */
