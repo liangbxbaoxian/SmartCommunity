@@ -95,6 +95,7 @@
         android:layout_marginTop="@dimen/marginTop"
         android:textColor="@color/text_personal"
         android:textSize="@dimen/SmallerTextSize"
+        android:visibility="gone"
          />
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView

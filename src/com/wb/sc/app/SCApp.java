@@ -2,6 +2,8 @@ package com.wb.sc.app;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.tsz.afinal.FinalDb;
 import net.tsz.afinal.utils.Utils;
@@ -18,6 +20,7 @@ import com.baidu.location.LocationClient;
 import com.common.format.HexStringBytes;
 import com.common.net.volley.VolleyX509TrustManager;
 import com.common.net.volley.cache.VolleyImageCache;
+import com.wb.sc.bean.DictionaryItem;
 import com.wb.sc.bean.User;
 import com.wb.sc.config.DbConfig;
 import com.wb.sc.config.DebugConfig;
@@ -48,6 +51,16 @@ public class SCApp extends Application {
 	
 	private User mUser;
 	
+	List<DictionaryItem> list = new ArrayList<DictionaryItem>();
+	
+	public List<DictionaryItem> getList() {
+		return list;
+	}
+
+	public void setList(List<DictionaryItem> list) {
+		this.list = list;
+	}
+
 	//百度地图
 	public LocationClient mLocationClient;
 	public GeofenceClient mGeofenceClient;

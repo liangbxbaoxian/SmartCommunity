@@ -17,6 +17,8 @@ import com.wb.sc.mk.personal.RegisterInviteActivity;
 import com.wb.sc.mk.personal.SettingActivity;
 
 public class PersonalActivity extends BaseActivity {
+	
+	private PersonalFragment personalFragment;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +27,8 @@ public class PersonalActivity extends BaseActivity {
 		
 		getIntentData();
 		initView();
-		
-		replaceFragment(new PersonalFragment(), false);
+		personalFragment = new PersonalFragment();
+		replaceFragment(personalFragment, false);
 	}
 	
 	@Override
@@ -37,6 +39,14 @@ public class PersonalActivity extends BaseActivity {
 	@Override
 	public void initView() {
 		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (personalFragment != null) {
+			personalFragment.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 	
 	public void replaceFragment(Fragment fragment, boolean toBack) {

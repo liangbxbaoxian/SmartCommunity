@@ -3,22 +3,32 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Notification.Action;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
+import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -26,8 +36,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.adapter.DictionaryAdapter;
 import com.wb.sc.app.SCApp;
-import com.wb.sc.bean.Dictionary;
-import com.wb.sc.bean.Dictionary.DictionaryItem;
+import com.wb.sc.bean.DictionaryItem;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.task.OneKmRequest;
 
@@ -41,7 +50,9 @@ public class SetCommunityActivity extends BaseActivity implements OnMenuItemClic
 	private int pageSize = 10;
 	private OneKmRequest mOneKmRequest;
 	
-	private List<DictionaryItem> list = new ArrayList<DictionaryItem>();
+//	private List<DictionaryItem> list = new ArrayList<DictionaryItem>();
+	
+	private DictionaryItem item;
 	
 	public String longitude;   // 经度
 	public String latitude;     // 维度
@@ -74,15 +85,22 @@ public class SetCommunityActivity extends BaseActivity implements OnMenuItemClic
 		super.onStop();
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mAdpter.notifyDataSetChanged();
+	}
+	
 	private void initItem() {
+		List<DictionaryItem> list = new ArrayList<DictionaryItem>();
 		String name [] = {"选择省", "选择市", "选择区", "选择社区"};
-		Dictionary dictionary = new Dictionary();
 		for (int i = 0; i < name.length; i++) {
-			DictionaryItem item = dictionary.new DictionaryItem();
+			DictionaryItem item = new DictionaryItem();
 			item.dictionaryId = "" + i;
 			item.dictionaryName = name[i];
 			list.add(item);
 		}
+		SCApp.getInstance().setList(list);
 	}
 	
 	private void getGps() {
@@ -124,13 +142,14 @@ public class SetCommunityActivity extends BaseActivity implements OnMenuItemClic
 
 	public void initView() {
 		mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_scroll);
+		mPullToRefreshListView.setMode(Mode.DISABLED);
 		mPullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 //				new GetDataTask().execute();
 				pageNo = 1;
-				list.clear();
+//				list.clear();
 //				requestBase(getBaseRequestParams(), SetCommunityActivity.this, SetCommunityActivity.this);
 			}
 		});
@@ -149,19 +168,43 @@ public class SetCommunityActivity extends BaseActivity implements OnMenuItemClic
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(SetCommunityActivity.this, SetLocationDetailActivity.class);
-				DictionaryItem obj = list.get(position -1);
-				Bundle bundle = new Bundle();
-				bundle.putSerializable("user", obj);
-				intent.putExtras(bundle);
+				
+				
+				
+				item= SCApp.getInstance().getList().get(position -1);
+				
+				boolean success = true;
+				String name [] = {"请先选择省", "请先选择市", "请先选择区", "请先选择社区"};
+				if (position > 1) {
+					if (item.superDictionaryId == null) {
+						ToastHelper.showToastInBottom(SetCommunityActivity.this, name[position -2]);
+						success = false;
+					} else {
+//						if (position >= 2) {
+//							DictionaryItem fatherItem = SCApp.getInstance().getList().get(position -2);
+//							item.superDictionaryId = fatherItem.dictionaryId;
+//						}
+					}
+				}
+				
+				if (success) {
+					Intent intent = new Intent(SetCommunityActivity.this, SetLocationDetailActivity.class);
+//					intent.putExtra("obj", (Serializable)item);
+					intent.putExtra("position", position - 1);
+					startActivity(intent);
+				}
+				
+//				Bundle bundle = new Bundle();
+//				bundle.putSerializable("obj", obj);
+//				intent.putExtras(bundle);
 //				intent.putExtra("merchantName", list.get(position).merchantName);
-				startActivity(intent);
+				
 			}
 		});
 		
 		
 		initData();
-		mAdpter = new DictionaryAdapter(SetCommunityActivity.this, list);
+		mAdpter = new DictionaryAdapter(SetCommunityActivity.this, SCApp.getInstance().getList());
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
 		
@@ -185,7 +228,30 @@ public class SetCommunityActivity extends BaseActivity implements OnMenuItemClic
 //		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
 //		mDistanceSpinner.setAdapter(distanceAdapter);
 		
+		final EditText input_content = (EditText) findViewById(R.id.input_content);
+		input_content.setOnEditorActionListener(new OnEditorActionListener() {  
+            @Override  
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {  
+            	if (actionId == EditorInfo.IME_ACTION_SEARCH ) {
+            		Intent intent = new Intent(SetCommunityActivity.this, SetLocationDetailActivity.class);
+//					intent.putExtra("obj", (Serializable)item);
+					intent.putExtra("keyword", input_content.getText());
+					intent.putExtra("position", 3);
+					startActivity(intent);
+            		return true;
+            	} 
+                return false;  
+            }  
+        });  
 		
+		Button btn_exit = (Button) findViewById(R.id.btn_exit);
+		btn_exit.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				SetCommunityActivity.this.finish();
+			}
+		});
 		
 	}
 	
@@ -282,5 +348,9 @@ public class SetCommunityActivity extends BaseActivity implements OnMenuItemClic
 //	public void onReload() {
 //		requestBase(getBaseRequestParams(), this, this);
 //	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
 
 }

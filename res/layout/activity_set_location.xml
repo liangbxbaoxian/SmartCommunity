@@ -43,7 +43,7 @@
                 android:gravity="center_vertical"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:text="一公里" />
+                android:text="社区切换" />
         </LinearLayout>
 
         <LinearLayout
@@ -63,7 +63,8 @@
                 android:drawableLeft="@drawable/search_bar_icon_normal"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:hint="输入商户名"
+                android:hint="输入社区名称"
+                android:imeOptions="actionSearch"
                 android:singleLine="true"
                 android:textColor="#000" >
             </EditText>

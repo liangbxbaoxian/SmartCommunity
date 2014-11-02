@@ -21,10 +21,12 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.BaseBean;
 import com.wb.sc.bean.PersonalInfo;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.mk.main.SetCommunityActivity;
+import com.wb.sc.task.BaseRequest;
 import com.wb.sc.task.PersonalInfoRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
@@ -34,6 +36,9 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 
 
 	private PersonalInfoRequest mBaseRequest;
+	private PersonalInfo mPersonalInfo;
+	
+	private BaseRequest baseReq;
 	
 	private TextView phoneNum;
 	private TextView localCommunity;
@@ -45,6 +50,7 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	private TextView work;
 	private TextView hobby;
 	private TextView userStatue;
+	private TextView btn_exit;
 	
 	
 	@Override
@@ -61,14 +67,23 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 
 	@Override
 	protected void onDestroy() {
+		SCApp.getInstance().getList().clear();
 		super.onDestroy();
-
 	}
 
 
 
 	public void getIntentData() {
 
+	}
+	
+	@Override
+	protected void onResume() {
+		if (SCApp.getInstance().getList().size() > 3) {
+			localCommunity.setText(SCApp.getInstance().getList().get(3).dictionaryName);
+			mPersonalInfo.localCommunity = SCApp.getInstance().getList().get(3).dictionaryId;
+		}
+		super.onResume();
 	}
 
 
@@ -87,6 +102,17 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		userStatue = (TextView) findViewById(R.id.userStatue);
 
 		userStatue.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //下划线
+		
+		btn_exit = (TextView) findViewById(R.id.btn_exit);
+		btn_exit.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				 showLoading();	
+				requestBase(getSaveInfoRequestParams());
+			}
+		});
+		
 	}
 	
 	public void back(View view) {
@@ -112,6 +138,27 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		startRequest(mBaseRequest);		
 	}
 	
+	private void requestBase(List<String> paramsList) {			
+		if(baseReq != null) {
+			baseReq.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		baseReq = new BaseRequest(url, paramsList, new Listener<BaseBean>() {
+
+			@Override
+			public void onResponse(BaseBean response) {
+				if(response.respCode.equals(RespCode.SUCCESS)) {
+					showContent();
+					ToastHelper.showToastInBottom(PersonalInfoActivity.this, "保存成功");
+				} else {
+					showLoadError(PersonalInfoActivity.this);
+					ToastHelper.showToastInBottom(PersonalInfoActivity.this, response.respCodeMsg);
+				}
+			}
+		}, this);
+		startRequest(baseReq);		
+	}
+	
 	/**
 	 * 获取请求参数,请按照接口文档列表顺序排列
 	 * @return
@@ -123,6 +170,34 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
 		
+		return params;
+	}
+	
+	/**
+	 * 获取请求参数,请按照接口文档列表顺序排列
+	 * @return
+	 */
+	private List<String> getSaveInfoRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG04", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		String CommunityId = mPersonalInfo.localCommunity == null ? "" : mPersonalInfo.localCommunity;
+		params.add(ParamsUtil.getReqParam(CommunityId, 64)); //新增社区id
+		params.add(ParamsUtil.getReqParam(mail.getText() +"", 64));
+		params.add(ParamsUtil.getReqParam(weixinAccount.getText() +"", 32));
+		params.add(ParamsUtil.getReqParam(birthday.getText() +"", 8));
+		
+		String strSex = "2";
+		if (sex.getText().equals("男")) {
+			strSex = "1";
+		}
+		
+		params.add(ParamsUtil.getReqParam(strSex, 64));
+		params.add(ParamsUtil.getReqParam(work.getText() +"", 2));
+		params.add(ParamsUtil.getReqParam(hobby.getText() +"", 64));
+		params.add(ParamsUtil.getReqParam(accountName.getText() +"", 32));
 		return params;
 	}
 
@@ -150,14 +225,17 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	@Override
 	public void onResponse(PersonalInfo response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
+			mPersonalInfo = response;
+			
 			showContent();
 			
 			phoneNum.setText(response.phoneNum);
-			localCommunity.setText(response.localCommunity);
+			localCommunity.setText(response.communityNam);
 			accountName.setText(response.accountName);
 			if (!"".equals(response.birthday)) {
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				birthday.setText(formatter.format(new Date(response.birthday)));
+//				SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+//				birthday.setText(formatter.format(new Date(response.birthday)));
+				birthday.setText(response.birthday);
 			}
 			
 			if ("1".equals(response.sex)) {

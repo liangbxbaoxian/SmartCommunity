@@ -11,9 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -31,12 +31,16 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
-import com.wb.sc.adapter.MsgAdapter;
+import com.wb.sc.adapter.DictionaryAdapter;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.Community;
 import com.wb.sc.bean.Dictionary;
-import com.wb.sc.bean.Dictionary.DictionaryItem;
+import com.wb.sc.bean.DictionaryItem;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.bean.Community.CommunityItem;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.task.CommunityRequest;
 import com.wb.sc.task.DictionaryRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
@@ -46,7 +50,7 @@ public class SetLocationDetailActivity extends BaseActivity implements OnMenuIte
 ErrorListener, ReloadListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
-	private MsgAdapter mAdpter;
+	private DictionaryAdapter mAdpter;
 	
 	private String mKeyword;
 	private String sId;
@@ -57,8 +61,9 @@ ErrorListener, ReloadListener{
 	private String mDistrictName;
 	
 	private DictionaryRequest mDictionaryRequest;
+	private CommunityRequest mCommunityRequest;
 	
-	private List<DictionaryItem> list = new ArrayList<DictionaryItem>();
+	private List<Object> list = new ArrayList<Object>();
 	
 	private Spinner mSpinner;
 	private Spinner mDistanceSpinner;
@@ -73,18 +78,24 @@ ErrorListener, ReloadListener{
 	private String tempcoor="gcj02";
 	
 	private DictionaryItem item;
+	private int pos;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 //		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_set_location);
+		setContentView(R.layout.activity_set_location_detial);
 		getIntentData();
 		initView();
 		
 		showLoading();
 		
-		requestBase(getBaseRequestParams(), this, this);
+		if (item.dictionaryId.equals("3")) {
+			requestCommunity(getCommunityRequestParams());
+		} else {
+			requestBase(getBaseRequestParams(), this, this);
+		}
+		
 	}
 	
 	@Override
@@ -114,6 +125,18 @@ ErrorListener, ReloadListener{
      }
 
 	public void initView() {
+		
+		TextView title_tv = (TextView) findViewById(R.id.title_tv);
+		if (item.dictionaryId.equals("0")) {
+			title_tv.setText("选择省");
+		} else if(item.dictionaryId.equals("1")) {
+			title_tv.setText("选择市");
+		} else if(item.dictionaryId.equals("2")) {
+			title_tv.setText("选择区");
+		} else if(item.dictionaryId.equals("3")) {
+			title_tv.setText("选择社区");
+		}
+		
 		mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_scroll);
 		mPullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
@@ -143,35 +166,58 @@ ErrorListener, ReloadListener{
 //				Intent intent = new Intent(SetLocationDetailActivity.this, SentHomeDetailActivity.class);
 //				intent.putExtra("merchantTel", list.get(position).merchantTel);
 //				intent.putExtra("merchantName", list.get(position).merchantName);
-				item.dictionaryName = list.get(position -1).dictionaryName;
+				String name = "";
+				String code = "";
+				String sid = "";
+				if (list.get(position -1) instanceof DictionaryItem) {
+					DictionaryItem item = (DictionaryItem) list.get(position -1);
+					code = item.dictionaryCode;
+		    		name = item.dictionaryName;
+		    		sid = item.dictionaryId;
+				} else {
+					CommunityItem item = (CommunityItem) list.get(position -1);
+					code = item.communityCode;
+		    		name = item.communityName;
+		    		sid = item.communityId;
+				}
+				item.dictionaryName = name;
+				item.dictionaryCode = code;
+				item.dictionaryId = sid;
+				if (pos + 1 < SCApp.getInstance().getList().size()) {
+					DictionaryItem subItem = SCApp.getInstance().getList().get(pos + 1);
+					subItem.superDictionaryId =  sid;
+				}
+				
+				SetLocationDetailActivity.this.finish();
 			}
 		});
 		
 		
 		initData();
-		mAdpter = new MsgAdapter(SetLocationDetailActivity.this, list);
+		mAdpter = new DictionaryAdapter(SetLocationDetailActivity.this, list);
+		mAdpter.setShowArrow(false);
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
 		
-	      // 初始化控件
-		mSpinner = (Spinner) findViewById(R.id.spinner1);
-		// 建立数据源
-		String[] mItems = getResources().getStringArray(R.array.spinnername);
-		// 建立Adapter并且绑定数据源
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-    			R.layout.spinner_text_layout, mItems);
-    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-		mSpinner.setAdapter(adapter);
-		
-		// 初始化控件
-		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
-		// 建立数据源
-		String[] distances = getResources().getStringArray(R.array.spinner_distance);
-		// 建立Adapter并且绑定数据源
-		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
-				R.layout.spinner_text_layout, distances);
-		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-		mDistanceSpinner.setAdapter(distanceAdapter);
+//	      // 初始化控件
+//		mSpinner = (Spinner) findViewById(R.id.spinner1);
+//		// 建立数据源
+//		String[] mItems = getResources().getStringArray(R.array.spinnername);
+//		// 建立Adapter并且绑定数据源
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+//    			R.layout.spinner_text_layout, mItems);
+//    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//		mSpinner.setAdapter(adapter);
+//		
+//		// 初始化控件
+//		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
+//		// 建立数据源
+//		String[] distances = getResources().getStringArray(R.array.spinner_distance);
+//		// 建立Adapter并且绑定数据源
+//		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
+//				R.layout.spinner_text_layout, distances);
+//		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//		mDistanceSpinner.setAdapter(distanceAdapter);
 		
 		
 		
@@ -218,15 +264,55 @@ ErrorListener, ReloadListener{
 
 	public void getIntentData() {
 		Intent intent = getIntent();
-		mKeyword = intent.getStringExtra("mKeyword");
+		mKeyword = intent.getStringExtra("keyword");
 		pageNo = 1;
-		item = (DictionaryItem)intent.getSerializableExtra("obj");
+		pos = intent.getIntExtra("position", 0);
+		item = SCApp.getInstance().getList().get(pos);
+//		item = (DictionaryItem)intent.getSerializableExtra("obj");
 	}
 
 	@Override
 	public boolean onMenuItemClick(MenuItem arg0) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestCommunity(List<String> paramsList) {			
+		if(mCommunityRequest != null) {
+			mCommunityRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mCommunityRequest = new CommunityRequest(url, paramsList, new Listener<Community> () {
+
+			@Override
+			public void onResponse(Community response) {
+				if(response.respCode.equals(RespCode.SUCCESS)) {
+					pageNo ++;
+
+					list.addAll(response.datas);
+					// Call onRefreshComplete when the list has been refreshed.
+					mPullToRefreshListView.onRefreshComplete();
+					if (!response.hasNextPage) {
+						mPullToRefreshListView.setMode(Mode.DISABLED);
+					}
+					showContent();
+				} else {
+					showLoadError(SetLocationDetailActivity.this);
+					ToastHelper.showToastInBottom(SetLocationDetailActivity.this, response.respCodeMsg);
+				}
+			}
+			
+		}, this);
+		startRequest(mCommunityRequest);		
 	}
 	
 	/**
@@ -258,18 +344,45 @@ ErrorListener, ReloadListener{
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
 		String type = "";
 		String id = "";
+		String code = "";
 		if (item.dictionaryId.equals("0")) {
 			type = "province";
 		} else if(item.dictionaryId.equals("1")) {
-			type = "city";
+//			type = "city";
+			id = item.superDictionaryId;
 		} else if(item.dictionaryId.equals("2")) {
-			type = "country";
-		} 
-		params.add(ParamsUtil.getReqParam(type, 64));
+//			type = "country";
+			id = item.superDictionaryId;
+		} else if (item.dictionaryId.equals("3")) {
+			id = item.superDictionaryId;
+		}
 		
-		params.add(ParamsUtil.getReqParam(longitude, 65));
-		params.add(ParamsUtil.getReqParam(latitude, 128));
-		params.add(ParamsUtil.getReqParam(merchantCategoryId, 32));
+		params.add(ParamsUtil.getReqParam(type, 64));
+		params.add(ParamsUtil.getReqParam(id, 64));
+		params.add(ParamsUtil.getReqParam(code, 64));
+		
+		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
+		
+		return params;
+	}
+	
+	private List<String> getCommunityRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG18", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
+		List<DictionaryItem> list = SCApp.getInstance().getList();
+		String provinceCode = list.get(0).getDictionaryCode() == null ? "" : list.get(0).getDictionaryCode();
+		String cityCode = list.get(1).getDictionaryCode() == null ? "" : list.get(1).getDictionaryCode();
+		String communityCode = list.get(2).getDictionaryCode() == null ? "" : list.get(2).getDictionaryCode();
+		
+		params.add(ParamsUtil.getReqParam(provinceCode, 4));
+		params.add(ParamsUtil.getReqParam(cityCode, 6));
+		params.add(ParamsUtil.getReqParam(communityCode, 4));
+		mKeyword = mKeyword == null ? "" : mKeyword;
+		params.add(ParamsUtil.getReqParam(mKeyword, 128));
+		
 		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
 		

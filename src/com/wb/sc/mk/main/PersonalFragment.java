@@ -29,70 +29,37 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request.DownloadProgressListener;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.NetworkImageView.NetworkImageListener;
+import com.common.media.BitmapHelper;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
+import com.wb.sc.activity.base.BaseItemPhotoFragment;
+import com.wb.sc.activity.base.BaseItemPhotoFragment.OnUploadCompleteListener;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.BaseBean;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.config.NetConfig;
 import com.wb.sc.db.DbHelper;
 import com.wb.sc.mk.personal.MsgCenterActivity;
+import com.wb.sc.task.BaseRequest;
+import com.wb.sc.util.ParamsUtil;
 import com.wb.sc.widget.CircleImageView;
 import com.wb.sc.widget.SelectPicPopupWindow;
 
-public class PersonalFragment extends BaseExtraLayoutFragment implements OnClickListener{
+public class PersonalFragment extends BaseItemPhotoFragment implements OnClickListener,
+	OnUploadCompleteListener, NetworkImageListener{
 
 	private String path[] = new String[3];
 	private int index = 0;
 	
 	private View msgV;
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-//	    requestCode = requestCode>> 16;
-//	    if (requestCode != 0) {
-//	    	requestCode--;
-//	    }
-		switch (requestCode) {
-		case REQUEST_TAKE_CAMERA:
-			if (data != null) {
-				Uri uri = data.getData();
-				path[index] = getPath(uri);
-				if (uri != null) {
-					try {
-						Bitmap bmp = getBitmap(path[index]);
-						if (bmp != null)
-							setPhotoBitmap(bmp);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} else {
-					Bundle extras = data.getExtras();
-					if (extras != null) {
-						Bitmap bmp = extras.getParcelable("data");
-						if (bmp != null)
-							setPhotoBitmap(bmp);
-					}
-				}
-			}
-			break;
-
-		case REQUEST_PICK_LOCAL:
-				Uri uri = data.getData();
-				path[index] = getPath(uri);
-				try {
-					Bitmap bmp = getBitmap(path[index]);
-					setPhotoBitmap(bmp);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			break;
-		}
-
-	}
 
 	// add test for linyongzhen
 	private ViewPager advVp;
@@ -107,13 +74,15 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 	private ImageView rightIv;
 	private TextView nameIv;
 
-	private com.wb.sc.widget.CircleImageView img_portrait;
+	private ImageView img_portrait;
 
 	public static final int REQUEST_TAKE_CAMERA = 10;
 	public static final int REQUEST_PICK_LOCAL = 20;
 
 	// 自定义的弹出框类
 	private SelectPicPopupWindow menuWindow;
+	
+	private BaseRequest mBaseRequest;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -137,6 +106,8 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 		// initData();
 		initHead(view, getString(R.string.bottom_bar_center));
 		initView(view);
+		initPhoto(view, "FG05");
+		setOnUploadCompleteListener(this);
 	}
 
 	private void initData() {
@@ -201,7 +172,7 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 			}
 		});
 
-		img_portrait = (CircleImageView) view.findViewById(R.id.img_portrait);
+		img_portrait = (ImageView) view.findViewById(R.id.img_portrait);
 		final TextView txt_auth = (TextView) view.findViewById(R.id.txt_auth);
 		Button btn_exit = (Button) view.findViewById(R.id.btn_exit);
 		btn_exit.setOnClickListener(new View.OnClickListener() {
@@ -230,11 +201,13 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.btn_take_photo:
-				takePhoto();
-				menuWindow.dismiss();
+//				takePhoto();
+				pickFromCameraWhithCrop();
+				menuWindow.dismiss();				
 				break;
 			case R.id.btn_pick_photo:
-				pickLocalPic();
+//				pickLocalPic();
+				pickFromAlbumWithCrop();
 				menuWindow.dismiss();
 				break;
 			default:
@@ -349,4 +322,57 @@ public class PersonalFragment extends BaseExtraLayoutFragment implements OnClick
 			break;
 		}
 	}
+
+
+	@Override
+	public void onComplete(String imgUrl, File imgFile) {
+//		img_portrait.setImageUrl(NetConfig.getPictureUrl(imgUrl), SCApp.getInstance().getImageLoader());
+		Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+		Bitmap roundBmp = BitmapHelper.toRoundCorner(bitmap, bitmap.getHeight()/2);
+		img_portrait.setImageBitmap(roundBmp);
+	}
+
+	@Override
+	public void onGetBitmapListener(ImageView imageView, Bitmap bitmap) {
+		Bitmap roundBmp = BitmapHelper.toRoundCorner(bitmap, bitmap.getHeight()/2);
+		img_portrait.setImageBitmap(roundBmp);
+		
+	}
+	
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestBase(List<String> paramsList,	 
+			Listener<BaseBean> listenre, ErrorListener errorListener) {			
+		if(mBaseRequest != null) {
+			mBaseRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mBaseRequest = new BaseRequest(url, paramsList, listenre, errorListener);
+//		startRequest(mBaseRequest);		
+	}
+	
+	/**
+	 * 获取请求参数,请按照接口文档列表顺序排列
+	 * @return
+	 */
+	private List<String> getBaseRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG01", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam("00", 2));
+		params.add(ParamsUtil.getReqParam("13675013092", 15));
+		params.add(ParamsUtil.getReqParam("12345678900987654321123456789009", 32));
+		
+		return params;
+	}
+	
+	
 }
