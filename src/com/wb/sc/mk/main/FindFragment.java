@@ -59,6 +59,7 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 		super.onViewCreated(view, savedInstanceState);
 		initData();
 		initHead(view, getString(R.string.bottom_bar_discover));
+		setHomeBackground(R.drawable.title_bar_icon_scan);
 		initView(view);
 	}
 	

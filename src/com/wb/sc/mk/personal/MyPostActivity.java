@@ -71,7 +71,6 @@ ErrorListener, ReloadListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_my_forum);
 		getIntentData();
 		initView();
@@ -267,8 +266,8 @@ ErrorListener, ReloadListener{
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId +"", 64));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().id +"", 64));  //暂时不知道这个id 是不是社区id
-		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
-		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
 		
 		return params;
 	}

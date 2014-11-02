@@ -21,7 +21,7 @@ public class DebugConfig {
 	 * 内网：0
 	 * 外网：1
 	 */
-	public static final int NET_CONFIG = 0;
+	public static final int NET_CONFIG = 1;
 	
 	/**
 	 * 显示调试信息开关

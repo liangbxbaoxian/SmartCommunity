@@ -3,17 +3,25 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.android.agoo.client.IppFacade;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -184,6 +192,24 @@ ErrorListener, ReloadListener{
     			R.layout.spinner_text_layout, mItems);
     	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
 		mSpinner.setAdapter(adapter);
+		mSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				merchantCategoryId = "" + arg2;
+		  		showLoading();
+        		pageNo = 1;
+        		list.clear();
+        		requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		// 初始化控件
 		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
@@ -195,7 +221,21 @@ ErrorListener, ReloadListener{
 		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
 		mDistanceSpinner.setAdapter(distanceAdapter);
 		
-		
+		final EditText input_content = (EditText) findViewById(R.id.input_content);
+		input_content.setOnEditorActionListener(new OnEditorActionListener() {  
+            @Override  
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {  
+            	if (actionId == EditorInfo.IME_ACTION_SEARCH ) {
+            		merchantName = input_content.getText() +"";
+            		showLoading();
+            		pageNo = 1;
+            		list.clear();
+            		requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+            		return true;
+            	} 
+                return false;  
+            }  
+        }); 
 		
 	}
 	
