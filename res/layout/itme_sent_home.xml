@@ -57,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:singleLine="true"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/district_address"
+                        android:layout_toRightOf="@id/merchantCategoryName"
                         android:layout_marginTop="@dimen/wallet_info_margin_top_left_right"
                         android:layout_marginLeft="@dimen/wallet_info_margin_top_left_right"
                         android:text="100米" />

@@ -18,8 +18,6 @@ import android.widget.Spinner;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
@@ -34,19 +32,17 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MsgAdapter;
-import com.wb.sc.adapter.SentHomeAdpater;
-import com.wb.sc.app.SCApp;
-import com.wb.sc.bean.OneKm;
-import com.wb.sc.bean.OneKm.MerchantItem;
+import com.wb.sc.bean.Dictionary;
+import com.wb.sc.bean.Dictionary.DictionaryItem;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
-import com.wb.sc.task.OneKmRequest;
+import com.wb.sc.task.DictionaryRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
 
-public class SetLocationDetailActivity extends BaseActivity implements OnMenuItemClickListener, Listener<OneKm>, 
+public class SetLocationDetailActivity extends BaseActivity implements OnMenuItemClickListener, Listener<Dictionary>, 
 ErrorListener, ReloadListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
@@ -60,9 +56,9 @@ ErrorListener, ReloadListener{
 	private boolean hasNextPage;
 	private String mDistrictName;
 	
-	private OneKmRequest mOneKmRequest;
+	private DictionaryRequest mDictionaryRequest;
 	
-	private List<MerchantItem> list = new ArrayList<MerchantItem>();
+	private List<DictionaryItem> list = new ArrayList<DictionaryItem>();
 	
 	private Spinner mSpinner;
 	private Spinner mDistanceSpinner;
@@ -76,6 +72,8 @@ ErrorListener, ReloadListener{
 	private LocationMode tempMode = LocationMode.Hight_Accuracy;
 	private String tempcoor="gcj02";
 	
+	private DictionaryItem item;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 //		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -84,35 +82,16 @@ ErrorListener, ReloadListener{
 		getIntentData();
 		initView();
 		
-		getGps();
-		
 		showLoading();
 		
-//		requestBase(getBaseRequestParams(), this, this);
+		requestBase(getBaseRequestParams(), this, this);
 	}
 	
 	@Override
 	protected void onStop() {
-		mLocationClient.stop();
 		super.onStop();
 	}
 	
-	private void getGps() {
-		mLocationClient = SCApp.getInstance().mLocationClient;
-		mLocationClient.registerLocationListener(new BDLocationListener() {
-
-			@Override
-			public void onReceiveLocation(BDLocation arg0) {
-				mLocationClient.stop();
-				longitude = arg0.getLongitude() + "";
-				latitude = arg0.getLatitude() + "";
-				requestBase(getBaseRequestParams(), SetLocationDetailActivity.this, SetLocationDetailActivity.this);
-			}
-			
-		});
-		InitLocation();
-		mLocationClient.start();
-	}
 	
 	private void InitLocation(){
 		LocationClientOption option = new LocationClientOption();
@@ -161,10 +140,10 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(SetLocationDetailActivity.this, SentHomeDetailActivity.class);
-				intent.putExtra("merchantTel", list.get(position).merchantTel);
-				intent.putExtra("merchantName", list.get(position).merchantName);
-				startActivity(intent);
+//				Intent intent = new Intent(SetLocationDetailActivity.this, SentHomeDetailActivity.class);
+//				intent.putExtra("merchantTel", list.get(position).merchantTel);
+//				intent.putExtra("merchantName", list.get(position).merchantName);
+				item.dictionaryName = list.get(position -1).dictionaryName;
 			}
 		});
 		
@@ -241,6 +220,7 @@ ErrorListener, ReloadListener{
 		Intent intent = getIntent();
 		mKeyword = intent.getStringExtra("mKeyword");
 		pageNo = 1;
+		item = (DictionaryItem)intent.getSerializableExtra("obj");
 	}
 
 	@Override
@@ -258,13 +238,13 @@ ErrorListener, ReloadListener{
 	 * @param errorListener
 	 */	
 	private void requestBase(List<String> paramsList,	 
-			Listener<OneKm> listenre, ErrorListener errorListener) {			
-		if(mOneKmRequest != null) {
-			mOneKmRequest.cancel();
+			Listener<Dictionary> listenre, ErrorListener errorListener) {			
+		if(mDictionaryRequest != null) {
+			mDictionaryRequest.cancel();
 		}	
 		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
-		mOneKmRequest = new OneKmRequest(url, paramsList, this, this);
-		startRequest(mOneKmRequest);		
+		mDictionaryRequest = new DictionaryRequest(url, paramsList, this, this);
+		startRequest(mDictionaryRequest);		
 	}
 	
 	/**
@@ -273,15 +253,25 @@ ErrorListener, ReloadListener{
 	 */
 	private List<String> getBaseRequestParams() {
 		List<String> params = new ArrayList<String>();
-		params.add(ParamsUtil.getReqParam("FG46", 4));
+		params.add(ParamsUtil.getReqParam("FG21", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
-		params.add(ParamsUtil.getReqParam(merchantName, 32));
-		params.add(ParamsUtil.getReqParam(longitude, 128));
+		String type = "";
+		String id = "";
+		if (item.dictionaryId.equals("0")) {
+			type = "province";
+		} else if(item.dictionaryId.equals("1")) {
+			type = "city";
+		} else if(item.dictionaryId.equals("2")) {
+			type = "country";
+		} 
+		params.add(ParamsUtil.getReqParam(type, 64));
+		
+		params.add(ParamsUtil.getReqParam(longitude, 65));
 		params.add(ParamsUtil.getReqParam(latitude, 128));
 		params.add(ParamsUtil.getReqParam(merchantCategoryId, 32));
-		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
-		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
 		
 		return params;
 	}
@@ -301,7 +291,7 @@ ErrorListener, ReloadListener{
 
 
 	@Override
-	public void onResponse(OneKm response) {
+	public void onResponse(Dictionary response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			pageNo ++;
 
@@ -316,7 +306,6 @@ ErrorListener, ReloadListener{
 			showLoadError(this);
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
-		
 	}
 	
 

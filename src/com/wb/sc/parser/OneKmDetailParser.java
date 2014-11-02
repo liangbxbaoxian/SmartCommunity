@@ -18,7 +18,7 @@ public class OneKmDetailParser {
 		dataBean.merchantPriceTel = ParamsUtil.getRespParamNext(dataBean, 15);
 		dataBean.merchantPriceName = ParamsUtil.getRespParamNext(dataBean, 32);
 		dataBean.merchantPriceCategoryId = ParamsUtil.getRespParamNext(dataBean, 32);
-		dataBean.merchantPriceCategoryName = ParamsUtil.getRespParamNext(dataBean, 2);
+		dataBean.merchantPriceCategoryName = ParamsUtil.getRespParamNext(dataBean, 32);
 		dataBean.longitude = ParamsUtil.getRespParamNext(dataBean, 128);
 		dataBean.latitude = ParamsUtil.getRespParamNext(dataBean, 128);
 		

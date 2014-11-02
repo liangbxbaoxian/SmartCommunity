@@ -59,7 +59,7 @@ public class SentHomeAdpater extends BaseAdapter {
 		    arg1 = LayoutInflater.from(mContext).inflate(R.layout.itme_sent_home, null);
 		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
 			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
-			viewHolder.merchantCategoryName = (TextView) arg1.findViewById(R.id.district_address);
+			viewHolder.merchantCategoryName = (TextView) arg1.findViewById(R.id.merchantCategoryName);
 			viewHolder.district  = (TextView) arg1.findViewById(R.id.district);
 			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
 			arg1.setTag(viewHolder);

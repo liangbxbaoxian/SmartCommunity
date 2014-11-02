@@ -11,61 +11,37 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
-import com.common.net.volley.VolleyErrorHelper;
-import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.umeng.message.proguard.aM;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
-import com.wb.sc.activity.base.ReloadListener;
-import com.wb.sc.adapter.SentHomeAdpater;
+import com.wb.sc.adapter.DictionaryAdapter;
 import com.wb.sc.app.SCApp;
-import com.wb.sc.bean.OneKm;
-import com.wb.sc.bean.OneKm.MerchantItem;
+import com.wb.sc.bean.Dictionary;
+import com.wb.sc.bean.Dictionary.DictionaryItem;
 import com.wb.sc.bean.SentHome;
-import com.wb.sc.config.NetConfig;
-import com.wb.sc.config.RespCode;
 import com.wb.sc.task.OneKmRequest;
-import com.wb.sc.util.Constans;
-import com.wb.sc.util.MetaUtil;
-import com.wb.sc.util.ParamsUtil;
 
-public class SentHomeActivity extends BaseActivity implements OnMenuItemClickListener, Listener<OneKm>, 
-ErrorListener, ReloadListener{
+public class SetCommunityActivity extends BaseActivity implements OnMenuItemClickListener {
 
 	private PullToRefreshListView mPullToRefreshListView;
-	private SentHomeAdpater mAdpter;
+	private DictionaryAdapter mAdpter;
 	
 	private String mKeyword;
-	private String sId;
-	
 	private int pageNo;
 	private int pageSize = 10;
-	private boolean hasNextPage;
-	private String mDistrictName;
-	
 	private OneKmRequest mOneKmRequest;
 	
-	private List<MerchantItem> list = new ArrayList<MerchantItem>();
-	
-	private Spinner mSpinner;
-	private Spinner mDistanceSpinner;
+	private List<DictionaryItem> list = new ArrayList<DictionaryItem>();
 	
 	public String longitude;   // 经度
 	public String latitude;     // 维度
@@ -80,21 +56,33 @@ ErrorListener, ReloadListener{
 	protected void onCreate(Bundle savedInstanceState) {
 //		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sent_home);
+		setContentView(R.layout.activity_set_location);
 		getIntentData();
+		initItem();
 		initView();
 		
-		getGps();
+//		getGps();
 		
-		showLoading();
+//		showLoading();
 		
 //		requestBase(getBaseRequestParams(), this, this);
 	}
 	
 	@Override
 	protected void onStop() {
-		mLocationClient.stop();
+//		mLocationClient.stop();
 		super.onStop();
+	}
+	
+	private void initItem() {
+		String name [] = {"选择省", "选择市", "选择区", "选择社区"};
+		Dictionary dictionary = new Dictionary();
+		for (int i = 0; i < name.length; i++) {
+			DictionaryItem item = dictionary.new DictionaryItem();
+			item.dictionaryId = "" + i;
+			item.dictionaryName = name[i];
+			list.add(item);
+		}
 	}
 	
 	private void getGps() {
@@ -106,7 +94,7 @@ ErrorListener, ReloadListener{
 				mLocationClient.stop();
 				longitude = arg0.getLongitude() + "";
 				latitude = arg0.getLatitude() + "";
-				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+//				requestBase(getBaseRequestParams(), SetCommunityActivity.this, SetCommunityActivity.this);
 			}
 			
 		});
@@ -143,7 +131,7 @@ ErrorListener, ReloadListener{
 //				new GetDataTask().execute();
 				pageNo = 1;
 				list.clear();
-				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+//				requestBase(getBaseRequestParams(), SetCommunityActivity.this, SetCommunityActivity.this);
 			}
 		});
 		
@@ -151,7 +139,7 @@ ErrorListener, ReloadListener{
 
 			@Override
 			public void onLastItemVisible() {
-				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+//				requestBase(getBaseRequestParams(), SetCommunityActivity.this, SetCommunityActivity.this);
 			}
 		});
 		
@@ -161,39 +149,41 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(SentHomeActivity.this, SentHomeDetailActivity.class);
-				intent.putExtra("merchantId", list.get(position -1).merchantId);  //此处还未查明原因
-				intent.putExtra("merchantTel", list.get(position -1).merchantTel);  //此处还未查明原因
-				intent.putExtra("merchantName", list.get(position -1).merchantName);
+				Intent intent = new Intent(SetCommunityActivity.this, SetLocationDetailActivity.class);
+				DictionaryItem obj = list.get(position -1);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("user", obj);
+				intent.putExtras(bundle);
+//				intent.putExtra("merchantName", list.get(position).merchantName);
 				startActivity(intent);
 			}
 		});
 		
 		
 		initData();
-		mAdpter = new SentHomeAdpater(SentHomeActivity.this, list);
+		mAdpter = new DictionaryAdapter(SetCommunityActivity.this, list);
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
 		
-	      // 初始化控件
-		mSpinner = (Spinner) findViewById(R.id.spinner1);
-		// 建立数据源
-		String[] mItems = getResources().getStringArray(R.array.spinnername);
-		// 建立Adapter并且绑定数据源
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-    			R.layout.spinner_text_layout, mItems);
-    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-		mSpinner.setAdapter(adapter);
+//	      // 初始化控件
+//		mSpinner = (Spinner) findViewById(R.id.spinner1);
+//		// 建立数据源
+//		String[] mItems = getResources().getStringArray(R.array.spinnername);
+//		// 建立Adapter并且绑定数据源
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+//    			R.layout.spinner_text_layout, mItems);
+//    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//		mSpinner.setAdapter(adapter);
 		
-		// 初始化控件
-		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
-		// 建立数据源
-		String[] distances = getResources().getStringArray(R.array.spinner_distance);
-		// 建立Adapter并且绑定数据源
-		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
-				R.layout.spinner_text_layout, distances);
-		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-		mDistanceSpinner.setAdapter(distanceAdapter);
+//		// 初始化控件
+//		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
+//		// 建立数据源
+//		String[] distances = getResources().getStringArray(R.array.spinner_distance);
+//		// 建立Adapter并且绑定数据源
+//		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
+//				R.layout.spinner_text_layout, distances);
+//		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//		mDistanceSpinner.setAdapter(distanceAdapter);
 		
 		
 		
@@ -258,69 +248,39 @@ ErrorListener, ReloadListener{
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestBase(List<String> paramsList,	 
-			Listener<OneKm> listenre, ErrorListener errorListener) {			
-		if(mOneKmRequest != null) {
-			mOneKmRequest.cancel();
-		}	
-		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
-		mOneKmRequest = new OneKmRequest(url, paramsList, this, this);
-		startRequest(mOneKmRequest);		
-	}
+//	private void requestBase(List<String> paramsList,	 
+//			Listener<OneKm> listenre, ErrorListener errorListener) {			
+//		if(mOneKmRequest != null) {
+//			mOneKmRequest.cancel();
+//		}	
+//		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+//		mOneKmRequest = new OneKmRequest(url, paramsList, this, this);
+//		startRequest(mOneKmRequest);		
+//	}
 	
 	/**
 	 * 获取请求参数,请按照接口文档列表顺序排列
 	 * @return
 	 */
-	private List<String> getBaseRequestParams() {
-		List<String> params = new ArrayList<String>();
-		params.add(ParamsUtil.getReqParam("FG46", 4));
-		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
-		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
-		String categoryName = merchantName == null ? "":merchantName;
-		params.add(ParamsUtil.getReqParam(categoryName, 32));
-		params.add(ParamsUtil.getReqParam(longitude, 128));
-		params.add(ParamsUtil.getReqParam(latitude, 128));
-		String categoryId = merchantCategoryId == null ? "":merchantCategoryId;
-		params.add(ParamsUtil.getReqParam(categoryId, 32));
-		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
-		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
-		
-		return params;
-	}
+//	private List<String> getBaseRequestParams() {
+//		List<String> params = new ArrayList<String>();
+//		params.add(ParamsUtil.getReqParam("FG46", 4));
+//		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+//		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
+//		params.add(ParamsUtil.getReqParam(merchantName, 32));
+//		params.add(ParamsUtil.getReqParam(longitude, 128));
+//		params.add(ParamsUtil.getReqParam(latitude, 128));
+//		params.add(ParamsUtil.getReqParam(merchantCategoryId, 32));
+//		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
+//		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+//		
+//		return params;
+//	}
 
 
-	@Override
-	public void onReload() {
-		requestBase(getBaseRequestParams(), this, this);
-	}
-
-
-	@Override
-	public void onErrorResponse(VolleyError error) {
-		showLoadError(this);	
-		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
-	}
-
-
-	@Override
-	public void onResponse(OneKm response) {
-		if(response.respCode.equals(RespCode.SUCCESS)) {
-			pageNo ++;
-
-			list.addAll(response.datas);
-			// Call onRefreshComplete when the list has been refreshed.
-			mPullToRefreshListView.onRefreshComplete();
-			if (!response.hasNextPage) {
-				mPullToRefreshListView.setMode(Mode.DISABLED);
-			}
-			showContent();
-		} else {
-			showLoadError(this);
-			ToastHelper.showToastInBottom(this, response.respCodeMsg);
-		}
-		
-	}
-	
+//	@Override
+//	public void onReload() {
+//		requestBase(getBaseRequestParams(), this, this);
+//	}
 
 }

@@ -64,7 +64,7 @@ ErrorListener, ReloadListener{
 		
 		showLoading();		
 		
-//		requestBase(getBaseRequestParams(), this, this);
+		requestBase(getBaseRequestParams(), this, this);
 	}
 	
 	@Override
@@ -126,7 +126,7 @@ ErrorListener, ReloadListener{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Intent intent = new Intent(LawRuleActivity.this, LawRuleDetialActivity.class);
-				intent.putExtra("lawRuleId", list.get(arg2).lawRuleId);
+				intent.putExtra("lawRuleId", list.get(arg2 -1).lawRuleId);
 				startActivity(intent);
 				
 			}
@@ -153,8 +153,8 @@ ErrorListener, ReloadListener{
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId + "", 64));
-		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
-		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
 		return params;
 	}
 	

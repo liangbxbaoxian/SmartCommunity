@@ -62,9 +62,9 @@ ErrorListener, ReloadListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_sent_homet_detial);
 		getIntentData();
+		initView();
 		
 	    showLoading();		
 		
@@ -75,8 +75,8 @@ ErrorListener, ReloadListener{
 	@Override
 	public void initView() {
 		 merchantLogo = (NetworkImageView) findViewById(R.id.merchantLogo);
-	    merchantOpenTime = (TextView) findViewById(R.id.merchantPriceChart);
-	    merchantPriceChart = (TextView) findViewById(R.id.merchantOpenTime);
+	    merchantOpenTime = (TextView) findViewById(R.id.merchantOpenTime);
+	    merchantPriceChart = (TextView) findViewById(R.id.merchantPriceChart);
 	    merchantPriceAddr = (TextView) findViewById(R.id.merchantPriceAddr);
 	    merchantPriceTel = (TextView) findViewById(R.id.merchantPriceTel);
 	}
@@ -108,7 +108,7 @@ ErrorListener, ReloadListener{
 	public void getIntentData() {
 		Intent intent = getIntent();
 		mKeyword = intent.getStringExtra("mKeyword");
-		mMerchantId = intent.getStringExtra("mMerchantId");
+		mMerchantId = intent.getStringExtra("merchantId");
 		tel  = intent.getStringExtra("merchantTel");
 		mMerchantName =  intent.getStringExtra("merchantName");
 	}

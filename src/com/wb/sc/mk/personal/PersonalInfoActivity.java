@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.PersonalInfo;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.mk.main.SetCommunityActivity;
 import com.wb.sc.task.PersonalInfoRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
@@ -138,6 +140,11 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		showLoadError(this);	
 		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
 	}
+	
+	public void setCommunity(View view) {
+		Intent intent = new Intent(PersonalInfoActivity.this, SetCommunityActivity.class);
+		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
 
 
 	@Override
@@ -153,9 +160,9 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 				birthday.setText(formatter.format(new Date(response.birthday)));
 			}
 			
-			if ("0".equals(response.sex)) {
+			if ("1".equals(response.sex)) {
 				sex.setText("男");
-			} else if ("1".equals(response.sex)) {
+			} else if ("2".equals(response.sex)) {
 				sex.setText("女");
 			}
 			

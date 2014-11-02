@@ -123,11 +123,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
             android:screenOrientation="portrait" > 
-             <intent-filter>      
-             <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>         
         </activity>
         
         <!-- 发现 -->
@@ -375,11 +370,17 @@
         
         <!-- 城市社区选择 -->
         <activity
-            android:name="com.wb.sc.mk.main.SetLocationActivity"
+            android:name="com.wb.sc.mk.main.SetCommunityActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_public_info"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+                   <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>         
+            
         </activity>
         
         <!-- 城市选择 -->

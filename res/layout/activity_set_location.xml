@@ -89,18 +89,17 @@
         android:id="@+id/keyword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="手动选择社区"
+        android:text="手动选择社区:"
         android:layout_marginLeft="@dimen/marginTop"
         android:layout_marginTop="@dimen/marginTop"
-        android:textColor="@color/text_personal"
-        android:textSize="@dimen/SmallerTextSize"
+        android:textSize="@dimen/actionbar_menu_text_size"
          />
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pull_refresh_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="230dp"
         android:cacheColorHint="#00000000"
         android:divider="#00000000"
         android:fastScrollEnabled="false"
@@ -111,5 +110,26 @@
         ptr:ptrDrawable="@drawable/default_ptr_flip"
         ptr:ptrMode="both" >
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
+    
+                <LinearLayout
+                android:id="@+id/pop_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:background="@android:color/white"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/btn_exit"
+                    android:layout_width="fill_parent"
+                    android:layout_height="52dp"
+                    android:layout_margin="@dimen/normal_margin"
+                    android:background="@drawable/red_btn_selector"
+                    android:padding="@dimen/normal_margin"
+                    android:text="确认"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
 </LinearLayout>

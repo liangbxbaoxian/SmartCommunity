@@ -108,11 +108,17 @@
             android:background="@drawable/icon_shijian" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:text="营业时间  " />
+        
+        <TextView
             android:id="@+id/merchantOpenTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/normal_margin"
-            android:text="营业时间  9:00-12:00" />
+            android:text="9:00-12:00" />
 
         <LinearLayout
             android:layout_width="match_parent"

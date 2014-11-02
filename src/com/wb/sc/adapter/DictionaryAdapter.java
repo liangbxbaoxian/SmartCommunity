@@ -6,6 +6,7 @@ import java.util.List;
 import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 import com.wb.sc.adapter.MsgListAdapter.ViewHolder;
+import com.wb.sc.bean.Dictionary;
 import com.wb.sc.bean.LawRule.LawRuleItem;
 import com.wb.sc.bean.MsgList;
 
@@ -18,12 +19,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class MsgAdapter extends BaseAdapter{  //法律法规
+public class DictionaryAdapter extends BaseAdapter{  //法律法规
 	
 	private Context mContext;
 	private List<?> mMsgList;
 	   
-    public MsgAdapter(Context context, List<?> list) {
+    public DictionaryAdapter(Context context, List<?> list) {
        mContext = context;
        mMsgList = list;
     }
@@ -49,7 +50,7 @@ public class MsgAdapter extends BaseAdapter{  //法律法规
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       
-    	LawRuleItem item = (LawRuleItem) mMsgList.get(position);
+    	Dictionary.DictionaryItem item = (Dictionary.DictionaryItem) mMsgList.get(position);
     	
        View view = null;
        ViewHolder holder;
@@ -66,7 +67,7 @@ public class MsgAdapter extends BaseAdapter{  //法律法规
            holder = (ViewHolder) view.getTag();
        }
        
-       holder.nameTv.setText(item.lawRuleTitle);
+       holder.nameTv.setText(item.dictionaryName);
        
        return view;
     }
