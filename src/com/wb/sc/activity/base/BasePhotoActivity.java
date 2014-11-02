@@ -45,8 +45,6 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 	private static final int CROP_WIDTH = 400;
 	private static final int CROP_HEIGHT = 400;
 	
-	public int itemWidth = 83;
-	
 	private List<File> fileList;
 	private File photoFile;
 	private Uri photoUri;
@@ -56,6 +54,8 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 	private HorizontalListView listView;	
 	private PhotoAdapter photoAdapter;
 	
+	public int maxNum = 9; //最多上传个数
+	public int itemWidth = 83; //图片宽度
 	private int state = 0; // 0:新增  1：替换
 	private int selPos;
 	private AddPhotoDialog optDialog;
@@ -74,6 +74,11 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
     	listView.setOnItemClickListener(this);
     	photoAdapter = new PhotoAdapter(this, fileList, itemWidth, itemWidth);
     	listView.setAdapter(photoAdapter);		
+	}
+	
+	public void initPhoto(String messageType) {
+		initPhoto();
+		this.messageType = messageType;
 	}
 	
 	@Override
@@ -200,8 +205,18 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(requestCode) {
 		case AcResultCode.REQUEST_CODE_CAMERA_IMAGE:
-			if(resultCode != 0 && photoFile.exists()) {		
-				fileList.add(photoFile);	
+			if(resultCode != 0 && photoFile.exists()) {						
+				if(state == 0) {
+					fileList.add(photoFile);
+					if(fileList.size() > maxNum) {
+						fileList.remove(0);
+						photoAdapter.getPhotoList().remove(0);
+					}
+				} else {
+					fileList.set(selPos, photoFile);
+					photoAdapter.getPhotoList().get(selPos).get().recycle();
+					photoAdapter.getPhotoList().get(selPos).clear();
+				}
 				photoAdapter.notifyDataSetChanged();
 			} else {
 				ToastHelper.showToastInBottom(this, "拍照取图失败");
@@ -213,7 +228,17 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 				String photoPath = FileDirUtil.getPathFromUri(this, data.getData());
 				if(!TextUtils.isEmpty(photoPath)) {
 					photoFile = new File(photoPath);
-					fileList.add(photoFile);
+					if(state == 0) {
+						fileList.add(photoFile);
+						if(fileList.size() > maxNum) {
+							fileList.remove(0);
+							photoAdapter.getPhotoList().remove(0);
+						}
+					} else {
+						fileList.set(selPos, photoFile);
+						photoAdapter.getPhotoList().get(selPos).get().recycle();
+						photoAdapter.getPhotoList().get(selPos).clear();
+					}
 					photoAdapter.notifyDataSetChanged();
 				} else {
 					ToastHelper.showToastInBottom(this, "相册选图失败");
@@ -287,7 +312,7 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 					PhotoUpload pUpload = new PhotoUploadParser().parse(result);
 					DebugConfig.showLog("volley_response", result);
 					if(pUpload.respCode.equals(RespCode.SUCCESS)) {
-						imgUrlList.add(pUpload.imgUrl);
+						imgUrlList.add(pUpload.data);
 						currentUploadIndex++;
 						if(currentUploadIndex < fileList.size()) {
 							uploadIndexPhoto(currentUploadIndex);

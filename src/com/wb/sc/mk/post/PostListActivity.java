@@ -5,8 +5,6 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -85,6 +83,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		
 		showLoading();
 		requestPostType(getPostTypeRequestParams(), mPostTypeListener, this);
+//		test();
 	}
 	
 	@Override
@@ -113,13 +112,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 				
 			}
 		});
-		
-//		String[] types = getResources().getStringArray(R.array.post_type);
-//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-//    			R.layout.spinner_text_layout, types);
-//    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-//    	typeSp.setAdapter(adapter);
-		
+				
 		mPullListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_list);		
 		mPullListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 
@@ -193,7 +186,8 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Intent intent = new Intent(this, PostDetailActivity.class);
+		Intent intent = new Intent(this, PostDetailActivity.class);		
+		intent.putExtra(IntentExtraConfig.DETAIL_ID, mPostList.datas.get(position-1).id);
 		startActivity(intent);
 	}
 	
@@ -215,7 +209,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
-		params.add(ParamsUtil.getReqParam("0", 2));
+		params.add(ParamsUtil.getReqParam("", 2));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
 		params.add(ParamsUtil.getReqParam(mPostType.datas.get(currentTypePos).id, 8));
 		params.add(ParamsUtil.getReqParam("01", 2));
@@ -275,9 +269,12 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	 * 请求完成，处理UI更新
 	 */
 	@Override
-	public void onResponse(PostList response) {		
+	public void onResponse(PostList response) {
+		if(mPullListView.isRefreshing()) {
+			mPullListView.onRefreshComplete();
+		}
 		showContent();	
-		if(response.respCode == RespCode.SUCCESS) {			
+		if(response.respCode.equals(RespCode.SUCCESS)) {			
 			if(response.datas.size() <= 0) {
 				showEmpty();
 				return;
@@ -285,12 +282,18 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 			
 			if(mPage.pageNo == 1) {
 				mPostList = response;
+				
 				// set adapter
+				mAdapter = new PostListAdapter(mActivity, mPostList);
+				mListView.setAdapter(mAdapter);
 				showContent();
+				
+				
 			} else {
 				mPostList.hasNextPage = response.hasNextPage;
 				mPostList.datas.addAll(response.datas);
 				//adapter notifyDataSetChanged
+				mAdapter.notifyDataSetChanged();
 			}
 			
 			loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;	

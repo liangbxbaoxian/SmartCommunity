@@ -2,22 +2,25 @@
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.NetworkImageView;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
 import com.common.widget.helper.PullRefreshListViewHelper;
+import com.common.widget.hzlib.HorizontalListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
@@ -27,6 +30,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.CommentListAdapter;
+import com.wb.sc.adapter.PostImgAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Comment;
 import com.wb.sc.bean.CommentList;
@@ -44,6 +48,17 @@ import com.wb.sc.util.ParamsUtil;
 
 public class PostDetailActivity extends BaseHeaderActivity implements Listener<PostDetail>, 
 	ErrorListener, ReloadListener, OnItemClickListener{
+	
+	private NetworkImageView avatarIv;
+	private TextView nameTv;
+	private TextView titleTv;
+	private TextView timeTv;
+	private TextView descTv;
+	private TextView msgNumTv;
+	private TextView favNumTv;
+	private HorizontalListView imgLv;
+	
+	private ImageButton commentBtn;
 	
 	//帖子ID
 	private String postId;
@@ -83,7 +98,11 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		initHeader(getResources().getString(R.string.ac_post_detail));
 		initView();				
 		
-		test();
+		//获取详情信息
+		requestPostDetail(getPostDetailRequestParams(), this, this);
+		//获取评论列表
+		requestCommentList(getCommentListRequestParams(), mCommListListener, this);
+//		test();
 	}
 			
 	@Override
@@ -93,6 +112,15 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	
 	@Override
 	public void initView() {
+		avatarIv = (NetworkImageView) findViewById(R.id.avatar);
+        nameTv = (TextView) findViewById(R.id.postMaster);
+        titleTv = (TextView) findViewById(R.id.postTitle);
+        timeTv = (TextView) findViewById(R.id.postTime);
+        descTv = (TextView) findViewById(R.id.postName);
+        msgNumTv = (TextView) findViewById(R.id.msg_num);
+        favNumTv = (TextView) findViewById(R.id.favourite_num);
+        imgLv = (HorizontalListView) findViewById(R.id.list);
+		
 		mPullListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_list);		
 		mPullListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 
@@ -145,6 +173,15 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 					mPullHelper.setBottomState(loadState);		
 					startCommentRequest();
 				}
+			}
+		});
+		
+		commentBtn = (ImageButton) findViewById(R.id.comment);
+		commentBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				requestComment(getCommentListRequestParams(), mCommentListener, PostDetailActivity.this);
 			}
 		});
 	}
@@ -236,8 +273,21 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	@Override
 	public void onResponse(PostDetail response) {		
 		showContent();	
-		if(response.respCode == RespCode.SUCCESS) {			
-				mPostDetail = response;
+		if(response.respCode.equals(RespCode.SUCCESS)) {			
+			mPostDetail = response;
+			avatarIv.setImageUrl(mPostDetail.sourceAvatarUrl, SCApp.getInstance().getImageLoader());
+			nameTv.setText(mPostDetail.sourceName);
+			titleTv.setText(mPostDetail.title);
+			timeTv.setText(mPostDetail.time);
+			descTv.setText(mPostDetail.content);
+			msgNumTv.setText(mPostDetail.commentNum);
+		    favNumTv.setText(mPostDetail.favNum);
+		    if(mPostDetail.imgList.size() > 0) {
+		    	   PostImgAdapter adapter = new PostImgAdapter(this, mPostDetail.imgList);
+		    	   imgLv.setAdapter(adapter);
+		       } else {
+		    	   imgLv.setVisibility(View.GONE);
+		       }
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
@@ -275,13 +325,13 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	 * @param listenre
 	 * @param errorListener
 	 */	
-	private void requestComment(int method, String methodUrl, Map<String, String> params,	 
+	private void requestCommentList(List<String> params,	 
 			Listener<CommentList> listenre, ErrorListener errorListener) {			
 		if(mCommentListRequest != null) {
 			mCommentListRequest.cancel();
 		}	
-		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL + methodUrl;
-//		mCommentListRequest = new CommentListRequest(method, url, params, listenre, errorListener);
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL ;
+		mCommentListRequest = new CommentListRequest(url, params, listenre, errorListener);
 		startRequest(mCommentListRequest);		
 	}
 	
@@ -299,19 +349,18 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		public void onResponse(CommentList response) {		
 			showContent();	
 			if(response.respCode == RespCode.SUCCESS) {			
-				if(response.datas.size() <= 0) {
-					showEmpty();
+				if(response.datas.size() <= 0) {					
 					return;
 				}
 				
 				if(mPage.pageNo == 1) {
 					mCommentList = response;
-					// set adapter
-					showContent();
+					mAdapter = new CommentListAdapter(mActivity, mCommentList);
+					mListView.setAdapter(mAdapter);
 				} else {
 					mCommentList.hasNextPage = response.hasNextPage;
 					mCommentList.datas.addAll(response.datas);
-					//adapter notifyDataSetChanged
+					mAdapter.notifyDataSetChanged();
 				}
 				
 				loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;	

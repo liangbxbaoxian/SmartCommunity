@@ -104,7 +104,8 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		setUmeng();
 		
 //		requestAdv(getAdvRequestParams(), mAdvListener, this);
-		requestComNotice(getComNoticeRequestParams(), mComNoticeListener, this);
+//		requestComNotice(getComNoticeRequestParams(), mComNoticeListener, this);
+		requestPhoneList(getPhoneListRequestParams(), mPhoneListListener, this);
 	}
 
 	public void getIntentData() {
@@ -430,9 +431,16 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		 */
 		@Override
 		public void onResponse(PhoneList response) {		
-			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mPhoneList = response;
+				if(mPhoneList.datas.size() > 0) {
+				List<Object> items = new ArrayList<Object>();
+					for(com.wb.sc.bean.PhoneList.Item item : response.datas) {
+						items.add(new Item(item.remarks, item.number));
+					}
+					mAdapter = new PhoneMenuAdapter(mActivity, items);
+					mList.setAdapter(mAdapter);
+				}
 			} else {
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}

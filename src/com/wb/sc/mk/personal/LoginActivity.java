@@ -196,7 +196,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			mUser = response;
 			mUser.isLogin = 1;
 			mUser.phone = userPhone;
-			//先写死一个社区ID
+			//先写死一个UserId 和 社区ID
+//			mUser.userId = "9b489d54-91fe-4183-9d90-c6d8ca0c8fa0";
 			mUser.communityId = "db8eeb11-3e04-4eae-9c05-fd572abb1733";
 			if(savePwdCb.isChecked()) {
 				savePassword(mUser, password);

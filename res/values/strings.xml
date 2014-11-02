@@ -25,6 +25,7 @@
     <string name="ac_law_rule">法律法规</string>
    	<string name="ac_law_rule_detial">物业法规</string>
    	<string name="ac_apply">报名</string>
+   	<string name="ac_post">我要发帖</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>

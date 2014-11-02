@@ -215,8 +215,7 @@
             android:name="com.wb.sc.mk.main.PostActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_praise"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:screenOrientation="portrait" />
 
         <!-- 个人信息 -->
         <activity

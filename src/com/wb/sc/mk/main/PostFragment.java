@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,9 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener;
@@ -29,17 +28,16 @@ import com.wb.sc.bean.Post;
 import com.wb.sc.bean.PostType;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
-import com.wb.sc.mk.personal.MyPostActivity;
 import com.wb.sc.task.PostRequest;
 import com.wb.sc.task.PostTypeRequest;
 import com.wb.sc.util.ParamsUtil;
 
 public class PostFragment extends BasePhotoFragment implements OnItemClickListener,
 	PhotoUploadListener, ErrorListener{
-	
-	private View myPostBtn;
+		
 	private View postBtn;
 	private Spinner typeSp;
+	private String selTypeId;
 	
 	private TextView titleTv;
 	private TextView contentTv;
@@ -77,15 +75,17 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
        super.onViewCreated(view, savedInstanceState);
       
        initView(view);
+       
+       requestPostType(getPostTypeRequestParams(), mPostTypeListener, this);
     }
    
     private void initView(View view) {
     	titleTv = (TextView) view.findViewById(R.id.title);
     	contentTv = (TextView) view.findViewById(R.id.content);
     	
-    	initPhoto(view);  
-    	myPostBtn = view.findViewById(R.id.my_posts);
-    	myPostBtn.setOnClickListener(this);
+    	initPhoto(view, "FG30");      	
+    	setUploadListener(this);
+    	
     	postBtn = view.findViewById(R.id.submit);
     	postBtn.setOnClickListener(this);
     	
@@ -100,13 +100,7 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
     @Override
 	public void onClick(View v) {
 		super.onClick(v);
-		switch(v.getId()) {
-		case R.id.my_posts:
-			//跳转至我的帖子
-			Intent intent = new Intent(getActivity(), MyPostActivity.class);
-			startActivity(intent);
-			break;
-			
+		switch(v.getId()) {			
 		case R.id.submit:
 			submit();
 			break;
@@ -128,6 +122,7 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
     	}
     	
     	startUploadPhot();
+    	selTypeId = mPostType.datas.get(typeSp.getSelectedItemPosition()).id;
     }
     
     /**
@@ -203,7 +198,7 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
-		params.add(ParamsUtil.getReqParam("帖子类型", 64));
+		params.add(ParamsUtil.getReqParam(selTypeId, 64));
 		params.add(ParamsUtil.getReqParam(title, 100));
 		params.add(ParamsUtil.getReqParam(content, 300));
 		params.add(ParamsUtil.getReqParam(imgsUrl, 1024));
@@ -245,11 +240,12 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mPost = response;
+				ToastHelper.showToastInBottom(getActivity(), "发布成功");
+				getActivity().finish();
 			} else {
 				ToastHelper.showToastInBottom(getActivity(), response.respCodeMsg);
 			}
-		}
-		
+		}		
 	}
 
 	@Override
@@ -262,7 +258,7 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 			}
 		}
 		//发起发帖请求
-		requestPost(getPostTypeRequestParams(), mPostListener, this);
+		requestPost(getPostRequestParams(imgsUrl), mPostListener, this);
 	}
 	
 	/**
