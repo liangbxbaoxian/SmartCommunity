@@ -3,17 +3,13 @@ package com.wb.sc.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
-import com.wb.sc.adapter.FindAdapter.ViewHolder;
 import com.wb.sc.bean.Category;
 import com.wb.sc.bean.Item;
 
@@ -96,7 +92,7 @@ public class LeftMenuAdapter extends BaseAdapter {
 				  convertView = LayoutInflater.from(mContext).inflate(R.layout.menu_row_category, parent, false);
 				  viewholder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
 			  } else {
-				  convertView = LayoutInflater.from(mContext).inflate(R.layout.menu_row_item, parent, false);
+				  	convertView = LayoutInflater.from(mContext).inflate(R.layout.menu_row_item, parent, false);
 					viewholder.txt_phone = (TextView) convertView.findViewById(R.id.txt_phone);
 					viewholder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
 			  }

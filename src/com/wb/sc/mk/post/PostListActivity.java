@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -69,6 +70,9 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;
 	private PostListRequest mPostListRequest;
 	private PostList mPostList;
+	
+	//我要分享
+	private Button shareBtn;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +173,16 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 					mPullHelper.setBottomState(loadState);		
 					startPostListRequest();
 				}
+			}
+		});
+		
+		shareBtn = (Button) findViewById(R.id.share);
+		shareBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(PostListActivity.this, PostActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

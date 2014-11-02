@@ -13,9 +13,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
@@ -29,18 +29,21 @@ import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.LeftMenuAdapter;
 import com.wb.sc.adapter.MenuAdapter;
+import com.wb.sc.adapter.PhoneMenuAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Adv;
 import com.wb.sc.bean.Category;
 import com.wb.sc.bean.ComNotice;
 import com.wb.sc.bean.Item;
 import com.wb.sc.bean.Menu;
+import com.wb.sc.bean.PhoneList;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.mk.personal.MsgCenterActivity;
 import com.wb.sc.mk.post.PostListActivity;
 import com.wb.sc.task.AdvRequest;
 import com.wb.sc.task.ComNoticeRequest;
+import com.wb.sc.task.PhoneListRequest;
 import com.wb.sc.util.ParamsUtil;
 
 /**
@@ -49,7 +52,9 @@ import com.wb.sc.util.ParamsUtil;
  * @作者：liang bao xian
  * @时间：2014年10月23日 上午10:19:21
  */
-public class HomeActivity extends BaseActivity implements ErrorListener, LeftMenuAdapter.MenuListener{
+
+public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMenuAdapter.MenuListener{
+
 	
 	//标题栏相关
 	private View phoneV;
@@ -75,16 +80,22 @@ public class HomeActivity extends BaseActivity implements ErrorListener, LeftMen
 	private ComNoticeListener mComNoticeListener = new ComNoticeListener();
 	private PageInfo noticePgIf = new PageInfo();
 	
-	 protected MenuDrawer mMenuDrawer;
+	//常用电话
+	private PhoneListRequest mPhoneListRequest;
+	private PhoneList mPhoneList;
+	private PhoneListListener mPhoneListListener = new PhoneListListener();
+	private PageInfo phonePgIf = new PageInfo(20, 1);
 
-	    protected LeftMenuAdapter mAdapter;
-	    protected ListView mList;
-	    private int mActivePosition = 0;
-	    private static final String STATE_ACTIVE_POSITION =
+	//滑动菜单
+	protected MenuDrawer mMenuDrawer;
+	protected PhoneMenuAdapter mAdapter;
+	protected ListView mList;
+	private int mActivePosition = 0;
+	private static final String STATE_ACTIVE_POSITION =
 	            "net.simonvt.menudrawer.samples.LeftDrawerSample.activePosition";
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		setContentView(R.layout.activity_home);
 		initMenuDraw(savedInstanceState);
@@ -107,10 +118,10 @@ public class HomeActivity extends BaseActivity implements ErrorListener, LeftMen
 	        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.BEHIND, Position.START, MenuDrawer.MENU_DRAG_CONTENT);
 
 	        List<Object> items = new ArrayList<Object>();
-	        items.add(new Category("Cat 1"));
-	        items.add(new Item("Item 1", "0591-12345678"));
-	        items.add(new Item("Item 2", "0591-12345678"));
-	        items.add(new Item("Item 3", "0591-12345678"));
+//	        items.add(new Category("常用电话"));
+	        items.add(new Item("物业服务中心", "0591-12345678"));
+	        items.add(new Item("夜间报修电话", "0591-12345678"));
+	        items.add(new Item("洪山派出所", "0591-12345678"));
 	        items.add(new Item("Item 4", "0591-12345678"));
 //	        items.add(new Category("Cat 2"));
 	        items.add(new Item("Item 5", "0591-12345678"));
@@ -121,22 +132,26 @@ public class HomeActivity extends BaseActivity implements ErrorListener, LeftMen
 //	        items.add(new Category("Cat 4"));
 	        items.add(new Item("Item 9", "0591-12345678"));
 	        items.add(new Item("Item 10", "0591-12345678"));
+	        
+	        View menuView = getLayoutInflater().inflate(R.layout.phone_list_layout, null);
+	        mList = (ListView) menuView.findViewById(R.id.phone_list);
 
-	        mList = new ListView(this);
-
-	        mAdapter = new LeftMenuAdapter(this, items);
+	        mAdapter = new PhoneMenuAdapter(this, items);
 	        mAdapter.setListener(this);
 	        mAdapter.setActivePosition(mActivePosition);
 
 	        mList.setAdapter(mAdapter);
 	        mList.setOnItemClickListener(mItemClickListener);
 
-	        mMenuDrawer.setMenuView(mList);
+	        mMenuDrawer.setMenuView(menuView);
 	        
 	        mMenuDrawer.setContentView(R.layout.activity_home);
 	        mMenuDrawer.setTouchMode(MenuDrawer.TOUCH_MODE_FULLSCREEN);
 	        mMenuDrawer.setSlideDrawable(R.drawable.ic_drawer);
 	        mMenuDrawer.setDrawerIndicatorEnabled(true);
+	        final float density = getResources().getDisplayMetrics().density;
+	        int size = (int) (180 * density);
+	        mMenuDrawer.setMenuSize(size);
 	}
 	
   private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
@@ -208,7 +223,6 @@ public class HomeActivity extends BaseActivity implements ErrorListener, LeftMen
 	
 	@Override
 	public void onClick(View v) {
-		super.onClick(v);
 		
 		switch(v.getId()) {
 		case R.id.msg:{
@@ -217,7 +231,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, LeftMen
 		}break;
 		
 		case R.id.phone:{
-			
+			mMenuDrawer.toggleMenu();
 		}break;
 		}
 	}
@@ -368,9 +382,65 @@ public class HomeActivity extends BaseActivity implements ErrorListener, LeftMen
 		}
 	}
 
+	
+	/**
+	 * 获取请求参数
+	 * @return
+	 */
+	private List<String> getPhoneListRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG14", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().getCommunityId(), 64));
+		params.add(ParamsUtil.getReqIntParam(phonePgIf.pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(phonePgIf.pageSize, 2));
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestPhoneList(List<String> params,	 
+			Listener<PhoneList> listenre, ErrorListener errorListener) {			
+		if(mPhoneListRequest != null) {
+			mPhoneListRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mPhoneListRequest = new PhoneListRequest(url, params, listenre, errorListener);
+		startRequest(mPhoneListRequest);		
+	}
+	
+	/**
+	 * 
+	 * @描述：电话列表监听
+	 * @作者：liang bao xian
+	 * @时间：2014年11月1日 上午10:41:31
+	 */
+	class PhoneListListener implements Listener<PhoneList> {
+		
+		/**
+		 * 请求完成，处理UI更新
+		 */
+		@Override
+		public void onResponse(PhoneList response) {		
+			showContent();	
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				mPhoneList = response;
+			} else {
+				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
+			}
+		}
+	}
+	
 	@Override
 	public void onActiveViewChanged(View v) {
-		// TODO Auto-generated method stub
 		
 	}
 }

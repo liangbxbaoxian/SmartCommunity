@@ -392,7 +392,14 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
         </activity>
         
-        
+        <!-- 我要报名 -->
+        <activity
+            android:name="com.wb.sc.mk.post.ApplyActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_apply"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
+        </activity>
         
                          
         <!-- ============================================= 友盟相关 ================================================== -->

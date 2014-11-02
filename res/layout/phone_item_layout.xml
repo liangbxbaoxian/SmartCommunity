@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/layout_selector"
+    android:paddingTop="21dp"
+    android:paddingLeft="16dp">
+    
+    <ImageView 
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/baidianhuan"/>
+    
+    <TextView 
+        android:id="@+id/type"
+        android:layout_toRightOf="@id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="物业联系电话"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+    
+    <TextView 
+        android:id="@+id/phone"
+        android:layout_below="@id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:text="0591-7837857"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+    
+    <View 
+        android:layout_below="@id/phone"
+        android:layout_width="match_parent"
+        android:layout_marginTop="23dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="19dp"
+        android:background="#5c5d5d"/>
+
+</RelativeLayout>
