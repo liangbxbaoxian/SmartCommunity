@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -81,8 +82,8 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		initHeaderBack();
 		initView();	
 		
-		showLoading();
-		requestPostType(getPostTypeRequestParams(), mPostTypeListener, this);
+//		showLoading();
+//		requestPostType(getPostTypeRequestParams(), mPostTypeListener, this);
 //		test();
 	}
 	
@@ -90,6 +91,12 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	public void getIntentData() {
 		postType = getIntent().getIntExtra(IntentExtraConfig.POST_TYPE, 
 				IntentExtraConfig.POST_TYPE_SHARE);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		requestPostType(getPostTypeRequestParams(), mPostTypeListener, this);
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
@@ -281,14 +288,10 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 			}
 			
 			if(mPage.pageNo == 1) {
-				mPostList = response;
-				
-				// set adapter
+				mPostList = response;				
 				mAdapter = new PostListAdapter(mActivity, mPostList);
 				mListView.setAdapter(mAdapter);
-				showContent();
-				
-				
+				showContent();				
 			} else {
 				mPostList.hasNextPage = response.hasNextPage;
 				mPostList.datas.addAll(response.datas);

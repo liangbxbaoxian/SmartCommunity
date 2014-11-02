@@ -309,8 +309,8 @@ public abstract class BasePhotoActivity extends BaseHeaderActivity implements On
 
 				@Override
 				public void onSuccess(String result) {
-					PhotoUpload pUpload = new PhotoUploadParser().parse(result);
 					DebugConfig.showLog("volley_response", result);
+					PhotoUpload pUpload = new PhotoUploadParser().parse(result);					
 					if(pUpload.respCode.equals(RespCode.SUCCESS)) {
 						imgUrlList.add(pUpload.data);
 						currentUploadIndex++;

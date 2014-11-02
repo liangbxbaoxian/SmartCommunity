@@ -112,8 +112,8 @@ public class ParamsUtil {
 	 */
 	public static boolean getNextPageFlag(BaseBean baseBean) {
 		boolean hasNextPage = false;
-		byte flag = baseBean.dataBytes[baseBean.dataBytes.length-1];
-		if(flag == (byte)0x1) {
+		char flag = (char)baseBean.dataBytes[baseBean.dataBytes.length-1];
+		if(flag == '1') {
 			hasNextPage = true;
 		}
 		return hasNextPage;

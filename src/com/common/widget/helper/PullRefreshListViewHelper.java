@@ -46,8 +46,7 @@ public class PullRefreshListViewHelper {
 		holder.progressBar = (ProgressBar) mBottomView.findViewById(R.id.loading_processbar);
 		holder.stateTv = (TextView) mBottomView.findViewById(R.id.state);
 		mBottomView.setTag(holder);
-//		listView.addFooterView(mBottomView);
-		listView.addHeaderView(mBottomView);
+		listView.addFooterView(mBottomView);
 	}
 		
 	/**

@@ -275,7 +275,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
 			mPostDetail = response;
-			avatarIv.setImageUrl(mPostDetail.sourceAvatarUrl, SCApp.getInstance().getImageLoader());
+			avatarIv.setImageUrl(NetConfig.getPictureUrl(mPostDetail.sourceAvatarUrl), SCApp.getInstance().getImageLoader());
 			nameTv.setText(mPostDetail.sourceName);
 			titleTv.setText(mPostDetail.title);
 			timeTv.setText(mPostDetail.time);

@@ -60,6 +60,7 @@ public class PostListAdapter extends BaseAdapter{
            holder.msgNumTv = (TextView) view.findViewById(R.id.msg_num);
            holder.favNumTv = (TextView) view.findViewById(R.id.favourite_num);
            holder.imgLv = (HorizontalListView) view.findViewById(R.id.list);
+           holder.imgLv.setVisibility(View.GONE);
            view.setTag(holder);
        } else {
            view = convertView;
@@ -75,12 +76,14 @@ public class PostListAdapter extends BaseAdapter{
        holder.descTv.setText(item.content);
        holder.msgNumTv.setText(item.commentNum);
        holder.favNumTv.setText(item.favNum);
+       item.imgList.clear();
+       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
        if(item.imgList.size() > 0) {
-//    	   PostImgAdapter adapter = new PostImgAdapter(mContext, item.imgList);
-//    	   holder.imgLv.setAdapter(adapter);
-    	   holder.imgLv.setVisibility(View.GONE);
+    	   PostImgAdapter adapter = new PostImgAdapter(mContext, item.imgList);
+    	   holder.imgLv.setAdapter(adapter);    	   
+//    	   holder.imgLv.setVisibility(View.GONE);
        } else {
-    	   holder.imgLv.setVisibility(View.GONE);
+//    	   holder.imgLv.setVisibility(View.GONE);
        }
        
        return view;
