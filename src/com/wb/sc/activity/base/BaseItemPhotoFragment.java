@@ -129,7 +129,7 @@ public class BaseItemPhotoFragment extends BaseExtraLayoutFragment {
 		getActivity().startActivityForResult(intent, AcResultCode.REQUEST_CODE_IMAGE_CROP);
 	}
     
-	@TargetApi(Build.VERSION_CODES.KITKAT) 
+//	@TargetApi(Build.VERSION_CODES.KITKAT) 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(requestCode) {
