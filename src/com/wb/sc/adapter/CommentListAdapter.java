@@ -1,10 +1,15 @@
 package com.wb.sc.adapter;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
+import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CommentList;
+import com.wb.sc.bean.CommentList.Item;
 import com.wb.sc.bean.PostList;
+import com.wb.sc.config.NetConfig;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +54,7 @@ public class CommentListAdapter extends BaseAdapter{
            LayoutInflater inflater = LayoutInflater.from(mContext);
            view = inflater.inflate(R.layout.comment_list_item_layout, null);
            holder = new ViewHolder();
-           holder.avatarIv = (ImageView) view.findViewById(R.id.avatar);
+           holder.avatarIv = (NetworkImageView) view.findViewById(R.id.avatar);
            holder.nameTv = (TextView) view.findViewById(R.id.name);
            holder.timeTv = (TextView) view.findViewById(R.id.time);
            holder.commentTv = (TextView) view.findViewById(R.id.comment);
@@ -59,11 +64,19 @@ public class CommentListAdapter extends BaseAdapter{
            holder = (ViewHolder) view.getTag();
        }
        
+       Item item = mCommentList.datas.get(position);
+       if(!TextUtils.isEmpty(item.sourceAvatar)) {
+    	   holder.avatarIv.setImageUrl(NetConfig.getPictureUrl(item.sourceAvatar), SCApp.getInstance().getImageLoader());
+       }
+       holder.nameTv.setText(item.sourceName);
+       holder.timeTv.setText(item.time);
+       holder.commentTv.setText(item.content);
+       
        return view;
     }
    
     class ViewHolder {
-    	ImageView avatarIv;
+    	NetworkImageView avatarIv;
     	TextView nameTv;
     	TextView timeTv;
     	TextView commentTv;

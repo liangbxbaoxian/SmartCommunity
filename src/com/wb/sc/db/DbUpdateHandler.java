@@ -16,9 +16,13 @@ public class DbUpdateHandler implements DbUpdateListener {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		
-		if(oldVersion == 1 && newVersion == 2) {
-			db.execSQL("DROP TABLE " + DbConfig.TN_USER);
-			return;
+		try {
+			if(oldVersion == 1 && newVersion == 2) {
+				db.execSQL("DROP TABLE " + DbConfig.TN_USER);
+				return;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -6,75 +6,134 @@
     android:orientation="vertical" >
 
     <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg" >
+
+        <LinearLayout
+            android:id="@+id/common_header_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@drawable/header_btn_selector"
+            android:gravity="center"
+            android:paddingLeft="@dimen/title_bar_padding"
+            android:paddingRight="@dimen/title_bar_padding" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottom_fanhui" />
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/type"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            android:background="@drawable/spinner_bg_nor"
+            android:paddingRight="10dp" />
+
+        <TextView
+            android:id="@+id/common_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/common_header_back"
+            android:text="社区互动"
+            android:textColor="@color/title_text_color"
+            android:textSize="@dimen/title_bar_text_size" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:background="@color/common_bg_color" >
 
-        <com.handmark.pulltorefresh.library.PullToRefreshListView
-            android:id="@+id/pull_refresh_list"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/header"
-            android:layout_marginTop="-12dp"
-            android:cacheColorHint="#00000000"
-            android:divider="#19000000"
-            android:dividerHeight="12dp"
-            android:fadingEdge="none"
-            android:fastScrollEnabled="false"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:smoothScrollbar="true" />
+        <LinearLayout
+            android:id="@+id/empty_content_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible" >
 
-        <RelativeLayout
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/title_bar_height"
-            android:background="@drawable/title_bar_bg" >
-
-            <LinearLayout
-                android:id="@+id/common_header_back"
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:background="@drawable/header_btn_selector"
-                android:gravity="center"
-                android:paddingLeft="@dimen/title_bar_padding"
-                android:paddingRight="@dimen/title_bar_padding" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/bottom_fanhui" />
-            </LinearLayout>
-
-            <Spinner
-                android:id="@+id/type"
-                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="11dp"
-                android:layout_marginRight="11dp"
-                android:background="@drawable/spinner_bg_nor"
-                android:paddingRight="10dp" />
+                android:src="@drawable/empty_content" />
 
             <TextView
-                android:id="@+id/common_header_title"
+                android:id="@+id/toast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/common_header_back"
-                android:text="社区互动"
-                android:textColor="@color/title_text_color"
-                android:textSize="@dimen/title_bar_text_size" />
-        </RelativeLayout>
-    </RelativeLayout>
+                android:layout_marginTop="10dp"
+                android:text="@string/empty_toast"
+                android:textColor="#d8d8d8"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/loading_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="visible" >
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@anim/base_loading_large_anim" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/load_error_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/base_load_error_view" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <com.handmark.pulltorefresh.library.PullToRefreshListView
+                android:id="@+id/pull_refresh_list"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/header"
+                android:layout_marginTop="-12dp"
+                android:cacheColorHint="#00000000"
+                android:divider="#19000000"
+                android:dividerHeight="12dp"
+                android:fadingEdge="none"
+                android:fastScrollEnabled="false"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
+                android:smoothScrollbar="true" />
+        </FrameLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/huidi" 
-        android:visibility="visible">
+        android:background="@drawable/huidi"
+        android:visibility="visible" >
 
         <Button
             android:id="@+id/share"
@@ -87,7 +146,7 @@
             android:layout_marginTop="11dp"
             android:background="@drawable/red_btn_selector"
             android:onClick="share"
-            android:text="我要分享"             >
+            android:text="我要分享" >
         </Button>
     </LinearLayout>
 

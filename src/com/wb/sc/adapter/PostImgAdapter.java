@@ -12,6 +12,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.config.NetConfig;
+import com.wb.sc.util.ImgUrlUtil;
 
 public class PostImgAdapter extends BaseAdapter {
 		
@@ -54,7 +55,8 @@ public class PostImgAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 		
-		holder.imgIv.setImageUrl(NetConfig.getPictureUrl(imgList.get(position)), SCApp.getInstance().getImageLoader());		
+		String smallImgUrl = ImgUrlUtil.getSmallUrl(imgList.get(position));
+		holder.imgIv.setImageUrl(NetConfig.getPictureUrl(smallImgUrl), SCApp.getInstance().getImageLoader());		
 		return view;
 	}
 	

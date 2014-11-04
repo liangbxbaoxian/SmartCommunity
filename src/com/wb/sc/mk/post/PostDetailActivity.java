@@ -58,6 +58,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	private TextView favNumTv;
 	private HorizontalListView imgLv;
 	
+	private View favBtn;
 	private ImageButton commentBtn;
 	
 	//帖子ID
@@ -92,11 +93,13 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_postdetail);
+		setContentView(R.layout.common_header_layout, R.layout.activity_postdetail);
 		
 		getIntentData();
 		initHeader(getResources().getString(R.string.ac_post_detail));
 		initView();				
+		
+		showLoading();
 		
 		//获取详情信息
 		requestPostDetail(getPostDetailRequestParams(), this, this);
@@ -173,6 +176,15 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 					mPullHelper.setBottomState(loadState);		
 					startCommentRequest();
 				}
+			}
+		});
+		
+		favBtn = findViewById(R.id.fav);
+		favBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				requestFavour(getFavourRequestParams(), mFavourListener, PostDetailActivity.this);
 			}
 		});
 		
@@ -280,14 +292,26 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			titleTv.setText(mPostDetail.title);
 			timeTv.setText(mPostDetail.time);
 			descTv.setText(mPostDetail.content);
-			msgNumTv.setText(mPostDetail.commentNum);
-		    favNumTv.setText(mPostDetail.favNum);
+			msgNumTv.setText(mPostDetail.commentNum+"");
+		    favNumTv.setText(mPostDetail.favNum+"");
+//		    mPostDetail.imgList.clear();
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
 		    if(mPostDetail.imgList.size() > 0) {
-		    	   PostImgAdapter adapter = new PostImgAdapter(this, mPostDetail.imgList);
-		    	   imgLv.setAdapter(adapter);
-		       } else {
-		    	   imgLv.setVisibility(View.GONE);
-		       }
+		    	PostImgAdapter adapter = new PostImgAdapter(this, mPostDetail.imgList);
+		    	imgLv.setAdapter(adapter);
+		    } else {
+		    	imgLv.setVisibility(View.GONE);
+		    }
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
@@ -348,7 +372,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		@Override
 		public void onResponse(CommentList response) {		
 			showContent();	
-			if(response.respCode == RespCode.SUCCESS) {			
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				if(response.datas.size() <= 0) {					
 					return;
 				}

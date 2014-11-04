@@ -7,11 +7,11 @@ import android.widget.TextView;
 import com.wb.sc.R;
 
 public abstract class BaseHeaderActivity extends BaseActivity implements OnClickListener{
-	
+		
 	protected View headerBackIv;
 	protected View headerHomeIv;
 	protected TextView headerTitleTv;
-	
+		
 	public void initHeader(int titleId) {
 		initHeader(getResources().getString(titleId));
 	}
