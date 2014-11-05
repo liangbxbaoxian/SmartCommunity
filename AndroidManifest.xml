@@ -92,17 +92,20 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/SC.Light" >
+        
+         <!--2014/11/4 陈侣说取消启动页-->
+        
         <activity
             android:exported="true"
             android:name="com.wb.sc.mk.main.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_main"
             android:screenOrientation="portrait" >  
-             <intent-filter>
+            <!--  <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>             
+            </intent-filter>  -->            
         </activity>
                 
         <activity

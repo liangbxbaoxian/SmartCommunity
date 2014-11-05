@@ -79,6 +79,7 @@ ErrorListener, ReloadListener{
 	public String latitude;     // 维度
 	public String merchantCategoryId;  // 商户类别
 	private String merchantName;
+	private String distance ="";
 	
 	private LocationClient mLocationClient;
 	private LocationMode tempMode = LocationMode.Hight_Accuracy;
@@ -214,12 +215,31 @@ ErrorListener, ReloadListener{
 		// 初始化控件
 		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
 		// 建立数据源
-		String[] distances = getResources().getStringArray(R.array.spinner_distance);
+		final String[] distances = getResources().getStringArray(R.array.spinner_distance);
 		// 建立Adapter并且绑定数据源
 		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
 				R.layout.spinner_text_layout, distances);
 		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
 		mDistanceSpinner.setAdapter(distanceAdapter);
+		mDistanceSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				merchantCategoryId = "" + arg2;
+		  		showLoading();
+        		pageNo = 1;
+        		list.clear();
+        		distance = distances[arg2];
+        		requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		final EditText input_content = (EditText) findViewById(R.id.input_content);
 		input_content.setOnEditorActionListener(new OnEditorActionListener() {  
@@ -321,6 +341,7 @@ ErrorListener, ReloadListener{
 		params.add(ParamsUtil.getReqParam(categoryName, 32));
 		params.add(ParamsUtil.getReqParam(longitude, 128));
 		params.add(ParamsUtil.getReqParam(latitude, 128));
+		params.add(ParamsUtil.getReqParam(distance, 32));
 		String categoryId = merchantCategoryId == null ? "":merchantCategoryId;
 		params.add(ParamsUtil.getReqParam(categoryId, 32));
 		params.add(ParamsUtil.getReqIntParam(pageNo, 3));

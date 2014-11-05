@@ -40,10 +40,12 @@ import com.wb.sc.bean.PhoneList;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.mk.personal.MsgCenterActivity;
+import com.wb.sc.mk.personal.PersonalInfoActivity;
 import com.wb.sc.mk.post.PostListActivity;
 import com.wb.sc.task.AdvRequest;
 import com.wb.sc.task.ComNoticeRequest;
 import com.wb.sc.task.PhoneListRequest;
+import com.wb.sc.util.Constans;
 import com.wb.sc.util.ParamsUtil;
 
 /**
@@ -450,5 +452,10 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	@Override
 	public void onActiveViewChanged(View v) {
 		
+	}
+	
+	public void changeCommunity(View v) {
+		Intent intent = new Intent(HomeActivity.this, SetCommunityActivity.class);
+		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
 	}
 }
