@@ -19,6 +19,8 @@ import android.os.Handler;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.mk.personal.LoginActivity;
+import com.wb.sc.util.Constans;
+import com.wb.sc.util.PreferencesUtils;
 import com.wb.sc.widget.CustomDialog;
 import com.wb.sc.widget.CustomDialog.DialogFinish;
 
@@ -33,7 +35,8 @@ public class SplashActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
 
-		if (!hasShortCut()) {
+		boolean isCancel = PreferencesUtils.getBoolean(this, Constans.CANCEL_SHORT_CUT_REMIND);
+		if (!hasShortCut() && !isCancel) {
 			CustomDialog dialog = new CustomDialog(this, R.style.mystyle, R.layout.shortcut_dialog, new DialogFinish(){
 
 				@Override
@@ -49,6 +52,7 @@ public class SplashActivity extends BaseActivity {
 				public void onDismiss(DialogInterface arg0) {
 					SPLASH_TIME = 100;
 					goToHome();
+					PreferencesUtils.putBoolean(SplashActivity.this, Constans.CANCEL_SHORT_CUT_REMIND, true);
 				}
 			});
 		} else {

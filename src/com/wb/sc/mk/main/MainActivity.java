@@ -43,6 +43,8 @@ import com.wb.sc.mk.personal.MyRepairActivity;
 import com.wb.sc.mk.personal.PersonalInfoActivity;
 import com.wb.sc.mk.personal.RegisterInviteActivity;
 import com.wb.sc.mk.personal.SettingActivity;
+import com.wb.sc.util.Constans;
+import com.wb.sc.util.PreferencesUtils;
 import com.wb.sc.widget.CustomDialog;
 import com.wb.sc.widget.CustomDialog.DialogFinish;
 
@@ -89,7 +91,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, LeftM
 	}
 	
 	public void createShortcut () {
-		if (!hasShortCut()) {
+		boolean isCancel = PreferencesUtils.getBoolean(this, Constans.CANCEL_SHORT_CUT_REMIND);
+		if (!hasShortCut() && isCancel) {
 			CustomDialog dialog = new CustomDialog(this, R.style.mystyle, R.layout.shortcut_dialog, new DialogFinish(){
 
 				@Override
@@ -101,10 +104,9 @@ public class MainActivity extends BaseActivity implements OnClickListener, LeftM
 				
 				@Override
 				public void onDismiss(DialogInterface arg0) {
-					
+					PreferencesUtils.putBoolean(MainActivity.this, Constans.CANCEL_SHORT_CUT_REMIND, true);
 				}
 			});
-		} else {
 		}
 	}
 	

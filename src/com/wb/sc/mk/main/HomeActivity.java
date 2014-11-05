@@ -5,7 +5,17 @@ import java.util.List;
 
 import net.simonvt.menudrawer.MenuDrawer;
 import net.simonvt.menudrawer.Position;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent.ShortcutIconResource;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ProviderInfo;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -47,6 +57,9 @@ import com.wb.sc.task.ComNoticeRequest;
 import com.wb.sc.task.PhoneListRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.ParamsUtil;
+import com.wb.sc.util.PreferencesUtils;
+import com.wb.sc.widget.CustomDialog;
+import com.wb.sc.widget.CustomDialog.DialogFinish;
 
 /**
  * 
@@ -113,6 +126,91 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	public void getIntentData() {
 
 	}
+	
+	public void createShortcut () {
+		boolean isCancel = PreferencesUtils.getBoolean(this, Constans.CANCEL_SHORT_CUT_REMIND);
+		if (!hasShortCut() && isCancel) {
+			CustomDialog dialog = new CustomDialog(this, R.style.mystyle, R.layout.shortcut_dialog, new DialogFinish(){
+
+				@Override
+				public void getFinish() {
+					addShortcut();
+				}});
+			dialog.show();
+			dialog.setOnDismissListener(new OnDismissListener() {       //临时处理
+				
+				@Override
+				public void onDismiss(DialogInterface arg0) {
+					PreferencesUtils.putBoolean(HomeActivity.this, Constans.CANCEL_SHORT_CUT_REMIND, true);
+				}
+			});
+		}
+	}
+	
+	public  boolean hasShortCut() { 
+		  Uri uri = null; 
+		  String spermi =  getAuthorityFromPermission(this,"READ_SETTINGS"); 
+		  if(getSystemVersion() < 8){ 
+		      uri = Uri.parse("content://"+spermi+"/favorites?notify=true"); 
+		  }else{
+		      uri = Uri.parse("content://"+spermi+"/favorites?notify=true"); 
+		  } 
+		  final ContentResolver cr = getContentResolver();
+		  Cursor cursor = cr.query(uri,new String[] {"title","iconResource" },"title=?", new String[] {getString(R.string.app_name)}, null); 
+		  if (cursor != null&& cursor.getCount() > 0) { 
+			  cursor.close(); 
+			  return true; 
+		  }else {
+		      return false; 
+		  }
+	}
+
+	public  String getAuthorityFromPermission(Context context, String permission){
+		
+		if (permission == null) return null;  
+		List<PackageInfo> packs = context.getPackageManager().getInstalledPackages(PackageManager.GET_PROVIDERS);   
+		if (packs != null) {  
+			for (PackageInfo pack : packs) {
+				
+				ProviderInfo[] providers = pack.providers; 
+				if (providers != null) {
+					for (ProviderInfo provider : providers) {
+						if (provider.readPermission != null) {
+							if ((provider.readPermission).contains(permission)){
+								return provider.authority;
+							}
+						}
+					}					
+				}
+			}
+
+		}
+
+		return null;
+
+	}
+
+	public int getSystemVersion(){ 
+		return android.os.Build.VERSION.SDK_INT; 
+	} 
+
+	private void addShortcut(){  
+		Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");  
+
+		//快捷方式的名称  
+		shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.app_name));  
+		shortcut.putExtra("duplicate", false); //不允许重复创建  
+		Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
+		shortcutIntent.setClassName(this, this.getClass().getName());
+		shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+
+		//快捷方式的图标  
+		ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_launcher);  
+		shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconRes);  
+
+		sendBroadcast(shortcut);  
+	} 
+	
 	
 	public void initMenuDraw(Bundle inState) {
 		  if (inState != null) {
