@@ -26,8 +26,8 @@ public class PostDetailParser {
 			}
 		}
 		baseBean.time = ParamsUtil.getRespParamNext(baseBean, 16);
-		baseBean.favNum = ParamsUtil.getRespParamNext(baseBean, 4);
-		baseBean.commentNum = ParamsUtil.getRespParamNext(baseBean, 4);
+		baseBean.favNum = ParamsUtil.getRespIntParamNext(baseBean, 4);
+		baseBean.commentNum = ParamsUtil.getRespIntParamNext(baseBean, 4);
 		baseBean.isGoodPost = ParamsUtil.getRespParamNext(baseBean, 2);
 		baseBean.isTop = ParamsUtil.getRespParamNext(baseBean, 2);
 		baseBean.state = ParamsUtil.getRespParamNext(baseBean, 2);

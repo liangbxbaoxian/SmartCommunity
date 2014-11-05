@@ -144,7 +144,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkbox_selector"
-                    android:paddingLeft="5dp"
                     android:text="记住密码"
                     android:textColor="@android:color/black"
                     android:textSize="15sp" />

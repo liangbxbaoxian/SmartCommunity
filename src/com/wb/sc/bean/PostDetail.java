@@ -36,11 +36,11 @@ public class PostDetail extends BaseBean{
 	/**
 	 * 帖子被赞数
 	 */
-	public String favNum;
+	public int favNum;
 	/**
 	 * 帖子评论数
 	 */
-	public String commentNum;
+	public int commentNum;
 	/**
 	 * 是否精帖
 	 * 0：否，1：是

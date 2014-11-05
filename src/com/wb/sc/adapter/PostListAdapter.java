@@ -1,28 +1,43 @@
 package com.wb.sc.adapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
-import com.common.widget.hzlib.HorizontalListView;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.PostList;
 import com.wb.sc.bean.PostList.Item;
 import com.wb.sc.config.NetConfig;
+import com.wb.sc.util.ImgUrlUtil;
 
 public class PostListAdapter extends BaseAdapter{
 	
-	private Context mContext;
+	private Activity mActivity;
 	private PostList mPostList;
+	private int pItemWidth = 75;
+	private int rightMargin = 4;
 	   
-    public PostListAdapter(Context context, PostList list) {
-       mContext = context;
+    public PostListAdapter(Activity activity, PostList list) {
+       mActivity = activity;
        mPostList = list;
+       
+       DisplayMetrics dm = new DisplayMetrics();
+       activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+       pItemWidth = (int) (pItemWidth * dm.density);
+       rightMargin = (int) (rightMargin * dm.density);
     }
  
     @Override
@@ -49,7 +64,7 @@ public class PostListAdapter extends BaseAdapter{
        View view = null;
        ViewHolder holder;
        if (convertView == null) {
-           LayoutInflater inflater = LayoutInflater.from(mContext);
+           LayoutInflater inflater = LayoutInflater.from(mActivity);
            view = inflater.inflate(R.layout.post_list_item, null);
            holder = new ViewHolder();
            holder.avatarIv = (NetworkImageView) view.findViewById(R.id.avatar);
@@ -59,8 +74,20 @@ public class PostListAdapter extends BaseAdapter{
            holder.descTv = (TextView) view.findViewById(R.id.postName);
            holder.msgNumTv = (TextView) view.findViewById(R.id.msg_num);
            holder.favNumTv = (TextView) view.findViewById(R.id.favourite_num);
-           holder.imgLv = (HorizontalListView) view.findViewById(R.id.list);
-           holder.imgLv.setVisibility(View.GONE);
+
+           holder.imgVg = (LinearLayout) view.findViewById(R.id.imgs);
+           holder.img1Iv = (NetworkImageView) view.findViewById(R.id.img1);
+           holder.img2Iv = (NetworkImageView) view.findViewById(R.id.img2);
+           holder.img3Iv = (NetworkImageView) view.findViewById(R.id.img3);
+           holder.img4Iv = (NetworkImageView) view.findViewById(R.id.img4);
+           holder.imgIvList = new ArrayList<NetworkImageView>();
+           holder.imgIvList.add(holder.img1Iv);
+           holder.imgIvList.add(holder.img2Iv);
+           holder.imgIvList.add(holder.img3Iv);
+           holder.imgIvList.add(holder.img4Iv);
+           
+//         holder.imgLv = (HorizontalListView) view.findViewById(R.id.list);
+//         holder.imgLv.setVisibility(View.GONE);
            view.setTag(holder);
        } else {
            view = convertView;
@@ -76,14 +103,35 @@ public class PostListAdapter extends BaseAdapter{
        holder.descTv.setText(item.content);
        holder.msgNumTv.setText(item.commentNum);
        holder.favNumTv.setText(item.favNum);
-       item.imgList.clear();
-       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//       item.imgList.clear();
+//       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
+//       holder.imgVg.removeAllViews();
        if(item.imgList.size() > 0) {
-    	   PostImgAdapter adapter = new PostImgAdapter(mContext, item.imgList);
-    	   holder.imgLv.setAdapter(adapter);    	   
+//    	   PostImgAdapter adapter = new PostImgAdapter(mContext, item.imgList);
+//    	   holder.imgLv.setAdapter(adapter);    	   
 //    	   holder.imgLv.setVisibility(View.GONE);
+    	   for(int i=0; i<item.imgList.size() && i < 4; i++) {    		   
+    		   String imgUrl = item.imgList.get(i);
+    		   	if(!TextUtils.isEmpty(imgUrl)) {
+//    		   		NetworkImageView itemIv = new NetworkImageView(mActivity);    
+    		   		NetworkImageView itemIv = holder.imgIvList.get(i);
+    		   		String smallImgUrl = ImgUrlUtil.getSmallUrl(imgUrl);
+    		   		itemIv.setImageUrl(NetConfig.getPictureUrl(smallImgUrl), SCApp.getInstance().getImageLoader());
+//    		   		holder.imgVg.addView(itemIv);
+//    		   		LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)itemIv.getLayoutParams();
+//    		   		lp.width = pItemWidth;
+//    		   		lp.height = pItemWidth; 
+//    		   		lp.rightMargin = rightMargin;
+    		   	}
+    	   }
        } else {
 //    	   holder.imgLv.setVisibility(View.GONE);
+    	   holder.imgVg.setVisibility(View.GONE);
        }
        
        return view;
@@ -97,6 +145,12 @@ public class PostListAdapter extends BaseAdapter{
     	TextView descTv;
     	TextView msgNumTv;
     	TextView favNumTv;
-    	HorizontalListView imgLv;
+    	LinearLayout imgVg;
+    	NetworkImageView img1Iv;
+    	NetworkImageView img2Iv;
+    	NetworkImageView img3Iv;
+    	NetworkImageView img4Iv;
+    	List<NetworkImageView> imgIvList;
+//    	HorizontalListView imgLv;
     }
 }

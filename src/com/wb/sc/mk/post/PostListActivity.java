@@ -76,15 +76,13 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_postlist);
+		setContentView2(R.layout.activity_postlist);
 		
 		getIntentData();
 		initHeaderBack();
 		initView();	
 		
-//		showLoading();
-//		requestPostType(getPostTypeRequestParams(), mPostTypeListener, this);
-//		test();
+		showLoading();
 	}
 	
 	@Override
@@ -111,6 +109,11 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 					currentTypePos = position;	
 					mPage.pageNo = 1;
 					startPostListRequest();
+										
+					mPostList.datas.clear();
+					mAdapter.notifyDataSetChanged();
+					mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
+					showLoading();
 				}
 			}
 
