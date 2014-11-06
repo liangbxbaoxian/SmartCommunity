@@ -17,6 +17,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
+import com.google.gson.Gson;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
@@ -220,6 +221,42 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		Intent intent = new Intent(PersonalInfoActivity.this, SetCommunityActivity.class);
 		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
 	}
+	
+	
+	public void changeUserName(View view) {
+		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
+		intent.putExtra("title", "修改用户名");
+		intent.putExtra("keyword", "hobby");
+		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
+		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
+	
+	
+	public void changeWork(View view) {
+		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
+		intent.putExtra("title", "修改用职业");
+		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
+		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
+	
+	
+	public void changeHobby(View view) {
+		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
+		intent.putExtra("title", "修改兴趣爱好");
+		intent.putExtra("keyword", "hobby");
+		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
+		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
+	
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent intent) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(arg0, arg1, intent);
+		String jsonContent  = intent.getStringExtra("jsonContent");
+		mPersonalInfo = new Gson().fromJson(jsonContent, PersonalInfo.class);
+		UpdateView(mPersonalInfo);
+	}
+	
 
 
 	@Override
@@ -229,43 +266,48 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 			
 			showContent();
 			
-			phoneNum.setText(response.phoneNum);
-			localCommunity.setText(response.communityNam);
-			accountName.setText(response.accountName);
-			if (!"".equals(response.birthday)) {
-//				SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-//				birthday.setText(formatter.format(new Date(response.birthday)));
-				birthday.setText(response.birthday);
-			}
-			
-			if ("1".equals(response.sex)) {
-				sex.setText("男");
-			} else if ("2".equals(response.sex)) {
-				sex.setText("女");
-			}
-			
-			mail = (TextView) findViewById(R.id.mail);
-			mail.setText(response.mail);
-			
-			weixinAccount = (TextView) findViewById(R.id.weixinAccount);
-			weixinAccount.setText(response.weixinAccount);
-			
-			work = (TextView) findViewById(R.id.work);
-			
-			hobby = (TextView) findViewById(R.id.hobby);
-			hobby.setText(response.hobby);
-			
-			userStatue = (TextView) findViewById(R.id.userStatue);
-			if ("0".equals(response.sex)) {
-				userStatue.setText("住户已认证");
-			} else if ("1".equals(response.sex)) {
-				userStatue.setText("住户未认证");
-			}
-			
+			UpdateView(response);
 			
 		} else {
 			showLoadError(this);
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
+		}
+	}
+
+
+
+	private void UpdateView(PersonalInfo response) {
+		phoneNum.setText(response.phoneNum);
+		localCommunity.setText(response.communityNam);
+		accountName.setText(response.accountName);
+		if (!"".equals(response.birthday)) {
+//				SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+//				birthday.setText(formatter.format(new Date(response.birthday)));
+			birthday.setText(response.birthday);
+		}
+		
+		if ("1".equals(response.sex)) {
+			sex.setText("男");
+		} else if ("2".equals(response.sex)) {
+			sex.setText("女");
+		}
+		
+		mail = (TextView) findViewById(R.id.mail);
+		mail.setText(response.mail);
+		
+		weixinAccount = (TextView) findViewById(R.id.weixinAccount);
+		weixinAccount.setText(response.weixinAccount);
+		
+		work = (TextView) findViewById(R.id.work);
+		
+		hobby = (TextView) findViewById(R.id.hobby);
+		hobby.setText(response.hobby);
+		
+		userStatue = (TextView) findViewById(R.id.userStatue);
+		if ("0".equals(response.sex)) {
+			userStatue.setText("住户已认证");
+		} else if ("1".equals(response.sex)) {
+			userStatue.setText("住户未认证");
 		}
 	}
 

@@ -133,6 +133,7 @@
                         android:orientation="horizontal" >
 
                         <TextView
+                            android:id="@+id/communityName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="融汇天下" />
@@ -151,6 +152,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/roomNum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="2楼11室" />

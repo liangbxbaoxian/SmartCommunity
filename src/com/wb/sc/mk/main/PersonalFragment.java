@@ -97,6 +97,8 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		
 		return setContentView(inflater, R.layout.fragment_personal);
 	}
 
@@ -157,6 +159,23 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 		TextView name = (TextView) view.findViewById(R.id.name);
 		name.setText(SCApp.getInstance().getUser().account);
 		
+		final TextView txt_auth = (TextView) view.findViewById(R.id.txt_auth);
+		if (!"".equals(SCApp.getInstance().getUser().auth)) {
+			txt_auth.setText("未认证");
+		} else {
+			txt_auth.setText("已认证");
+		}
+		
+		
+		TextView communityName = (TextView) view.findViewById(R.id.communityName);
+		communityName.setText(SCApp.getInstance().getUser().communityName);
+		
+		TextView roomNum = (TextView) view.findViewById(R.id.roomNum);
+		if (!"".equals(SCApp.getInstance().getUser().roomNum)) {
+			roomNum.setText(SCApp.getInstance().getUser().roomNum);
+		}
+		
+		
 		LinearLayout portrait = (LinearLayout) view.findViewById(R.id.portrait);
 		portrait.setOnClickListener(new View.OnClickListener() {
 
@@ -173,7 +192,7 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 		});
 
 		img_portrait = (ImageView) view.findViewById(R.id.img_portrait);
-		final TextView txt_auth = (TextView) view.findViewById(R.id.txt_auth);
+//		final TextView txt_auth = (TextView) view.findViewById(R.id.txt_auth);
 		Button btn_exit = (Button) view.findViewById(R.id.btn_exit);
 		btn_exit.setOnClickListener(new View.OnClickListener() {
 			

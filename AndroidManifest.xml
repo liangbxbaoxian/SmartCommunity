@@ -405,6 +405,14 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >            
         </activity>
         
+        
+       <!-- 个人信息 -->
+        <activity
+            android:name="com.wb.sc.mk.personal.PersonalEditActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_property_praise"
+            android:screenOrientation="portrait" />
+        
                          
         <!-- ============================================= 友盟相关 ================================================== -->
         <!-- 友盟自动更新 -->

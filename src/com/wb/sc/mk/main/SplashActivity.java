@@ -2,6 +2,9 @@ package com.wb.sc.mk.main;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,8 +19,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.google.gson.Gson;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.bean.BaseBean;
 import com.wb.sc.mk.personal.LoginActivity;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.PreferencesUtils;
@@ -34,6 +39,7 @@ public class SplashActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
+		
 
 		boolean isCancel = PreferencesUtils.getBoolean(this, Constans.CANCEL_SHORT_CUT_REMIND);
 		if (!hasShortCut() && !isCancel) {

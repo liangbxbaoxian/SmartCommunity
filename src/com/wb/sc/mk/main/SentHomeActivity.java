@@ -353,6 +353,7 @@ ErrorListener, ReloadListener{
 
 	@Override
 	public void onReload() {
+		showLoading();
 		requestBase(getBaseRequestParams(), this, this);
 	}
 

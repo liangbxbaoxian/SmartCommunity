@@ -45,6 +45,13 @@ public class User extends BaseBean{
      */
     public String pssword;
     
+    public String communityName;
+    
+    public String auth;
+    
+    public String roomNum;
+    
+    
     /**
 	 * 登录状态 0：为登出 1：为登录
 	 */

@@ -42,6 +42,8 @@
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
     
     <string name="hint_feedback">您的意见对我们很重要，请提出您的宝贵意见\n我们会做的更好••••••</string>
+    
+    <string name="hint_personal_edit">请您在这里输入••••••</string>
 
     <string-array name="post_type">
         <item>社区分享</item>
