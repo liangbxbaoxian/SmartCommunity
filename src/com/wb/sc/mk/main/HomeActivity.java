@@ -5,10 +5,13 @@ import java.util.List;
 
 import net.simonvt.menudrawer.MenuDrawer;
 import net.simonvt.menudrawer.Position;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent.ShortcutIconResource;
 import android.content.pm.PackageInfo;
@@ -108,6 +111,8 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	private int mActivePosition = 0;
 	private static final String STATE_ACTIVE_POSITION =
 	            "net.simonvt.menudrawer.samples.LeftDrawerSample.activePosition";
+	
+	List<Object> items = new ArrayList<Object>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -218,7 +223,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	        }
 	        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.BEHIND, Position.START, MenuDrawer.MENU_DRAG_CONTENT);
 
-	        List<Object> items = new ArrayList<Object>();
+//	        items = new ArrayList<Object>();
 //	        items.add(new Category("常用电话"));
 	        items.add(new Item("物业服务中心", "0591-12345678"));
 	        items.add(new Item("夜间报修电话", "0591-12345678"));
@@ -261,9 +266,43 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
           mActivePosition = position;
           mMenuDrawer.setActiveView(view, position);
           mAdapter.setActivePosition(position);
+          createAlterDialog(((Item)items.get(position)).name, ((Item)items.get(position)).phone);
 //          onMenuItemClicked(position, (Item) mAdapter.getItem(position));
       }
   };
+  
+  
+	private void createAlterDialog(String name, final String phoneNum) {
+		AlertDialog.Builder builder = new Builder(this);
+		builder.setMessage(phoneNum);
+
+		builder.setTitle(name);
+
+		builder.setPositiveButton("呼叫", new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				callPhone(phoneNum.split("/")[0]);
+				//				dialog.dismiss();
+
+			}
+		});
+
+		builder.setNegativeButton("取消", new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+
+		builder.create().show();
+	}
+
+	private void callPhone(String phoneNum) {
+		Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));  
+		this.startActivity(intent);  
+	}
 
 	public void initView() {
 		phoneV = findViewById(R.id.phone);

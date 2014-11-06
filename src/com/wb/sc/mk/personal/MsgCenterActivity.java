@@ -49,6 +49,7 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	private Spinner typeSp;
 	private int  spinnerPosition = 0;
 	private String reqType = "FG39";
+	private String msgType = "00";
 	
 	private PullToRefreshListView mPullListView;
 	private PullRefreshListViewHelper mPullHelper;
@@ -103,6 +104,7 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 					mPullListView.setMode(Mode.BOTH);
 					list.clear();
 					pageNo = 1;
+					msgType = "0" + arg2;
 					showLoading();	
 					requestBase(getBaseRequestParams(), MsgCenterActivity.this, MsgCenterActivity.this);
 				}
@@ -242,6 +244,9 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId +"", 64));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId +"", 64));
+		params.add(ParamsUtil.getReqParam(msgType, 64));
+		
 		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
 		
