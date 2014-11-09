@@ -83,7 +83,7 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	
 	@Override
 	protected void onResume() {
-		if (SCApp.getInstance().getList().size() > 3) {
+		if (SCApp.getInstance().getList().size() > 3 && mPersonalInfo != null) {
 			localCommunity.setText(SCApp.getInstance().getList().get(3).dictionaryName);
 			mPersonalInfo.localCommunity = SCApp.getInstance().getList().get(3).dictionaryId;
 		}

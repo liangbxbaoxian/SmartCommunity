@@ -414,6 +414,7 @@ ErrorListener, ReloadListener{
 			if (!response.hasNextPage) {
 				mPullToRefreshListView.setMode(Mode.DISABLED);
 			}
+			mAdpter.notifyDataSetChanged();
 			showContent();
 		} else {
 			showLoadError(this);

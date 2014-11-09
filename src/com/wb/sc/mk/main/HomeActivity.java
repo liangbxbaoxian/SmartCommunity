@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -320,6 +321,16 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		advAdapter = new AdvAdapter(mActivity);
 		advVp.setAdapter(advAdapter);
 		advIndicator.setViewPager(advVp);
+		
+		TextView name = (TextView) findViewById(R.id.name);
+		name.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				changeCommunity(arg0);
+			}
+		});
 	}
 	
 	private void initMenu() {
