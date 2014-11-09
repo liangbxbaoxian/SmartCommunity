@@ -202,7 +202,10 @@ ErrorListener, ReloadListener{
 		  		showLoading();
         		pageNo = 1;
         		list.clear();
-        		requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+        		if (longitude != null) {
+        			requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+        		}
+        		
 			}
 
 			@Override
@@ -230,7 +233,7 @@ ErrorListener, ReloadListener{
 		  		showLoading();
         		pageNo = 1;
         		list.clear();
-        		distance = distances[arg2];
+        		distance = distances[arg2].replace("米", "");
         		requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
 			}
 
@@ -360,7 +363,7 @@ ErrorListener, ReloadListener{
 
 	@Override
 	public void onErrorResponse(VolleyError error) {
-		showLoadError(this);	
+		showContent();	
 		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
 	}
 

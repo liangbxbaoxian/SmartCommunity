@@ -51,6 +51,11 @@ public class User extends BaseBean{
     
     public String roomNum;
     
+	public User() {
+		userId = "";
+		communityId = "db8eeb11-3e04-4eae-9c05-fd572abb1733";
+	}
+    
     
     /**
 	 * 登录状态 0：为登出 1：为登录

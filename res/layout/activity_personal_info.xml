@@ -221,6 +221,7 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="changeBirthday"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 
@@ -267,6 +268,7 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="changeSex"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 
@@ -313,6 +315,7 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="changeMail"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 
@@ -360,6 +363,7 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
+                android:onClick="changeWeixin"
                 android:orientation="horizontal"
                 android:padding="@dimen/normal_margin" >
 

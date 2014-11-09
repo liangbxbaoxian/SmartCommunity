@@ -1,15 +1,18 @@
 package com.wb.sc.mk.personal;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
@@ -240,12 +243,68 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	}
 	
 	
+	public void changeMail(View view) {
+		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
+		intent.putExtra("mail", "修改邮箱地址");
+		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
+		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
+	
+	
+	public void changeWeixin(View view) {
+		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
+		intent.putExtra("weixinAccount", "修改微信账号");
+		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
+		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
+	
+	
 	public void changeHobby(View view) {
 		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
 		intent.putExtra("title", "修改兴趣爱好");
 		intent.putExtra("keyword", "hobby");
 		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
 		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
+	
+	public void changeSex(View view) {
+		new AlertDialog.Builder(this)
+		.setTitle("请选择性别")
+		.setIcon(android.R.drawable.ic_dialog_info)                
+		.setSingleChoiceItems(new String[] {"男","女"}, 0, 
+		  new DialogInterface.OnClickListener() {
+		                            
+		     public void onClick(DialogInterface dialog, int which) {
+		    	 mPersonalInfo.sex = (which + 1) + "";
+		    	 
+		        dialog.dismiss();
+		     }
+		  }
+		)
+		.setNegativeButton("取消", null)
+		.show();
+	}
+	
+	public void changeBirthday(View view) {
+		final Calendar c = Calendar.getInstance();
+
+		int anio = c.get(Calendar.YEAR);
+		int mes = c.get(Calendar.MONTH);
+		int dia = c.get(Calendar.DAY_OF_MONTH);
+
+		DatePickerDialog dpd = new DatePickerDialog(this,
+				new DatePickerDialog.OnDateSetListener() {
+
+			@Override
+			public void onDateSet(DatePicker view, int year,
+					int monthOfYear, int dayOfMonth) {
+				mPersonalInfo.birthday =  year + "-"
+                        + monthOfYear + "-"
+                        + dayOfMonth;
+			}
+
+		}, anio, mes, dia);
+		dpd.show();
 	}
 	
 	@Override
