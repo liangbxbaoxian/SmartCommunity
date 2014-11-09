@@ -21,6 +21,10 @@ public class DbUpdateHandler implements DbUpdateListener {
 				db.execSQL("DROP TABLE " + DbConfig.TN_USER);
 				return;
 			}
+			if(oldVersion == 2 && newVersion == 3) {
+				db.execSQL("DROP TABLE " + DbConfig.TN_USER);
+				return;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

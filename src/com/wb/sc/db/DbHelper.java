@@ -34,4 +34,17 @@ public class DbHelper {
 			finalDb.save(user);
 		}
 	}
+	
+	/**
+	 * 读取已登录的用户信息
+	 */
+	public static User getDbUser() {
+		User user = null;
+		FinalDb finalDb = SCApp.getInstance().getDb();
+		List<User> userList = finalDb.findAllByWhere(User.class, "isLogin=1");
+		if(userList != null && userList.size() > 0) {
+			user = userList.get(0);			
+		}
+		return user;
+	}
 }

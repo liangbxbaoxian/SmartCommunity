@@ -25,6 +25,7 @@ import com.wb.sc.bean.User;
 import com.wb.sc.config.DbConfig;
 import com.wb.sc.config.DebugConfig;
 import com.wb.sc.config.NetConfig;
+import com.wb.sc.db.DbHelper;
 import com.wb.sc.db.DbUpdateHandler;
 import com.wb.sc.security.RSA;
 
@@ -101,7 +102,7 @@ public class SCApp extends Application {
 		
 		initMap();
 		
-		
+		mUser = DbHelper.getDbUser();
 	}
 
 	/**

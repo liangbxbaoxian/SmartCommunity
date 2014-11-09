@@ -15,5 +15,8 @@ public class UserParser {
 		dataBean.account = ParamsUtil.getRespParamNext(dataBean, 32);
 		dataBean.name = ParamsUtil.getRespParamNext(dataBean, 32);
 		dataBean.avatarUrl = ParamsUtil.getRespParamNext(dataBean, 256);
+		dataBean.auth = ParamsUtil.getRespParamNext(dataBean, 2);
+		dataBean.houseNum = ParamsUtil.getRespParamNext(dataBean, 32);
+		dataBean.roomNum = ParamsUtil.getRespParamNext(dataBean, 32);
 	}
 }
