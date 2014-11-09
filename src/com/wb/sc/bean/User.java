@@ -45,10 +45,24 @@ public class User extends BaseBean{
      */
     public String pssword;
     
+    /**
+     * 社区名称
+     */
     public String communityName;
     
+    /**
+     * 是否已认证   02:认证通过；没值或其他值为未认证
+     */
     public String auth;
     
+    /**
+     * 楼号
+     */
+    public String houseNum;
+    
+	/**
+     * 房号
+     */
     public String roomNum;
     
 	public User() {
@@ -132,7 +146,37 @@ public class User extends BaseBean{
 
 	public void setPssword(String pssword) {
 		this.pssword = pssword;
+	}
+
+	public String getCommunityName() {
+		return communityName;
+	}
+
+	public void setCommunityName(String communityName) {
+		this.communityName = communityName;
+	}
+
+	public String getAuth() {
+		return auth;
+	}
+
+	public void setAuth(String auth) {
+		this.auth = auth;
+	}
+	
+	public String getHouseNum() {
+		return houseNum;
+	}
+
+	public void setHouseNum(String houseNum) {
+		this.houseNum = houseNum;
+	}
+
+	public String getRoomNum() {
+		return roomNum;
+	}
+
+	public void setRoomNum(String roomNum) {
+		this.roomNum = roomNum;
 	}	
-	
-	
 }

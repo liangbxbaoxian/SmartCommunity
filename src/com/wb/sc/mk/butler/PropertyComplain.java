@@ -119,7 +119,8 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 			ToastHelper.showToastInBottom(this, "详细信息不能为空");
 			return;
 		}
-				
+		
+		showProcess("正在提交投诉，请稍候...");
 		startUploadPhot();		
 	}
 	
@@ -135,7 +136,7 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
 		params.add(ParamsUtil.getReqParam(houseInfo, 50));
-		params.add(ParamsUtil.getReqIntParam(type, 2));
+		params.add(ParamsUtil.getReqParam((type+1)+"", 2));
 		params.add(ParamsUtil.getReqParam(detail, 512));
 		params.add(ParamsUtil.getReqParam(imgsUrl, 1024));
 		if(shareCb.isChecked()) {
@@ -178,7 +179,7 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 	 */
 	@Override
 	public void onResponse(PComplain response) {		
-		showContent();	
+		dismissProcess();
 		if(response.respCode.equals(RespCode.SUCCESS)) {	
 			finish();
 			ToastHelper.showToastInBottom(this, "您的投诉已提交，我们会尽快处理");
