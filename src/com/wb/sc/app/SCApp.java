@@ -178,6 +178,9 @@ public class SCApp extends Application {
 		if(mUser == null) {
 			mUser = new User();
 //			mUser.userId = "5de7e797-664a-49f9-843b-d79a98ec3b0d"; //测试
+			mUser.userId = "";
+			mUser.communityName ="融汇江山";
+			mUser.communityId = "db8eeb11-3e04-4eae-9c05-fd572abb1733";
 		}
 		return mUser;
 	}

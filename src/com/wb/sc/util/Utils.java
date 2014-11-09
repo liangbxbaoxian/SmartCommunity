@@ -17,4 +17,18 @@ public class Utils {
 		Matcher m = p.matcher(email);
 		return m.matches();
 	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static boolean isId(String id) {
+		Pattern p = Pattern
+				.compile("\\d{15}|\\d{18}");
+		Matcher m = p.matcher(id);
+		System.out.println(m.matches() + "---");
+		return m.matches();
+
+	}
 }

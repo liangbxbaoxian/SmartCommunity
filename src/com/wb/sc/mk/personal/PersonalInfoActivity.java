@@ -27,8 +27,10 @@ import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.BaseBean;
 import com.wb.sc.bean.PersonalInfo;
+import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.db.DbHelper;
 import com.wb.sc.mk.main.SetCommunityActivity;
 import com.wb.sc.task.BaseRequest;
 import com.wb.sc.task.PersonalInfoRequest;
@@ -87,6 +89,16 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 			localCommunity.setText(SCApp.getInstance().getList().get(3).dictionaryName);
 			mPersonalInfo.localCommunity = SCApp.getInstance().getList().get(3).dictionaryId;
 		}
+		if ("01".equals(SCApp.getInstance().getUser().auth)) {
+			userStatue.setText("已提交认证");
+		} else if ("02".equals(SCApp.getInstance().getUser().auth)) {
+			userStatue.setText("住户已认证");
+		} else if ("03".equals(SCApp.getInstance().getUser().auth)){
+			userStatue.setText("认证失败");
+		} else {
+			userStatue.setText("住户未认证");
+		}
+		
 		super.onResume();
 	}
 
@@ -106,6 +118,16 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		userStatue = (TextView) findViewById(R.id.userStatue);
 
 		userStatue.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //下划线
+		
+		userStatue.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(PersonalInfoActivity.this, SubmitAuthActivity.class);
+				startActivity(intent);
+				
+			}
+		});
 		
 		btn_exit = (TextView) findViewById(R.id.btn_exit);
 		btn_exit.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +175,11 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 			public void onResponse(BaseBean response) {
 				if(response.respCode.equals(RespCode.SUCCESS)) {
 					showContent();
+					User user = SCApp.getInstance().getUser();
+					user.communityName = mPersonalInfo.communityName;
+					user.communityId = mPersonalInfo.localCommunity;
+					DbHelper.saveUser(user);
+					
 					ToastHelper.showToastInBottom(PersonalInfoActivity.this, "保存成功");
 				} else {
 					showLoadError(PersonalInfoActivity.this);
@@ -311,9 +338,12 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	protected void onActivityResult(int arg0, int arg1, Intent intent) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(arg0, arg1, intent);
-		String jsonContent  = intent.getStringExtra("jsonContent");
-		mPersonalInfo = new Gson().fromJson(jsonContent, PersonalInfo.class);
-		UpdateView(mPersonalInfo);
+		if (intent != null) {
+			String jsonContent  = intent.getStringExtra("jsonContent");
+			mPersonalInfo = new Gson().fromJson(jsonContent, PersonalInfo.class);
+			UpdateView(mPersonalInfo);
+		}
+
 	}
 	
 
@@ -337,7 +367,7 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 
 	private void UpdateView(PersonalInfo response) {
 		phoneNum.setText(response.phoneNum);
-		localCommunity.setText(response.communityNam);
+		localCommunity.setText(SCApp.getInstance().getUser().communityName);
 		accountName.setText(response.accountName);
 		if (!"".equals(response.birthday)) {
 //				SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
@@ -363,9 +393,13 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		hobby.setText(response.hobby);
 		
 		userStatue = (TextView) findViewById(R.id.userStatue);
-		if ("0".equals(response.sex)) {
+		if ("01".equals(SCApp.getInstance().getUser().auth)) {
+			userStatue.setText("已提交认证");
+		} else if ("02".equals(SCApp.getInstance().getUser().auth)) {
 			userStatue.setText("住户已认证");
-		} else if ("1".equals(response.sex)) {
+		} else if ("03".equals(SCApp.getInstance().getUser().auth)){
+			userStatue.setText("认证失败");
+		} else {
 			userStatue.setText("住户未认证");
 		}
 	}

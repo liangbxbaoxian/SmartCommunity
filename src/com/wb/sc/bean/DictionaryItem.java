@@ -6,7 +6,8 @@ public class DictionaryItem implements Serializable {
 	
 	private static final long serialVersionUID = 250459421520590675L;
 	
-	public String dictionaryId;        // 字典id-
+	public String id;                   // 字典id- 
+	public String dictionaryId;        // 字典类型-
 	public String dictionaryCode;      // 字典代码
 	public String superDictionaryId;   // 父id
 	public String dictionaryName;      // 字典名称

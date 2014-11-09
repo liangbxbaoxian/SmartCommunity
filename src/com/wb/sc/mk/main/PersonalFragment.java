@@ -75,6 +75,8 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 	private TextView nameIv;
 
 	private ImageView img_portrait;
+	
+	private TextView txt_auth;
 
 	public static final int REQUEST_TAKE_CAMERA = 10;
 	public static final int REQUEST_PICK_LOCAL = 20;
@@ -110,6 +112,20 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 		initView(view);
 		initPhoto(view, "FG05");
 		setOnUploadCompleteListener(this);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		if ("01".equals(SCApp.getInstance().getUser().auth)) {
+			txt_auth.setText("已提交认证");
+		} else if ("02".equals(SCApp.getInstance().getUser().auth)) {
+			txt_auth.setText("住户已认证");
+		} else if ("03".equals(SCApp.getInstance().getUser().auth)){
+			txt_auth.setText("认证失败");
+		} else {
+			txt_auth.setText("住户未认证");
+		}
 	}
 
 	private void initData() {
@@ -159,16 +175,26 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 		TextView name = (TextView) view.findViewById(R.id.name);
 		name.setText(SCApp.getInstance().getUser().account);
 		
-		final TextView txt_auth = (TextView) view.findViewById(R.id.txt_auth);
-		if (!"".equals(SCApp.getInstance().getUser().auth)) {
-			txt_auth.setText("未认证");
+		txt_auth = (TextView) view.findViewById(R.id.txt_auth);
+		if ("01".equals(SCApp.getInstance().getUser().auth)) {
+			txt_auth.setText("已提交认证");
+		} else if ("02".equals(SCApp.getInstance().getUser().auth)) {
+			txt_auth.setText("住户已认证");
+		} else if ("03".equals(SCApp.getInstance().getUser().auth)){
+			txt_auth.setText("认证失败");
 		} else {
-			txt_auth.setText("已认证");
+			txt_auth.setText("住户未认证");
 		}
 		
 		
+		
+		
 		TextView communityName = (TextView) view.findViewById(R.id.communityName);
-		communityName.setText(SCApp.getInstance().getUser().communityName);
+		String community = SCApp.getInstance().getUser().communityName;
+		if (!"".equals(community)) {
+			communityName.setText(SCApp.getInstance().getUser().communityName);
+		}
+		
 		
 		TextView roomNum = (TextView) view.findViewById(R.id.roomNum);
 		if (!"".equals(SCApp.getInstance().getUser().roomNum)) {

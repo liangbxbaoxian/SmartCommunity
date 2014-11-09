@@ -128,6 +128,17 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 //		requestComNotice(getComNoticeRequestParams(), mComNoticeListener, this);
 		requestPhoneList(getPhoneListRequestParams(), mPhoneListListener, this);
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		String communityName = SCApp.getInstance().getUser().communityName;
+		if (!"".equals(communityName)) {
+			TextView name = (TextView) findViewById(R.id.name);
+			name.setText(SCApp.getInstance().getUser().communityName + ">");
+		}
+		
+	}
 
 	public void getIntentData() {
 
@@ -323,6 +334,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		advIndicator.setViewPager(advVp);
 		
 		TextView name = (TextView) findViewById(R.id.name);
+		
 		name.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
