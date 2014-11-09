@@ -34,6 +34,7 @@ import com.wb.sc.util.ParamsUtil;
 import com.wb.sc.util.Utils;
 
 public class SubmitAuthActivity extends BaseActivity  {
+	
 
 
 	private PersonalInfoRequest mBaseRequest;
