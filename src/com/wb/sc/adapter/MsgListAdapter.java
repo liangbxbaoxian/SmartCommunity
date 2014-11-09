@@ -1,5 +1,7 @@
 package com.wb.sc.adapter;
 
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +10,15 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.wb.sc.R;
+import com.wb.sc.bean.Msg;
 import com.wb.sc.bean.MsgList;
 
 public class MsgListAdapter extends BaseAdapter{
 	
 	private Context mContext;
-	private MsgList mMsgList;
+	private List<Msg.MgItem> mMsgList;
 	   
-    public MsgListAdapter(Context context, MsgList list) {
+    public MsgListAdapter(Context context, List<Msg.MgItem> list) {
        mContext = context;
        mMsgList = list;
     }
@@ -23,13 +26,13 @@ public class MsgListAdapter extends BaseAdapter{
     @Override
     public int getCount() {
  
-       return mMsgList.datas.size();
+       return mMsgList.size();
     }
  
     @Override
     public Object getItem(int position) {
  
-       return mMsgList.datas.get(position);
+       return mMsgList.get(position);
     }
  
     @Override

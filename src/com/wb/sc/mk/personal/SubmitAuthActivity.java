@@ -174,7 +174,7 @@ public class SubmitAuthActivity extends BaseActivity  {
 					user.auth = "01";
 					DbHelper.saveUser(user);
 					
-					ToastHelper.showToastInBottom(SubmitAuthActivity.this, "认证成功");
+					ToastHelper.showToastInBottom(SubmitAuthActivity.this, "申请认证成功");
 					SubmitAuthActivity.this.finish();
 				} else {
 					ToastHelper.showToastInBottom(SubmitAuthActivity.this, response.respCodeMsg);
@@ -219,6 +219,8 @@ public class SubmitAuthActivity extends BaseActivity  {
 		
 		params.add(ParamsUtil.getReqParam(input_real_name.getText() +"", 32));
 		params.add(ParamsUtil.getReqParam(input_id.getText() +"", 32));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
+		
 		String detail = SCApp.getInstance().getUser().getCommunityName() +  input_building_num.getText().toString() + input_room_num.getText().toString() + input_real_name.getText().toString() + input_id.getText().toString() + "-|" ;
 		params.add(ParamsUtil.getReqParam(detail, 512));
 		

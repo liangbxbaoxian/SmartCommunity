@@ -28,7 +28,8 @@ public class OneKmParser {
 				item.merchantTel = values[4];
 				item.longitude = values[5];
 				item.latitude = values[6];
-				item.merchantLogo = values[7];
+				item.distance = values[7];
+				item.merchantLogo = values[8];
 				dataBean.datas.add(item);
 			}
 		}

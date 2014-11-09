@@ -19,15 +19,26 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MyComplaintAdpater;
+import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.MyRepair;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.util.Constans;
+import com.wb.sc.util.MetaUtil;
+import com.wb.sc.util.ParamsUtil;
 
-public class MyComplaintActivity extends Activity implements OnMenuItemClickListener{
+public class MyComplaintActivity extends BaseActivity implements OnMenuItemClickListener,  Listener<MyRepair>, 
+ErrorListener, ReloadListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
 	private MyComplaintAdpater mAdpter;
@@ -36,6 +47,7 @@ public class MyComplaintActivity extends Activity implements OnMenuItemClickList
 	private String sId;
 	
 	private int pageNo;
+	private int pageSize = 10;
 	private boolean hasNextPage;
 	private String mDistrictName;
 	
@@ -50,6 +62,26 @@ public class MyComplaintActivity extends Activity implements OnMenuItemClickList
 		setContentView(R.layout.activity_my_complaint);
 		getIntentData();
 		initView();
+		
+		showLoading();		
+		
+//		requestBase(getBaseRequestParams(), this, this);
+	}
+	
+	/**
+	 * 获取请求参数,请按照接口文档列表顺序排列
+	 * @return
+	 */
+	private List<String> getBaseRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG41", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId +"", 64));
+		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
+		params.add(ParamsUtil.getReqParam(pageSize + "", 2));;
+		
+		return params;
 	}
 	
 	
@@ -175,6 +207,27 @@ public class MyComplaintActivity extends Activity implements OnMenuItemClickList
 	public boolean onMenuItemClick(MenuItem arg0) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+
+	@Override
+	public void onReload() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onResponse(MyRepair response) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

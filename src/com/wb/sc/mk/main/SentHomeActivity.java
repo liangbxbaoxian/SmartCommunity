@@ -115,6 +115,8 @@ ErrorListener, ReloadListener{
 				mLocationClient.stop();
 				longitude = arg0.getLongitude() + "";
 				latitude = arg0.getLatitude() + "";
+				mLocationClient.unRegisterLocationListener(this);
+				mLocationClient.stop();
 				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
 			}
 			
@@ -198,7 +200,7 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				merchantCategoryId = "" + arg2;
+				merchantCategoryId = "0" + (arg2 +1);
 		  		showLoading();
         		pageNo = 1;
         		list.clear();
@@ -229,12 +231,14 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				merchantCategoryId = "" + arg2;
+//				merchantCategoryId = "" + (arg2);
 		  		showLoading();
         		pageNo = 1;
         		list.clear();
         		distance = distances[arg2].replace("米", "");
-        		requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+        		if (longitude != null) {
+        			requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
+        		}
 			}
 
 			@Override
@@ -345,7 +349,7 @@ ErrorListener, ReloadListener{
 		params.add(ParamsUtil.getReqParam(longitude, 128));
 		params.add(ParamsUtil.getReqParam(latitude, 128));
 		params.add(ParamsUtil.getReqParam(distance, 32));
-		String categoryId = merchantCategoryId == null ? "":merchantCategoryId;
+		String categoryId = merchantCategoryId == null ? "01":merchantCategoryId;
 		params.add(ParamsUtil.getReqParam(categoryId, 32));
 		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
@@ -371,9 +375,18 @@ ErrorListener, ReloadListener{
 	@Override
 	public void onResponse(OneKm response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
-			pageNo ++;
+			if (response.totalNum > 0) {
+				pageNo ++;
+			}
+			
+			if (response.totalNum == 0) {
+				ToastHelper.showToastInBottom(SentHomeActivity.this, "查询不到相关数据");
+				showContent();
+				return;
+			}
 
 			list.addAll(response.datas);
+			mAdpter.notifyDataSetChanged();
 			// Call onRefreshComplete when the list has been refreshed.
 			mPullToRefreshListView.onRefreshComplete();
 			if (!response.hasNextPage) {

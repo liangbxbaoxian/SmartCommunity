@@ -87,7 +87,7 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	protected void onResume() {
 		if (SCApp.getInstance().getList().size() > 3 && mPersonalInfo != null) {
 			localCommunity.setText(SCApp.getInstance().getList().get(3).dictionaryName);
-			mPersonalInfo.localCommunity = SCApp.getInstance().getList().get(3).dictionaryId;
+			mPersonalInfo.localCommunity = SCApp.getInstance().getList().get(3).id;
 		}
 		if ("01".equals(SCApp.getInstance().getUser().auth)) {
 			userStatue.setText("已提交认证");

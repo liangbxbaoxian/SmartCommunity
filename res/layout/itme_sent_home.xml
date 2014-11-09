@@ -53,7 +53,7 @@
                         android:text="福州市" />
                     
                              <TextView
-                        android:id="@+id/district"
+                        android:id="@+id/distance"
                         android:layout_width="wrap_content"
                         android:singleLine="true"
                         android:layout_height="wrap_content"
