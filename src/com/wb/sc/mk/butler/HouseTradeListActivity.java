@@ -1,39 +1,47 @@
 package com.wb.sc.mk.butler;
 
+import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.config.IntentExtraConfig;
+import com.wb.sc.mk.butler.PropertyRepairsActivity.RepairsAdapter;
+import com.wb.sc.mk.personal.MyRepairActivity;
+
+import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.Button;
 
-import com.wb.sc.R;
-import com.wb.sc.activity.base.BaseHeaderActivity;
-import com.wb.sc.mk.personal.MyRepairActivity;
+/**
+ * 
+ * @描述：房屋交易信息列表
+ * @作者：liang bao xian
+ * @时间：2014年11月9日 下午3:19:02
+ */
+public class HouseTradeListActivity extends BaseHeaderActivity{
 
-public class PropertyRepairsActivity extends BaseHeaderActivity implements OnClickListener{
-	
-	private Class fragments[] = {PersonalRepairsFragment.class, PublicRepairsFragment.class};
+	private Class fragments[] = {HouseTradeListFragment.class, HouseTradeListFragment.class};
 	
 	private View personalV;
 	private View publicV;
 	private ViewPager contentVp;
-	private RepairsAdapter adapter;
+	private TypeAdapter adapter;
+	private Button postBtn;
 	
 	private Fragment[] instanceFragments;
-	
-	private View myRepairBtn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_property_repairs);
+		setContentView(R.layout.common_header_layout, R.layout.activity_house_trade_list);
 					
 		getIntentData();
-		initHeader(getResources().getString(R.string.ac_property_repairs));	
+		initHeader(getResources().getString(R.string.ac_house_trade_list));	
 		initView();
 	}
 	
@@ -43,19 +51,19 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 	}
 
 	@Override
-	public void initView() {
-		myRepairBtn = findViewById(R.id.my_repairs);
-		myRepairBtn.setOnClickListener(this);
-		
-		personalV = findViewById(R.id.personal_repairs);
+	public void initView() {		
+		personalV = findViewById(R.id.sale);
 		personalV.setSelected(true);
 		personalV.setOnClickListener(this);
-		publicV = findViewById(R.id.public_repairs);
+		publicV = findViewById(R.id.lease);
 		publicV.setOnClickListener(this);
+		
+		postBtn = (Button) findViewById(R.id.post);
+		postBtn.setOnClickListener(this);
 		
 		instanceFragments = new Fragment[fragments.length];
 		contentVp = (ViewPager) findViewById(R.id.content_pager);
-		adapter = new RepairsAdapter(getSupportFragmentManager());
+		adapter = new TypeAdapter(getSupportFragmentManager());
 		contentVp.setAdapter(adapter);
 		contentVp.setOnPageChangeListener(new OnPageChangeListener() {
 			
@@ -88,18 +96,18 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 		super.onClick(v);
 		
 		switch(v.getId()) {
-		case R.id.my_repairs:
-			Intent intent = new Intent(this, MyRepairActivity.class);
+		case R.id.post:
+			Intent intent = new Intent(this, PostHouseTradeActivity.class);
 			startActivity(intent);
 			break;
 			
-		case R.id.personal_repairs:
+		case R.id.sale:
 			contentVp.setCurrentItem(0);
 			personalV.setSelected(true);
 			publicV.setSelected(false);
 			break;
 			
-		case R.id.public_repairs:
+		case R.id.lease:
 			contentVp.setCurrentItem(1);
 			personalV.setSelected(false);
 			publicV.setSelected(true);
@@ -107,9 +115,9 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 		}
 	}
 	
-	class RepairsAdapter extends FragmentPagerAdapter {
+	class TypeAdapter extends FragmentPagerAdapter {
 		
-		public RepairsAdapter(android.support.v4.app.FragmentManager fm) {
+		public TypeAdapter(android.support.v4.app.FragmentManager fm) {
 			super(fm);
 		}
 		
@@ -118,6 +126,9 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 			Fragment fg = null;
 			try {
 				fg = (Fragment) Class.forName(fragments[position].getName()).newInstance();
+				Bundle bundle = new Bundle();
+				bundle.putInt(IntentExtraConfig.HOUSE_TRADE_TYPE, position);
+				fg.setArguments(bundle);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -134,26 +145,4 @@ public class PropertyRepairsActivity extends BaseHeaderActivity implements OnCli
 			return fragments.length;
 		}
 	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
-		int position = contentVp.getCurrentItem();
-		Fragment fragment = instanceFragments[position];
-		if(fragment != null) {
-			fragment.onActivityResult(requestCode, requestCode, data);
-		}
-	}
-	
-	/**
-	 * 处理在拍照时屏幕翻转的问题
-	 */
-	public void onConfigurationChanged(Configuration newConfig) {  
-
-        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {   
-            Configuration o = newConfig;  
-            o.orientation = Configuration.ORIENTATION_PORTRAIT;  
-            newConfig.setTo(o);  
-        }   
-        super.onConfigurationChanged(newConfig);  
-    }
 }

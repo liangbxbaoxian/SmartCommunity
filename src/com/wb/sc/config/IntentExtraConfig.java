@@ -17,4 +17,14 @@ public interface IntentExtraConfig {
 	public static final String DETAIL_ID = "id";
 	public static final String DETAIL_TYPE = "type";
 	
+	/***************************** 房屋交易类型  **********************************************/
+	public static final String HOUSE_TRADE_TYPE = "trade_type";
+	/**
+	 * 出售
+	 */
+	public static final int HOUSE_TRADE_TYPE_SALE = 0;
+	/**
+	 * 出租
+	 */
+	public static final int HOUSE_TRADE_TYPE_LEASE = 1;
 }

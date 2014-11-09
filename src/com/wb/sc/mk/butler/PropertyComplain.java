@@ -20,6 +20,7 @@ import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener;
 import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.BasePhotoActivity;
 import com.wb.sc.activity.base.BasePhotoActivity.PhotoUploadListener;
 import com.wb.sc.app.SCApp;
@@ -136,13 +137,13 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
 		params.add(ParamsUtil.getReqParam(houseInfo, 50));
-		params.add(ParamsUtil.getReqParam((type+1)+"", 2));
+		params.add(ParamsUtil.getReqParam("0"+(type+1), 2));
 		params.add(ParamsUtil.getReqParam(detail, 512));
 		params.add(ParamsUtil.getReqParam(imgsUrl, 1024));
 		if(shareCb.isChecked()) {
-			params.add(ParamsUtil.getReqParam("0", 2));
+			params.add(ParamsUtil.getReqParam("01", 2));
 		} else {
-			params.add(ParamsUtil.getReqParam("1", 2));
+			params.add(ParamsUtil.getReqParam("00", 2));
 		}
 		return params;
 	}
@@ -170,7 +171,8 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 	 *
 	 */
 	@Override
-	public void onErrorResponse(VolleyError error) {		
+	public void onErrorResponse(VolleyError error) {	
+		dismissProcess();
 		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
 	}
 	

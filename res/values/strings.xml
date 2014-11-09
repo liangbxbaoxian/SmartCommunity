@@ -5,7 +5,7 @@
     <string name="ac_post_list">帖子列表</string>
     <string name="ac_post_detail">帖子详情</string>
     <string name="ac_property_complain">物业投诉</string>
-    <string name="ac_house_trade">房屋交易</string>
+    <string name="ac_house_trade">交易委托</string>
     <string name="ac_property_bill">物业账单</string>
     <string name="ac_property_repairs">物业报修</string>
     <string name="ac_property_praise">物业表扬</string>
@@ -26,6 +26,7 @@
    	<string name="ac_law_rule_detial">物业法规</string>
    	<string name="ac_apply">报名</string>
    	<string name="ac_post">我要发帖</string>
+   	<string name="ac_house_trade_list">房屋交易</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>
@@ -77,9 +78,14 @@
         <item>出售</item>
         <item>求购</item>
         <item>出租</item>
-        <item>求租</item>
+        <item>求租</item>        
     </string-array>
-    
+    <string-array name="house_trade_type_index">
+        <item>01</item>
+        <item>02</item>
+        <item>04</item>
+        <item>03</item>        
+    </string-array>    
      <string-array name="my_complaint">
         <item>已受理</item>
         <item>已处理</item>

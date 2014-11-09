@@ -10,14 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
-import com.wb.sc.activity.base.BasePhotoActivity.PhotoUploadListener;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.BaseBean;
 import com.wb.sc.config.NetConfig;
@@ -25,7 +24,13 @@ import com.wb.sc.config.RespCode;
 import com.wb.sc.task.BaseRequest;
 import com.wb.sc.util.ParamsUtil;
 
-public class HouseTradeActivity extends BaseHeaderActivity implements Listener<BaseBean>, 
+/**
+ * 
+ * @描述：发布房屋出租、出售信息
+ * @作者：liang bao xian
+ * @时间：2014年11月9日 下午3:15:15
+ */
+public class PostHouseTradeActivity extends BaseHeaderActivity implements Listener<BaseBean>, 
 	ErrorListener {	
 	
 	private EditText houseInfoEt;
@@ -42,7 +47,7 @@ public class HouseTradeActivity extends BaseHeaderActivity implements Listener<B
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_house_trade);
+		setContentView(R.layout.common_header_layout, R.layout.activity_house_trade);
 		initHeader(getResources().getString(R.string.ac_house_trade));
 		
 		getIntentData();
@@ -72,6 +77,8 @@ public class HouseTradeActivity extends BaseHeaderActivity implements Listener<B
 	
 	@Override
     public void onClick(View v) {
+		super.onClick(v);
+		
     	switch(v.getId()) {
     	case R.id.submit:
     		submit();
@@ -93,6 +100,7 @@ public class HouseTradeActivity extends BaseHeaderActivity implements Listener<B
     		return;
     	}
     	
+    	showProcess("正在提交房屋委托信息，请稍候...");
     	requestBase(getBaseRequestParams(), this, this);
     }
     
@@ -107,10 +115,11 @@ public class HouseTradeActivity extends BaseHeaderActivity implements Listener<B
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
-		params.add(ParamsUtil.getReqParam(houseInfo, 64));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().getHouseId(), 64));
 		params.add(ParamsUtil.getReqParam(phone, 15));
-		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().getName(), 32));
-   		params.add(ParamsUtil.getReqParam(typeSp.getSelectedItem().toString(), 8));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().getAccount(), 32));
+		String type = getResources().getStringArray(R.array.house_trade_type_index)[typeSp.getSelectedItemPosition()];
+   		params.add(ParamsUtil.getReqParam(type, 8));
 		return params;
 	}
 		
@@ -146,8 +155,10 @@ public class HouseTradeActivity extends BaseHeaderActivity implements Listener<B
 	 */
 	@Override
 	public void onResponse(BaseBean response) {		
+		dismissProcess();
 		if(response.respCode.equals(RespCode.SUCCESS)) {
-			ToastHelper.showToastInBottom(this, "您申请了委托，我们的置业顾问会尽快与你联系！");
+			ToastHelper.showToastInBottom(this, "您申请了委托，我们的置业顾问会尽快与你联系！");			
+			finish();
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}

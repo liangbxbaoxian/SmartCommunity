@@ -113,10 +113,10 @@ public class PropertyPraiseActivity extends BasePhotoActivity implements Listene
 		params.add(ParamsUtil.getReqParam(desc, 140));
 		params.add(ParamsUtil.getReqParam(imgsUrl, 1024));
 		if(shareCb.isChecked()) {
-   			params.add(ParamsUtil.getReqIntParam(1, 2));
-   		} else {
-   			params.add(ParamsUtil.getReqIntParam(0, 2));
-   		}
+			params.add(ParamsUtil.getReqParam("1", 2));
+		} else {
+			params.add(ParamsUtil.getReqParam("0", 2));
+		}
 		return params;
 	}
 		

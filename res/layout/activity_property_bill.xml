@@ -4,9 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <include layout="@layout/common_header_layout" >
-    </include>
-    
     <ListView 
         android:id="@+id/list"
         android:layout_width="match_parent"

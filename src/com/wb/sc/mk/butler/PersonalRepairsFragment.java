@@ -23,6 +23,7 @@ import com.common.date.FormatDateTime;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.BaseNetActivity;
 import com.wb.sc.activity.base.BasePhotoActivity.PhotoUploadListener;
 import com.wb.sc.activity.base.BasePhotoFragment;
@@ -86,7 +87,8 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
     }
    
     private void initView(View view) {    
-    	initPhoto(view);
+    	initPhoto(view, "FG38");
+    	setUploadListener(this);
     	
     	houseInfoEt = (EditText) view.findViewById(R.id.house_info);
     	phoneEt = (EditText) view.findViewById(R.id.phone);
@@ -117,10 +119,10 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 		cal.setTime(date);
 		for(int i=0; i<7; i++) {			
 			String time = FormatDateTime.date2String(cal.getTime(), "MM-dd");
-			String weekDay = new SimpleDateFormat("EEEE").format(cal.getTime());
-			cal.add(Calendar.DATE, 1);
+			String weekDay = new SimpleDateFormat("EEEE").format(cal.getTime());			
 			dateStrList.add(time + " " + weekDay);
 			dateList.add(cal.getTime());
+			cal.add(Calendar.DATE, 1);
 		}
 		
 		return dateStrList;
@@ -128,6 +130,7 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
     
     @Override
     public void onClick(View v) {
+    	super.onClick(v);
     	switch(v.getId()) {
     	case R.id.submit:
     		submit();
@@ -164,6 +167,7 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
     		return;
     	}    	    	
     	
+    	((BaseActivity)getActivity()).showProcess("正在提交报修，请稍候...");
     	startUploadPhot();
     }
     
@@ -184,9 +188,9 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 		params.add(ParamsUtil.getReqParam(imgsUrl, 1024));
 		params.add(ParamsUtil.getReqParam(date, 8));
 		params.add(ParamsUtil.getReqParam(time, 16));
-		params.add(ParamsUtil.getReqIntParam(5, 2));
+		params.add(ParamsUtil.getReqParam("05", 2));
 		params.add(ParamsUtil.getReqParam("", 100));
-		params.add(ParamsUtil.getReqIntParam(0, 2));
+		params.add(ParamsUtil.getReqParam("00", 2));
 		return params;
 	}
 		
@@ -214,6 +218,7 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 	 */
 	@Override
 	public void onErrorResponse(VolleyError error) {		
+		((BaseActivity)getActivity()).dismissProcess();
 		ToastHelper.showToastInBottom(getActivity(), VolleyErrorHelper.getErrorMessage(getActivity(), error));
 	}
 		
@@ -222,8 +227,10 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 	 */
 	@Override
 	public void onResponse(BaseBean response) {		
+		((BaseActivity)getActivity()).dismissProcess();
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			ToastHelper.showToastInBottom(getActivity(), "您的报修已提交，我们会尽快处理~");
+			getActivity().finish();
 		} else {
 			ToastHelper.showToastInBottom(getActivity(), response.respCodeMsg);
 		}

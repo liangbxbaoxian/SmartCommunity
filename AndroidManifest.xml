@@ -176,10 +176,17 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_complain"
             android:screenOrientation="portrait" />
-
-        <!-- 房屋交易 -->
+        
+        <!-- 发布房屋信息列表 -->
         <activity
-            android:name="com.wb.sc.mk.butler.HouseTradeActivity"
+            android:name="com.wb.sc.mk.butler.HouseTradeListActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/ac_house_trade_list"
+            android:screenOrientation="portrait" />
+
+        <!-- 发布房屋交易 -->
+        <activity
+            android:name="com.wb.sc.mk.butler.PostHouseTradeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/ac_property_complain"
             android:screenOrientation="portrait" />

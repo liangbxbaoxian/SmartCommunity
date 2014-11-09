@@ -18,6 +18,7 @@ import com.android.volley.Response.Listener;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.BaseNetActivity;
 import com.wb.sc.activity.base.BasePhotoFragment;
 import com.wb.sc.activity.base.BasePhotoActivity.PhotoUploadListener;
@@ -68,7 +69,8 @@ public class PublicRepairsFragment extends BasePhotoFragment implements Listener
     }
    
     private void initView(View view) {
-    	initPhoto(view);
+    	initPhoto(view, "FG38");
+    	setUploadListener(this);
     	    	
     	houseInfoEt = (EditText) view.findViewById(R.id.house_info);
     	addressEt = (EditText) view.findViewById(R.id.address);
@@ -81,6 +83,7 @@ public class PublicRepairsFragment extends BasePhotoFragment implements Listener
     
     @Override
     public void onClick(View v) {
+    	super.onClick(v);
     	switch(v.getId()) {
     	case R.id.submit:
     		submit();
@@ -108,6 +111,7 @@ public class PublicRepairsFragment extends BasePhotoFragment implements Listener
     		return;
     	}    
     	
+    	((BaseActivity)getActivity()).showProcess("正在提交报修，请稍候...");
     	startUploadPhot();    	
     }
     
@@ -128,13 +132,13 @@ public class PublicRepairsFragment extends BasePhotoFragment implements Listener
    		params.add(ParamsUtil.getReqParam(imgsUrl, 1024));
    		params.add(ParamsUtil.getReqParam("", 8));
    		params.add(ParamsUtil.getReqParam("", 16));
-   		params.add(ParamsUtil.getReqIntParam(6, 2));
+   		params.add(ParamsUtil.getReqParam("06", 2));
    		params.add(ParamsUtil.getReqParam(address, 100));
    		if(shareCb.isChecked()) {
-   			params.add(ParamsUtil.getReqIntParam(1, 2));
-   		} else {
-   			params.add(ParamsUtil.getReqIntParam(0, 2));
-   		}
+			params.add(ParamsUtil.getReqParam("01", 2));
+		} else {
+			params.add(ParamsUtil.getReqParam("00", 2));
+		}
    		return params;
    	}
    		
@@ -162,6 +166,7 @@ public class PublicRepairsFragment extends BasePhotoFragment implements Listener
    	 */
    	@Override
    	public void onErrorResponse(VolleyError error) {		
+   		((BaseActivity)getActivity()).dismissProcess();
    		ToastHelper.showToastInBottom(getActivity(), VolleyErrorHelper.getErrorMessage(getActivity(), error));
    	}
    		
@@ -170,8 +175,10 @@ public class PublicRepairsFragment extends BasePhotoFragment implements Listener
    	 */
    	@Override
    	public void onResponse(BaseBean response) {		
+   		((BaseActivity)getActivity()).dismissProcess();
    		if(response.respCode.equals(RespCode.SUCCESS)) {
    			ToastHelper.showToastInBottom(getActivity(), "您的报修已提交，我们会尽快处理~");
+   			getActivity().finish();
    		} else {
    			ToastHelper.showToastInBottom(getActivity(), response.respCodeMsg);
    		}

@@ -65,6 +65,11 @@ public class User extends BaseBean{
      */
     public String roomNum;
     
+    /**
+     * 房屋  id
+     */
+    public String houseId;
+    
     
     /**
 	 * 登录状态 0：为登出 1：为登录
@@ -173,5 +178,15 @@ public class User extends BaseBean{
 
 	public void setRoomNum(String roomNum) {
 		this.roomNum = roomNum;
+	}
+
+	public String getHouseId() {
+		return houseId;
+	}
+
+	public void setHouseId(String houseId) {
+		this.houseId = houseId;
 	}	
+	
+	
 }

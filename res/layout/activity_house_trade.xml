@@ -5,9 +5,6 @@
     android:background="#ebeced"
     android:orientation="vertical" >
 
-    <include layout="@layout/common_header_layout" >
-    </include>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >

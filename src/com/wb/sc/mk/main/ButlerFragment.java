@@ -21,7 +21,8 @@ import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
 import com.wb.sc.adapter.CategoryAdapter.ItemClickListener;
 import com.wb.sc.bean.CategoryTable;
-import com.wb.sc.mk.butler.HouseTradeActivity;
+import com.wb.sc.mk.butler.HouseTradeListActivity;
+import com.wb.sc.mk.butler.PostHouseTradeActivity;
 import com.wb.sc.mk.butler.PropertyBillActivity;
 import com.wb.sc.mk.butler.PropertyComplain;
 import com.wb.sc.mk.butler.PropertyPraiseActivity;
@@ -66,11 +67,11 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 	
 	private void initData() {
 		categoryTableList.clear();
-		int resId [] = {R.drawable.complain_selector, R.drawable.repair_selector, R.drawable.praise_selector,
-				/*R.drawable.business_selector*/ R.drawable.bill_selector};
+		int resId [] = {R.drawable.complain_selector, R.drawable.repair_selector, /*R.drawable.praise_selector,*/
+				R.drawable.business_selector, R.drawable.bill_selector};
 		
-		String categoryname [] = {"物业投诉", "物业报修", "物业表扬",
-				/*"房屋交易"*/ "物业账单"};
+		String categoryname [] = {"物业投诉", "物业报修", /*"物业表扬",*/
+				"房屋交易", "物业账单"};
 		
 		for (int i = 0; i < resId.length; i++) {
 			CategoryTable category = new CategoryTable();
@@ -114,7 +115,7 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 		}break;
 		
 		case 2:{
-			Intent intent = new Intent(getActivity(), PropertyPraiseActivity.class);
+			Intent intent = new Intent(getActivity(), HouseTradeListActivity.class);
 			startActivity(intent);
 		}break;
 		
@@ -122,8 +123,8 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 			
 			Intent intent = new Intent(getActivity(), PropertyBillActivity.class);
 			startActivity(intent);
-			
-//			Intent intent = new Intent(getActivity(), HouseTradeActivity.class);
+//			
+//			Intent intent = new Intent(getActivity(), HouseTradeListActivity.class);
 //			startActivity(intent);
 		}break;
 		
