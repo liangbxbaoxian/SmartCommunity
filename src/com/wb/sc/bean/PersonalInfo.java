@@ -18,7 +18,17 @@ public class PersonalInfo extends BaseBean {
 	public String disturbBeginTime; // 免打扰开始时间 char(14)
 	public String disturbEndTime; // 免打扰结束时间 char(14)
 	public String localCommunity; // 所在社区 char(64)
-	public String communityNam; // 社区名称 char(128)
+	public String communityName; // 社区名称 char(128)
+	public String auth;          // 01:已提交认证；
+								// 02:认证通过；
+								// 03:认证失败；
+								// 没值或其他值为未认证
+	
+	public String buildingNum;  // 楼栋
+	
+	public String roomNum;      // 房号
+
+	
 	public String imei; // 手机imei char(32)
 	public String crc; // 校验位 hex(2)
 

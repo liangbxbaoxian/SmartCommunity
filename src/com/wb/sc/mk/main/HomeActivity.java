@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -126,6 +127,17 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 //		requestAdv(getAdvRequestParams(), mAdvListener, this);
 //		requestComNotice(getComNoticeRequestParams(), mComNoticeListener, this);
 		requestPhoneList(getPhoneListRequestParams(), mPhoneListListener, this);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		String communityName = SCApp.getInstance().getUser().communityName;
+		if (!"".equals(communityName)) {
+			TextView name = (TextView) findViewById(R.id.name);
+			name.setText(SCApp.getInstance().getUser().communityName + ">");
+		}
+		
 	}
 
 	public void getIntentData() {
@@ -320,6 +332,17 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		advAdapter = new AdvAdapter(mActivity);
 		advVp.setAdapter(advAdapter);
 		advIndicator.setViewPager(advVp);
+		
+		TextView name = (TextView) findViewById(R.id.name);
+		
+		name.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				changeCommunity(arg0);
+			}
+		});
 	}
 	
 	private void initMenu() {

@@ -77,47 +77,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="账      号："
-                    />
-
-                <TextView
-                    android:id="@+id/phoneNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:text="15288888888" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right" >
-
-                    <ImageView
-                        android:layout_width="6dp"
-                        android:layout_height="8.5dp"
-                        android:visibility="gone"
-                        android:layout_marginRight="@dimen/normal_margin"
-                        android:background="@drawable/arrow_right" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin" >
+                android:orientation="horizontal" >
 
                 <include layout="@layout/divide_line" />
             </LinearLayout>
@@ -129,16 +92,16 @@
                 android:gravity="center"
                 android:onClick="setCommunity"
                 android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
-
-                                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="所在小区："
-                    />
+                android:paddingBottom="@dimen/normal_margin"
+                android:paddingTop="@dimen/normal_margin" >
 
                 <TextView
-                    android:id="@+id/localCommunity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="    所在小区：" />
+
+                <TextView
+                    android:id="@+id/communityName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -162,9 +125,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin" >
+                android:orientation="horizontal" >
 
                 <include layout="@layout/divide_line" />
             </LinearLayout>
@@ -172,29 +133,38 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
+                android:layout_marginTop="@dimen/normal_margin"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:onClick="changeUserName"
                 android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin" >
 
-                                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="用   户  名："
-                    />
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/xihao" />
 
                 <TextView
-                    android:id="@+id/accountName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="所在楼栋：" />
+
+                <EditText
+                    android:id="@+id/input_building_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
-                    android:text="张三" />
+                    android:hint="输入楼栋号"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right" >
+                    android:gravity="right"
+                    android:visibility="invisible" >
 
                     <ImageView
                         android:layout_width="6dp"
@@ -209,9 +179,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin" >
+                android:orientation="horizontal" >
 
                 <include layout="@layout/divide_line" />
             </LinearLayout>
@@ -221,27 +189,35 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:onClick="changeBirthday"
                 android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin" >
 
-                                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="生       日："
-                    />
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/xihao" />
 
                 <TextView
-                    android:id="@+id/birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="所在房号：" />
+
+                <EditText
+                    android:id="@+id/input_room_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
-                    android:text="1988-05-23" />
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:hint="输入房号" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right" >
+                    android:gravity="right"
+                    android:visibility="invisible" >
 
                     <ImageView
                         android:layout_width="6dp"
@@ -256,9 +232,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin" >
+                android:orientation="horizontal" >
 
                 <include layout="@layout/divide_line" />
             </LinearLayout>
@@ -268,27 +242,35 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:onClick="changeSex"
                 android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin" >
 
-                                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="性        别："
-                    />
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/xihao" />
 
                 <TextView
-                    android:id="@+id/sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="户主姓名：" />
+
+                <EditText
+                    android:id="@+id/input_real_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
-                    android:text="女" />
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:hint="输入户主真实姓名" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right" >
+                    android:gravity="right"
+                    android:visibility="invisible" >
 
                     <ImageView
                         android:layout_width="6dp"
@@ -303,9 +285,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin" >
+                android:orientation="horizontal" >
 
                 <include layout="@layout/divide_line" />
             </LinearLayout>
@@ -315,28 +295,34 @@
                 android:layout_height="51dp"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:onClick="changeMail"
                 android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin" >
 
-                                <TextView
-                                    
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="邮       箱："
-                    />
+                    android:src="@drawable/xihao" />
 
                 <TextView
-                    android:id="@+id/mail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="  身  份  证：" />
+
+                <EditText
+                    android:id="@+id/input_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
-                    android:text="ronghui@163.com" />
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:hint="输入户主身份证号码" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right" >
+                    android:gravity="right"
+                    android:visibility="invisible" >
 
                     <ImageView
                         android:layout_width="6dp"
@@ -345,176 +331,15 @@
                         android:background="@drawable/arrow_right" />
                 </LinearLayout>
             </LinearLayout>
-            
-                     <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin" >
 
-                <include layout="@layout/divide_line" />
-            </LinearLayout>
-            
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:onClick="changeWeixin"
-                android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
-
-                                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="微       信："
-                    />
-
-                <TextView
-                    android:id="@+id/weixinAccount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:text="zhangsan" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right" >
-
-                    <ImageView
-                        android:layout_width="6dp"
-                        android:layout_height="8.5dp"
-                        android:layout_marginRight="@dimen/normal_margin"
-                        android:background="@drawable/arrow_right" />
-                </LinearLayout>
-            </LinearLayout>
-            
-             <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin" >
+                android:orientation="horizontal" >
 
                 <include layout="@layout/divide_line" />
-            </LinearLayout>
-            
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="51dp"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:onClick="changeWork"
-                android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
-
-                                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="职        业："
-                    />
-
-                <TextView
-                    android:id="@+id/work"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:text="自由职业" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right" >
-
-                    <ImageView
-                        android:layout_width="6dp"
-                        android:layout_height="8.5dp"
-                        android:layout_marginRight="@dimen/normal_margin"
-                        android:background="@drawable/arrow_right" />
-                </LinearLayout>
-            </LinearLayout>
-            
-             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin" >
-
-                <include layout="@layout/divide_line" />
-            </LinearLayout>
-            
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="51dp"
-                android:background="@android:color/white"
-                android:gravity="center"
-                 android:onClick="changeHobby"
-                android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
-
-                                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="兴趣爱好："
-                    />
-
-                <TextView
-                    android:id="@+id/hobby"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:text="摄影" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right" >
-
-                    <ImageView
-                        android:layout_width="6dp"
-                        android:layout_height="8.5dp"
-                        android:layout_marginRight="@dimen/normal_margin"
-                        android:background="@drawable/arrow_right" />
-                </LinearLayout>
-            </LinearLayout>
-            
-                     <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/normal_margin"
-                android:paddingRight="@dimen/normal_margin" >
-
-                <include layout="@layout/divide_line" />
-            </LinearLayout>
-            
-                         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="51dp"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="@dimen/normal_margin" >
-
-
-                <TextView
-                    android:id="@+id/userStatue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#1bce1b"
-                    android:text="住户认证" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -533,7 +358,7 @@
                     android:layout_margin="@dimen/normal_margin"
                     android:background="@drawable/red_btn_selector"
                     android:padding="@dimen/normal_margin"
-                    android:text="保存"
+                    android:text="申请认证"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
             </LinearLayout>

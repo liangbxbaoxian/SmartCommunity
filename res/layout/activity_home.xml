@@ -54,11 +54,12 @@
 
                 <TextView
                     android:id="@+id/name"
+                    android:onClick="changeCommunity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:onClick="changeCommunity"
                     android:text="融汇江山>"
+                    
                     android:textColor="@color/title_text_color"
                     android:textSize="@dimen/title_bar_text_size" />
             </RelativeLayout>

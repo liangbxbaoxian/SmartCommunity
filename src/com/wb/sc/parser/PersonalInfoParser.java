@@ -25,7 +25,7 @@ public class PersonalInfoParser {
 		dataBean.disturbBeginTime = ParamsUtil.getRespParamNext(dataBean, 14);
 		dataBean.disturbEndTime = ParamsUtil.getRespParamNext(dataBean, 14);
 		dataBean.localCommunity = ParamsUtil.getRespParamNext(dataBean, 64);
-		dataBean.communityNam = ParamsUtil.getRespParamNext(dataBean, 128);
+		dataBean.communityName = ParamsUtil.getRespParamNext(dataBean, 128);
 		dataBean.imei = ParamsUtil.getRespParamNext(dataBean, 32);
 	}
 }

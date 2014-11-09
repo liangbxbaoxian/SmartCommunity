@@ -122,7 +122,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/normal_margin"
-                            android:text="已认证"
+                            android:text=""
                             android:textSize="12sp"
                             android:textColor="#229222" />
                     </LinearLayout>
@@ -155,7 +155,7 @@
                         android:id="@+id/roomNum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="2楼11室" />
+                        android:text="未输入房号" />
                 </LinearLayout>
             </LinearLayout>
 

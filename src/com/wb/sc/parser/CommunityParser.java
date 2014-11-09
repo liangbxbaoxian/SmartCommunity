@@ -18,13 +18,15 @@ public class CommunityParser {
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
 		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);
 		dataBean.datas = new ArrayList<CommunityItem>();
-		for(String itemStr : itemsStr) {
-			String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
-			CommunityItem item =  dataBean. new CommunityItem();
-			item.communityId = values[0];
-			item.communityCode = values[1];
-			item.communityName = values[2];
-			dataBean.datas.add(item);
+		if (dataBean.totalNum > 0) {
+			for(String itemStr : itemsStr) {
+				String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
+				CommunityItem item =  dataBean. new CommunityItem();
+				item.communityId = values[0];
+				item.communityCode = values[1];
+				item.communityName = values[2];
+				dataBean.datas.add(item);
+			}
 		}
 	}
 }

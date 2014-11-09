@@ -182,7 +182,7 @@ ErrorListener, ReloadListener{
 				}
 				item.dictionaryName = name;
 				item.dictionaryCode = code;
-				item.dictionaryId = sid;
+				item.id = sid;
 				if (pos + 1 < SCApp.getInstance().getList().size()) {
 					DictionaryItem subItem = SCApp.getInstance().getList().get(pos + 1);
 					subItem.superDictionaryId =  sid;
@@ -296,6 +296,12 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onResponse(Community response) {
 				if(response.respCode.equals(RespCode.SUCCESS)) {
+					
+					if(response.totalNum == 0) {
+						showEmpty();
+						return;
+					}
+					
 					pageNo ++;
 
 					list.addAll(response.datas);
@@ -304,6 +310,7 @@ ErrorListener, ReloadListener{
 					if (!response.hasNextPage) {
 						mPullToRefreshListView.setMode(Mode.DISABLED);
 					}
+					mAdpter.notifyDataSetChanged();
 					showContent();
 				} else {
 					showLoadError(SetLocationDetailActivity.this);
@@ -407,13 +414,17 @@ ErrorListener, ReloadListener{
 	public void onResponse(Dictionary response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			pageNo ++;
-
+			if(response.totalNum == 0) {
+				showEmpty();
+				return;
+			}
 			list.addAll(response.datas);
 			// Call onRefreshComplete when the list has been refreshed.
 			mPullToRefreshListView.onRefreshComplete();
 			if (!response.hasNextPage) {
 				mPullToRefreshListView.setMode(Mode.DISABLED);
 			}
+			mAdpter.notifyDataSetChanged();
 			showContent();
 		} else {
 			showLoadError(this);

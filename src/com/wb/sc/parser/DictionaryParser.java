@@ -18,15 +18,17 @@ public class DictionaryParser {
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
 		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);
 		dataBean.datas = new ArrayList<DictionaryItem>();
-		for(String itemStr : itemsStr) {
-			String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
-			DictionaryItem item =   new DictionaryItem();
-			item.dictionaryId = values[0];
-			item.dictionaryCode = values[1];
-			item.superDictionaryId = values[2];
-			item.dictionaryName = values[3];
-			item.dictionarySort = values[4];
-			dataBean.datas.add(item);
+		if (dataBean.totalNum > 0) {
+			for(String itemStr : itemsStr) {
+				String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
+				DictionaryItem item =   new DictionaryItem();
+				item.dictionaryId = values[0];
+				item.dictionaryCode = values[1];
+				item.superDictionaryId = values[2];
+				item.dictionaryName = values[3];
+				item.dictionarySort = values[4];
+				dataBean.datas.add(item);
+			}
 		}
 	}
 }

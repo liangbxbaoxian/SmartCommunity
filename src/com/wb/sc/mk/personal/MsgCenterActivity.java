@@ -34,8 +34,6 @@ import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MsgListAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Msg;
-import com.wb.sc.bean.Msg.MgItem;
-import com.wb.sc.bean.MsgList;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.task.MsgRequest;
@@ -57,13 +55,14 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	private PageInfo mPage = new PageInfo();
 	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;
 	private MsgListAdapter mAdapter;
-	private MsgList mMsgList;
+//	private MsgList mMsgList;
 	
 	private MsgRequest MmsgCenterRequest;
 	private int pageNo = 1;
 	private int pageSize = 10;
 	
-	private List<MgItem> list = new ArrayList<MgItem>();
+//	private List<MgItem> list = new ArrayList<MgItem>();
+	private List<Msg.MgItem> list = new ArrayList<Msg.MgItem>();
 			
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +73,7 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 		initHeader(getResources().getString(R.string.ac_msg_center));
 		initView();		
 		
-		test();
+//		test();
 		
         showLoading();		
 		
@@ -174,6 +173,9 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 				}
 			}
 		});
+		
+		mAdapter = new MsgListAdapter(this, list);
+		mListView.setAdapter(mAdapter);
 	}
 	
 	@Override
@@ -224,15 +226,15 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 		startMsgCenterRequest();
 	}
 	
-	private void test() {
-		mMsgList = new MsgList();
-		mMsgList.datas = new ArrayList<MsgList.Item>();
-		for(int i=0; i<10; i++) {
-			mMsgList.datas.add(mMsgList.new Item());
-		}
-		mAdapter = new MsgListAdapter(this, mMsgList);
-		mListView.setAdapter(mAdapter);
-	}
+//	private void test() {
+//		mMsgList = new MsgList();
+//		mMsgList.datas = new ArrayList<MsgList.Item>();
+//		for(int i=0; i<10; i++) {
+//			mMsgList.datas.add(mMsgList.new Item());
+//		}
+//		mAdapter = new MsgListAdapter(this, mMsgList);
+//		mListView.setAdapter(mAdapter);
+//	}
 	
 	/**
 	 * 获取请求参数,请按照接口文档列表顺序排列
@@ -282,9 +284,18 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	public void onResponse(Msg response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			pageNo ++;
+			
+			if(response.totalNum == 0) {  //显示空
+			    showEmpty();
+			    return;
+			 }
+			if (response.datas.size() > 0) {
+				list.addAll(response.datas);
+			}
 
 			// Call onRefreshComplete when the list has been refreshed.
 			mPullListView.onRefreshComplete();
+			mAdapter.notifyDataSetChanged();
 			if (!response.hasNextPage) {
 				mPullListView.setMode(Mode.DISABLED);
 			}

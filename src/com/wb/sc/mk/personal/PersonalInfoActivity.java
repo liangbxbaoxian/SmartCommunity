@@ -1,15 +1,18 @@
 package com.wb.sc.mk.personal;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
@@ -24,8 +27,10 @@ import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.BaseBean;
 import com.wb.sc.bean.PersonalInfo;
+import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.db.DbHelper;
 import com.wb.sc.mk.main.SetCommunityActivity;
 import com.wb.sc.task.BaseRequest;
 import com.wb.sc.task.PersonalInfoRequest;
@@ -80,10 +85,20 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	
 	@Override
 	protected void onResume() {
-		if (SCApp.getInstance().getList().size() > 3) {
+		if (SCApp.getInstance().getList().size() > 3 && mPersonalInfo != null) {
 			localCommunity.setText(SCApp.getInstance().getList().get(3).dictionaryName);
-			mPersonalInfo.localCommunity = SCApp.getInstance().getList().get(3).dictionaryId;
+			mPersonalInfo.localCommunity = SCApp.getInstance().getList().get(3).id;
 		}
+		if ("01".equals(SCApp.getInstance().getUser().auth)) {
+			userStatue.setText("已提交认证");
+		} else if ("02".equals(SCApp.getInstance().getUser().auth)) {
+			userStatue.setText("住户已认证");
+		} else if ("03".equals(SCApp.getInstance().getUser().auth)){
+			userStatue.setText("认证失败");
+		} else {
+			userStatue.setText("住户未认证");
+		}
+		
 		super.onResume();
 	}
 
@@ -103,6 +118,16 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		userStatue = (TextView) findViewById(R.id.userStatue);
 
 		userStatue.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //下划线
+		
+		userStatue.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(PersonalInfoActivity.this, SubmitAuthActivity.class);
+				startActivity(intent);
+				
+			}
+		});
 		
 		btn_exit = (TextView) findViewById(R.id.btn_exit);
 		btn_exit.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +175,11 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 			public void onResponse(BaseBean response) {
 				if(response.respCode.equals(RespCode.SUCCESS)) {
 					showContent();
+					User user = SCApp.getInstance().getUser();
+					user.communityName = mPersonalInfo.communityName;
+					user.communityId = mPersonalInfo.localCommunity;
+					DbHelper.saveUser(user);
+					
 					ToastHelper.showToastInBottom(PersonalInfoActivity.this, "保存成功");
 				} else {
 					showLoadError(PersonalInfoActivity.this);
@@ -240,6 +270,22 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	}
 	
 	
+	public void changeMail(View view) {
+		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
+		intent.putExtra("mail", "修改邮箱地址");
+		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
+		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
+	
+	
+	public void changeWeixin(View view) {
+		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
+		intent.putExtra("weixinAccount", "修改微信账号");
+		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
+		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
+	
+	
 	public void changeHobby(View view) {
 		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
 		intent.putExtra("title", "修改兴趣爱好");
@@ -248,13 +294,56 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
 	}
 	
+	public void changeSex(View view) {
+		new AlertDialog.Builder(this)
+		.setTitle("请选择性别")
+		.setIcon(android.R.drawable.ic_dialog_info)                
+		.setSingleChoiceItems(new String[] {"男","女"}, 0, 
+		  new DialogInterface.OnClickListener() {
+		                            
+		     public void onClick(DialogInterface dialog, int which) {
+		    	 mPersonalInfo.sex = (which + 1) + "";
+		    	 
+		        dialog.dismiss();
+		     }
+		  }
+		)
+		.setNegativeButton("取消", null)
+		.show();
+	}
+	
+	public void changeBirthday(View view) {
+		final Calendar c = Calendar.getInstance();
+
+		int anio = c.get(Calendar.YEAR);
+		int mes = c.get(Calendar.MONTH);
+		int dia = c.get(Calendar.DAY_OF_MONTH);
+
+		DatePickerDialog dpd = new DatePickerDialog(this,
+				new DatePickerDialog.OnDateSetListener() {
+
+			@Override
+			public void onDateSet(DatePicker view, int year,
+					int monthOfYear, int dayOfMonth) {
+				mPersonalInfo.birthday =  year + "-"
+                        + monthOfYear + "-"
+                        + dayOfMonth;
+			}
+
+		}, anio, mes, dia);
+		dpd.show();
+	}
+	
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent intent) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(arg0, arg1, intent);
-		String jsonContent  = intent.getStringExtra("jsonContent");
-		mPersonalInfo = new Gson().fromJson(jsonContent, PersonalInfo.class);
-		UpdateView(mPersonalInfo);
+		if (intent != null) {
+			String jsonContent  = intent.getStringExtra("jsonContent");
+			mPersonalInfo = new Gson().fromJson(jsonContent, PersonalInfo.class);
+			UpdateView(mPersonalInfo);
+		}
+
 	}
 	
 
@@ -278,7 +367,7 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 
 	private void UpdateView(PersonalInfo response) {
 		phoneNum.setText(response.phoneNum);
-		localCommunity.setText(response.communityNam);
+		localCommunity.setText(SCApp.getInstance().getUser().communityName);
 		accountName.setText(response.accountName);
 		if (!"".equals(response.birthday)) {
 //				SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
@@ -304,9 +393,13 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 		hobby.setText(response.hobby);
 		
 		userStatue = (TextView) findViewById(R.id.userStatue);
-		if ("0".equals(response.sex)) {
+		if ("01".equals(SCApp.getInstance().getUser().auth)) {
+			userStatue.setText("已提交认证");
+		} else if ("02".equals(SCApp.getInstance().getUser().auth)) {
 			userStatue.setText("住户已认证");
-		} else if ("1".equals(response.sex)) {
+		} else if ("03".equals(SCApp.getInstance().getUser().auth)){
+			userStatue.setText("认证失败");
+		} else {
 			userStatue.setText("住户未认证");
 		}
 	}

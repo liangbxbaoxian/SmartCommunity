@@ -60,7 +60,7 @@ public class SentHomeAdpater extends BaseAdapter {
 		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
 			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
 			viewHolder.merchantCategoryName = (TextView) arg1.findViewById(R.id.merchantCategoryName);
-			viewHolder.district  = (TextView) arg1.findViewById(R.id.district);
+			viewHolder.distance  = (TextView) arg1.findViewById(R.id.distance);
 			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
 			arg1.setTag(viewHolder);
 		}else{
@@ -83,7 +83,7 @@ public class SentHomeAdpater extends BaseAdapter {
 		});
 		viewHolder.district_name.setText(oneKm.merchantName);
 //		viewHolder.district_address.setText(sentHome.category); // 一公里未返回商户地址
-//		viewHolder.district.setText(sentHome.distance);
+		viewHolder.distance.setText(oneKm.distance + " 米");
 		viewHolder.merchantCategoryName.setText(oneKm.merchantCategoryName);
 		return arg1;
 	}
@@ -95,7 +95,7 @@ public class SentHomeAdpater extends BaseAdapter {
 		public NetworkImageView networkImageView;
 		public TextView district_name;
 		public TextView merchantCategoryName;
-		public TextView district;
+		public TextView distance;
 		public ImageView call;
 		
 	}

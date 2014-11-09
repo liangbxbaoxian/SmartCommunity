@@ -17,5 +17,6 @@ public class OneKm extends BaseBean {
 	    	public String longitude;   // 经度
 	    	public String latitude;     // 维度
 	    	public String merchantLogo;    // 标题图片
+	    	public String distance;    // 距离
 	    }
 }

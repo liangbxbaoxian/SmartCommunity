@@ -65,12 +65,16 @@ public class User extends BaseBean{
      */
     public String roomNum;
     
+
     /**
      * 房屋  id
      */
     public String houseId;
-    
-    
+
+	public User() {
+
+	}
+	
     /**
 	 * 登录状态 0：为登出 1：为登录
 	 */

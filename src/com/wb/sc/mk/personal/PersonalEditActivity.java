@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.common.widget.ToastHelper;
 import com.google.gson.Gson;
+import com.handmark.pulltorefresh.library.internal.Utils;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.fb.model.Conversation;
 import com.umeng.fb.model.UserInfo;
@@ -76,11 +77,24 @@ public class PersonalEditActivity extends BaseHeaderActivity implements OnClickL
 		} else {
 			JSONObject obj;
 			try {
-				obj = new JSONObject(jsonContent);
-				obj.putOpt(keyword, content);
-				Intent intent  = new Intent(PersonalEditActivity.this, PersonalInfoActivity.class);
-				intent.putExtra("jsonContent", obj.toString());
-				setResult(Constans.SET_COMMUNITY_REQUEST_CODE, intent);
+				if ("mail".equals(title)) {
+					if (com.wb.sc.util.Utils.isEmail(content)) {
+						obj = new JSONObject(jsonContent);
+						obj.putOpt(keyword, content);
+						Intent intent  = new Intent(PersonalEditActivity.this, PersonalInfoActivity.class);
+						intent.putExtra("jsonContent", obj.toString());
+						setResult(Constans.SET_COMMUNITY_REQUEST_CODE, intent);
+					} else {
+						ToastHelper.showToastInBottom(this, "输入邮箱地址不合法哦~");
+					}
+				} else {
+					obj = new JSONObject(jsonContent);
+					obj.putOpt(keyword, content);
+					Intent intent  = new Intent(PersonalEditActivity.this, PersonalInfoActivity.class);
+					intent.putExtra("jsonContent", obj.toString());
+					setResult(Constans.SET_COMMUNITY_REQUEST_CODE, intent);
+				}
+				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

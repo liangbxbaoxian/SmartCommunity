@@ -17,18 +17,22 @@ public class OneKmParser {
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
 		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);
 		dataBean.datas = new ArrayList<OneKm.MerchantItem>();
-		for(String itemStr : itemsStr) {
-			String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
-			OneKm.MerchantItem item =  dataBean. new MerchantItem();
-			item.merchantId = values[0];
-			item.merchantName = values[1];
-			item.merchantCategoryId = values[2];
-			item.merchantCategoryName = values[3];
-			item.merchantTel = values[4];
-			item.longitude = values[5];
-			item.latitude = values[6];
-			item.merchantLogo = values[7];
-			dataBean.datas.add(item);
+		if (dataBean.totalNum > 0) {
+			for(String itemStr : itemsStr) {
+				String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
+				OneKm.MerchantItem item =  dataBean. new MerchantItem();
+				item.merchantId = values[0];
+				item.merchantName = values[1];
+				item.merchantCategoryId = values[2];
+				item.merchantCategoryName = values[3];
+				item.merchantTel = values[4];
+				item.longitude = values[5];
+				item.latitude = values[6];
+				item.distance = values[7];
+				item.merchantLogo = values[8];
+				dataBean.datas.add(item);
+			}
 		}
+		
 	}
 }
