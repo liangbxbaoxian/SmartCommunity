@@ -77,6 +77,8 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 	private ImageView img_portrait;
 	
 	private TextView txt_auth;
+	private TextView communityName;
+	private TextView roomNum;
 
 	public static final int REQUEST_TAKE_CAMERA = 10;
 	public static final int REQUEST_PICK_LOCAL = 20;
@@ -125,6 +127,18 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 			txt_auth.setText("认证失败");
 		} else {
 			txt_auth.setText("住户未认证");
+		}
+		
+//		user.communityName = mPersonalInfo.communityName; 
+//		user.communityId = mPersonalInfo.localCommunity;
+		String community = SCApp.getInstance().getUser().communityName;
+		if (!"".equals(community)) {
+			communityName.setText(community);
+		}
+		
+		
+		if (!"".equals(SCApp.getInstance().getUser().roomNum)) {
+			roomNum.setText(SCApp.getInstance().getUser().roomNum);
 		}
 	}
 
@@ -189,14 +203,14 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 		
 		
 		
-		TextView communityName = (TextView) view.findViewById(R.id.communityName);
+		communityName = (TextView) view.findViewById(R.id.communityName);
 		String community = SCApp.getInstance().getUser().communityName;
 		if (!"".equals(community)) {
 			communityName.setText(SCApp.getInstance().getUser().communityName);
 		}
 		
 		
-		TextView roomNum = (TextView) view.findViewById(R.id.roomNum);
+		roomNum = (TextView) view.findViewById(R.id.roomNum);
 		if (!"".equals(SCApp.getInstance().getUser().roomNum)) {
 			roomNum.setText(SCApp.getInstance().getUser().roomNum);
 		}

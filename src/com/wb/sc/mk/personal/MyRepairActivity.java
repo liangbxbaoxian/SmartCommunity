@@ -282,11 +282,14 @@ ErrorListener, ReloadListener{
 	@Override
 	public void onResponse(MyRepair response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
-			pageNo ++;
+			if (response.totalNum > 0) {
+				pageNo ++;
+				list.addAll(response.datas);
+			}
 
-			list.addAll(response.datas);
 			// Call onRefreshComplete when the list has been refreshed.
 			mPullToRefreshListView.onRefreshComplete();
+			mAdpter.notifyDataSetChanged();
 			if (!response.hasNextPage) {
 				mPullToRefreshListView.setMode(Mode.DISABLED);
 			}

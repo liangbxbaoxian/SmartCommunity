@@ -22,7 +22,10 @@ import android.widget.TextView;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.common.net.volley.VolleyErrorHelper;
+import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -32,7 +35,11 @@ import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MyComplaintAdpater;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.MyRepair;
+import com.wb.sc.bean.MyRepair.MyRepairItem;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.task.MyRepairRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
@@ -51,22 +58,43 @@ ErrorListener, ReloadListener{
 	private boolean hasNextPage;
 	private String mDistrictName;
 	
-	private List<SentHome> list = new ArrayList<SentHome>();
+	private List<MyRepairItem> list = new ArrayList<MyRepairItem>();
 	
 	private Spinner mSpinner;
+	
+	private MyRepairRequest MmyRepairRequest;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_my_complaint);
 		getIntentData();
 		initView();
 		
 		showLoading();		
 		
-//		requestBase(getBaseRequestParams(), this, this);
+		requestBase(getBaseRequestParams(), this, this);
 	}
+	
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestBase(List<String> paramsList,	 
+			Listener<MyRepair> listenre, ErrorListener errorListener) {			
+		if(MmyRepairRequest != null) {
+			MmyRepairRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		MmyRepairRequest = new MyRepairRequest(url, paramsList, this, this);
+		startRequest(MmyRepairRequest);		
+	}
+	
 	
 	/**
 	 * 获取请求参数,请按照接口文档列表顺序排列
@@ -124,7 +152,7 @@ ErrorListener, ReloadListener{
 		});
 		
 		
-		initData();
+//		initData();
 		mAdpter = new MyComplaintAdpater(MyComplaintActivity.this, list);
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
@@ -183,18 +211,18 @@ ErrorListener, ReloadListener{
 		}
 	}
 	
-	private void initData() {
-		String [] name = {"缇斯西饼(洪山桥)", "安德鲁森(洪山桥太阳城店)", "陌上花开(仓山店)", "比哥鸡排", "那时花开"};
-		String []  category = {"餐饮", "餐饮", "花店", "餐饮", "花店"};
-		int [] resId = {R.drawable.xibing, R.drawable.mianbao, R.drawable.huadian, R.drawable.jipai, R.drawable.nashihuadian};
-		for (int i = 0; i < resId.length; i++) {
-			SentHome sentHome = new SentHome();
-			sentHome.name = name [i];
-			sentHome.category = category [i];
-			sentHome.resId = resId [i];
-			list.add(sentHome);
-		}
- 	}
+//	private void initData() {
+//		String [] name = {"缇斯西饼(洪山桥)", "安德鲁森(洪山桥太阳城店)", "陌上花开(仓山店)", "比哥鸡排", "那时花开"};
+//		String []  category = {"餐饮", "餐饮", "花店", "餐饮", "花店"};
+//		int [] resId = {R.drawable.xibing, R.drawable.mianbao, R.drawable.huadian, R.drawable.jipai, R.drawable.nashihuadian};
+//		for (int i = 0; i < resId.length; i++) {
+//			SentHome sentHome = new SentHome();
+//			sentHome.name = name [i];
+//			sentHome.category = category [i];
+//			sentHome.resId = resId [i];
+//			list.add(sentHome);
+//		}
+// 	}
 
 
 	public void getIntentData() {
@@ -219,15 +247,35 @@ ErrorListener, ReloadListener{
 
 	@Override
 	public void onErrorResponse(VolleyError error) {
-		// TODO Auto-generated method stub
-		
+		showLoadError(this);	
+		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
 	}
 
 
 	@Override
 	public void onResponse(MyRepair response) {
-		// TODO Auto-generated method stub
-		
+		if(response.respCode.equals(RespCode.SUCCESS)) {
+			if (response.totalNum > 0) {
+				pageNo ++;
+				list.addAll(response.datas);
+			}
+			
+			 if (response.totalNum == 0 && response.hasNextPage) {
+				    ToastHelper.showToastInBottom(MyComplaintActivity.this, "查询不到相关数据");
+				    return;
+		     }
+
+			// Call onRefreshComplete when the list has been refreshed.
+			mPullToRefreshListView.onRefreshComplete();
+			mAdpter.notifyDataSetChanged();
+			if (!response.hasNextPage) {
+				mPullToRefreshListView.setMode(Mode.DISABLED);
+			}
+			showContent();
+		} else {
+			showLoadError(this);
+			ToastHelper.showToastInBottom(this, response.respCodeMsg);
+		}
 	}
 	
 	

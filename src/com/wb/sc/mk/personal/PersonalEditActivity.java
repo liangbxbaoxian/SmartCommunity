@@ -77,7 +77,7 @@ public class PersonalEditActivity extends BaseHeaderActivity implements OnClickL
 		} else {
 			JSONObject obj;
 			try {
-				if ("mail".equals(title)) {
+				if ("修改邮箱地址".equals(title)) {
 					if (com.wb.sc.util.Utils.isEmail(content)) {
 						obj = new JSONObject(jsonContent);
 						obj.putOpt(keyword, content);
