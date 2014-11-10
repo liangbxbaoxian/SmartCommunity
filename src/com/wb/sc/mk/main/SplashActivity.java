@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
@@ -71,7 +72,7 @@ public class SplashActivity extends BaseActivity {
 	private void goToHome () {
 		new Handler().postDelayed(new Runnable() {
 			public void run() {
-				Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+				Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
 				startActivity(intent);
 				SplashActivity.this.finish();
 			}
@@ -162,6 +163,7 @@ public class SplashActivity extends BaseActivity {
 	} 
 
 	private void addShortcut(){  
+
 		Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");  
 
 		//快捷方式的名称  
@@ -176,6 +178,6 @@ public class SplashActivity extends BaseActivity {
 		shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconRes);  
 
 		sendBroadcast(shortcut);  
-	} 
+	}
 
 }
