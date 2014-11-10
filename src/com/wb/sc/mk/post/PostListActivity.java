@@ -221,7 +221,12 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
 		params.add(ParamsUtil.getReqParam("", 2));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
-		params.add(ParamsUtil.getReqParam(mPostType.datas.get(currentTypePos).id, 8));
+		String id = "";
+		if (mPostType != null && mPostType.datas != null && currentTypePos < mPostType.datas.size()) {
+			id = mPostType.datas.get(currentTypePos).id;
+		}
+		
+		params.add(ParamsUtil.getReqParam(id, 8));
 		params.add(ParamsUtil.getReqParam("01", 2));
 		params.add(ParamsUtil.getReqIntParam(mPage.pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(mPage.pageSize, 2));

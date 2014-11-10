@@ -80,9 +80,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		forgetPasswordTv.setOnClickListener(this);
 		
 		userphoneEt = (EditText) findViewById(R.id.userPhone);
-		userphoneEt.setText("18657436598");
+//		userphoneEt.setText("18657436598");
 		passwordEt = (EditText) findViewById(R.id.password);
-		passwordEt.setText("123456");
+//		passwordEt.setText("123456");
 		
 		savePwdCb = (CheckBox) findViewById(R.id.save_password);
 		

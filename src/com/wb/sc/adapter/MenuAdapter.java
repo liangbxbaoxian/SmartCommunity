@@ -99,8 +99,16 @@ public class MenuAdapter extends BaseAdapter {
 			case 0:
 			case 1:
 			case 2:{
-				Intent intent = new Intent(context, list.get(position).menuClass);
-				context.startActivity(intent);
+				if (position == 2) {
+					if(ToastLoginDialog.checkLogin(context)) {
+						Intent intent = new Intent(context, list.get(position).menuClass);
+						context.startActivity(intent);
+					}
+				} else {
+					Intent intent = new Intent(context, list.get(position).menuClass);
+					context.startActivity(intent);
+				}
+	
 			}break;
 			
 			case 3:
