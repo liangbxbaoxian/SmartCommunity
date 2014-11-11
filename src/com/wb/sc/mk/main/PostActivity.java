@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.personal.MyPostActivity;
 
 public class PostActivity extends BaseHeaderActivity {
@@ -50,8 +51,10 @@ public class PostActivity extends BaseHeaderActivity {
 			@Override
 			public void onClick(View v) {
 				//跳转至我的帖子
-				Intent intent = new Intent(PostActivity.this, MyPostActivity.class);
-				startActivity(intent);
+				if(ToastLoginDialog.checkLogin(PostActivity.this)) {
+					Intent intent = new Intent(PostActivity.this, MyPostActivity.class);
+					startActivity(intent);
+				}
 			}
 		});
 	}

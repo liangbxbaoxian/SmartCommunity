@@ -21,6 +21,7 @@ import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.BaseBean;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.task.BaseRequest;
 import com.wb.sc.util.ParamsUtil;
 
@@ -81,7 +82,9 @@ public class PostHouseTradeActivity extends BaseHeaderActivity implements Listen
 		
     	switch(v.getId()) {
     	case R.id.submit:
-    		submit();
+    		if(ToastLoginDialog.checkLogin(this)) {
+    			submit();
+    		}
     		break;
     	}
     }

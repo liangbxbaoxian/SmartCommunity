@@ -38,6 +38,7 @@ import com.wb.sc.bean.PostType;
 import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.main.PostActivity;
 import com.wb.sc.task.PostListRequest;
 import com.wb.sc.task.PostTypeRequest;

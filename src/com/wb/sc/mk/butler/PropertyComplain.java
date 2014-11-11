@@ -27,6 +27,7 @@ import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.PComplain;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.personal.MyComplaintActivity;
 import com.wb.sc.task.PComplainRequest;
 import com.wb.sc.util.ParamsUtil;
@@ -96,12 +97,16 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 		
 		switch(v.getId()) {
 		case R.id.my_complain:
-			Intent intent = new Intent(this, MyComplaintActivity.class);
-			startActivity(intent);
+			if(ToastLoginDialog.checkLogin(this)) {
+				Intent intent = new Intent(this, MyComplaintActivity.class);
+				startActivity(intent);
+			}
 			break;
 			
 		case R.id.submit:
-			submit();
+			if(ToastLoginDialog.checkLogin(this)) {
+				submit();
+			}
 			break;
 		}
 	}

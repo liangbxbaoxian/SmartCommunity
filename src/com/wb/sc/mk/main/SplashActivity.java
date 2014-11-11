@@ -65,8 +65,6 @@ public class SplashActivity extends BaseActivity {
 		} else {
 			goToHome();
 		}
-		
-
 	}
 
 	private void goToHome () {

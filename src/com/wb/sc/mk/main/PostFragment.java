@@ -28,6 +28,7 @@ import com.wb.sc.bean.Post;
 import com.wb.sc.bean.PostType;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.task.PostRequest;
 import com.wb.sc.task.PostTypeRequest;
 import com.wb.sc.util.ParamsUtil;
@@ -102,7 +103,9 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 		super.onClick(v);
 		switch(v.getId()) {			
 		case R.id.submit:
-			submit();
+			if(ToastLoginDialog.checkLogin(getActivity())) {
+				submit();
+			}
 			break;
 		}
     }

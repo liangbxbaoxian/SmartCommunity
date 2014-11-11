@@ -125,8 +125,8 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		setUmeng();
 		
 //		requestAdv(getAdvRequestParams(), mAdvListener, this);
-//		requestComNotice(getComNoticeRequestParams(), mComNoticeListener, this);
-		requestPhoneList(getPhoneListRequestParams(), mPhoneListListener, this);
+		requestComNotice(getComNoticeRequestParams(), mComNoticeListener, this);
+//		requestPhoneList(getPhoneListRequestParams(), mPhoneListListener, this);
 	}
 	
 	@Override
@@ -539,6 +539,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		public void onResponse(ComNotice response) {			
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mComNotice = response;
+				
 			} else {
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}

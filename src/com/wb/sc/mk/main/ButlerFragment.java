@@ -21,6 +21,7 @@ import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
 import com.wb.sc.adapter.CategoryAdapter.ItemClickListener;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.butler.HouseTradeListActivity;
 import com.wb.sc.mk.butler.PostHouseTradeActivity;
 import com.wb.sc.mk.butler.PropertyBillActivity;
@@ -120,9 +121,10 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 		}break;
 		
 		case 3:{
-			
-			Intent intent = new Intent(getActivity(), PropertyBillActivity.class);
-			startActivity(intent);
+			if(ToastLoginDialog.checkLogin(getActivity())) {
+				Intent intent = new Intent(getActivity(), PropertyBillActivity.class);
+				startActivity(intent);
+			}
 //			
 //			Intent intent = new Intent(getActivity(), HouseTradeListActivity.class);
 //			startActivity(intent);
