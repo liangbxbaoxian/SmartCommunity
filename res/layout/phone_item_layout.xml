@@ -3,7 +3,7 @@
     android:layout_width="180dp"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="@drawable/layout_selector"
+    android:background="@drawable/phone_layout_selector"
     android:paddingTop="21dp"
     android:paddingLeft="16dp">
     
