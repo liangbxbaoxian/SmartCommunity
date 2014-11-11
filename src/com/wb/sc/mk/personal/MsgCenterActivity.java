@@ -67,7 +67,7 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_msg_center);
+		setContentView(R.layout.common_header_layout, R.layout.activity_msg_center);
 		
 		getIntentData();
 		initHeader(getResources().getString(R.string.ac_msg_center));

@@ -5,9 +5,6 @@
     android:background="#ebeced"
     android:orientation="vertical" >
     
-    <include layout="@layout/common_header_layout" >
-    </include>
-
     <Spinner
         android:id="@+id/type"
         android:layout_width="match_parent"

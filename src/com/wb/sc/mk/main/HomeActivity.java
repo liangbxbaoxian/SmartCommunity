@@ -20,6 +20,7 @@ import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
@@ -43,6 +44,7 @@ import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.LeftMenuAdapter;
 import com.wb.sc.adapter.MenuAdapter;
+import com.wb.sc.adapter.NoticeAdapter;
 import com.wb.sc.adapter.PhoneMenuAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Adv;
@@ -73,7 +75,10 @@ import com.wb.sc.widget.CustomDialog.DialogFinish;
  */
 
 public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMenuAdapter.MenuListener{
-
+	
+	
+	//公告自动播放的时间间隔
+	public static final int NOTICE_AUTO_MOVE_TIME = 1 * 3 * 1000;
 	
 	//标题栏相关
 	private View phoneV;
@@ -94,10 +99,13 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	private PageInfo advPgIf = new PageInfo();
 	
 	//社区公告
+	private ViewPager noticeVp;
+	private NoticeAdapter noticeAdapter;
 	private ComNoticeRequest mComNoticeRequest;
 	private ComNotice mComNotice;
 	private ComNoticeListener mComNoticeListener = new ComNoticeListener();
 	private PageInfo noticePgIf = new PageInfo();
+	private NoticeTimeCount noticeTimeCount;
 	
 	//常用电话
 	private PhoneListRequest mPhoneListRequest;
@@ -124,9 +132,11 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		initView();
 		setUmeng();
 		
-//		requestAdv(getAdvRequestParams(), mAdvListener, this);
+		requestAdv(getAdvRequestParams(), mAdvListener, this);
 		requestComNotice(getComNoticeRequestParams(), mComNoticeListener, this);
-//		requestPhoneList(getPhoneListRequestParams(), mPhoneListListener, this);
+		requestPhoneList(getPhoneListRequestParams(), mPhoneListListener, this);
+		
+		noticeTimeCount = new NoticeTimeCount(NOTICE_AUTO_MOVE_TIME, NOTICE_AUTO_MOVE_TIME);
 	}
 	
 	@Override
@@ -234,22 +244,6 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	            mActivePosition = inState.getInt(STATE_ACTIVE_POSITION);
 	        }
 	        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.BEHIND, Position.START, MenuDrawer.MENU_DRAG_CONTENT);
-
-//	        items = new ArrayList<Object>();
-//	        items.add(new Category("常用电话"));
-	        items.add(new Item("物业服务中心", "0591-12345678"));
-	        items.add(new Item("夜间报修电话", "0591-12345678"));
-	        items.add(new Item("洪山派出所", "0591-12345678"));
-	        items.add(new Item("Item 4", "0591-12345678"));
-//	        items.add(new Category("Cat 2"));
-	        items.add(new Item("Item 5", "0591-12345678"));
-	        items.add(new Item("Item 6", "0591-12345678"));
-//	        items.add(new Category("Cat 3"));
-	        items.add(new Item("Item 7", "0591-12345678"));
-	        items.add(new Item("Item 8", "0591-12345678"));
-//	        items.add(new Category("Cat 4"));
-	        items.add(new Item("Item 9", "0591-12345678"));
-	        items.add(new Item("Item 10", "0591-12345678"));
 	        
 	        View menuView = getLayoutInflater().inflate(R.layout.phone_list_layout, null);
 	        mList = (ListView) menuView.findViewById(R.id.phone_list);
@@ -257,8 +251,6 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	        mAdapter = new PhoneMenuAdapter(this, items);
 	        mAdapter.setListener(this);
 	        mAdapter.setActivePosition(mActivePosition);
-
-	        mList.setAdapter(mAdapter);
 	        mList.setOnItemClickListener(mItemClickListener);
 
 	        mMenuDrawer.setMenuView(menuView);
@@ -343,6 +335,8 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 				changeCommunity(arg0);
 			}
 		});
+		
+		noticeVp = (ViewPager) findViewById(R.id.notice_pager);
 	}
 	
 	private void initMenu() {
@@ -539,7 +533,9 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		public void onResponse(ComNotice response) {			
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mComNotice = response;
-				
+				noticeAdapter = new NoticeAdapter(mActivity, mComNotice);
+				noticeVp.setAdapter(noticeAdapter);
+				noticeTimeCount.start();
 			} else {
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}
@@ -601,6 +597,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 					for(com.wb.sc.bean.PhoneList.Item item : response.datas) {
 						items.add(new Item(item.remarks, item.number));
 					}
+					HomeActivity.this.items = items;
 					mAdapter = new PhoneMenuAdapter(mActivity, items);
 					mList.setAdapter(mAdapter);
 				}
@@ -618,5 +615,34 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	public void changeCommunity(View v) {
 		Intent intent = new Intent(HomeActivity.this, SetCommunityActivity.class);
 		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
+	}
+	
+	/**
+	 * 通知的时间
+	 * @author Administrator
+	 *
+	 */
+	class NoticeTimeCount extends CountDownTimer {
+
+		public NoticeTimeCount(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+		}
+		
+		@Override
+		public void onFinish() {
+			int currentItem = noticeVp.getCurrentItem();
+			if(currentItem < noticeVp.getChildCount() - 1) {
+				currentItem++;
+			} else {
+				currentItem = 0;
+			}
+			noticeTimeCount.cancel();
+			noticeTimeCount.start();
+		}
+		
+		@Override
+		public void onTick(long millisUntilFinished) {
+			
+		}		
 	}
 }

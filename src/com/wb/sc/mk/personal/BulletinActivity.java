@@ -2,6 +2,7 @@ package com.wb.sc.mk.personal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -20,6 +21,11 @@ public class BulletinActivity extends BaseHeaderActivity implements OnClickListe
 	private TextView notifyShortTime;
 	
 	private MsgCenter.MsgItem item;
+	
+	private String title;
+	private String content;
+	private String sourceName;
+	private String time;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +51,14 @@ public class BulletinActivity extends BaseHeaderActivity implements OnClickListe
 	@Override
 	public void getIntentData() {
 		String msg = getIntent().getStringExtra("msg");
-		item = new Gson().fromJson(msg, MsgCenter.MsgItem.class);
+		if(!TextUtils.isEmpty(msg)) {
+			item = new Gson().fromJson(msg, MsgCenter.MsgItem.class);
+		} else {
+			title = getIntent().getStringExtra("title");
+			content = getIntent().getStringExtra("content");
+			sourceName = getIntent().getStringExtra("name");
+			time = getIntent().getStringExtra("time");
+		}
 	}
 
 	@Override
@@ -61,7 +74,13 @@ public class BulletinActivity extends BaseHeaderActivity implements OnClickListe
 			notifier.setText(item.notifier);
 			notifyTime.setText(item.notifyTime);
 			notifyShortTime.setText(item.notifyTime);
+		} else {
+			bulletinTitle.setText(title);
+			bulletinContent.setText(content);
+			notifier.setText(sourceName);
+			notifyTime.setText(time);
 		}
+		
 	}
 	
 	@Override

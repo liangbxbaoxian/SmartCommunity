@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@color/white">
 
     <com.common.widget.CompatViewPagerScrollView
         android:layout_width="match_parent"
@@ -54,12 +55,11 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:onClick="changeCommunity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:onClick="changeCommunity"
                     android:text="融汇江山>"
-                    
                     android:textColor="@color/title_text_color"
                     android:textSize="@dimen/title_bar_text_size" />
             </RelativeLayout>
@@ -77,7 +77,7 @@
                     android:id="@+id/menu"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="204dp"
+                    android:layout_marginTop="190dp"
                     android:horizontalSpacing="@dimen/normal_margin"
                     android:listSelector="@color/transparent"
                     android:numColumns="3"
@@ -112,7 +112,12 @@
                     app:strokeWidth="0dp" />
             </RelativeLayout>
 
-            
+            <android.support.v4.view.ViewPager
+                android:id="@+id/notice_pager"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_height="50dp" />
         </LinearLayout>
     </com.common.widget.CompatViewPagerScrollView>
 
