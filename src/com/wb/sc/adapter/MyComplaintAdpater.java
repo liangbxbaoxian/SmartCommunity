@@ -77,7 +77,7 @@ public class MyComplaintAdpater extends BaseAdapter {
 		}else{
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
-		SentHome sentHome = (SentHome) mList.get(position);
+//		SentHome sentHome = (SentHome) mList.get(position);
 		
 		if (isStateChanged) {
 			viewHolder.state.setText("已处理");

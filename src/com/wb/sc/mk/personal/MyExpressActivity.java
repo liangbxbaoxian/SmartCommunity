@@ -277,8 +277,8 @@ ErrorListener, ReloadListener{
 		params.add(ParamsUtil.getReqParam("X01_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00", 2));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().phone, 15));
-		params.add(ParamsUtil.getReqParam(pageNo + "", 3));
-		params.add(ParamsUtil.getReqParam(pageSize + "", 2));
+		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
 		params.add(ParamsUtil.getReqParam("12345678900987654321123456789009", 20));
 		
 		return params;
