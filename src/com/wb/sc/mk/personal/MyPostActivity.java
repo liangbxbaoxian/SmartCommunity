@@ -298,7 +298,14 @@ ErrorListener, ReloadListener{
 			if (!response.hasNextPage) {
 				mPullToRefreshListView.setMode(Mode.DISABLED);
 			}
-			showContent();
+			
+			if(response.totalNum == 0) {  //显示空
+			    showEmpty();
+			    return;
+			 } else {
+				 showContent();
+			 }
+			
 		} else {
 			showLoadError(this);
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);

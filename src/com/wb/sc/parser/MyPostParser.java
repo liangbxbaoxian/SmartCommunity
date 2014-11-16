@@ -18,17 +18,20 @@ public class MyPostParser {
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
 		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);
 		dataBean.datas = new ArrayList<MyPost.MyPostItem>();
-		for(String itemStr : itemsStr) {
-			String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
-			MyPostItem item =  dataBean. new MyPostItem();
-			item.postId = values[0];
-			item.postTitle = values[1];
-			item.postType = values[2];
-			item.postSupportNum = values[3];
-			item.postTime = values[4];
-			item.postMaster = values[5];
-			item.postName = values[6];
-			dataBean.datas.add(item);
+		if (dataBean.totalNum > 0) {
+			for(String itemStr : itemsStr) {
+				String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
+				MyPostItem item =  dataBean. new MyPostItem();
+				item.postId = values[0];
+				item.postTitle = values[1];
+				item.postType = values[2];
+				item.postSupportNum = values[3];
+				item.postTime = values[4];
+				item.postMaster = values[5];
+				item.postName = values[6];
+				dataBean.datas.add(item);
+			}
 		}
+	
 	}
 }

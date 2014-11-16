@@ -19,5 +19,7 @@ public class MyExpress extends BaseBean {
 	    	public String courierName;    // 快递员名字
 	    	public String courierTel;     // 快递员电话
 	    	public String takeUserTel;               // 取件用户电话
+	    	public String saveTime;         // 存件时间
+	    	public String takeTime;       //取件时间|
 	    }
 }

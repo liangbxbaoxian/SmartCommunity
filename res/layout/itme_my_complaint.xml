@@ -48,7 +48,7 @@
 
                     <TextView
                         android:layout_marginLeft="5dp"
-                        android:id="@+id/district_name"
+                        android:id="@+id/content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="融汇江山5号楼303室投诉" />
@@ -134,6 +134,7 @@
                     android:textColor="@color/red" />
 
                 <TextView
+                    android:id="@+id/hanle_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"

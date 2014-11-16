@@ -32,6 +32,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MyComplaintAdpater;
+import com.wb.sc.adapter.MyRepairAdpater;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.MyRepair;
 import com.wb.sc.bean.MyRepair.MyRepairItem;
@@ -47,7 +48,7 @@ public class MyRepairActivity extends BaseActivity implements OnMenuItemClickLis
 ErrorListener, ReloadListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
-	private MyComplaintAdpater mAdpter;
+	private MyRepairAdpater mAdpter;
 	
 	private String mKeyword;
 	private String sId;
@@ -65,6 +66,8 @@ ErrorListener, ReloadListener{
 	
 	private View personalV;
 	private View publicV;
+	
+	private int postion = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +122,8 @@ ErrorListener, ReloadListener{
 		
 		
 		initData();
-		mAdpter = new MyComplaintAdpater(MyRepairActivity.this, list);
+		mAdpter = new MyRepairAdpater(MyRepairActivity.this, list);
+		mAdpter.setRepairType(0);
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
 		
@@ -137,12 +141,10 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				if (arg2 == 1) {
-					mAdpter.stateFilter(true);
-				} else {
-					mAdpter.stateFilter(false);
+				if (postion != arg2) {
+					mAdpter.setStatue(arg2);
 				}
-				mAdpter.notifyDataSetChanged();
+				postion = arg2;
 			}
 
 			@Override
@@ -252,12 +254,14 @@ ErrorListener, ReloadListener{
 		switch(v.getId()) {
 		case R.id.personal_repairs:
 //			contentVp.setCurrentItem(0);
+			mAdpter.setRepairType(0);
 			personalV.setSelected(true);
 			publicV.setSelected(false);
 			break;
 			
 		case R.id.public_repairs:
 //			contentVp.setCurrentItem(1);
+			mAdpter.setRepairType(1);
 			personalV.setSelected(false);
 			publicV.setSelected(true);
 			break;					
@@ -289,7 +293,8 @@ ErrorListener, ReloadListener{
 
 			// Call onRefreshComplete when the list has been refreshed.
 			mPullToRefreshListView.onRefreshComplete();
-			mAdpter.notifyDataSetChanged();
+//			mAdpter.notifyDataSetChanged();
+			mAdpter.setStatue(postion);
 			if (!response.hasNextPage) {
 				mPullToRefreshListView.setMode(Mode.DISABLED);
 			}

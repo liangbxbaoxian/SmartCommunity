@@ -20,7 +20,9 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
+import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.config.NetConfig;
 import com.wb.sc.mk.main.SentHomeActivity;
 
 public class ImageAdapter extends BaseAdapter {
@@ -83,6 +85,11 @@ public class ImageAdapter extends BaseAdapter {
 				return true;
 			}
 		});
+		
+		 if(categoryTable.getCategorylogo() != null && !categoryTable.getCategorylogo().equals("")) {
+			 viewholder.img_async.setImageUrl(NetConfig.getPictureUrl(categoryTable.getCategorylogo()),
+			     SCApp.getInstance().getImageLoader());
+	  }  
 		viewholder.img_async.setOnClickListener(new OnClickListener() {
 			
 			@Override
