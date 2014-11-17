@@ -18,20 +18,25 @@ public class MyExpressParser {
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
 		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);
 		dataBean.datas = new ArrayList<MyExpress.ExpressItem>();
-		for(String itemStr : itemsStr) {
-			String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
-			ExpressItem item =  dataBean. new ExpressItem();
-			item.id = values[0];
-			item.desc = values[1];
-			item.cabinetId = values[2];
-			item.cabinetNum = values[3];
-			item.trackingNum = values[4];
-			item.takeNum = values[5];
-			item.expressCompany = values[6];
-			item.courierName = values[7];
-			item.courierTel = values[8];
-			item.takeUserTel = values[9];
-			dataBean.datas.add(item);
+		if (dataBean.totalNum > 0) {
+			for(String itemStr : itemsStr) {
+				String[] values = itemStr.split(",");
+				ExpressItem item =  dataBean. new ExpressItem();
+				item.id = values[0];
+				item.desc = values[1];
+				item.cabinetId = values[2];
+				item.cabinetNum = values[3];
+				item.trackingNum = values[4];
+				item.takeNum = values[5];
+				item.expressCompany = values[6];
+				item.courierName = values[7];
+				item.courierTel = values[8];
+				item.takeUserTel = values[9];
+				item.saveTime = values[10];
+				item.takeTime = values[11];
+				dataBean.datas.add(item);
+			}
 		}
+	
 	}
 }

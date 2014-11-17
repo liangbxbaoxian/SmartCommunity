@@ -21,25 +21,25 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
-import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
-import com.wb.sc.bean.SentHome;
-import com.wb.sc.config.NetConfig;
+import com.wb.sc.bean.MyRepair.MyRepairItem;
 
 public class MyComplaintAdpater extends BaseAdapter {
 
 	private Context mContext;
-	private List<?> mList;
-	private boolean isStateChanged;
+	private List<MyRepairItem> mList;
+	private List<MyRepairItem> mfilter = new ArrayList<MyRepairItem>();
+	private int statue;
 	
-	public MyComplaintAdpater(Context mContext, List<?> list ) {
+	public MyComplaintAdpater(Context mContext, List<MyRepairItem> list ) {
 		this.mContext = mContext;
 		this.mList = list;
+		this.mfilter.addAll(list);
 	}
 
 	@Override
 	public int getCount() {
-		return mList.size();
+		return mfilter.size();
 	}
 
 	@Override
@@ -54,20 +54,25 @@ public class MyComplaintAdpater extends BaseAdapter {
 		return 0;
 	}
 	
-	public void stateFilter(boolean isStateChanged) {
-		this.isStateChanged = isStateChanged;
+	@Override
+	public void notifyDataSetChanged() {
+		setStatue(statue);
+		super.notifyDataSetChanged();
 	}
 
 	@Override
 	public View getView(int position, View arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder;
+		MyRepairItem repair = (MyRepairItem) mList.get(position);
 		if(arg1 == null){
 			viewHolder = new ViewHolder();
 		    arg1 = LayoutInflater.from(mContext).inflate(R.layout.itme_my_complaint, null);
 		    viewHolder.gridView = (GridView) arg1.findViewById(R.id.yipay_server);
 		    viewHolder.state = (Button) arg1.findViewById(R.id.state);
+		    viewHolder.hanle_time = (TextView) arg1.findViewById(R.id.hanle_time);
 		    viewHolder.finish_time = (TextView) arg1.findViewById(R.id.finish_time);
+		    viewHolder.content = (TextView) arg1.findViewById(R.id.content);
 		    viewHolder.progress = (TextView) arg1.findViewById(R.id.tip_progress);
 //		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
 //			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
@@ -79,23 +84,30 @@ public class MyComplaintAdpater extends BaseAdapter {
 		}
 //		SentHome sentHome = (SentHome) mList.get(position);
 		
-		if (isStateChanged) {
-			viewHolder.state.setText("已处理");
-			viewHolder.finish_time.setText("2014-9-19  18:00");
+		viewHolder.content.setText(repair.repairTitle);
+		viewHolder.state.setText(repair.repairStatusName);
+		viewHolder.hanle_time.setText(repair.repairSubmitTime);
+		
+		if ("01".equals(repair.repairStatus)) {
+			viewHolder.finish_time.setText("");
 			viewHolder.state.setBackgroundResource(R.drawable.chuli);
 			viewHolder.progress.setVisibility(View.GONE);
-		} else {
-			viewHolder.state.setText("已受理");
-			viewHolder.finish_time.setText("");
+		} else if ("02".equals(repair.repairStatus)) {
+			viewHolder.finish_time.setText(repair.repairSubmitTime);
 			viewHolder.state.setBackgroundResource(R.drawable.shouli);
+			viewHolder.progress.setVisibility(View.VISIBLE);
+		} else {
+			viewHolder.finish_time.setText(repair.repairEndTime);
+			viewHolder.state.setBackgroundResource(R.drawable.chuli);
 			viewHolder.progress.setVisibility(View.VISIBLE);
 		}
 		
 		List<CategoryTable> list = new ArrayList<CategoryTable>();
 		int resId [] = {R.drawable.test_my_complaint_one, R.drawable.test_my_complaint_two};
-		for (int i = 0; i < resId.length; i++) {
+		for (int i = 0; i < repair.repairPhoto.length; i++) {
 			CategoryTable categroy = new CategoryTable();
-			categroy.setId(resId[i]);
+//			categroy.setId(resId[i]);
+			categroy.setCategoryname(repair.repairPhoto[i]);
 			list.add(categroy);
 		}
 		ImageAdapter adapter = new ImageAdapter(mContext, list);
@@ -130,7 +142,9 @@ public class MyComplaintAdpater extends BaseAdapter {
 		public GridView gridView;
 		public Button state;
 		public TextView finish_time;
+		public TextView hanle_time;
 		public TextView progress;
+		public TextView content;
 		
 	}
 	
@@ -164,6 +178,24 @@ public class MyComplaintAdpater extends BaseAdapter {
 	private void callPhone(String phoneNum) {
 		Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));  
 		mContext.startActivity(intent);  
+	}
+
+	public int getStatue() {
+		return statue;
+	}
+
+	public void setStatue(int statue) {
+		this.statue = statue;
+		mfilter.clear();
+		if (statue >= 1) {
+			for (MyRepairItem item : mList) {
+				if ((statue + "").equals(item.repairStatus)) {
+					mfilter.add(item);
+				}
+			}
+		} else {
+			mfilter.addAll(mList);
+		}
 	}
 
 }

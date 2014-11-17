@@ -25,10 +25,13 @@ public class MyRepairParser {
 				item.repairId = values[0];
 				item.repairTitle = values[1];
 				item.repairStatus = values[2];
-				item.repairSubmitTime = values[3];
-				item.repairEndTime = values[4];
-				item.repairMaster = values[5];
-				item.repairPhoto = values[6];
+				item.repairStatusName = values[3];
+				item.repairSubmitTime = values[4];
+				item.repairEndTime = values[5];
+				item.repairMaster = values[6];
+				if (7 < values.length) {
+					item.repairPhoto = values[7].split("#");
+				}
 				dataBean.datas.add(item);
 			}
 		}

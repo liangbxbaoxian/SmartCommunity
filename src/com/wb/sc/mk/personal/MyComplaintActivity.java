@@ -64,6 +64,8 @@ ErrorListener, ReloadListener{
 	
 	private MyRepairRequest MmyRepairRequest;
 	
+	private int postion = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -171,12 +173,11 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				if (arg2 == 1) {
-					mAdpter.stateFilter(true);
-				} else {
-					mAdpter.stateFilter(false);
+				if (postion != arg2) {
+					mAdpter.setStatue(arg2);
+					mAdpter.notifyDataSetChanged();
 				}
-				mAdpter.notifyDataSetChanged();
+				postion = arg2;
 			}
 
 			@Override

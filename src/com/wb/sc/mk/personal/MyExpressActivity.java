@@ -28,6 +28,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MyComplaintAdpater;
+import com.wb.sc.adapter.MyExpressAdpater;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.MyExpress;
 import com.wb.sc.bean.SentHome;
@@ -40,7 +41,7 @@ public class MyExpressActivity extends BaseHeaderActivity implements OnMenuItemC
 ErrorListener, ReloadListener{
 
 	private PullToRefreshListView mPullToRefreshListView;
-	private MyComplaintAdpater mAdpter;
+	private MyExpressAdpater mAdpter;
 	
 	private MyExpressRequest mMyExpressRequest;
 
@@ -122,7 +123,7 @@ ErrorListener, ReloadListener{
 
 
 		//		initData();
-		mAdpter = new MyComplaintAdpater(MyExpressActivity.this, list);  //效果圖未給有数据的显示，so  adapter 还没做好显示；
+		mAdpter = new MyExpressAdpater(MyExpressActivity.this, list);  //效果圖未給有数据的显示，so  adapter 还没做好显示；
 		mPullToRefreshListView.setDividerDrawable(null);
 		mPullToRefreshListView.setAdapter(mAdpter);
 
@@ -312,6 +313,11 @@ ErrorListener, ReloadListener{
 			} else if ("GA22".equals(reqType)) {
 				has_next_history_express = response.hasNextPage;
 				history_express_list.addAll(response.datas);
+			}
+			
+			if(response.totalNum == 0) {  //显示空
+			    showEmpty();
+			    return;
 			}
 			
 //			list.clear();  list.addAll and then notification

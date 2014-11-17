@@ -89,6 +89,7 @@
         <item>03</item>        
     </string-array>    
      <string-array name="my_complaint">
+        <item>全部</item>
         <item>已受理</item>
         <item>已处理</item>
     </string-array>

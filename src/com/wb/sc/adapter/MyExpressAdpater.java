@@ -23,6 +23,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.bean.MyExpress.ExpressItem;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.config.NetConfig;
 
@@ -71,6 +72,8 @@ public class MyExpressAdpater extends BaseAdapter {
 		    viewHolder.trackingNum = (TextView) arg1.findViewById(R.id.trackingNum);
 		    viewHolder.courierName = (TextView) arg1.findViewById(R.id.courierName);
 		    viewHolder.takeNum = (TextView) arg1.findViewById(R.id.takeNum);
+		    viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
+		    
 		    
 //		    viewHolder.gridView = (GridView) arg1.findViewById(R.id.yipay_server);
 //		    viewHolder.state = (Button) arg1.findViewById(R.id.state);
@@ -84,29 +87,34 @@ public class MyExpressAdpater extends BaseAdapter {
 		}else{
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
-		SentHome sentHome = (SentHome) mList.get(position);
+		ExpressItem item = (ExpressItem) mList.get(position);
+	    viewHolder.cabinetNum.setText(item.cabinetNum);
+	    viewHolder.expressCompany.setText(item.expressCompany);
+	    viewHolder.trackingNum.setText(item.trackingNum);
+	    viewHolder.courierName.setText(item.courierName);
+	    viewHolder.takeNum.setText(item.takeNum);
 		
-		if (isStateChanged) {
-			viewHolder.state.setText("已处理");
-			viewHolder.finish_time.setText("2014-9-19  18:00");
-			viewHolder.state.setBackgroundResource(R.drawable.chuli);
-//			viewHolder.progress.setVisibility(View.GONE);
-		} else {
-			viewHolder.state.setText("已受理");
-			viewHolder.finish_time.setText("");
-			viewHolder.state.setBackgroundResource(R.drawable.shouli);
-//			viewHolder.progress.setVisibility(View.VISIBLE);
-		}
+//		if (isStateChanged) {
+//			viewHolder.state.setText("已处理");
+//			viewHolder.finish_time.setText("2014-9-19  18:00");
+//			viewHolder.state.setBackgroundResource(R.drawable.chuli);
+////			viewHolder.progress.setVisibility(View.GONE);
+//		} else {
+//			viewHolder.state.setText("已受理");
+//			viewHolder.finish_time.setText("");
+//			viewHolder.state.setBackgroundResource(R.drawable.shouli);
+////			viewHolder.progress.setVisibility(View.VISIBLE);
+//		}
 		
-		List<CategoryTable> list = new ArrayList<CategoryTable>();
-		int resId [] = {R.drawable.test_my_complaint_one, R.drawable.test_my_complaint_two};
-		for (int i = 0; i < resId.length; i++) {
-			CategoryTable categroy = new CategoryTable();
-			categroy.setId(resId[i]);
-			list.add(categroy);
-		}
-		ImageAdapter adapter = new ImageAdapter(mContext, list);
-		viewHolder.gridView.setAdapter(adapter);
+//		List<CategoryTable> list = new ArrayList<CategoryTable>();
+//		int resId [] = {R.drawable.test_my_complaint_one, R.drawable.test_my_complaint_two};
+//		for (int i = 0; i < resId.length; i++) {
+//			CategoryTable categroy = new CategoryTable();
+//			categroy.setId(resId[i]);
+//			list.add(categroy);
+//		}
+//		ImageAdapter adapter = new ImageAdapter(mContext, list);
+//		viewHolder.gridView.setAdapter(adapter);
 		
 //		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
 //		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
