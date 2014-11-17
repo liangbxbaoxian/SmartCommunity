@@ -10,7 +10,6 @@ import android.widget.EditText;
 import com.common.widget.ToastHelper;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.fb.model.Conversation;
-import com.umeng.fb.model.UserInfo;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 

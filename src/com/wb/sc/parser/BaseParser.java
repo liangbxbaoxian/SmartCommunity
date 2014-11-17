@@ -3,7 +3,6 @@ package com.wb.sc.parser;
 import android.util.Log;
 
 import com.common.format.ByteHelper;
-import com.common.format.HexStringBytes;
 import com.common.security.Base64Tools;
 import com.common.security.Des3Tools;
 import com.google.gson.Gson;

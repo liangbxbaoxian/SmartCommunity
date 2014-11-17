@@ -11,9 +11,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.phone.TelephonyHelper;
 import com.common.widget.ToastHelper;
@@ -23,7 +23,6 @@ import com.wb.sc.bean.ResetPwd;
 import com.wb.sc.bean.VerifyCode;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
-import com.wb.sc.mk.personal.RegisterActivity.VerifyCodeListener;
 import com.wb.sc.task.ResetPwdRequest;
 import com.wb.sc.task.VerifyCodeRequest;
 import com.wb.sc.util.ParamsUtil;
@@ -100,6 +99,7 @@ public class ResetPasswordActivity extends BaseHeaderActivity implements OnClick
 				ToastHelper.showToastInBottom(this, R.string.phone_empty_toast);
 				return;
 			}
+			showProcess("正在请求发送验证码，请稍候...");
 			requestGetVerifyCode(getVerifyCodeRequestParams(), new VerifyCodeListener(), this);
 			break;
 			
@@ -140,6 +140,7 @@ public class ResetPasswordActivity extends BaseHeaderActivity implements OnClick
 			return;
 		}
 		
+		showProcess("正在修改密码，请稍候...");
 		requestResetPwd(getResetPwdRequestParams(), this, this);
 	}
 	
@@ -205,6 +206,7 @@ public class ResetPasswordActivity extends BaseHeaderActivity implements OnClick
 	 */
 	@Override
 	public void onErrorResponse(VolleyError error) {	
+		dismissProcess();
 		ToastHelper.showToastInBottom(getApplicationContext(), VolleyErrorHelper.getErrorMessage(this, error));
 	}
 	
@@ -213,6 +215,7 @@ public class ResetPasswordActivity extends BaseHeaderActivity implements OnClick
 	 */
 	@Override
 	public void onResponse(ResetPwd response) {		
+		dismissProcess();
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {		
 			finish();
@@ -262,6 +265,7 @@ public class ResetPasswordActivity extends BaseHeaderActivity implements OnClick
 		 */
 		@Override
 		public void onResponse(VerifyCode response) {		
+			dismissProcess();
 			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {
 				verifyCodeTimeCount.start();

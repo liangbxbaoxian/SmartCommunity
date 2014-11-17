@@ -44,6 +44,8 @@ import com.wb.sc.util.ParamsUtil;
 public class PersonalRepairsFragment extends BasePhotoFragment implements Listener<BaseBean>, 
 	ErrorListener, PhotoUploadListener{
 	
+	private BaseActivity mActivity;
+	
 	private EditText houseInfoEt;
 	private EditText phoneEt;
 	private EditText descEt;
@@ -67,6 +69,7 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 	@Override
     public void onAttach(Activity activity) {
        super.onAttach(activity);
+       mActivity = (BaseActivity) activity;
     }
  
     @Override
@@ -170,8 +173,8 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
     		return;
     	}    	    	
     	
-    	((BaseActivity)getActivity()).showProcess("正在提交报修，请稍候...");
-    	startUploadPhot();
+    	mActivity.showProcess("正在提交报修，请稍候...");
+    	startUploadPhoto();
     }
     
     /**
@@ -230,7 +233,7 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 	 */
 	@Override
 	public void onResponse(BaseBean response) {		
-		((BaseActivity)getActivity()).dismissProcess();
+		mActivity.dismissProcess();
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			ToastHelper.showToastInBottom(getActivity(), "您的报修已提交，我们会尽快处理~");
 			getActivity().finish();
@@ -247,9 +250,7 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 		String imgsUrl = "";
 		for(int i=0; i<imgUrlList.size(); i++) {
 			imgsUrl += imgUrlList.get(i);
-			if(i < imgUrlList.size()-1) {
-				imgsUrl += "-|";
-			}
+			imgsUrl += "-|";
 		}
 		requestBase(getBaseRequestParams(imgsUrl), this, this);
 	}

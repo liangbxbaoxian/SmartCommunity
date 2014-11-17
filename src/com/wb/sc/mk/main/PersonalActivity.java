@@ -7,7 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.wb.sc.R;
-import com.wb.sc.activity.base.BaseActivity;
+import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.mk.personal.MsgCenterActivity;
 import com.wb.sc.mk.personal.MyComplaintActivity;
 import com.wb.sc.mk.personal.MyExpressActivity;
 import com.wb.sc.mk.personal.MyPostActivity;
@@ -16,17 +17,20 @@ import com.wb.sc.mk.personal.PersonalInfoActivity;
 import com.wb.sc.mk.personal.RegisterInviteActivity;
 import com.wb.sc.mk.personal.SettingActivity;
 
-public class PersonalActivity extends BaseActivity {
+public class PersonalActivity extends BaseHeaderActivity {
 	
 	private PersonalFragment personalFragment;
-		
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_menu);
+		setContentView(R.layout.common_header_layout, R.layout.activity_menu);
 		
 		getIntentData();
+		
+		initHeader(R.string.ac_personal);
 		initView();
+		
 		personalFragment = new PersonalFragment();
 		replaceFragment(personalFragment, false);
 	}
@@ -39,6 +43,18 @@ public class PersonalActivity extends BaseActivity {
 	@Override
 	public void initView() {
 		
+	}
+	
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		
+		switch(v.getId()) {
+		case R.id.common_header_home:
+			Intent intent = new Intent(this, MsgCenterActivity.class);
+			startActivity(intent);
+			break;
+		}
 	}
 	
 	@Override
@@ -60,8 +76,7 @@ public class PersonalActivity extends BaseActivity {
 			ft.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
 	public void personalInfo(View view) {

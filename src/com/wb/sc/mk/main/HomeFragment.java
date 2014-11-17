@@ -86,7 +86,6 @@ public class HomeFragment extends BaseExtraLayoutFragment implements OnClickList
 		
 		advVp = (ViewPager) view.findViewById(R.id.adv_pager);
 		advIndicator = (CirclePageIndicator) view.findViewById(R.id.adv_indicator);
-		advAdapter = new AdvAdapter(getActivity());
 		advVp.setAdapter(advAdapter);
 		advIndicator.setViewPager(advVp);
 		

@@ -20,6 +20,7 @@ import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener;
 import com.wb.sc.R;
+import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.BaseNetActivity;
 import com.wb.sc.activity.base.BasePhotoActivity.PhotoUploadListener;
 import com.wb.sc.activity.base.BasePhotoFragment;
@@ -35,7 +36,9 @@ import com.wb.sc.util.ParamsUtil;
 
 public class PostFragment extends BasePhotoFragment implements OnItemClickListener,
 	PhotoUploadListener, ErrorListener{
-		
+	
+	private BaseActivity mActivity;
+	
 	private View postBtn;
 	private Spinner typeSp;
 	private String selTypeId;
@@ -58,6 +61,7 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 	@Override
     public void onAttach(Activity activity) {
        super.onAttach(activity);
+       mActivity = (BaseActivity) activity;
     }
  
     @Override
@@ -124,7 +128,8 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
     		return;
     	}
     	
-    	startUploadPhot();
+    	mActivity.showProcess(R.string.submit_toast);
+    	startUploadPhoto();
     	selTypeId = mPostType.datas.get(typeSp.getSelectedItemPosition()).id;
     }
     
@@ -240,6 +245,7 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 		 */
 		@Override
 		public void onResponse(Post response) {		
+			mActivity.dismissProcess();
 			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mPost = response;
@@ -256,9 +262,7 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 		String imgsUrl = "";
 		for(int i=0; i<imgUrlList.size(); i++) {
 			imgsUrl += imgUrlList.get(i);
-			if(i < imgUrlList.size()-1) {
-				imgsUrl += "-|";
-			}
+			imgsUrl += "-|";
 		}
 		//发起发帖请求
 		requestPost(getPostRequestParams(imgsUrl), mPostListener, this);

@@ -260,7 +260,7 @@ public class BasePhotoFragment extends BaseExtraLayoutFragment implements OnItem
      * 
      * @描述:开始上传用户照片
      */
-    public void startUploadPhot() {
+    public void startUploadPhoto() {
     	imgUrlList.clear();
     	if(fileList.size() > 1) {
     		if(fileList.get(0) != null) {

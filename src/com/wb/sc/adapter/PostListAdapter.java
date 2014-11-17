@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -12,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.NetworkImageView.NetworkImageListener;
+import com.common.media.BitmapHelper;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.PostList;
@@ -23,7 +27,7 @@ import com.wb.sc.bean.PostList.Item;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.util.ImgUrlUtil;
 
-public class PostListAdapter extends BaseAdapter{
+public class PostListAdapter extends BaseAdapter implements NetworkImageListener{
 	
 	private Activity mActivity;
 	private PostList mPostList;
@@ -95,6 +99,7 @@ public class PostListAdapter extends BaseAdapter{
        }
        
        Item item = mPostList.datas.get(position);
+       holder.avatarIv.setNetworkImageListener(this);
        holder.avatarIv.setImageUrl(NetConfig.getPictureUrl(item.sourceAvatarUrl), 
     		   SCApp.getInstance().getImageLoader());
        holder.nameTv.setText(item.sourceName);
@@ -153,4 +158,10 @@ public class PostListAdapter extends BaseAdapter{
     	List<NetworkImageView> imgIvList;
 //    	HorizontalListView imgLv;
     }
+
+	@Override
+	public void onGetBitmapListener(ImageView imageView, Bitmap bitmap) {
+		Bitmap roundBmp = BitmapHelper.toRoundCorner(bitmap, bitmap.getHeight()/2);
+		imageView.setImageBitmap(roundBmp);	
+	}
 }

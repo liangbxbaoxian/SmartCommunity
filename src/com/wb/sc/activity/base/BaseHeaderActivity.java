@@ -2,8 +2,10 @@ package com.wb.sc.activity.base;
 
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.message.proguard.T;
 import com.wb.sc.R;
 
 public abstract class BaseHeaderActivity extends BaseActivity implements OnClickListener{
@@ -40,6 +42,14 @@ public abstract class BaseHeaderActivity extends BaseActivity implements OnClick
 		case R.id.common_header_back:
 			finish();
 			break;			
+		}
+	}
+	
+	public void setHomeIcon(int iconId, OnClickListener listener) {
+		if(headerHomeIv != null) {
+			ImageView iconIv = (ImageView)headerHomeIv.findViewById(R.id.icon);
+			iconIv.setImageResource(iconId);
+			headerHomeIv.setOnClickListener(this);
 		}
 	}
 }

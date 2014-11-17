@@ -27,4 +27,13 @@ public interface IntentExtraConfig {
 	 * 出租
 	 */
 	public static final int HOUSE_TRADE_TYPE_LEASE = 1;
+	
+	/***************************** 浏览器   **********************************************/
+	public static final String BROWSER_TITLE = "title";
+	public static final String BROWSER_URL = "url";
+	
+	/***************************** 图片浏览 ********************************************/
+	public static final String IMAGE_BROWSER_DATA = "image";	
+	public static final String IMAGE_BROWSER_DIS_TAB = "dis_tab";
+	public static final String IMAGE_BROWSER_POS = "img_pos";	
 }

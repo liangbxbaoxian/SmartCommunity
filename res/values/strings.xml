@@ -27,6 +27,8 @@
    	<string name="ac_apply">报名</string>
    	<string name="ac_post">我要发帖</string>
    	<string name="ac_house_trade_list">房屋交易</string>
+   	<string name="ac_personal">个人中心</string>
+   	<string name="ac_img_browser">图片浏览</string>
 
     <!-- 无内容时的提示 -->
     <string name="empty_toast">暂无内容哦</string>
@@ -282,6 +284,9 @@
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="about_me">关于</string>
-     <string name="update_tips">版本更新提示</string>
+    <string name="update_tips">版本更新提示</string>
+     
+    <!-- 请求提示 -->
+    <string name="submit_toast">正在提交，请稍候...</string> 
     
 </resources>

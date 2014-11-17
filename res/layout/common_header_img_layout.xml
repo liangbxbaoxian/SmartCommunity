@@ -28,24 +28,17 @@
         android:text="融汇江山>"
         android:textColor="@color/title_text_color"
         android:textSize="@dimen/title_bar_text_size" />
-	
-    <LinearLayout
-        android:id="@+id/common_header_home"
+    
+    <TextView 
+        android:id="@+id/common_header_num"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/header_btn_selector"
-        android:gravity="center"
         android:paddingLeft="@dimen/title_bar_padding"
         android:paddingRight="@dimen/title_bar_padding" 
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/bottom_fanhui" />
-    </LinearLayout>
-
+        android:text="1/10"
+        android:textColor="@color/white"
+        android:textSize="20sp"/>
+    
 </RelativeLayout>

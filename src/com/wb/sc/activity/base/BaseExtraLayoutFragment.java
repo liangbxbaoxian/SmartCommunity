@@ -156,7 +156,7 @@ public class BaseExtraLayoutFragment extends Fragment implements OnClickListener
 			homeIv.setVisibility(View.GONE);
 		}
 		
-		header_home = view.findViewById(R.id.header_home);
+		header_home = view.findViewById(R.id.common_header_home);
 	}
 	
 	public void setHomeBackground(int resId) {

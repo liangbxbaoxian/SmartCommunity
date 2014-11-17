@@ -6,22 +6,19 @@ import java.io.FileNotFoundException;
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 import net.tsz.afinal.http.AjaxParams;
-import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.common.file.FileDirUtil;
-import com.common.media.BitmapHelper;
 import com.common.media.CameraHelper;
 import com.common.security.MD5Tools;
 import com.common.widget.ToastHelper;
+import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.PhotoUpload;
 import com.wb.sc.config.AcResultCode;
@@ -29,6 +26,7 @@ import com.wb.sc.config.DebugConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.NetInterface;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.AddPhotoDialog;
 import com.wb.sc.dialog.ConfirmDialog;
 import com.wb.sc.parser.PhotoUploadParser;
 
@@ -47,6 +45,8 @@ public class BaseItemPhotoFragment extends BaseExtraLayoutFragment {
 	protected String imgUrl;
 	
 	private OnUploadCompleteListener listener;
+	
+	private AddPhotoDialog optDialog;
 	
 	private void initPhoto(View view) {
 		cameraHelper = new CameraHelper(getActivity());
@@ -129,7 +129,6 @@ public class BaseItemPhotoFragment extends BaseExtraLayoutFragment {
 		getActivity().startActivityForResult(intent, AcResultCode.REQUEST_CODE_IMAGE_CROP);
 	}
     
-//	@TargetApi(Build.VERSION_CODES.KITKAT) 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(requestCode) {
@@ -254,5 +253,32 @@ public class BaseItemPhotoFragment extends BaseExtraLayoutFragment {
 	
 	public interface OnUploadCompleteListener {
 		public void onComplete(String imgUrl, File imgFile);
+	}
+	
+	public void showOptDialog() {
+		if(optDialog == null) {
+			optDialog = new AddPhotoDialog(getActivity(), R.style.popupStyle);
+			optDialog.setListener(this);
+		}
+		
+		optDialog.hidDel();
+		optDialog.show();
+	}
+	
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		
+		switch(v.getId()) {
+		case R.id.take_picture:
+    		optDialog.dismiss();
+			pickFromCameraWhithCrop();
+    		break;
+    		
+    	case R.id.photo_album:
+    		optDialog.dismiss();
+    		pickFromAlbumWithCrop();
+    		break;
+		}
 	}
 }

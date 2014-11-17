@@ -10,9 +10,9 @@ import android.app.AlertDialog.Builder;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -42,13 +42,11 @@ import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.adapter.AdvAdapter;
-import com.wb.sc.adapter.LeftMenuAdapter;
 import com.wb.sc.adapter.MenuAdapter;
 import com.wb.sc.adapter.NoticeAdapter;
 import com.wb.sc.adapter.PhoneMenuAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Adv;
-import com.wb.sc.bean.Category;
 import com.wb.sc.bean.ComNotice;
 import com.wb.sc.bean.Item;
 import com.wb.sc.bean.Menu;
@@ -56,7 +54,6 @@ import com.wb.sc.bean.PhoneList;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.mk.personal.MsgCenterActivity;
-import com.wb.sc.mk.personal.PersonalInfoActivity;
 import com.wb.sc.mk.post.PostListActivity;
 import com.wb.sc.task.AdvRequest;
 import com.wb.sc.task.ComNoticeRequest;
@@ -95,7 +92,6 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	private AdvAdapter advAdapter;
 	private AdvRequest mAdvRequest;
 	private AdvListener mAdvListener = new AdvListener();
-	private Adv mAdv;
 	private PageInfo advPgIf = new PageInfo();
 	
 	//社区公告
@@ -321,9 +317,6 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		
 		advVp = (ViewPager) findViewById(R.id.adv_pager);
 		advIndicator = (CirclePageIndicator) findViewById(R.id.adv_indicator);
-		advAdapter = new AdvAdapter(mActivity);
-		advVp.setAdapter(advAdapter);
-		advIndicator.setViewPager(advVp);
 		
 		TextView name = (TextView) findViewById(R.id.name);
 		
@@ -331,7 +324,6 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				changeCommunity(arg0);
 			}
 		});
@@ -478,7 +470,9 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		@Override
 		public void onResponse(Adv response) {		
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
-				mAdv = response;
+				advAdapter = new AdvAdapter(mActivity, response);
+				advVp.setAdapter(advAdapter);
+				advIndicator.setViewPager(advVp);
 			} else {
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}

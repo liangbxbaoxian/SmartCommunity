@@ -3,12 +3,17 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,10 +21,13 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.NetworkImageView.NetworkImageListener;
+import com.common.media.BitmapHelper;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
 import com.common.widget.helper.PullRefreshListViewHelper;
+import com.common.widget.hzlib.HorizontalAdapterView;
 import com.common.widget.hzlib.HorizontalListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -35,11 +43,13 @@ import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Comment;
 import com.wb.sc.bean.CommentList;
 import com.wb.sc.bean.Favour;
+import com.wb.sc.bean.ImagesItem;
 import com.wb.sc.bean.PostDetail;
 import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.dialog.OptDialog;
+import com.wb.sc.mk.img.ImageBrowseActivity;
 import com.wb.sc.task.CommentListRequest;
 import com.wb.sc.task.CommentRequest;
 import com.wb.sc.task.FavourRequest;
@@ -47,7 +57,8 @@ import com.wb.sc.task.PostDetailRequest;
 import com.wb.sc.util.ParamsUtil;
 
 public class PostDetailActivity extends BaseHeaderActivity implements Listener<PostDetail>, 
-	ErrorListener, ReloadListener, OnItemClickListener{
+	ErrorListener, ReloadListener, OnItemClickListener, NetworkImageListener, 
+	com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener{
 	
 	private NetworkImageView avatarIv;
 	private TextView nameTv;
@@ -59,6 +70,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	private HorizontalListView imgLv;
 	
 	private View favBtn;
+	private EditText commentContentEt;
 	private ImageButton commentBtn;
 	
 	//帖子ID
@@ -103,8 +115,8 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		
 		//获取详情信息
 		requestPostDetail(getPostDetailRequestParams(), this, this);
-		//获取评论列表
-		requestCommentList(getCommentListRequestParams(), mCommListListener, this);
+		//获取评论列表		
+		startCommentListRequest();
 //		test();
 	}
 			
@@ -123,6 +135,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
         msgNumTv = (TextView) findViewById(R.id.msg_num);
         favNumTv = (TextView) findViewById(R.id.favourite_num);
         imgLv = (HorizontalListView) findViewById(R.id.list);
+        imgLv.setOnItemClickListener(this);
 		
 		mPullListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_list);		
 		mPullListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
@@ -131,12 +144,14 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 				//处理下拉刷新
 				mPage.pageNo = 1;
-				startCommentRequest();
+				startCommentListRequest();
 			}
 
 			@Override
 			public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 				//处理上拉加载
+				mPage.pageNo++;		
+				startCommentListRequest();
 			}
 		});
 		
@@ -148,7 +163,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE && mCommentList.hasNextPage) {
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPage.pageNo++;		
-					startCommentRequest();
+					startCommentListRequest();
 				}
 			}
 		});
@@ -160,7 +175,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		mPullListView.setRefreshing(false);
 		
 		//设置拉动模式
-		mPullListView.setMode(Mode.PULL_FROM_START);
+		mPullListView.setMode(Mode.PULL_FROM_END);
 		
 		mListView = mPullListView.getRefreshableView();
 		mListView.setOnItemClickListener(this);
@@ -174,7 +189,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 					//加载失败，点击重试
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPullHelper.setBottomState(loadState);		
-					startCommentRequest();
+					startCommentListRequest();
 				}
 			}
 		});
@@ -188,12 +203,21 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			}
 		});
 		
+		commentContentEt = (EditText) findViewById(R.id.comment_content);
 		commentBtn = (ImageButton) findViewById(R.id.comment);
 		commentBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				requestComment(getCommentListRequestParams(), mCommentListener, PostDetailActivity.this);
+				String content = commentContentEt.getText().toString();
+				
+				if(TextUtils.isEmpty(content)) {
+					ToastHelper.showToastInBottom(mActivity, "评论不能为空");
+					return;
+				}
+				
+				showProcess("正在发表评论...");
+				requestComment(getCommentRequestParams(content), mCommentListener, PostDetailActivity.this);
 			}
 		});
 	}
@@ -204,15 +228,15 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		if(mOptDialog == null) {
-			mOptDialog = new OptDialog(this, R.style.popupStyle);
-			mOptDialog.setOpt1Btn("回复", true);
-			mOptDialog.setOpt2Btn("复制", true);
-			mOptDialog.setOpt3Btn("", false);
-			mOptDialog.setListener(this);
-		}
-		
-		mOptDialog.show();
+//		if(mOptDialog == null) {
+//			mOptDialog = new OptDialog(this, R.style.popupStyle);
+//			mOptDialog.setOpt1Btn("回复", true);
+//			mOptDialog.setOpt2Btn("复制", true);
+//			mOptDialog.setOpt3Btn("", false);
+//			mOptDialog.setListener(this);
+//		}
+//		
+//		mOptDialog.show();
 	}
 	
 	@Override
@@ -287,6 +311,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
 			mPostDetail = response;
+			avatarIv.setNetworkImageListener(this);
 			avatarIv.setImageUrl(NetConfig.getPictureUrl(mPostDetail.sourceAvatarUrl), SCApp.getInstance().getImageLoader());
 			nameTv.setText(mPostDetail.sourceName);
 			titleTv.setText(mPostDetail.title);
@@ -321,8 +346,9 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	 * 
 	 * @描述:启动请求
 	 */
-	private void startCommentRequest() {
+	private void startCommentListRequest() {
 		//requestComment(Method.GET, "请求方法", getCommentRequestParams(), this, this);
+		requestCommentList(getCommentListRequestParams(), mCommListListener, this);
 	}
 	
 	/**
@@ -402,7 +428,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		public void onReload() {
 			mPage.pageNo = 1;		
 			showLoading();
-			startCommentRequest();
+			startCommentListRequest();
 		}
 	
 		/**
@@ -518,6 +544,11 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		
 		@Override
 		public void onResponse(Comment response) {
+			if(mPullListView.isRefreshing()) {
+				mPullListView.onRefreshComplete();
+			}
+			dismissProcess();
+			commentContentEt.setText("");
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				ToastHelper.showToastInBottom(PostDetailActivity.this, "评论成功");
 			} else {
@@ -534,5 +565,32 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		}
 		mAdapter = new CommentListAdapter(this, mCommentList);
 		mListView.setAdapter(mAdapter);
+	}
+
+	@Override
+	public void onGetBitmapListener(ImageView imageView, Bitmap bitmap) {
+		Bitmap roundBmp = BitmapHelper.toRoundCorner(bitmap, bitmap.getHeight()/2);
+		imageView.setImageBitmap(roundBmp);		
+	}
+	
+	@Override
+	public void onItemClick(HorizontalAdapterView<?> parent, View view,
+			int position, long id) {
+		ArrayList<ImagesItem> imgs = new ArrayList<ImagesItem>();
+		ImagesItem imgItem = new ImagesItem();
+		imgs.add(imgItem);
+		imgItem.name = "";		
+		imgItem.imageNum = mPostDetail.imgList.size();
+		imgItem.images = new String[imgItem.imageNum];
+		int i=0;
+		for(String imgUrl : mPostDetail.imgList) {
+			imgItem.images[i] = imgUrl;
+			i++;
+		}
+		Intent intent = new Intent(mActivity, ImageBrowseActivity.class);
+		intent.putParcelableArrayListExtra(IntentExtraConfig.IMAGE_BROWSER_DATA, imgs);
+		intent.putExtra(IntentExtraConfig.IMAGE_BROWSER_DIS_TAB, false);
+		intent.putExtra(IntentExtraConfig.IMAGE_BROWSER_POS, position);
+		startActivity(intent);
 	}
 }

@@ -66,8 +66,6 @@
             android:textSize="@dimen/title_bar_text_size" />
     </RelativeLayout> -->
     
-    <include layout="@layout/common_header_layout"/>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -93,7 +91,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center" >
 
-                    <ImageView
+                    <com.android.volley.toolbox.NetworkImageView
                         android:id="@+id/img_portrait"
                         android:layout_width="70.5dp"
                         android:layout_height="70.5dp"

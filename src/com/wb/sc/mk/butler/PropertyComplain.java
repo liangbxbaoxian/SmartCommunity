@@ -13,14 +13,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
 import com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener;
 import com.wb.sc.R;
-import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.BasePhotoActivity;
 import com.wb.sc.activity.base.BasePhotoActivity.PhotoUploadListener;
 import com.wb.sc.app.SCApp;
@@ -200,9 +199,7 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 		String imgsUrl = "";
 		for(int i=0; i<imgUrlList.size(); i++) {
 			imgsUrl += imgUrlList.get(i);
-			if(i < imgUrlList.size()-1) {
-				imgsUrl += "-|";
-			}
+			imgsUrl += "-|";
 		}
 		requestPComplain(getPComplainRequestParams(imgsUrl), this, this);
 	}

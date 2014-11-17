@@ -13,11 +13,14 @@ public class AdvParser {
 			
 		//进行数据解析处理		
 		dataBean.totalNum = ParamsUtil.getRespIntParamNext(dataBean, 4);
+		dataBean.datas = new ArrayList<Adv.Item>();
 		dataBean.hasNextPage = ParamsUtil.getNextPageFlag(dataBean);
+		if(dataBean.totalNum == 0) {
+			return;
+		}
 		int dataLength = dataBean.dataBytes.length - 9 - 1;
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
-		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);
-		dataBean.datas = new ArrayList<Adv.Item>();
+		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);		
 		for(String itemStr : itemsStr) {
 			String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
 			Item item = dataBean.new Item();

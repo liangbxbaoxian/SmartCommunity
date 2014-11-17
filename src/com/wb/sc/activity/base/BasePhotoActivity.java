@@ -13,7 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Debug;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;

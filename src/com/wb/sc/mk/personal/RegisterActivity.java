@@ -51,7 +51,6 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 	
 	//注册
 	private RegisterRequest mRegisterRequest;
-	private Register mRegister;
 		
 	private String name;
 	private String phone;
@@ -116,6 +115,7 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 				ToastHelper.showToastInBottom(this, R.string.phone_empty_toast);
 				return;
 			}
+			showProcess("正在请求发送验证码，请稍候...");
 			requestGetVerifyCode(getVerifyCodeRequestParams(), new VerifyCodeListener(), this);
 			break;
 		
@@ -157,7 +157,7 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 			return;
 		}
 		
-		showProcess("提交注册。。。");
+		showProcess("正在注册中，请稍候...");
 		requestRegister(getRegisterRequestParams(), this, this);
 	}
 	
@@ -234,7 +234,6 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 	public void onResponse(Register response) {		
 		dismissProcess();
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
-			mRegister = response;
 			ToastHelper.showToastInBottom(this, "注册成功");
 			finish();
 		} else {
@@ -281,7 +280,8 @@ public class RegisterActivity extends BaseHeaderActivity implements OnClickListe
 		 * 请求完成，处理UI更新
 		 */
 		@Override
-		public void onResponse(VerifyCode response) {		
+		public void onResponse(VerifyCode response) {	
+			dismissProcess();
 			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {
 				verifyCodeTimeCount.start();
