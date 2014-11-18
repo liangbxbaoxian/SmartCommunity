@@ -265,6 +265,7 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	public void changeWork(View view) {
 		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
 		intent.putExtra("title", "修改职业");
+		intent.putExtra("keyword", "work");
 		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
 		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
 	}
@@ -273,6 +274,7 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	public void changeMail(View view) {
 		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
 		intent.putExtra("title", "修改邮箱地址");
+		intent.putExtra("keyword", "mail");
 		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
 		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
 	}
@@ -281,6 +283,7 @@ public class PersonalInfoActivity extends BaseActivity implements Listener<Perso
 	public void changeWeixin(View view) {
 		Intent intent = new Intent(PersonalInfoActivity.this, PersonalEditActivity.class);
 		intent.putExtra("title", "修改微信账号");
+		intent.putExtra("keyword", "weixinAccount");
 		intent.putExtra("jsonContent", new  Gson().toJson(mPersonalInfo).toString());
 		startActivityForResult(intent, Constans.SET_COMMUNITY_REQUEST_CODE);
 	}

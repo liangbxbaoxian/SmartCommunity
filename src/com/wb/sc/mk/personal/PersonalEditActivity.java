@@ -84,6 +84,7 @@ public class PersonalEditActivity extends BaseHeaderActivity implements OnClickL
 						Intent intent  = new Intent(PersonalEditActivity.this, PersonalInfoActivity.class);
 						intent.putExtra("jsonContent", obj.toString());
 						setResult(Constans.SET_COMMUNITY_REQUEST_CODE, intent);
+						finish();
 					} else {
 						ToastHelper.showToastInBottom(this, "输入邮箱地址不合法哦~");
 					}
@@ -93,13 +94,14 @@ public class PersonalEditActivity extends BaseHeaderActivity implements OnClickL
 					Intent intent  = new Intent(PersonalEditActivity.this, PersonalInfoActivity.class);
 					intent.putExtra("jsonContent", obj.toString());
 					setResult(Constans.SET_COMMUNITY_REQUEST_CODE, intent);
+					finish();
 				}
 				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			finish();
+			
 		}
 		
 		
