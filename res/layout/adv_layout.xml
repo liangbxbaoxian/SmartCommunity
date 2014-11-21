@@ -7,6 +7,7 @@
     <com.android.volley.toolbox.NetworkImageView 
         android:id="@+id/img"
         android:layout_width="match_parent"
-        android:layout_height="137.5dp"/>
+        android:layout_height="137.5dp"
+        android:scaleType="fitXY"/>
     
 </LinearLayout>

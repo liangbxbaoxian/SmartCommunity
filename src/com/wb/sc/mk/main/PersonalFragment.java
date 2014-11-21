@@ -155,6 +155,8 @@ public class PersonalFragment extends BaseItemPhotoFragment implements OnClickLi
 		Bitmap roundBmp = BitmapHelper.toRoundCorner(bitmap, bitmap.getHeight()/2);
 		avatarIv.setImageBitmap(roundBmp);
 		avatarIv.requestLayout();
+		SCApp.getInstance().getUser().setAvatarUrl(imgUrl);
+		DbHelper.saveUser(SCApp.getInstance().getUser());
 	}
 	
 	@Override

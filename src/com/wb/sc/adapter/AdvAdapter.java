@@ -15,6 +15,7 @@ import com.wb.sc.mk.browser.BrowserActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,6 +40,7 @@ public class AdvAdapter extends PagerAdapter implements OnClickListener{
 			holder.imgIv = (NetworkImageView) view.findViewById(R.id.img);
 			holder.imgIv.setImageUrl(NetConfig.getPictureUrl(item.imgUrl), SCApp.getInstance().getImageLoader());
 			holder.advItem = item;
+			view.setTag(holder);
 		}
 	}
 	
@@ -80,8 +82,12 @@ public class AdvAdapter extends PagerAdapter implements OnClickListener{
 	public void onClick(View v) {
 		Holder holder = (Holder) v.getTag();
 		Intent intent = new Intent(mActivity, BrowserActivity.class);
-		intent.putExtra(IntentExtraConfig.BROWSER_TITLE, holder.advItem.title);
-		intent.putExtra(IntentExtraConfig.BROWSER_URL, holder.advItem.linkUrl);
+		if(!TextUtils.isEmpty(holder.advItem.title)) {
+			intent.putExtra(IntentExtraConfig.BROWSER_TITLE, holder.advItem.title);
+		}
+		if(!TextUtils.isEmpty(holder.advItem.linkUrl)) {
+			intent.putExtra(IntentExtraConfig.BROWSER_URL, holder.advItem.linkUrl);
+		}
 		mActivity.startActivity(intent);
 	}
 }

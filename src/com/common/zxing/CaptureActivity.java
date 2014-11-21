@@ -22,6 +22,7 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -48,6 +49,8 @@ import com.google.zxing.ResultPoint;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.config.IntentExtraConfig;
+import com.wb.sc.mk.browser.BrowserActivity;
 
 /**
  * This activity opens the camera and does the actual scanning on a background
@@ -255,6 +258,7 @@ public final class CaptureActivity extends BaseHeaderActivity implements
 	}
 
 	/**
+	 * 扫描结束，得到字符串，二维码图片
 	 * A valid barcode has been found, so give an indication of success and show
 	 * the results.
 	 * 
@@ -265,20 +269,26 @@ public final class CaptureActivity extends BaseHeaderActivity implements
 	 * @param barcode
 	 *            A greyscale bitmap of the camera data which was decoded.
 	 */
-	// ɨ��������з��ദ��
 	public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
 		inactivityTimer.onActivity();
 		lastResult = rawResult;
 
-		boolean fromLiveScan = barcode != null;
-		if (fromLiveScan) {
-			// Then not from history, so beep/vibrate and we have an image to
-			// draw on
-			beepManager.playBeepSoundAndVibrate();
-			drawResultPoints(barcode, scaleFactor, rawResult);
-		}
-
-		handleDecodeInternally(rawResult, barcode);
+//		boolean fromLiveScan = barcode != null;
+//		if (fromLiveScan) {
+//			// Then not from history, so beep/vibrate and we have an image to
+//			// draw on
+//			beepManager.playBeepSoundAndVibrate();
+//			drawResultPoints(barcode, scaleFactor, rawResult);
+//		}
+//
+//		handleDecodeInternally(rawResult, barcode);
+		
+		String result = rawResult.getText();
+		Intent intent = new Intent(mActivity, BrowserActivity.class);
+		intent.putExtra(IntentExtraConfig.BROWSER_TITLE, "扫描结果");
+		intent.putExtra(IntentExtraConfig.BROWSER_URL, result);
+		startActivity(intent);
+		finish();
 	}
 
 	/**
@@ -412,13 +422,11 @@ public final class CaptureActivity extends BaseHeaderActivity implements
 
 	@Override
 	public void getIntentData() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void initView() {
-		// TODO Auto-generated method stub
 		
 	}
 }
