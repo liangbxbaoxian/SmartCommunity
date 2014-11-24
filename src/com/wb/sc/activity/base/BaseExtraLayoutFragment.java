@@ -160,7 +160,7 @@ public class BaseExtraLayoutFragment extends Fragment implements OnClickListener
 	}
 	
 	public void setHomeBackground(int resId) {
-		homeIv.setBackgroundResource(resId);
+//		homeIv.setBackgroundResource(resId);
 		homeIv.setVisibility(View.VISIBLE);
 	}
 	

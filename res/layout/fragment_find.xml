@@ -45,7 +45,7 @@
             android:textSize="@dimen/title_bar_text_size" />
     </RelativeLayout> -->
     
-    <include layout="@layout/common_header_layout"/>	
+    
 
     <LinearLayout
         android:layout_width="match_parent"

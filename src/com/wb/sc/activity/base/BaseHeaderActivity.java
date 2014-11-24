@@ -49,7 +49,8 @@ public abstract class BaseHeaderActivity extends BaseActivity implements OnClick
 		if(headerHomeIv != null) {
 			ImageView iconIv = (ImageView)headerHomeIv.findViewById(R.id.icon);
 			iconIv.setImageResource(iconId);
-			headerHomeIv.setOnClickListener(this);
+			headerHomeIv.setOnClickListener(listener);
+			headerHomeIv.setVisibility(View.VISIBLE);
 		}
 	}
 }
