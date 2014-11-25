@@ -147,13 +147,13 @@ public class ImageBrowseActivity extends BaseHeaderActivity implements ImageBrow
 	
 	@Override
 	protected void onDestroy() {
-		for(Bitmap bmp : bmpList) {
-			if(bmp != null) {
-				if(!bmp.isRecycled()) {
-					bmp.recycle();
-				}
-			}
-		}
+//		for(Bitmap bmp : bmpList) {
+//			if(bmp != null) {
+//				if(!bmp.isRecycled()) {
+//					bmp.recycle();
+//				}
+//			}
+//		}
 		bmpList.clear();
 		super.onDestroy();
 	}
