@@ -57,7 +57,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1" >
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/one_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/xibing" />
@@ -69,13 +70,15 @@
             android:layout_weight="2"
             android:orientation="vertical" >
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
+                 android:id="@+id/two_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/mianbao" />
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
+                 android:id="@+id/three_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
