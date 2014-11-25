@@ -1,16 +1,32 @@
 package com.wb.sc.mk.img;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
+import android.content.ContentResolver;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
+import com.common.media.BitmapHelper;
+import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.bean.ImagesItem;
@@ -26,6 +42,10 @@ public class ImageBrowseActivity extends BaseHeaderActivity implements ImageBrow
 	
 	private TextView headerNumTv;
 	
+	private ImageButton downloadBtn;
+		
+	public static List<Bitmap> bmpList = new ArrayList<Bitmap>();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +60,11 @@ public class ImageBrowseActivity extends BaseHeaderActivity implements ImageBrow
 		imageList = getIntent().getParcelableArrayListExtra(IntentExtraConfig.IMAGE_BROWSER_DATA);
 		disTab = getIntent().getBooleanExtra(IntentExtraConfig.IMAGE_BROWSER_DIS_TAB, true);
 		imgPos = getIntent().getIntExtra(IntentExtraConfig.IMAGE_BROWSER_POS, 0);
+		
+		bmpList.clear();
+		for(int i=0; i<imageList.size(); i++) {
+			bmpList.add(null);
+		}
 	}
 
 	@Override
@@ -74,6 +99,35 @@ public class ImageBrowseActivity extends BaseHeaderActivity implements ImageBrow
 				numItem.setTitle("1/" + num);
 			}			
 		});
+		
+		downloadBtn = (ImageButton) findViewById(R.id.download);
+		downloadBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//获取相册的路径地址 
+				Bitmap bmp = bmpList.get(imgPos);
+				if(bmp != null) {
+					
+					
+					
+					String picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/SmartCommunity/";
+					File file = new File(picDir);
+					if(!file.exists()) {
+						file.mkdirs();
+					}
+					String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmssSSS", Locale.CHINA).format(new Date()); 
+				    File mediaFile = new File(picDir + File.separator + "tmp_img" + timeStamp + ".jpg");	
+				    
+				    ContentResolver cr = ImageBrowseActivity.this.getContentResolver();
+					String url  = MediaStore.Images.Media.insertImage(cr, bmp, mediaFile.getAbsolutePath(), "");
+					
+					ToastHelper.showToastInBottom(mActivity, "图片保存至相册");
+				} else {
+					ToastHelper.showToastInBottom(mActivity, "图片正在下载或者失败了，无法保存图片");
+				}
+			}
+		});
 	}
 	
 	private View getTabItemView(ImagesItem imagesItem) {
@@ -86,7 +140,21 @@ public class ImageBrowseActivity extends BaseHeaderActivity implements ImageBrow
 	}
 
 	@Override
-	public void setMenuItem(String content) {
+	public void setMenuItem(String content, int index) {
 		headerNumTv.setText(content);
+		imgPos = index;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		for(Bitmap bmp : bmpList) {
+			if(bmp != null) {
+				if(!bmp.isRecycled()) {
+					bmp.recycle();
+				}
+			}
+		}
+		bmpList.clear();
+		super.onDestroy();
 	}
 }

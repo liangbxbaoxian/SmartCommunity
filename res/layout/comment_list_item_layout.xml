@@ -12,18 +12,29 @@
         android:layout_marginTop="9dp"
         android:orientation="horizontal" >
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/avatar"
+        <RelativeLayout
+            android:id="@+id/avatar_layout"
             android:layout_width="39dp"
-            android:layout_height="39dp"
-            android:src="@drawable/test_comment_user_header" />
+            android:layout_height="39dp" >
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/avatar"
+                android:layout_width="39dp"
+                android:layout_height="39dp"
+                android:src="@drawable/test_comment_user_header" />
+
+            <ImageView
+                android:layout_width="39dp"
+                android:layout_height="39dp"
+                android:src="@drawable/avatar_bg" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="13dp"
-            android:layout_toRightOf="@id/avatar"
+            android:layout_toRightOf="@id/avatar_layout"
             android:orientation="vertical" >
 
             <TextView
@@ -31,8 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="李四"
-                android:textSize="13.5sp"
-                android:textColor="#b4b4b4" />
+                android:textColor="#b4b4b4"
+                android:textSize="13.5sp" />
 
             <TextView
                 android:id="@+id/remark"
@@ -41,8 +52,8 @@
                 android:layout_marginLeft="24dp"
                 android:layout_toRightOf="@id/name"
                 android:text="发呆放空去"
-                android:textSize="16sp" 
-                android:visibility="gone"/>
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/time"
@@ -60,14 +71,14 @@
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:text="师大的雕刻时光很不错哦，适合发呆放空，下次有没有一起去的？"
         android:textColor="#535353"
         android:textSize="12sp" />
-	
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"

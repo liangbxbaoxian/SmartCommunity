@@ -34,11 +34,11 @@ import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.PostListAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.PostList;
+import com.wb.sc.bean.PostList.Item;
 import com.wb.sc.bean.PostType;
 import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
-import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.main.PostActivity;
 import com.wb.sc.task.PostListRequest;
 import com.wb.sc.task.PostTypeRequest;
@@ -199,7 +199,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 			long id) {
 		Intent intent = new Intent(this, PostDetailActivity.class);		
 		intent.putExtra(IntentExtraConfig.DETAIL_ID, mPostList.datas.get(position-1).id);
-		startActivity(intent);
+		startActivityForResult(intent, position-1);
 	}
 	
 	/**
@@ -384,6 +384,24 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}
 		}
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		int position = requestCode;
+		int msgNum = data.getIntExtra(IntentExtraConfig.MSG_NUM, 0);
+		int favNum = data.getIntExtra(IntentExtraConfig.FAV_NUM, 0);
+		Item item = mPostList.datas.get(position);
+		int itemMsgNum = Integer.valueOf(item.commentNum);
+		if(msgNum > itemMsgNum) {
+			item.commentNum = msgNum + "";
+		}
+		
+		int itemFavNum = Integer.valueOf(item.favNum);
+		if(favNum > itemFavNum) {
+			item.favNum = favNum + "";
+		}
+		mAdapter.notifyDataSetChanged();
 	}
 	
 	/**

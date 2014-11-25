@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -241,16 +242,37 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	
 	@Override
 	public void onClick(View v) {
-		super.onClick(v);
+		
 		
 		switch(v.getId()) {
 		case R.id.opt_1:
 			break;
 			
 		case R.id.opt_2:
-			break;			
+			break;		
+			
+		case R.id.common_header_back:
+			Intent intent = new Intent();
+			intent.putExtra(IntentExtraConfig.MSG_NUM, mPostDetail.commentNum);
+			intent.putExtra(IntentExtraConfig.FAV_NUM, mPostDetail.favNum);
+			setResult(0, intent);
+			break;	
 		}
+		
+		super.onClick(v);
 	}
+	
+	public boolean onKeyDown (int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent intent = new Intent();
+			intent.putExtra(IntentExtraConfig.MSG_NUM, mPostDetail.commentNum);
+			intent.putExtra(IntentExtraConfig.FAV_NUM, mPostDetail.favNum);
+			setResult(0, intent);
+		}
+		
+		return super.onKeyDown(keyCode, event);
+	}
+	
 		
 	/**
 	 * 获取请求参数
@@ -311,7 +333,6 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
 			mPostDetail = response;
-			avatarIv.setNetworkImageListener(this);
 			avatarIv.setImageUrl(NetConfig.getPictureUrl(mPostDetail.sourceAvatarUrl), SCApp.getInstance().getImageLoader());
 			nameTv.setText(mPostDetail.sourceName);
 			titleTv.setText(mPostDetail.title);
@@ -492,7 +513,9 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 
 		@Override
 		public void onResponse(Favour response) {
-			if(response.respCode.equals(RespCode.SUCCESS)) {			
+			if(response.respCode.equals(RespCode.SUCCESS)) {		
+				mPostDetail.favNum++;
+				favNumTv.setText(mPostDetail.favNum+"");
 				ToastHelper.showToastInBottom(PostDetailActivity.this, "谢谢您的点赞");
 			} else {
 				ToastHelper.showToastInBottom(PostDetailActivity.this, response.respCodeMsg);
@@ -551,6 +574,11 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			commentContentEt.setText("");
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				ToastHelper.showToastInBottom(PostDetailActivity.this, "评论成功");
+				mPostDetail.commentNum++;
+				msgNumTv.setText(mPostDetail.commentNum+"");
+				//刷新评论列表
+				mPage.pageNo = 1;		
+				startCommentListRequest();
 			} else {
 				ToastHelper.showToastInBottom(PostDetailActivity.this, response.respCodeMsg);
 			}

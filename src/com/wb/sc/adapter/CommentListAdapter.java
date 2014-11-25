@@ -72,7 +72,6 @@ public class CommentListAdapter extends BaseAdapter implements NetworkImageListe
        
        Item item = mCommentList.datas.get(position);
        if(!TextUtils.isEmpty(item.sourceAvatar)) {
-    	   holder.avatarIv.setNetworkImageListener(this);
     	   holder.avatarIv.setImageUrl(NetConfig.getPictureUrl(item.sourceAvatar), SCApp.getInstance().getImageLoader());
        }
        holder.nameTv.setText(item.sourceName);

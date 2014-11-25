@@ -41,7 +41,7 @@ public class UrlPagerAdapter extends BasePagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup collection, int position){
-        final UrlTouchImageView iv = new UrlTouchImageView(mContext);
+        final UrlTouchImageView iv = new UrlTouchImageView(mContext, position);
         iv.setUrl(mResources.get(position));
         iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         

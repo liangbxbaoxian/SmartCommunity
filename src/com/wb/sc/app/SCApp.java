@@ -8,6 +8,7 @@ import java.util.List;
 import net.tsz.afinal.FinalDb;
 import net.tsz.afinal.utils.Utils;
 import android.app.Application;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
@@ -53,7 +54,7 @@ public class SCApp extends Application {
 	private User mUser;
 	
 	List<DictionaryItem> list = new ArrayList<DictionaryItem>();
-	
+		
 	public List<DictionaryItem> getList() {
 		return list;
 	}

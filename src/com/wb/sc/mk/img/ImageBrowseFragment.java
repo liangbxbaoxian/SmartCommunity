@@ -71,7 +71,7 @@ public class ImageBrowseFragment extends Fragment {
 			@Override
 			public void onPageSelected(int position) {
 				int index = position + 1;
-				imgListener.setMenuItem(index + "/" + imagesItem.imageNum);
+				imgListener.setMenuItem(index + "/" + imagesItem.imageNum, index);
 			}
 			
 			@Override

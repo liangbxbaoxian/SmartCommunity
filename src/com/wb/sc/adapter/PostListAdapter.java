@@ -99,7 +99,6 @@ public class PostListAdapter extends BaseAdapter implements NetworkImageListener
        }
        
        Item item = mPostList.datas.get(position);
-       holder.avatarIv.setNetworkImageListener(this);
        holder.avatarIv.setImageUrl(NetConfig.getPictureUrl(item.sourceAvatarUrl), 
     		   SCApp.getInstance().getImageLoader());
        holder.nameTv.setText(item.sourceName);

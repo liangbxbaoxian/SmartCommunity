@@ -12,6 +12,8 @@ public interface IntentExtraConfig {
 	public static final int POST_TYPE_SHARE = 0;
 	public static final int POST_TYPE_HELPE = 1;
 	public static final int POST_TYPE_LOVE = 2;
+	public static final String MSG_NUM = "msg_num";
+	public static final String FAV_NUM = "fav_num";
 		
 	/***************************** 详情页  **********************************************/
 	public static final String DETAIL_ID = "id";

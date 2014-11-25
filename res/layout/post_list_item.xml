@@ -12,17 +12,28 @@
         android:layout_marginTop="9dp"
         android:orientation="horizontal" >
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/avatar"
+        <RelativeLayout
+            android:id="@+id/avatar_layout"
             android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp" >
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/avatar_bg" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="13dp"
-            android:layout_toRightOf="@id/avatar"
+            android:layout_toRightOf="@id/avatar_layout"
             android:orientation="vertical" >
 
             <TextView
@@ -79,9 +90,9 @@
         android:id="@+id/imgs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal" >
 
         <com.android.volley.toolbox.NetworkImageView
@@ -89,19 +100,19 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginRight="4dp" />
-        
+
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/img2"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginRight="4dp" />
-        
+
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/img3"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginRight="4dp" />
-        
+
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/img4"
             android:layout_width="75dp"

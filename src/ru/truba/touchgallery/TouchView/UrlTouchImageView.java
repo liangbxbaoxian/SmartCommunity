@@ -35,6 +35,7 @@ import com.android.volley.toolbox.ImageLoader.ImageContainer;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.mk.img.ImageBrowseActivity;
 
 import ru.truba.touchgallery.TouchView.InputStreamWrapper.InputStreamProgressListener;
 
@@ -43,12 +44,23 @@ public class UrlTouchImageView extends RelativeLayout {
     protected TouchImageView mImageView;
 
     protected Context mContext;
-
+    
+    private int position;
+    
     public UrlTouchImageView(Context ctx)
     {
         super(ctx);
         mContext = ctx;
         init();
+
+    }
+
+    public UrlTouchImageView(Context ctx, int position)
+    {
+        super(ctx);
+        mContext = ctx;
+        init();
+        this.position = position;
 
     }
     public UrlTouchImageView(Context ctx, AttributeSet attrs)
@@ -95,6 +107,7 @@ public class UrlTouchImageView extends RelativeLayout {
 				if(bitmap != null) {
 					mImageView.setScaleType(ScaleType.MATRIX);
 					mImageView.setImageBitmap(bitmap);	
+					ImageBrowseActivity.bmpList.set(position, bitmap);
 				} else {
 					mImageView.setImageResource(R.drawable.no_photo);	
 				}
