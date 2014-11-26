@@ -1,9 +1,6 @@
 package com.wb.sc.mk.img;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +22,6 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-import com.common.media.BitmapHelper;
 import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;

@@ -197,8 +197,10 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
+		com.wb.sc.bean.PostList.Item item = mPostList.datas.get(position-1);
 		Intent intent = new Intent(this, PostDetailActivity.class);		
-		intent.putExtra(IntentExtraConfig.DETAIL_ID, mPostList.datas.get(position-1).id);
+		intent.putExtra(IntentExtraConfig.DETAIL_ID, item.id);
+		intent.putExtra(IntentExtraConfig.POST_TYPE, item.type);
 		startActivityForResult(intent, position-1);
 	}
 	
@@ -367,7 +369,11 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mPostType = response;
-				String[] types = new String[mPostType.datas.size()];
+				String[] types = new String[mPostType.datas.size()+1];
+				com.wb.sc.bean.PostType.Item item = mPostType.new Item();
+				item.id = "";
+				item.name = "全部";
+				mPostType.datas.add(0, item);
 				for(int i=0; i<mPostType.datas.size(); i++) {
 					types[i] = mPostType.datas.get(i).name;								
 				}

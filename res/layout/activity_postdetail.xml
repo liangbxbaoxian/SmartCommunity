@@ -96,12 +96,28 @@
                 android:layout_marginRight="11dp"
                 android:layout_marginTop="15dp"
                 hl:listSelector="@android:color/transparent" />
+            
+            <Button
+                android:id="@+id/apply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/red_btn_selector"
+                android:text="我要报名"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" 
+                android:visibility="gone"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="13dp"
                 android:background="#d1d1d1" />
+            
+            
 
             <LinearLayout
                 android:layout_width="match_parent"

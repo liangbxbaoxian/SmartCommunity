@@ -156,7 +156,7 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
-		params.add(ParamsUtil.getReqParam("1", 2));
+		params.add(ParamsUtil.getReqParam("01", 2));
 		params.add(ParamsUtil.getReqIntParam(advPgIf.pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(advPgIf.pageSize, 2));
 		return params;

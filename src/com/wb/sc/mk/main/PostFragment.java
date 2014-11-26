@@ -128,9 +128,17 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
     		return;
     	}
     	
+    	//获取发贴类型
+    	if(mPostType == null) {
+    		ToastHelper.showToastInBottom(getActivity(), "帖子类型不能为空");
+    		return;	
+    	}
+    	
+    	selTypeId = mPostType.datas.get(typeSp.getSelectedItemPosition()).id;
+    	
     	mActivity.showProcess(R.string.submit_toast);
     	startUploadPhoto();
-    	selTypeId = mPostType.datas.get(typeSp.getSelectedItemPosition()).id;
+    	
     }
     
     /**

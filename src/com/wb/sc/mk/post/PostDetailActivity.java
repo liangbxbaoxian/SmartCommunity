@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -50,6 +51,7 @@ import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.dialog.OptDialog;
+import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.img.ImageBrowseActivity;
 import com.wb.sc.task.CommentListRequest;
 import com.wb.sc.task.CommentRequest;
@@ -103,6 +105,10 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	//操作对话框
 	private OptDialog mOptDialog;
 	
+	//我要报名
+	private Button applyBtn;
+	private String postType;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -124,6 +130,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	@Override
 	public void getIntentData() {
 		postId = getIntent().getStringExtra(IntentExtraConfig.DETAIL_ID);
+		postType = getIntent().getStringExtra(IntentExtraConfig.POST_TYPE);
 	}
 	
 	@Override
@@ -200,6 +207,11 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			
 			@Override
 			public void onClick(View v) {
+				
+				if(!ToastLoginDialog.checkLogin(mActivity)) {
+					return;
+				}
+				
 				requestFavour(getFavourRequestParams(), mFavourListener, PostDetailActivity.this);
 			}
 		});
@@ -217,10 +229,20 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 					return;
 				}
 				
+				if(!ToastLoginDialog.checkLogin(mActivity)) {
+					return;
+				}
+				
 				showProcess("正在发表评论...");
 				requestComment(getCommentRequestParams(content), mCommentListener, PostDetailActivity.this);
 			}
 		});
+		
+		applyBtn = (Button) findViewById(R.id.apply);
+		applyBtn.setOnClickListener(this);
+		if(postType.equals("04")) {
+			applyBtn.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	/**
@@ -251,12 +273,17 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		case R.id.opt_2:
 			break;		
 			
-		case R.id.common_header_back:
+		case R.id.common_header_back:{
 			Intent intent = new Intent();
 			intent.putExtra(IntentExtraConfig.MSG_NUM, mPostDetail.commentNum);
 			intent.putExtra(IntentExtraConfig.FAV_NUM, mPostDetail.favNum);
 			setResult(0, intent);
-			break;	
+		}break;	
+			
+		case R.id.apply:{
+			Intent intent = new Intent(this, ApplyActivity.class);
+			startActivity(intent);
+		}break;
 		}
 		
 		super.onClick(v);
@@ -533,7 +560,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
-		params.add(ParamsUtil.getReqParam(postId, 64));		
+		params.add(ParamsUtil.getReqParam(postId, 64));				
 		params.add(ParamsUtil.getReqParam("", 64));
 		params.add(ParamsUtil.getReqParam(content, 250));
 		return params;
