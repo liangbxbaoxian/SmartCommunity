@@ -3,13 +3,16 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -44,6 +47,7 @@ import com.wb.sc.adapter.PostImgAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Comment;
 import com.wb.sc.bean.CommentList;
+import com.wb.sc.bean.CommentList.Item;
 import com.wb.sc.bean.Favour;
 import com.wb.sc.bean.ImagesItem;
 import com.wb.sc.bean.PostDetail;
@@ -108,6 +112,10 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	//我要报名
 	private Button applyBtn;
 	private String postType;
+	
+	//回复的位置
+	private int clickCommentIndex = 0;
+	private boolean isReply = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -233,8 +241,15 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 					return;
 				}
 				
-				showProcess("正在发表评论...");
-				requestComment(getCommentRequestParams(content), mCommentListener, PostDetailActivity.this);
+				
+				if(!isReply) {
+					showProcess("正在发表评论...");
+					requestComment(getCommentRequestParams(content, ""), mCommentListener, PostDetailActivity.this);
+				} else {
+					showProcess("正在回复...");
+					Item item = mCommentList.datas.get(clickCommentIndex);
+					requestComment(getCommentRequestParams(content, item.id), mCommentListener, PostDetailActivity.this);
+				}
 			}
 		});
 		
@@ -251,26 +266,45 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-//		if(mOptDialog == null) {
-//			mOptDialog = new OptDialog(this, R.style.popupStyle);
-//			mOptDialog.setOpt1Btn("回复", true);
-//			mOptDialog.setOpt2Btn("复制", true);
-//			mOptDialog.setOpt3Btn("", false);
-//			mOptDialog.setListener(this);
-//		}
-//		
-//		mOptDialog.show();
+		clickCommentIndex = position - 1;
+		if(mOptDialog == null) {
+			mOptDialog = new OptDialog(this, R.style.popupStyle);
+			mOptDialog.setOpt1Btn("回复", true);
+			mOptDialog.setOpt2Btn("复制", true);
+			mOptDialog.setOpt3Btn("", false);
+			mOptDialog.setListener(this);
+		}
+		
+		mOptDialog.show();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		
 		
 		switch(v.getId()) {
-		case R.id.opt_1:
-			break;
+		case R.id.opt_1:{
+			//回复
+			if(!ToastLoginDialog.checkLogin(mActivity)) {
+				return;
+			}
+			
+			isReply = true;
+			commentContentEt.requestFocus();
+			InputMethodManager imm = (InputMethodManager) commentContentEt.getContext().
+					getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+			mOptDialog.dismiss();	
+		}break;
 			
 		case R.id.opt_2:
+			//复制
+			ClipboardManager cmb = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			Item item = mCommentList.datas.get(clickCommentIndex);			
+			cmb.setText(item.content);
+			ToastHelper.showToastInBottom(mActivity, "内容已复制到剪贴板");
+			mOptDialog.dismiss();
 			break;		
 			
 		case R.id.common_header_back:{
@@ -554,14 +588,14 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	 * 获取请求参数
 	 * @return
 	 */
-	private List<String> getCommentRequestParams(String content) {
+	private List<String> getCommentRequestParams(String content, String parentId) {
 		List<String> params = new ArrayList<String>();
 		params.add(ParamsUtil.getReqParam("FG32", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
 		params.add(ParamsUtil.getReqParam(postId, 64));				
-		params.add(ParamsUtil.getReqParam("", 64));
+		params.add(ParamsUtil.getReqParam(parentId, 64));
 		params.add(ParamsUtil.getReqParam(content, 250));
 		return params;
 	}
@@ -597,6 +631,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			if(mPullListView.isRefreshing()) {
 				mPullListView.onRefreshComplete();
 			}
+			isReply = false;
 			dismissProcess();
 			commentContentEt.setText("");
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
