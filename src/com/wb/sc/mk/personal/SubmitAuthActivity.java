@@ -222,7 +222,7 @@ public class SubmitAuthActivity extends BaseActivity  {
 		params.add(ParamsUtil.getReqParam(input_id.getText() +"", 32));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
 		
-		String detail = SCApp.getInstance().getUser().getCommunityName() +  input_building_num.getText().toString() + input_room_num.getText().toString() + input_real_name.getText().toString() + input_id.getText().toString() + "-|" ;
+		String detail = SCApp.getInstance().getUser().getCommunityName() +  "、" +  input_building_num.getText().toString() + "、" + input_room_num.getText().toString() + "、" + input_real_name.getText().toString() + "、" +input_id.getText().toString() + "-|" ;
 		params.add(ParamsUtil.getReqParam(detail, 512));
 		
 		return params;

@@ -52,7 +52,7 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 			public void onResponse(Adv response) {
 				
 				if(response.respCode.equals(RespCode.SUCCESS)) {
-					if (response.datas != null  && response.datas.size() > 3) {
+					if (response.datas != null  && response.datas.size() >= 3) {
 						if(response.datas.get(0).linkUrl != null && !"".equals(response.datas.get(0).linkUrl)) {
 							one_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(0).linkUrl), 
 									SCApp.getInstance().getImageLoader());
@@ -127,11 +127,11 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 	 */
 	private List<String> getAdvRequestParams() {
 		List<String> params = new ArrayList<String>();
-		params.add(ParamsUtil.getReqParam("03", 4));
+		params.add(ParamsUtil.getReqParam("FG20", 4));
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
-		params.add(ParamsUtil.getReqParam("0", 2));
+		params.add(ParamsUtil.getReqParam("03", 2));
 		params.add(ParamsUtil.getReqIntParam(1, 3));
 		params.add(ParamsUtil.getReqIntParam(3, 2));
 		return params;
