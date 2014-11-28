@@ -1,5 +1,6 @@
 package com.wb.sc.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostList extends BaseBean{

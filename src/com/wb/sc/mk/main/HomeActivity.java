@@ -7,6 +7,7 @@ import net.simonvt.menudrawer.MenuDrawer;
 import net.simonvt.menudrawer.Position;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +15,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
@@ -51,6 +53,7 @@ import com.wb.sc.bean.ComNotice;
 import com.wb.sc.bean.Item;
 import com.wb.sc.bean.Menu;
 import com.wb.sc.bean.PhoneList;
+import com.wb.sc.config.ActionConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.mk.personal.MsgCenterActivity;
@@ -93,6 +96,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	private AdvRequest mAdvRequest;
 	private AdvListener mAdvListener = new AdvListener();
 	private PageInfo advPgIf = new PageInfo();
+	private AdvTimeCount advTimeCount;
 	
 	//社区公告
 	private ViewPager noticeVp;
@@ -133,6 +137,11 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		requestPhoneList(getPhoneListRequestParams(), mPhoneListListener, this);
 		
 		noticeTimeCount = new NoticeTimeCount(NOTICE_AUTO_MOVE_TIME, NOTICE_AUTO_MOVE_TIME);
+		advTimeCount = new AdvTimeCount(NOTICE_AUTO_MOVE_TIME, NOTICE_AUTO_MOVE_TIME);
+		
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(ActionConfig.ACTION_REFRESH_COMMUNITY);
+		registerReceiver(mReceiver, intentFilter); 
 	}
 	
 	@Override
@@ -433,7 +442,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
-		params.add(ParamsUtil.getReqParam("01", 2));
+		params.add(ParamsUtil.getReqParam("02", 2));
 		params.add(ParamsUtil.getReqIntParam(advPgIf.pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(advPgIf.pageSize, 2));
 		return params;
@@ -473,6 +482,9 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 				advAdapter = new AdvAdapter(mActivity, response);
 				advVp.setAdapter(advAdapter);
 				advIndicator.setViewPager(advVp);
+				
+				advTimeCount.cancel();
+				advTimeCount.start();
 			} else {
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}
@@ -529,6 +541,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 				mComNotice = response;
 				noticeAdapter = new NoticeAdapter(mActivity, mComNotice);
 				noticeVp.setAdapter(noticeAdapter);
+				noticeTimeCount.cancel();
 				noticeTimeCount.start();
 			} else {
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
@@ -612,7 +625,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	}
 	
 	/**
-	 * 通知的时间
+	 * 社区公告通知的时间
 	 * @author Administrator
 	 *
 	 */
@@ -630,6 +643,7 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 			} else {
 				currentItem = 0;
 			}
+			noticeVp.setCurrentItem(currentItem);
 			noticeTimeCount.cancel();
 			noticeTimeCount.start();
 		}
@@ -638,5 +652,47 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		public void onTick(long millisUntilFinished) {
 			
 		}		
+	}
+	
+	class AdvTimeCount extends CountDownTimer {
+
+		public AdvTimeCount(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+		}
+
+		@Override
+		public void onFinish() {
+			int currentItem = advVp.getCurrentItem();
+			if(currentItem < advVp.getChildCount() - 1) {
+				currentItem++;
+			} else {
+				currentItem = 0;
+			}
+			advIndicator.setCurrentItem(currentItem);
+			advTimeCount.cancel();
+			advTimeCount.start();
+		}
+
+		@Override
+		public void onTick(long millisUntilFinished) {
+			
+		}
+	}
+	
+	BroadcastReceiver mReceiver = new BroadcastReceiver() {
+			
+	    @Override
+		public void onReceive(Context context, Intent intent) {
+		    if(intent.getAction().equals(ActionConfig.ACTION_REFRESH_COMMUNITY)) {
+		    	requestAdv(getAdvRequestParams(), mAdvListener, HomeActivity.this);
+				requestComNotice(getComNoticeRequestParams(), mComNoticeListener, HomeActivity.this);
+		    } 
+		}
+	};
+	
+	@Override
+	protected void onDestroy() {
+		unregisterReceiver(mReceiver);
+		super.onDestroy();
 	}
 }

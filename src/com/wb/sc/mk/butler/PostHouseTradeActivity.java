@@ -118,7 +118,6 @@ public class PostHouseTradeActivity extends BaseHeaderActivity implements Listen
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
-		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().getHouseId(), 64));
 		params.add(ParamsUtil.getReqParam(houseInfo, 256));
 		params.add(ParamsUtil.getReqParam(phone, 15));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().getAccount(), 32));

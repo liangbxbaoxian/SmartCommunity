@@ -115,18 +115,24 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 	public void onItemClick(int position) {
 		switch(position) {
 		case 0:{
-			Intent intent = new Intent(getActivity(), PropertyComplain.class);
-			startActivity(intent);
+			if(ToastLoginDialog.checkLogin(getActivity())) {
+				Intent intent = new Intent(getActivity(), PropertyComplain.class);
+				startActivity(intent);
+			}
 		}break;
 		
 		case 1:{
-			Intent intent = new Intent(getActivity(), PropertyRepairsActivity.class);
-			startActivity(intent);
+			if(ToastLoginDialog.checkLogin(getActivity())) {
+				Intent intent = new Intent(getActivity(), PropertyRepairsActivity.class);
+				startActivity(intent);
+			}
 		}break;
 		
 		case 2:{
-			Intent intent = new Intent(getActivity(), HouseTradeListActivity.class);
-			startActivity(intent);
+			if(ToastLoginDialog.checkLogin(getActivity())) {
+				Intent intent = new Intent(getActivity(), HouseTradeListActivity.class);
+				startActivity(intent);
+			}
 		}break;
 		
 		case 3:{
@@ -156,7 +162,7 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
-		params.add(ParamsUtil.getReqParam("01", 2));
+		params.add(ParamsUtil.getReqParam("04", 2));
 		params.add(ParamsUtil.getReqIntParam(advPgIf.pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(advPgIf.pageSize, 2));
 		return params;

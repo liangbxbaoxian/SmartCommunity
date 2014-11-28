@@ -2,123 +2,129 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical" >
 
-    <com.common.widget.CompatViewPagerScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="@dimen/title_bar_height"
+            android:background="@drawable/title_bar_bg"
+            android:visibility="visible" >
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/title_bar_height"
-                android:background="@drawable/title_bar_bg"
-                android:visibility="visible" >
-
-                <LinearLayout
-                    android:id="@+id/phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/header_btn_selector"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/title_bar_padding"
-                    android:paddingRight="@dimen/title_bar_padding" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/title_bar_icon_phone" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/msg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/header_btn_selector"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/title_bar_padding"
-                    android:paddingRight="@dimen/title_bar_padding" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/title_bar_icon_msg" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:onClick="changeCommunity"
-                    android:text="融汇江山>"
-                    android:textColor="@color/title_text_color"
-                    android:textSize="@dimen/title_bar_text_size" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+            <LinearLayout
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:background="@drawable/header_btn_selector"
+                android:gravity="center"
+                android:paddingLeft="@dimen/title_bar_padding"
+                android:paddingRight="@dimen/title_bar_padding" >
 
                 <ImageView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/home_logo" />
+                    android:src="@drawable/title_bar_icon_phone" />
+            </LinearLayout>
 
-                <com.common.widget.GrideViewForScrollView
-                    android:id="@+id/menu"
-                    android:layout_width="fill_parent"
+            <LinearLayout
+                android:id="@+id/msg"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/header_btn_selector"
+                android:gravity="center"
+                android:paddingLeft="@dimen/title_bar_padding"
+                android:paddingRight="@dimen/title_bar_padding" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="190dp"
-                    android:horizontalSpacing="@dimen/normal_margin"
-                    android:listSelector="@color/transparent"
-                    android:numColumns="3"
-                    android:scrollbars="none"
-                    android:verticalSpacing="@dimen/normal_margin" >
-                </com.common.widget.GrideViewForScrollView>
-            </RelativeLayout>
+                    android:src="@drawable/title_bar_icon_msg" />
+            </LinearLayout>
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:onClick="changeCommunity"
+                android:text="融汇江山>"
+                android:textColor="@color/title_text_color"
+                android:textSize="@dimen/title_bar_text_size" />
+        </RelativeLayout>
+
+        <com.common.widget.CompatViewPagerScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="137.5dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp" >
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/home_logo" />
+
+                    <com.common.widget.GrideViewForScrollView
+                        android:id="@+id/menu"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="190dp"
+                        android:horizontalSpacing="@dimen/normal_margin"
+                        android:listSelector="@color/transparent"
+                        android:numColumns="3"
+                        android:scrollbars="none"
+                        android:verticalSpacing="@dimen/normal_margin" >
+                    </com.common.widget.GrideViewForScrollView>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="137.5dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp" >
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/adv_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <com.viewpagerindicator.CirclePageIndicator
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/adv_indicator"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:background="@android:color/transparent"
+                        android:paddingBottom="5dp"
+                        app:fillColor="#FFFFFFFF"
+                        app:pageColor="#FFC7C7C7"
+                        app:radius="4dp"
+                        app:strokeColor="#FF000000"
+                        app:strokeWidth="0dp" />
+                </RelativeLayout>
 
                 <android.support.v4.view.ViewPager
-                    android:id="@+id/adv_pager"
+                    android:id="@+id/notice_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <com.viewpagerindicator.CirclePageIndicator
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/adv_indicator"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:background="@android:color/transparent"
-                    android:paddingBottom="5dp"
-                    app:fillColor="#FFFFFFFF"
-                    app:pageColor="#FFC7C7C7"
-                    app:radius="4dp"
-                    app:strokeColor="#FF000000"
-                    app:strokeWidth="0dp" />
-            </RelativeLayout>
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/notice_pager"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_height="50dp" />
-        </LinearLayout>
-    </com.common.widget.CompatViewPagerScrollView>
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp" />
+            </LinearLayout>
+        </com.common.widget.CompatViewPagerScrollView>
+    </LinearLayout>
 
 </LinearLayout>

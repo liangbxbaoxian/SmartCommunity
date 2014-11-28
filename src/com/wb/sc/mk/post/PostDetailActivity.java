@@ -315,8 +315,10 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		}break;	
 			
 		case R.id.apply:{
-			Intent intent = new Intent(this, ApplyActivity.class);
-			startActivity(intent);
+			if(ToastLoginDialog.checkLogin(mActivity)) {
+				Intent intent = new Intent(this, ApplyActivity.class);
+				startActivity(intent);
+			}
 		}break;
 		}
 		

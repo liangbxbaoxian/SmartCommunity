@@ -39,6 +39,8 @@ import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.DictionaryItem;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.bean.User;
+import com.wb.sc.config.ActionConfig;
+import com.wb.sc.db.DbHelper;
 import com.wb.sc.task.OneKmRequest;
 
 public class SetCommunityActivity extends BaseActivity implements OnMenuItemClickListener {
@@ -256,12 +258,17 @@ public class SetCommunityActivity extends BaseActivity implements OnMenuItemClic
 			
 			@Override
 			public void onClick(View arg0) {
+				
 				SetCommunityActivity.this.finish();
 				User user = SCApp.getInstance().getUser();
 				if (SCApp.getInstance().getList().size() > 3) {
 					
 					user.communityName = SCApp.getInstance().getList().get(3).dictionaryName;
 					user.communityId = SCApp.getInstance().getList().get(3).id;
+					DbHelper.saveUser(user);
+					
+					Intent finishIntent = new Intent(ActionConfig.ACTION_REFRESH_COMMUNITY);
+					sendBroadcast(finishIntent);
 				}
 			}
 		});

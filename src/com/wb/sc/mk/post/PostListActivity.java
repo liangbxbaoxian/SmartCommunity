@@ -39,6 +39,7 @@ import com.wb.sc.bean.PostType;
 import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.main.PostActivity;
 import com.wb.sc.task.PostListRequest;
 import com.wb.sc.task.PostTypeRequest;
@@ -185,8 +186,10 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(PostListActivity.this, PostActivity.class);
-				startActivity(intent);
+				if(ToastLoginDialog.checkLogin(mActivity)) {
+					Intent intent = new Intent(PostListActivity.this, PostActivity.class);
+					startActivity(intent);
+				}
 			}
 		});
 	}
@@ -294,6 +297,11 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		showContent();	
 		if(response.respCode.equals(RespCode.SUCCESS)) {			
 			if(response.datas.size() <= 0) {
+				mPostList = response;
+				mAdapter = new PostListAdapter(mActivity, mPostList);
+				mListView.setAdapter(mAdapter);
+				loadState = PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE;
+				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
 				showEmpty();
 				return;
 			}
