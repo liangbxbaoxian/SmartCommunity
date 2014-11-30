@@ -80,6 +80,8 @@ public class MyForumAdpater extends BaseAdapter {
 		    viewHolder.postTitle = (TextView) arg1.findViewById(R.id.postTitle);
 		    viewHolder.postName = (TextView) arg1.findViewById(R.id.postName);
 		    viewHolder.postTime = (TextView) arg1.findViewById(R.id.postTime);
+		    viewHolder.favourite_num = (TextView) arg1.findViewById(R.id.favourite_num);
+		    
 		    
 			arg1.setTag(viewHolder);
 		}else{
@@ -87,11 +89,10 @@ public class MyForumAdpater extends BaseAdapter {
 		}
 		MyPost.MyPostItem item = (MyPost.MyPostItem) mList.get(position);
 	  
-		viewHolder.postTitle.setText(item.postTitle);
+		viewHolder.postTitle.setText(item.postTypeName);
 		viewHolder.postName.setText(item.postTitle);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		viewHolder.postTime.setText(formatter.format(item.postTime));
-		viewHolder.postMaster.setText(item.postMaster);
+		viewHolder.postTime.setText((item.postTime));
+		
 		
 //		if (isStateChanged) {
 //			viewHolder.state.setText("已处理");
@@ -123,6 +124,8 @@ public class MyForumAdpater extends BaseAdapter {
 			viewHolder.networkImageView.setImageUrl(NetConfig.getPictureUrl(user.getAvatarUrl()), 
 					SCApp.getInstance().getImageLoader());
 		}
+		viewHolder.postMaster.setText(user.name);
+		viewHolder.favourite_num.setText(item.postSupportNum);
 //		viewHolder.call.setOnClickListener(new View.OnClickListener() {
 //			
 //			@Override
@@ -144,6 +147,7 @@ public class MyForumAdpater extends BaseAdapter {
 		public TextView postName;
 		public TextView postTime;
 		public TextView postMaster;
+		public TextView favourite_num;
 		public ImageView call;
 //		public GridView gridView;
 		public Button state;
