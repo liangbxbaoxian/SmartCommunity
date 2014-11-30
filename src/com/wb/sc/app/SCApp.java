@@ -21,6 +21,7 @@ import com.baidu.location.LocationClient;
 import com.common.format.HexStringBytes;
 import com.common.net.volley.VolleyX509TrustManager;
 import com.common.net.volley.cache.VolleyImageCache;
+import com.wb.sc.R;
 import com.wb.sc.bean.DictionaryItem;
 import com.wb.sc.bean.User;
 import com.wb.sc.config.DbConfig;
@@ -40,6 +41,8 @@ public class SCApp extends Application {
 	private ImageLoader mImageLoader;
 	private VolleyImageCache mImageCache;
 	private long requestTag = 0;
+	
+	private fr.moreaubenjamin.imageloader.ImageLoader commLoader;
 
 	// 数据库
 	private FinalDb mFinalDb;	
@@ -104,6 +107,10 @@ public class SCApp extends Application {
 		initMap();
 		
 		mUser = DbHelper.getDbUser();
+		
+		commLoader = new fr.moreaubenjamin.imageloader.ImageLoader(this, "smart", "community", R.drawable.test_comment_user_header, R.drawable.test_comment_user_header, null); //暂时不指定这些值
+		
+		
 	}
 
 	/**
@@ -198,6 +205,14 @@ public class SCApp extends Application {
 		mGeofenceClient = new GeofenceClient(getApplicationContext());
 	}
 	
+	public fr.moreaubenjamin.imageloader.ImageLoader getCommLoader() {
+		return commLoader;
+	}
+
+	public void setCommLoader(fr.moreaubenjamin.imageloader.ImageLoader commLoader) {
+		this.commLoader = commLoader;
+	}
+
 	/**
 	 * 实现实位回调监听
 	 */

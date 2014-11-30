@@ -22,7 +22,7 @@ public class RegisterInviteActivity extends BaseHeaderActivity implements OnClic
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_invite);
 
-		initHeader(R.string.ac_setting);
+		initHeader(R.string.ac_register_invite);
 		getIntentData();
 		initView();		
 
@@ -52,7 +52,7 @@ public class RegisterInviteActivity extends BaseHeaderActivity implements OnClic
 
 	private void sendSMS(String smsBody, String phone) {
 
-		Uri smsToUri = Uri.parse("smsto:");
+		Uri smsToUri = Uri.parse("smsto:" + phone);
 
 		Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
 
@@ -60,6 +60,11 @@ public class RegisterInviteActivity extends BaseHeaderActivity implements OnClic
 
 		startActivity(intent);
 
+	}
+	
+	
+	public void invite(View v) {
+		sendSMS(content.getText() + "", phone.getText() + "");
 	}
 
 	@Override

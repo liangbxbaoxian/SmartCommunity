@@ -53,18 +53,18 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 				
 				if(response.respCode.equals(RespCode.SUCCESS)) {
 					if (response.datas != null  && response.datas.size() >= 3) {
-						if(response.datas.get(0).linkUrl != null && !"".equals(response.datas.get(0).linkUrl)) {
-							one_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(0).linkUrl), 
+						if(response.datas.get(0).imgUrl != null && !"".equals(response.datas.get(0).imgUrl)) {
+							one_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(0).imgUrl), 
 									SCApp.getInstance().getImageLoader());
 						}
 						
-						if(response.datas.get(1).linkUrl != null && !"".equals(response.datas.get(1).linkUrl)) {
-							two_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(0).linkUrl), 
+						if(response.datas.get(1).imgUrl != null && !"".equals(response.datas.get(1).imgUrl)) {
+							two_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(0).imgUrl), 
 									SCApp.getInstance().getImageLoader());
 						}
 						
-						if(response.datas.get(2).linkUrl != null && !"".equals(response.datas.get(2).linkUrl)) {
-							three_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(0).linkUrl), 
+						if(response.datas.get(2).imgUrl != null && !"".equals(response.datas.get(2).imgUrl)) {
+							three_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(0).imgUrl), 
 									SCApp.getInstance().getImageLoader());
 						}
 					}

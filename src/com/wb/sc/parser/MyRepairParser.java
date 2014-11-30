@@ -26,11 +26,14 @@ public class MyRepairParser {
 				item.repairTitle = values[1];
 				item.repairStatus = values[2];
 				item.repairStatusName = values[3];
-				item.repairSubmitTime = values[4];
-				item.repairEndTime = values[5];
-				item.repairMaster = values[6];
-				if (7 < values.length) {
-					item.repairPhoto = values[7].split("#");
+				item.repairContent = values[4];
+				item.repairSubmitTime = values[5];
+				item.repairHanldeTime = values[6];
+				item.repairEndTime = values[7];
+				item.repairMaster = values[8];
+				item.repairReuslt = values[9];
+				if (11 < values.length) {    //接口返回有问题。应该去下标为10，结果返回11个，已经反馈，服务端没处理
+					item.repairPhoto = values[11].split(ParamsUtil.ITEM_IMG_DIVIDER);
 				}
 				dataBean.datas.add(item);
 			}

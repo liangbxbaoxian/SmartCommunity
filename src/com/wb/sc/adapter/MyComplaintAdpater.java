@@ -21,8 +21,12 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
+import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
 import com.wb.sc.bean.MyRepair.MyRepairItem;
+import com.wb.sc.bean.User;
+import com.wb.sc.config.NetConfig;
+import com.wb.sc.widget.CircleImageView;
 
 public class MyComplaintAdpater extends BaseAdapter {
 
@@ -70,12 +74,14 @@ public class MyComplaintAdpater extends BaseAdapter {
 		    arg1 = LayoutInflater.from(mContext).inflate(R.layout.itme_my_complaint, null);
 		    viewHolder.gridView = (GridView) arg1.findViewById(R.id.yipay_server);
 		    viewHolder.state = (Button) arg1.findViewById(R.id.state);
+		    viewHolder.start_time = (TextView) arg1.findViewById(R.id.start_time);
 		    viewHolder.hanle_time = (TextView) arg1.findViewById(R.id.hanle_time);
 		    viewHolder.finish_time = (TextView) arg1.findViewById(R.id.finish_time);
+		    viewHolder.title = (TextView) arg1.findViewById(R.id.title);
 		    viewHolder.content = (TextView) arg1.findViewById(R.id.content);
 		    viewHolder.progress = (TextView) arg1.findViewById(R.id.tip_progress);
-//		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
-//			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
+		    viewHolder.networkImageView = (CircleImageView) arg1.findViewById(R.id.collection_goods_icon);
+			viewHolder.name = (TextView) arg1.findViewById(R.id.name);
 //			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
 //			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
 			arg1.setTag(viewHolder);
@@ -84,9 +90,10 @@ public class MyComplaintAdpater extends BaseAdapter {
 		}
 //		SentHome sentHome = (SentHome) mList.get(position);
 		
-		viewHolder.content.setText(repair.repairTitle);
+		viewHolder.title.setText(repair.repairTitle);
+		viewHolder.content.setText(repair.repairContent);
 		viewHolder.state.setText(repair.repairStatusName);
-		viewHolder.hanle_time.setText(repair.repairSubmitTime);
+		viewHolder.hanle_time.setText(repair.repairHanldeTime);
 		
 		if ("01".equals(repair.repairStatus)) {
 			viewHolder.finish_time.setText("");
@@ -102,16 +109,27 @@ public class MyComplaintAdpater extends BaseAdapter {
 			viewHolder.progress.setVisibility(View.VISIBLE);
 		}
 		
+		if (repair.repairPhoto.length > 1) {
 		List<CategoryTable> list = new ArrayList<CategoryTable>();
 		int resId [] = {R.drawable.test_my_complaint_one, R.drawable.test_my_complaint_two};
 		for (int i = 0; i < repair.repairPhoto.length; i++) {
 			CategoryTable categroy = new CategoryTable();
 //			categroy.setId(resId[i]);
-			categroy.setCategoryname(repair.repairPhoto[i]);
+			categroy.setCategorylogo(repair.repairPhoto[i]);
 			list.add(categroy);
 		}
 		ImageAdapter adapter = new ImageAdapter(mContext, list);
 		viewHolder.gridView.setAdapter(adapter);
+		viewHolder.gridView.setVisibility(View.VISIBLE);
+		} else {
+			viewHolder.gridView.setVisibility(View.GONE);
+		}
+		
+		User user = SCApp.getInstance().getUser();
+		
+		if (user.getAvatarUrl() != null && !"".equals(user.getAvatarUrl())) {
+			SCApp.getInstance().getCommLoader().displayImage(NetConfig.getPictureUrl(user.getAvatarUrl()),  viewHolder.networkImageView , 39, null);
+		}
 		
 //		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
 //		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
@@ -126,7 +144,8 @@ public class MyComplaintAdpater extends BaseAdapter {
 //				createAlterDialog("", "15980000000");
 //			}
 //		});
-//		viewHolder.district_name.setText(sentHome.name);
+		viewHolder.name.setText(user.name);
+		viewHolder.start_time.setText(repair.repairSubmitTime);
 //		viewHolder.district_address.setText(sentHome.category);
 		return arg1;
 	}
@@ -135,16 +154,18 @@ public class MyComplaintAdpater extends BaseAdapter {
 	
 	public class ViewHolder {
 		
-		public NetworkImageView networkImageView;
-		public TextView district_name;
+		public CircleImageView networkImageView;
+		public TextView name;
 		public TextView district_address;
 		public ImageView call;
 		public GridView gridView;
 		public Button state;
+		public TextView start_time;
 		public TextView finish_time;
 		public TextView hanle_time;
 		public TextView progress;
 		public TextView content;
+		public TextView title;
 		
 	}
 	

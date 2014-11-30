@@ -56,7 +56,7 @@ ErrorListener, ReloadListener{
 	private String sId;
 	
 	private int pageNo;
-	private int pageSize;
+	private int pageSize = 10;
 	private boolean hasNextPage;
 	private String mDistrictName;
 	private MyPostRequest mMyPostRequest;
@@ -265,7 +265,7 @@ ErrorListener, ReloadListener{
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId +"", 64));
-		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().id +"", 64));  //暂时不知道这个id 是不是社区id
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId +"", 64));  //暂时不知道这个id 是不是社区id
 		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
 		
@@ -298,7 +298,7 @@ ErrorListener, ReloadListener{
 			if (!response.hasNextPage) {
 				mPullToRefreshListView.setMode(Mode.DISABLED);
 			}
-			
+			mAdpter.notifyDataSetChanged();
 			if(response.totalNum == 0) {  //显示空
 			    showEmpty();
 			    return;

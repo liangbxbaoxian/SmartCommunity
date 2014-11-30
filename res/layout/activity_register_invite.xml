@@ -77,6 +77,7 @@
                 android:layout_marginTop="28dp"
                 android:background="@drawable/red_btn_selector"
                 android:text="邀请"
+                android:onClick="invite"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>

@@ -41,14 +41,14 @@
                     android:orientation="horizontal" >
 
                     <TextView
-                        android:id="@+id/district_name"
+                        android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="李四" />
 
                     <TextView
                         android:layout_marginLeft="5dp"
-                        android:id="@+id/content"
+                        android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="融汇江山5号楼303室投诉" />
@@ -61,7 +61,7 @@
                     android:orientation="horizontal" >
 
                     <TextView
-                        android:id="@+id/district_address"
+                        android:id="@+id/start_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/wallet_info_margin_top_left_right"
@@ -72,9 +72,9 @@
                         android:id="@+id/state"
                         android:layout_width="59.5dp"
                         android:layout_height="22dp"
-                        android:layout_alignTop="@id/district_address"
+                        android:layout_alignTop="@id/start_time"
                         android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@id/district_address"
+                        android:layout_toRightOf="@id/start_time"
                         android:background="@drawable/shouli"
                         android:text="已受理"
                         android:textColor="@color/white"
@@ -84,6 +84,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/normal_margin"

@@ -1,5 +1,6 @@
 package com.wb.sc.adapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
 import com.wb.sc.bean.MyPost;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
 
 public class MyForumAdpater extends BaseAdapter {
@@ -66,11 +68,11 @@ public class MyForumAdpater extends BaseAdapter {
 		if(arg1 == null){
 			viewHolder = new ViewHolder();
 		    arg1 = LayoutInflater.from(mContext).inflate(R.layout.item_my_forum, null);
-		    viewHolder.gridView = (GridView) arg1.findViewById(R.id.yipay_server);
+//		    viewHolder.gridView = (GridView) arg1.findViewById(R.id.yipay_server);
 		    viewHolder.state = (Button) arg1.findViewById(R.id.state);
 		    viewHolder.finish_time = (TextView) arg1.findViewById(R.id.finish_time);
 		    viewHolder.progress = (TextView) arg1.findViewById(R.id.tip_progress);
-//		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.collection_goods_icon);
+		    viewHolder.networkImageView = (NetworkImageView) arg1.findViewById(R.id.avatar);
 //			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
 //			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
 //			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
@@ -87,7 +89,8 @@ public class MyForumAdpater extends BaseAdapter {
 	  
 		viewHolder.postTitle.setText(item.postTitle);
 		viewHolder.postName.setText(item.postTitle);
-		viewHolder.postTime.setText(item.postTime);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		viewHolder.postTime.setText(formatter.format(item.postTime));
 		viewHolder.postMaster.setText(item.postMaster);
 		
 //		if (isStateChanged) {
@@ -109,15 +112,17 @@ public class MyForumAdpater extends BaseAdapter {
 			categroy.setId(resId[i]);
 			list.add(categroy);
 		}
-		ImageAdapter adapter = new ImageAdapter(mContext, list);
-		viewHolder.gridView.setAdapter(adapter);
+//		ImageAdapter adapter = new ImageAdapter(mContext, list);
+//		viewHolder.gridView.setAdapter(adapter);
 		
 //		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
 //		viewHolder.networkImageView.setErrorImageResId(sentHome.resId);
-//		if(sentHome.url != null && !sentHome.url.equals("")) {
-//			viewHolder.networkImageView.setImageUrl(NetConfig.getPictureUrl(sentHome.url), 
-//					SCApp.getInstance().getImageLoader());
-//		}
+		
+		User user = SCApp.getInstance().getUser();
+		if(user.getAvatarUrl() != null && !"".equals(user.getAvatarUrl())) {
+			viewHolder.networkImageView.setImageUrl(NetConfig.getPictureUrl(user.getAvatarUrl()), 
+					SCApp.getInstance().getImageLoader());
+		}
 //		viewHolder.call.setOnClickListener(new View.OnClickListener() {
 //			
 //			@Override
@@ -140,7 +145,7 @@ public class MyForumAdpater extends BaseAdapter {
 		public TextView postTime;
 		public TextView postMaster;
 		public ImageView call;
-		public GridView gridView;
+//		public GridView gridView;
 		public Button state;
 		public TextView finish_time;
 		public TextView progress;
