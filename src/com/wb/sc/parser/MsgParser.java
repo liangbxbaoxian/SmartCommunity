@@ -13,10 +13,14 @@ public class MsgParser {
 		//进行数据解析处理		
 		dataBean.totalNum = ParamsUtil.getRespIntParamNext(dataBean, 4);
 		dataBean.hasNextPage = ParamsUtil.getNextPageFlag(dataBean);
-		int dataLength = dataBean.dataBytes.length - 9 - 1;  //接口未定义有下一页
-		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
-		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);
 		dataBean.datas = new ArrayList<Msg.MgItem>();
+		if(dataBean.totalNum == 0) {
+			return;
+		}
+		
+		int dataLength = dataBean.dataBytes.length - 9 - 1;  
+		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
+		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);		
 		if (dataBean.totalNum > 0) {
 			for(String itemStr : itemsStr) {
 				String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
@@ -27,7 +31,11 @@ public class MsgParser {
 				item.communityId = values[3];
 				item.msgTypeNO = values[4];
 				item.msgType = values[5];
-				item.msgCreteTime = values[6];
+				if(values.length >= 7) {
+					item.msgCreteTime = values[6];
+				} else {
+					item.msgContent = "";
+				}
 				dataBean.datas.add(item);
 			}
 		}

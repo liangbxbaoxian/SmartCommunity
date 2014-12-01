@@ -12,14 +12,14 @@
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/spinner_bg_nor"
         android:paddingRight="0dp" />
-
+    
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/pull_refresh_list"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_height="match_parent"        
         android:cacheColorHint="#00000000"
         android:divider="#19000000"
         android:dividerHeight="0dp"

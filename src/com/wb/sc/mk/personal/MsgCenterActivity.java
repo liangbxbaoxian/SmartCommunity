@@ -55,15 +55,10 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	private PageInfo mPage = new PageInfo();
 	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;
 	private MsgListAdapter mAdapter;
-//	private MsgList mMsgList;
+	private Msg msg;
 	
 	private MsgRequest MmsgCenterRequest;
-	private int pageNo = 1;
-	private int pageSize = 10;
-	
-//	private List<MgItem> list = new ArrayList<MgItem>();
-	private List<Msg.MgItem> list = new ArrayList<Msg.MgItem>();
-			
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,11 +67,8 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 		getIntentData();
 		initHeader(getResources().getString(R.string.ac_msg_center));
 		initView();		
-		
-//		test();
-		
-        showLoading();		
-		
+				
+//        showLoading();		        
 		requestBase(getBaseRequestParams(), this, this);
 	}
 			
@@ -100,19 +92,18 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				if (arg2 != spinnerPosition) {
-					mPullListView.setMode(Mode.BOTH);
-					list.clear();
-					pageNo = 1;
+					spinnerPosition = arg2;
+					mPage.pageNo = 1;
 					msgType = "0" + arg2;
-					showLoading();	
-					requestBase(getBaseRequestParams(), MsgCenterActivity.this, MsgCenterActivity.this);
+//					showLoading();	
+					startMsgCenterRequest();
+					mPullListView.setMode(Mode.PULL_FROM_END);
 				}
 			
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -138,13 +129,11 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 			@Override
 			public void onLastItemVisible() {
 				//滑动到底部的处理
-//				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE && mMsgCenter.hasNextPage) {
-//					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
-//					mPage.pageNo++;		
-//					startMsgCenterRequest();
-				showLoading();	
-				requestBase(getBaseRequestParams(), MsgCenterActivity.this, MsgCenterActivity.this);
-//				}
+				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE && msg.hasNextPage) {
+					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
+					mPage.pageNo++;		
+					startMsgCenterRequest();
+				}
 			}
 		});
 		
@@ -166,16 +155,13 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 			@Override
 			public void onClick(View v) {
 				if(loadState == PullRefreshListViewHelper.BOTTOM_STATE_LOAD_FAIL) {
-					//加载失败，点击重�?
+					//加载失败，点击重试
 					loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOADING;
 					mPullHelper.setBottomState(loadState);		
 					startMsgCenterRequest();
 				}
 			}
 		});
-		
-		mAdapter = new MsgListAdapter(this, list);
-		mListView.setAdapter(mAdapter);
 	}
 	
 	@Override
@@ -203,7 +189,32 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		bulletin();
+		Msg.MgItem msgItem = msg.datas.get(position-1);
+		int msgType = Integer.valueOf(msgItem.msgTypeNO);
+		switch(msgType) {
+		case 1:{
+			Intent intent = new Intent(this, BulletinActivity.class);
+			intent.putExtra("title", msgItem.msgTitle);
+			intent.putExtra("content", msgItem.msgContent);
+			intent.putExtra("time", msgItem.msgCreteTime);
+			startActivity(intent);
+		}break;
+		
+		case 2:{
+		}break;
+		
+		case 3:{
+		}break;
+		
+		case 4:{
+		}break;
+		
+		case 5:{
+		}break;
+		
+		case 6:{
+		}break;
+		} 
 	}
 	
 	public void bulletin() {
@@ -216,26 +227,16 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	 * @描述:启动请求
 	 */
 	private void startMsgCenterRequest() {
-		//requestMsgCenter(Method.GET, "请求方法", getMsgCenterRequestParams(), this, this);
+		requestBase(getBaseRequestParams(), MsgCenterActivity.this, MsgCenterActivity.this);
 	}
 	
 	@Override
 	public void onReload() {
 		mPage.pageNo = 1;		
-		showLoading();
+//		showLoading();
 		startMsgCenterRequest();
 	}
-	
-//	private void test() {
-//		mMsgList = new MsgList();
-//		mMsgList.datas = new ArrayList<MsgList.Item>();
-//		for(int i=0; i<10; i++) {
-//			mMsgList.datas.add(mMsgList.new Item());
-//		}
-//		mAdapter = new MsgListAdapter(this, mMsgList);
-//		mListView.setAdapter(mAdapter);
-//	}
-	
+		
 	/**
 	 * 获取请求参数,请按照接口文档列表顺序排列
 	 * @return
@@ -249,8 +250,8 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId +"", 64));
 		params.add(ParamsUtil.getReqParam(msgType, 64));
 		
-		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
-		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
+		params.add(ParamsUtil.getReqIntParam(mPage.pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(mPage.pageSize, 2));
 		
 		return params;
 	}
@@ -283,25 +284,39 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	@Override
 	public void onResponse(Msg response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
-			pageNo ++;
+			
+			if(mPullListView.isRefreshing()) {
+				mPullListView.onRefreshComplete();
+			}
 			
 			if(response.totalNum == 0) {  //显示空
-			    showEmpty();
+				if(msg.datas != null && mAdapter != null) {
+					msg.datas.clear();
+					mAdapter.notifyDataSetChanged();
+				}
 			    return;
-			 }
+			}
+			
 			if (response.datas.size() > 0) {
-				list.addAll(response.datas);
+				if(mPage.pageNo == 1) {
+					msg = response;
+					mAdapter = new MsgListAdapter(this, msg.datas);
+					mListView.setAdapter(mAdapter);
+					showContent();
+				} else {					
+					msg.hasNextPage = response.hasNextPage;
+					msg.datas.addAll(response.datas);
+					mAdapter.notifyDataSetChanged();
+				}
 			}
 
-			// Call onRefreshComplete when the list has been refreshed.
-			mPullListView.onRefreshComplete();
-			mAdapter.notifyDataSetChanged();
-			if (!response.hasNextPage) {
-				mPullListView.setMode(Mode.DISABLED);
-			}
-			showContent();
+			loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;	
+			if(msg.hasNextPage) {
+				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_LOADING);
+			} else {
+				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
+			}					
 		} else {
-			showLoadError(this);
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}
 	}
