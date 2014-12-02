@@ -9,6 +9,13 @@ public class Msg extends BaseBean {                 //消息有点混乱，所�
 	public List<MgItem> datas;
 
 	public class MgItem { 
+		
+		public MgItem() {
+			msgTitle = "";
+			msgContent = "";
+			msgCreteTime = "";
+		}
+		
 		public String msgNO;         // 消息编号
 		public String msgTitle;      // 消息标题
 		public String msgContent;    // 消息内容

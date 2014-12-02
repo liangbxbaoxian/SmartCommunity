@@ -3,6 +3,7 @@ package com.wb.sc.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 
 import com.wb.sc.R;
 import com.wb.sc.bean.Msg;
-import com.wb.sc.bean.MsgList;
 
 public class MsgListAdapter extends BaseAdapter{
 	
@@ -57,6 +57,25 @@ public class MsgListAdapter extends BaseAdapter{
        } else {
            view = convertView;
            holder = (ViewHolder) view.getTag();
+       }
+       
+       Msg.MgItem item = mMsgList.get(position);
+       if(!TextUtils.isEmpty(item.msgTitle)) {
+    	   holder.nameTv.setText(item.msgTitle);
+       } else {
+    	   holder.nameTv.setText("");
+       }
+       
+       if(!TextUtils.isEmpty(item.msgCreteTime)) {
+    	   holder.timeTv.setText(item.msgCreteTime);
+       } else {
+    	   holder.timeTv.setText("");
+       }
+       
+       if(!TextUtils.isEmpty(item.msgContent)) {
+    	   holder.descTv.setText(item.msgContent);
+       } else {
+    	   holder.descTv.setText("");
        }
        
        return view;

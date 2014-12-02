@@ -41,30 +41,31 @@ public class SplashActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
 		
-
-		boolean isCancel = PreferencesUtils.getBoolean(this, Constans.CANCEL_SHORT_CUT_REMIND);
-		if (!hasShortCut() && !isCancel) {
-			CustomDialog dialog = new CustomDialog(this, R.style.mystyle, R.layout.shortcut_dialog, new DialogFinish(){
-
-				@Override
-				public void getFinish() {
-					SPLASH_TIME = 100;
-					addShortcut();
-					goToHome();
-				}});
-			dialog.show();
-			dialog.setOnDismissListener(new OnDismissListener() {       //临时处理
-				
-				@Override
-				public void onDismiss(DialogInterface arg0) {
-					SPLASH_TIME = 100;
-					goToHome();
-					PreferencesUtils.putBoolean(SplashActivity.this, Constans.CANCEL_SHORT_CUT_REMIND, true);
-				}
-			});
-		} else {
-			goToHome();
-		}
+		goToHome();
+		
+//		boolean isCancel = PreferencesUtils.getBoolean(this, Constans.CANCEL_SHORT_CUT_REMIND);
+//		if (!hasShortCut() && !isCancel) {
+//			CustomDialog dialog = new CustomDialog(this, R.style.mystyle, R.layout.shortcut_dialog, new DialogFinish(){
+//
+//				@Override
+//				public void getFinish() {
+//					SPLASH_TIME = 100;
+//					addShortcut();
+//					goToHome();
+//				}});
+//			dialog.show();
+//			dialog.setOnDismissListener(new OnDismissListener() {       //临时处理
+//				
+//				@Override
+//				public void onDismiss(DialogInterface arg0) {
+//					SPLASH_TIME = 100;
+//					goToHome();
+//					PreferencesUtils.putBoolean(SplashActivity.this, Constans.CANCEL_SHORT_CUT_REMIND, true);
+//				}
+//			});
+//		} else {
+//			goToHome();
+//		}
 	}
 
 	private void goToHome () {

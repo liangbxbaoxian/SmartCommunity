@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wb.sc"
-    android:versionCode="8"
-    android:versionName="0.0.8" >
+    android:versionCode="10"
+    android:versionName="0.0.10" >
 
     <uses-sdk
         android:minSdkVersion="9"
