@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.adapter.AdvAdapter;
 import com.wb.sc.adapter.CategoryAdapter;
+import com.wb.sc.adapter.NewsAdapter;
 import com.wb.sc.adapter.CategoryAdapter.ItemClickListener;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Adv;
@@ -35,6 +37,7 @@ import com.wb.sc.mk.butler.HouseTradeListActivity;
 import com.wb.sc.mk.butler.PropertyBillActivity;
 import com.wb.sc.mk.butler.PropertyComplain;
 import com.wb.sc.mk.butler.PropertyRepairsActivity;
+import com.wb.sc.mk.main.HomeActivity.AdvTimeCount;
 import com.wb.sc.task.AdvRequest;
 import com.wb.sc.util.ParamsUtil;
 
@@ -47,6 +50,14 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 	private AdvRequest mAdvRequest;
 	private AdvListener mAdvListener = new AdvListener();
 	private PageInfo advPgIf = new PageInfo();
+	private AdvTimeCount advTimeCount;
+	
+	private ViewPager newsVp;
+	private NewsAdapter newsAdapter;
+	private AdvRequest mNewsRequest;
+	private NewsListener mNewsListener = new NewsListener();
+	private PageInfo newsPgIf = new PageInfo();
+	private NewsTimeCount newsTimeCount;
 	
 	private List<CategoryTable> categoryTableList = new ArrayList<CategoryTable>();
 	private CategoryAdapter yipayGriAdapter;
@@ -79,6 +90,10 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 		initView(view);
 		
 		requestAdv(getAdvRequestParams(), mAdvListener, this);
+		requestNews(getNewsRequestParams(), mNewsListener, this);
+		
+		advTimeCount = new AdvTimeCount(HomeActivity.NOTICE_AUTO_MOVE_TIME, HomeActivity.NOTICE_AUTO_MOVE_TIME);
+		newsTimeCount = new NewsTimeCount(HomeActivity.NOTICE_AUTO_MOVE_TIME, HomeActivity.NOTICE_AUTO_MOVE_TIME);
 	}
 	
 	private void initData() {
@@ -104,6 +119,9 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 	private void initView(View view) {
 		advVp = (ViewPager) view.findViewById(R.id.adv_pager);
 		advIndicator = (CirclePageIndicator) view.findViewById(R.id.adv_indicator);		
+		
+		newsVp = (ViewPager) view.findViewById(R.id.news_pager);
+		
 		yipayGriAdapter = new CategoryAdapter(getActivity(), categoryTableList);
 		final GridView yipay_server = (GridView) view.findViewById(R.id.yipay_server);
 		yipay_server.setSelector(R.color.transparent);
@@ -202,6 +220,67 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 				advAdapter = new AdvAdapter(mActivity, response);
 				advVp.setAdapter(advAdapter);
 				advIndicator.setViewPager(advVp);
+				
+				advTimeCount.cancel();
+				advTimeCount.start();
+			} else {
+				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
+			}
+		}
+	}
+	
+	/**
+	 * 获取请求参数
+	 * @return
+	 */
+	private List<String> getNewsRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG20", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
+		params.add(ParamsUtil.getReqParam("05", 2));
+		params.add(ParamsUtil.getReqIntParam(newsPgIf.pageNo, 3));
+		params.add(ParamsUtil.getReqIntParam(newsPgIf.pageSize, 2));
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestNews(List<String> params,	 
+			Listener<Adv> listenre, ErrorListener errorListener) {			
+		if(mNewsRequest != null) {
+			mNewsRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mNewsRequest = new AdvRequest(url, params, listenre, errorListener);
+		((BaseActivity)mActivity).startRequest(mNewsRequest);		
+	}
+	
+	/**
+	 * 
+	 * @描述：房产资讯监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月23日 上午10:20:51
+	 */
+	class NewsListener implements Listener<Adv> {
+		/**
+		 * 请求完成，处理UI更新
+		 */
+		@Override
+		public void onResponse(Adv response) {		
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				newsAdapter = new NewsAdapter(mActivity, response);
+				newsVp.setAdapter(newsAdapter);
+				
+				newsTimeCount.cancel();
+				newsTimeCount.start();
 			} else {
 				ToastHelper.showToastInBottom(mActivity, response.respCodeMsg);
 			}
@@ -215,5 +294,55 @@ public class ButlerFragment extends BaseExtraLayoutFragment implements ItemClick
 	@Override
 	public void onErrorResponse(VolleyError error) {	
 		ToastHelper.showToastInBottom(mActivity, VolleyErrorHelper.getErrorMessage(mActivity, error));
+	}
+	
+	class AdvTimeCount extends CountDownTimer {
+
+		public AdvTimeCount(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+		}
+
+		@Override
+		public void onFinish() {
+			int currentItem = advVp.getCurrentItem();
+			if(currentItem < advVp.getChildCount() - 1) {
+				currentItem++;
+			} else {
+				currentItem = 0;
+			}
+			advIndicator.setCurrentItem(currentItem);
+			advTimeCount.cancel();
+			advTimeCount.start();
+		}
+
+		@Override
+		public void onTick(long millisUntilFinished) {
+			
+		}
+	}
+	
+	class NewsTimeCount extends CountDownTimer {
+
+		public NewsTimeCount(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+		}
+
+		@Override
+		public void onFinish() {
+			int currentItem = newsVp.getCurrentItem();
+			if(currentItem < newsVp.getChildCount() - 1) {
+				currentItem++;
+			} else {
+				currentItem = 0;
+			}
+			newsVp.setCurrentItem(currentItem);
+			newsTimeCount.cancel();
+			newsTimeCount.start();
+		}
+
+		@Override
+		public void onTick(long millisUntilFinished) {
+			
+		}
 	}
 }
