@@ -56,6 +56,7 @@ import com.wb.sc.bean.PhoneList;
 import com.wb.sc.config.ActionConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.personal.MsgCenterActivity;
 import com.wb.sc.mk.post.PostListActivity;
 import com.wb.sc.task.AdvRequest;
@@ -122,6 +123,9 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 	            "net.simonvt.menudrawer.samples.LeftDrawerSample.activePosition";
 	
 	List<Object> items = new ArrayList<Object>();
+	
+	//退出计数器
+	private int exitCount;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -384,8 +388,10 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		
 		switch(v.getId()) {
 		case R.id.msg:{
-			Intent intent = new Intent(mActivity, MsgCenterActivity.class);
-			startActivity(intent);
+			if(ToastLoginDialog.checkLogin(mActivity)) {
+				Intent intent = new Intent(mActivity, MsgCenterActivity.class);
+				startActivity(intent);
+			}
 		}break;
 		
 		case R.id.phone:{
@@ -689,6 +695,35 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		    } 
 		}
 	};
+	
+	/**
+	 * 2秒内按两次退出程序
+	 */
+	@Override
+	public void onBackPressed() {
+		
+		if(exitCount==0) {
+			ToastHelper.showToastInBottom(this, R.string.exit_toast);
+			
+			new Thread() {
+
+				@Override
+				public void run() {
+					try {
+						sleep(2000);
+						exitCount = 0;
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				
+			}.start();
+			
+			exitCount++;
+		} else {
+			finish();
+		}
+	}
 	
 	@Override
 	protected void onDestroy() {

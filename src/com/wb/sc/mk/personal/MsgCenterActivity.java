@@ -290,7 +290,7 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 			}
 			
 			if(response.totalNum == 0) {  //显示空
-				if(msg != null && mAdapter != null) {
+				if(msg != null && msg.datas != null && mAdapter != null) {
 					msg.datas.clear();
 					mAdapter.notifyDataSetChanged();
 				}

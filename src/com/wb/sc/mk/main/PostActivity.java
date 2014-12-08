@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
+import com.wb.sc.config.AcResultCode;
+import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.personal.MyPostActivity;
 
@@ -38,9 +41,7 @@ public class PostActivity extends BaseHeaderActivity {
 	public void getIntentData() {
 		
 	}
-
-
-
+	
 	public void initView() {
 		postFragment = new PostFragment();
 		getSupportFragmentManager().beginTransaction().add(R.id.fragment_containner, postFragment).commit();

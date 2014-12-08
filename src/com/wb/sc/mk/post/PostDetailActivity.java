@@ -51,6 +51,7 @@ import com.wb.sc.bean.CommentList.Item;
 import com.wb.sc.bean.Favour;
 import com.wb.sc.bean.ImagesItem;
 import com.wb.sc.bean.PostDetail;
+import com.wb.sc.config.AcResultCode;
 import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
@@ -282,7 +283,6 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	@Override
 	public void onClick(View v) {
 		
-		
 		switch(v.getId()) {
 		case R.id.opt_1:{
 			//回复
@@ -311,7 +311,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			Intent intent = new Intent();
 			intent.putExtra(IntentExtraConfig.MSG_NUM, mPostDetail.commentNum);
 			intent.putExtra(IntentExtraConfig.FAV_NUM, mPostDetail.favNum);
-			setResult(0, intent);
+			setResult(AcResultCode.REQUEST_CODE_REFRESH_MSG_FAV_NUM, intent);
 		}break;	
 			
 		case R.id.apply:{
@@ -330,7 +330,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			Intent intent = new Intent();
 			intent.putExtra(IntentExtraConfig.MSG_NUM, mPostDetail.commentNum);
 			intent.putExtra(IntentExtraConfig.FAV_NUM, mPostDetail.favNum);
-			setResult(0, intent);
+			setResult(AcResultCode.REQUEST_CODE_REFRESH_MSG_FAV_NUM, intent);
 		}
 		
 		return super.onKeyDown(keyCode, event);

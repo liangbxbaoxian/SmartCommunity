@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.wb.sc.activity.base.BasePhotoFragment;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Post;
 import com.wb.sc.bean.PostType;
+import com.wb.sc.config.AcResultCode;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.dialog.ToastLoginDialog;
@@ -258,6 +260,7 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mPost = response;
 				ToastHelper.showToastInBottom(getActivity(), "发布成功");
+				getActivity().setResult(AcResultCode.REQUEST_CODE_REFRESH_POST_LIST);
 				getActivity().finish();
 			} else {
 				ToastHelper.showToastInBottom(getActivity(), response.respCodeMsg);

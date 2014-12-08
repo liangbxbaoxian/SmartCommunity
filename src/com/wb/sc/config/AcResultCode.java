@@ -8,6 +8,10 @@ package com.wb.sc.config;
  */
 public interface AcResultCode {
 	
+	public static final int REQUEST_CODE_REFRESH_MSG_FAV_NUM = 1;
+	
+	public static final int REQUEST_CODE_REFRESH_POST_LIST = 2;
+	
 	/***************************** 通用 *********************************************/
 	
 	/**

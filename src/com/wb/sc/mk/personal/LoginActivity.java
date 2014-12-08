@@ -207,7 +207,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			SCApp.getInstance().setUser(mUser);
 			DbHelper.saveUser(mUser);
 			finish();
-			startActivity(new Intent(this, HomeActivity.class));
+//			startActivity(new Intent(this, HomeActivity.class));
 		} else {
 			ToastHelper.showToastInBottom(this, response.respCodeMsg);
 		}

@@ -291,4 +291,7 @@
     <!-- 请求提示 -->
     <string name="submit_toast">正在提交，请稍候...</string> 
     
+    <!-- 退出提示 -->
+    <string name="exit_toast">再按一次退出程序</string>
+    
 </resources>
