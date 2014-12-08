@@ -21,16 +21,18 @@ public class MyPostParser {
 		if (dataBean.totalNum > 0) {
 			for(String itemStr : itemsStr) {
 				String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
-				MyPostItem item =  dataBean. new MyPostItem();
-				item.postId = values[0];
-				item.postTitle = values[1];
-				item.postType = values[2];
-				item.postTypeName = values[3];
-				item.postSupportNum = values[4];
-				item.postTime = values[5];
-				item.postMaster = values[6];
-				item.postName = values[7];
-				dataBean.datas.add(item);
+				if (values.length > 7) {
+					MyPostItem item =  dataBean. new MyPostItem();
+					item.postId = values[0];
+					item.postTitle = values[1];
+					item.postType = values[2];
+					item.postTypeName = values[3];
+					item.postSupportNum = values[4];
+					item.postTime = values[5];
+					item.postMaster = values[6];
+					item.postName = values[7];
+					dataBean.datas.add(item);
+				}
 			}
 		}
 	

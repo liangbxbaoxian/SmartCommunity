@@ -21,21 +21,23 @@ public class MyRepairParser {
 		if (dataBean.totalNum > 0) {
 			for(String itemStr : itemsStr) {
 				String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
-				MyRepairItem item =  dataBean. new MyRepairItem();
-				item.repairId = values[0];
-				item.repairTitle = values[1];
-				item.repairStatus = values[2];
-				item.repairStatusName = values[3];
-				item.repairContent = values[4];
-				item.repairSubmitTime = values[5];
-				item.repairHanldeTime = values[6];
-				item.repairEndTime = values[7];
-				item.repairMaster = values[8];
-				item.repairReuslt = values[9];
-				if (11 < values.length) {    //接口返回有问题。应该去下标为10，结果返回11个，已经反馈，服务端没处理
-					item.repairPhoto = values[11].split(ParamsUtil.ITEM_IMG_DIVIDER);
+				if (values.length > 9) {
+					MyRepairItem item =  dataBean. new MyRepairItem();
+					item.repairId = values[0];
+					item.repairTitle = values[1];
+					item.repairStatus = values[2];
+					item.repairStatusName = values[3];
+					item.repairContent = values[4];
+					item.repairSubmitTime = values[5];
+					item.repairHanldeTime = values[6];
+					item.repairEndTime = values[7];
+					item.repairMaster = values[8];
+					item.repairReuslt = values[9];
+					if (11 < values.length) {    //接口返回有问题。应该去下标为10，结果返回11个，已经反馈，服务端没处理
+						item.repairPhoto = values[11].split(ParamsUtil.ITEM_IMG_DIVIDER);
+					}
+					dataBean.datas.add(item);
 				}
-				dataBean.datas.add(item);
 			}
 		}
 	}

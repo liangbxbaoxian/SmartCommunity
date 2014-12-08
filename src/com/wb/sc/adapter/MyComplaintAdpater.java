@@ -68,7 +68,7 @@ public class MyComplaintAdpater extends BaseAdapter {
 	public View getView(int position, View arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder;
-		MyRepairItem repair = (MyRepairItem) mList.get(position);
+		MyRepairItem repair = (MyRepairItem) mfilter.get(position);
 		if(arg1 == null){
 			viewHolder = new ViewHolder();
 		    arg1 = LayoutInflater.from(mContext).inflate(R.layout.itme_my_complaint, null);
@@ -95,18 +95,18 @@ public class MyComplaintAdpater extends BaseAdapter {
 		viewHolder.state.setText(repair.repairStatusName);
 		viewHolder.hanle_time.setText(repair.repairHanldeTime);
 		
-		if ("01".equals(repair.repairStatus)) {
+		if ("01".equals(repair.repairStatus)) {  // 未处理
 			viewHolder.finish_time.setText("");
-			viewHolder.state.setBackgroundResource(R.drawable.chuli);
+			viewHolder.state.setBackgroundResource(R.drawable.shouli);
 			viewHolder.progress.setVisibility(View.GONE);
-		} else if ("02".equals(repair.repairStatus)) {
+		} else if ("02".equals(repair.repairStatus)) {  // 处理中
 			viewHolder.finish_time.setText(repair.repairSubmitTime);
 			viewHolder.state.setBackgroundResource(R.drawable.shouli);
 			viewHolder.progress.setVisibility(View.VISIBLE);
-		} else {
+		} else if ("03".equals(repair.repairStatus)) {  // 已处理
 			viewHolder.finish_time.setText(repair.repairEndTime);
 			viewHolder.state.setBackgroundResource(R.drawable.chuli);
-			viewHolder.progress.setVisibility(View.VISIBLE);
+			viewHolder.progress.setVisibility(View.GONE);
 		}
 		
 		if (repair.repairPhoto.length > 1) {
@@ -209,8 +209,8 @@ public class MyComplaintAdpater extends BaseAdapter {
 		this.statue = statue;
 		mfilter.clear();
 		if (statue >= 1) {
-			for (MyRepairItem item : mList) {
-				if ((statue + "").equals(item.repairStatus)) {
+			for (MyRepairItem item : mList) {                  // 01 未处理   02处理中   03 已处理
+				if (("0" + (statue + 1)).equals(item.repairStatus)) {
 					mfilter.add(item);
 				}
 			}

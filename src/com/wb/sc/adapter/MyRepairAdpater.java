@@ -93,16 +93,16 @@ public class MyRepairAdpater extends BaseAdapter {
 		
 		if ("01".equals(repair.repairStatus)) {
 			viewHolder.finish_time.setText("");
-			viewHolder.state.setBackgroundResource(R.drawable.chuli);
+			viewHolder.state.setBackgroundResource(R.drawable.shouli);
 			viewHolder.progress.setVisibility(View.GONE);
 		} else if ("02".equals(repair.repairStatus)) {
 			viewHolder.finish_time.setText(repair.repairSubmitTime);
 			viewHolder.state.setBackgroundResource(R.drawable.shouli);
 			viewHolder.progress.setVisibility(View.VISIBLE);
-		} else {
+		} else if ("03".equals(repair.repairStatus)) {
 			viewHolder.finish_time.setText(repair.repairEndTime);
 			viewHolder.state.setBackgroundResource(R.drawable.chuli);
-			viewHolder.progress.setVisibility(View.VISIBLE);
+			viewHolder.progress.setVisibility(View.GONE);
 		}
 		
 		User user = SCApp.getInstance().getUser();

@@ -105,7 +105,7 @@ ErrorListener, ReloadListener{
 
 			@Override
 			public void onLastItemVisible() {
-				// TODO Auto-generated method stub
+				requestBase(getBaseRequestParams(), MyRepairActivity.this, MyRepairActivity.this);
 			}
 		});
 		

@@ -105,7 +105,7 @@ ErrorListener, ReloadListener{
 
 			@Override
 			public void onLastItemVisible() {
-				// TODO Auto-generated method stub
+				requestBase(getBaseRequestParams(), MyPostActivity.this, MyPostActivity.this);
 			}
 		});
 		
@@ -124,6 +124,7 @@ ErrorListener, ReloadListener{
 		initData();
 		mAdpter = new MyForumAdpater(MyPostActivity.this, list);
 		mPullToRefreshListView.setDividerDrawable(null);
+		mPullToRefreshListView.setMode(Mode.BOTH);
 		mPullToRefreshListView.setAdapter(mAdpter);
 		
 	      // 初始化控件
