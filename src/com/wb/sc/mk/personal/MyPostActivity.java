@@ -36,12 +36,14 @@ import com.wb.sc.adapter.MyForumAdpater;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.MsgCenter;
 import com.wb.sc.bean.MyPost;
+import com.wb.sc.bean.PostType;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.mk.main.PostActivity;
 import com.wb.sc.task.MsgCenterRequest;
 import com.wb.sc.task.MyPostRequest;
+import com.wb.sc.task.PostTypeRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
@@ -68,6 +70,8 @@ ErrorListener, ReloadListener{
 	private View personalV;
 	private View publicV;
 	
+	private PostTypeRequest mPostTypeRequest;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,6 +94,24 @@ ErrorListener, ReloadListener{
 	public void back (View view) {
 		finish();
      }
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestPostType(List<String> params,	 
+			Listener<PostType> listenre, ErrorListener errorListener) {			
+		if(mPostTypeRequest != null) {
+			mPostTypeRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mPostTypeRequest = new PostTypeRequest(url, params, listenre, errorListener);
+		startRequest(mPostTypeRequest);		
+	}
 
 	public void initView() {
 		mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_scroll);
