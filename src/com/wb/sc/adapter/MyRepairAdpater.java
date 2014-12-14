@@ -120,11 +120,16 @@ public class MyRepairAdpater extends BaseAdapter {
 			viewHolder.gridView.setVisibility(View.VISIBLE);
 
 			
-			if (user.getAvatarUrl() != null && !"".equals(user.getAvatarUrl())) {
-				SCApp.getInstance().getCommLoader().displayImage(NetConfig.getPictureUrl(user.getAvatarUrl()),  viewHolder.networkImageView , 39, null);
-			}
+//			if (user.getAvatarUrl() != null && !"".equals(user.getAvatarUrl())) {
+//				SCApp.getInstance().getCommLoader().displayImage(NetConfig.getPictureUrl(user.getAvatarUrl()),  viewHolder.networkImageView , 39, null);
+//			}
 		} else {
 			viewHolder.gridView.setVisibility(View.GONE);
+		}
+		
+		
+		if (user.getAvatarUrl() != null && !"".equals(user.getAvatarUrl())) {
+			SCApp.getInstance().getCommLoader().displayImage(NetConfig.getPictureUrl(user.getAvatarUrl()),  viewHolder.networkImageView , 39, null);
 		}
 		
 //		viewHolder.networkImageView.setDefaultImageResId(sentHome.resId);
