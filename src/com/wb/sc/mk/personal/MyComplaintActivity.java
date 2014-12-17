@@ -138,7 +138,7 @@ ErrorListener, ReloadListener{
 
 			@Override
 			public void onLastItemVisible() {
-				// TODO Auto-generated method stub
+				requestBase(getBaseRequestParams(), MyComplaintActivity.this, MyComplaintActivity.this);
 			}
 		});
 		

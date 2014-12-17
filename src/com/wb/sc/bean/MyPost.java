@@ -12,7 +12,7 @@ public class MyPost extends BaseBean {
 		public String postId;            // 帖子id
 		public String postTitle;         // 帖子标题
 		public String postType;          // 帖子类型
-		public String postTypeName;          // 帖子类型
+		public String postTypeName;          // 帖子类型名称
 		public String postSupportNum;    // 通知人
 		public String postTime;          // 通知时间
 		public String postMaster;        // 发帖人

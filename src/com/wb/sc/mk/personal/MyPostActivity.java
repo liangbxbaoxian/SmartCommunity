@@ -3,7 +3,6 @@ package com.wb.sc.mk.personal;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -34,14 +32,16 @@ import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MyForumAdpater;
 import com.wb.sc.app.SCApp;
-import com.wb.sc.bean.MsgCenter;
 import com.wb.sc.bean.MyPost;
+import com.wb.sc.bean.PostType;
 import com.wb.sc.bean.SentHome;
+import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.mk.main.PostActivity;
-import com.wb.sc.task.MsgCenterRequest;
+import com.wb.sc.mk.post.PostDetailActivity;
 import com.wb.sc.task.MyPostRequest;
+import com.wb.sc.task.PostTypeRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
@@ -68,6 +68,11 @@ ErrorListener, ReloadListener{
 	private View personalV;
 	private View publicV;
 	
+	//发帖类型
+	private PostTypeRequest mPostTypeRequest;
+	private PostTypeListener mPostTypeListener = new PostTypeListener();
+	private PostType mPostType;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,9 +82,58 @@ ErrorListener, ReloadListener{
 		
 		
 		showLoading();		
-		
+	    requestPostType(getPostTypeRequestParams(), mPostTypeListener, this);
 		requestBase(getBaseRequestParams(), this, this);
 	}
+	
+	
+	/**
+	 * 获取帖子分类请求参数
+	 * @return
+	 */
+	private List<String> getPostTypeRequestParams() {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG33", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqIntParam(1, 3));
+		params.add(ParamsUtil.getReqIntParam(10, 2));
+		return params;
+	}
+	
+
+    
+    /**
+	 * 
+	 * @描述：帖子分类监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月27日 上午8:51:09
+	 */
+	class PostTypeListener implements Listener<PostType>{
+		/**
+		 * 请求完成，处理UI更新
+		 */
+		@Override
+		public void onResponse(PostType response) {		
+			showContent();	
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				mPostType = response;
+				String[] types = new String[mPostType.datas.size()];
+				for(int i=0; i<mPostType.datas.size(); i++) {
+					types[i] = mPostType.datas.get(i).name;								
+				}
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(MyPostActivity.this, 
+		    			R.layout.spinner_text_layout, types);
+		    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+		    	mSpinner.setAdapter(adapter);
+
+			} else {
+				ToastHelper.showToastInBottom(MyPostActivity.this, response.respCodeMsg);
+			}
+		}
+	}
+	
 	
 	
 	@Override
@@ -90,6 +144,24 @@ ErrorListener, ReloadListener{
 	public void back (View view) {
 		finish();
      }
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestPostType(List<String> params,	 
+			Listener<PostType> listenre, ErrorListener errorListener) {			
+		if(mPostTypeRequest != null) {
+			mPostTypeRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mPostTypeRequest = new PostTypeRequest(url, params, listenre, errorListener);
+		startRequest(mPostTypeRequest);		
+	}
 
 	public void initView() {
 		mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_scroll);
@@ -105,7 +177,7 @@ ErrorListener, ReloadListener{
 
 			@Override
 			public void onLastItemVisible() {
-				// TODO Auto-generated method stub
+				requestBase(getBaseRequestParams(), MyPostActivity.this, MyPostActivity.this);
 			}
 		});
 		
@@ -115,7 +187,10 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(MyPostActivity.this, MyPostActivity.class);
+				MyPost.MyPostItem item  = list.get(position-1);
+				Intent intent = new Intent(MyPostActivity.this, PostDetailActivity.class);		
+				intent.putExtra(IntentExtraConfig.DETAIL_ID, item.postId);
+				intent.putExtra(IntentExtraConfig.POST_TYPE, item.postType);
 				startActivity(intent);
 			}
 		});
@@ -124,17 +199,18 @@ ErrorListener, ReloadListener{
 		initData();
 		mAdpter = new MyForumAdpater(MyPostActivity.this, list);
 		mPullToRefreshListView.setDividerDrawable(null);
+		mPullToRefreshListView.setMode(Mode.BOTH);
 		mPullToRefreshListView.setAdapter(mAdpter);
 		
 	      // 初始化控件
 		mSpinner = (Spinner) findViewById(R.id.spinner1);
-		// 建立数据源
-		String[] mItems = getResources().getStringArray(R.array.msg_type);
-		// 建立Adapter并且绑定数据源
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-    			R.layout.spinner_text_layout, mItems);
-    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-		mSpinner.setAdapter(adapter);
+//		// 建立数据源
+//		String[] mItems = getResources().getStringArray(R.array.msg_type);
+//		// 建立Adapter并且绑定数据源
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+//    			R.layout.spinner_text_layout, mItems);
+//    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//		mSpinner.setAdapter(adapter);
 		mSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override

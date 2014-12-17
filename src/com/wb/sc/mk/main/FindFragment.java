@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,8 +24,10 @@ import com.wb.sc.adapter.FindAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Adv;
 import com.wb.sc.bean.CategoryTable;
+import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.mk.browser.BrowserActivity;
 import com.wb.sc.task.AdvRequest;
 import com.wb.sc.util.ParamsUtil;
 
@@ -37,6 +41,8 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 	private com.android.volley.toolbox.NetworkImageView one_img;
 	private com.android.volley.toolbox.NetworkImageView two_img;
 	private com.android.volley.toolbox.NetworkImageView three_img;
+	
+	private Adv adv;
 		
 	@Override
 	public void onAttach(Activity activity) {
@@ -50,7 +56,7 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 
 			@Override
 			public void onResponse(Adv response) {
-				
+				adv = response;
 				if(response.respCode.equals(RespCode.SUCCESS)) {
 					if (response.datas != null  && response.datas.size() >= 3) {
 						if(response.datas.get(0).imgUrl != null && !"".equals(response.datas.get(0).imgUrl)) {
@@ -59,12 +65,12 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 						}
 						
 						if(response.datas.get(1).imgUrl != null && !"".equals(response.datas.get(1).imgUrl)) {
-							two_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(0).imgUrl), 
+							two_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(1).imgUrl), 
 									SCApp.getInstance().getImageLoader());
 						}
 						
 						if(response.datas.get(2).imgUrl != null && !"".equals(response.datas.get(2).imgUrl)) {
-							three_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(0).imgUrl), 
+							three_img.setImageUrl(NetConfig.getPictureUrl(response.datas.get(2).imgUrl), 
 									SCApp.getInstance().getImageLoader());
 						}
 					}
@@ -117,8 +123,40 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 		yipay_server.setAdapter(yipayGriAdapter);
 		
 		 one_img = (com.android.volley.toolbox.NetworkImageView) view.findViewById(R.id.one_img);
+		 one_img.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				showAdContent(0);
+			}
+		});
 		 two_img = (com.android.volley.toolbox.NetworkImageView) view.findViewById(R.id.two_img);
+		 two_img.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					showAdContent(1);
+				}
+			});
 		 three_img = (com.android.volley.toolbox.NetworkImageView) view.findViewById(R.id.three_img);
+		 three_img.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					showAdContent(2);
+				}
+			});
+	}
+	
+	private void showAdContent(int position) {
+		Intent intent = new Intent(getActivity(), BrowserActivity.class);
+		if(!TextUtils.isEmpty(adv.datas.get(position).title)) {
+			intent.putExtra(IntentExtraConfig.BROWSER_TITLE, adv.datas.get(position).title);
+		}
+		if(!TextUtils.isEmpty(adv.datas.get(position).imgUrl)) {
+			intent.putExtra(IntentExtraConfig.BROWSER_URL, adv.datas.get(position).imgUrl);
+		}
+		getActivity().startActivity(intent);
 	}
 	
 	/**
