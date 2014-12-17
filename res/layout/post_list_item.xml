@@ -49,8 +49,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_toRightOf="@id/postMaster"
-                android:text="发呆放空去"
-                android:textSize="16sp" />
+                android:text="发呆放空去"                
+                android:textSize="16sp" 
+                android:singleLine="true"/>
 
             <TextView
                 android:id="@+id/postTime"
