@@ -4,36 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
 import com.common.widget.helper.PullRefreshListViewHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.activity.base.BaseNetActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.SaleHouseListAdapter;
 import com.wb.sc.bean.SaleHouseList;
+import com.wb.sc.bean.SaleHouseList.Item;
 import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.ConfirmDialog;
 import com.wb.sc.task.SaleHouseListRequest;
 import com.wb.sc.util.ParamsUtil;
 
@@ -150,9 +155,19 @@ public class HouseTradeListFragment extends BaseExtraLayoutFragment implements L
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		
+//		final Item item = mSaleHouseList.datas.get(position-1);
+//		new ConfirmDialog().getDialog(mActivity, "呼叫", item.phone, 
+//				new DialogInterface.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				dialog.dismiss();
+//				Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+item.phone));  
+//				mActivity.startActivity(intent);  
+//			}
+//		}).show();
 	}
-	
+		
 	/**
 	 * 
 	 * @描述:启动请求

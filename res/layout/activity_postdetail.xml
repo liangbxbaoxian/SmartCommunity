@@ -266,6 +266,7 @@
             android:layout_marginRight="7dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
+            android:maxLength="83"
             android:background="@drawable/shurukuangdi" />
 
         <ImageButton

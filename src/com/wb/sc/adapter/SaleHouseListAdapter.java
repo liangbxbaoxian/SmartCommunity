@@ -122,8 +122,8 @@ public class SaleHouseListAdapter extends BaseAdapter{
     		   	if(!TextUtils.isEmpty(imgUrl)) {
 //    		   		NetworkImageView itemIv = new NetworkImageView(mActivity);    
     		   		NetworkImageView itemIv = holder.imgIvList.get(i);
-    		   		String smallImgUrl = ImgUrlUtil.getSmallUrl(imgUrl);
-    		   		itemIv.setImageUrl(NetConfig.getPictureUrl(smallImgUrl), SCApp.getInstance().getImageLoader());
+//    		   		String smallImgUrl = ImgUrlUtil.getSmallUrl(imgUrl);
+    		   		itemIv.setImageUrl(NetConfig.getPictureUrl(imgUrl), SCApp.getInstance().getImageLoader());
 //    		   		holder.imgVg.addView(itemIv);
 //    		   		LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)itemIv.getLayoutParams();
 //    		   		lp.width = pItemWidth;

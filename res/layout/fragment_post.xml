@@ -42,7 +42,8 @@
                     android:layout_marginTop="8dp"
                     android:background="@null"
                     android:hint="标题"
-                    android:textSize="13sp" />
+                    android:textSize="13sp" 
+                    android:maxLength="33"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -57,6 +58,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@null"
                     android:hint="业主心声，等你发声......"
+                    android:maxLength="341"
                     android:textSize="12sp" />
             </LinearLayout>
 
