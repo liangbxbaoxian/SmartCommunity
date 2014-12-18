@@ -1,6 +1,5 @@
 package com.wb.sc.adapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,23 +23,27 @@ import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
 import com.wb.sc.bean.MyPost;
-import com.wb.sc.bean.SentHome;
 import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
 
 public class MyForumAdpater extends BaseAdapter {
 
 	private Context mContext;
-	private List<?> mList;
+	private List<MyPost.MyPostItem> mList;
+	public List<MyPost.MyPostItem> mFilter = new ArrayList<MyPost.MyPostItem>();
 	private boolean isStateChanged;
 	
-	public MyForumAdpater(Context mContext, List<?> list ) {
+	public MyForumAdpater(Context mContext, List<MyPost.MyPostItem> list ) {
 		this.mContext = mContext;
 		this.mList = list;
 	}
 
 	@Override
 	public int getCount() {
+		int size = mFilter == null ? 0: mFilter.size();
+		if (size > 0) {
+			return size;
+		} 
 		return mList.size();
 	}
 
@@ -59,6 +61,9 @@ public class MyForumAdpater extends BaseAdapter {
 	
 	public void stateFilter(boolean isStateChanged) {
 		this.isStateChanged = isStateChanged;
+		if (!isStateChanged) {
+			mFilter.clear();
+		}
 	}
 
 	@Override
@@ -186,6 +191,15 @@ public class MyForumAdpater extends BaseAdapter {
 	private void callPhone(String phoneNum) {
 		Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));  
 		mContext.startActivity(intent);  
+	}
+	
+	public void filter(String type) {
+		for (MyPost.MyPostItem filter : mList) {
+			if ((type).equals(filter.postTypeName)) {
+				mFilter.add(filter);
+			}
+		}
+		notifyDataSetChanged();
 	}
 
 }
