@@ -73,6 +73,9 @@ ErrorListener, ReloadListener{
 	private PostTypeListener mPostTypeListener = new PostTypeListener();
 	private PostType mPostType;
 	
+	private int postion = -1;
+	private String[] types;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -119,7 +122,7 @@ ErrorListener, ReloadListener{
 			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mPostType = response;
-				String[] types = new String[mPostType.datas.size()];
+				types = new String[mPostType.datas.size()];
 				for(int i=0; i<mPostType.datas.size(); i++) {
 					types[i] = mPostType.datas.get(i).name;								
 				}
@@ -216,12 +219,12 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				if (arg2 == 1) {
-					mAdpter.stateFilter(true);
-				} else {
-					mAdpter.stateFilter(false);
+				
+				if (postion != arg2) {
+					postion = arg2;
+					mAdpter.filter(types[arg2]);
 				}
-				mAdpter.notifyDataSetChanged();
+				
 			}
 
 			@Override
@@ -370,6 +373,13 @@ ErrorListener, ReloadListener{
 
 			list.addAll(response.datas);
 			// Call onRefreshComplete when the list has been refreshed.
+			
+			if (postion >= 1) {
+				mAdpter.filter(types[postion]);
+			} else {
+				mAdpter.stateFilter(false);
+			}
+			
 			mPullToRefreshListView.onRefreshComplete();
 			if (!response.hasNextPage) {
 				mPullToRefreshListView.setMode(Mode.DISABLED);
