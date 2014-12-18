@@ -1,6 +1,5 @@
 package com.wb.sc.adapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +23,7 @@ import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
 import com.wb.sc.bean.MyPost;
-import com.wb.sc.bean.SentHome;
+import com.wb.sc.bean.MyPost.MyPostItem;
 import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
 
@@ -33,6 +31,7 @@ public class MyForumAdpater extends BaseAdapter {
 
 	private Context mContext;
 	private List<?> mList;
+	private List<MyPost.MyPostItem> mFilter = new ArrayList<MyPost.MyPostItem>();
 	private boolean isStateChanged;
 	
 	public MyForumAdpater(Context mContext, List<?> list ) {
@@ -42,6 +41,10 @@ public class MyForumAdpater extends BaseAdapter {
 
 	@Override
 	public int getCount() {
+		int size = mFilter == null ? 0 : mFilter.size();
+		if (size > 0) {
+			return size;
+		}
 		return mList.size();
 	}
 
@@ -59,6 +62,9 @@ public class MyForumAdpater extends BaseAdapter {
 	
 	public void stateFilter(boolean isStateChanged) {
 		this.isStateChanged = isStateChanged;
+		if (!isStateChanged) {
+			mFilter.clear();
+		}
 	}
 
 	@Override
@@ -87,7 +93,12 @@ public class MyForumAdpater extends BaseAdapter {
 		}else{
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
-		MyPost.MyPostItem item = (MyPost.MyPostItem) mList.get(position);
+		MyPost.MyPostItem item = null;
+		if (mFilter.size() > 0) {
+			item = (MyPost.MyPostItem) mFilter.get(position);
+		} else {
+			item = (MyPost.MyPostItem) mList.get(position);
+		}
 	  
 		viewHolder.postTitle.setText(item.postTypeName);
 		viewHolder.postName.setText(item.postTitle);
@@ -186,6 +197,15 @@ public class MyForumAdpater extends BaseAdapter {
 	private void callPhone(String phoneNum) {
 		Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));  
 		mContext.startActivity(intent);  
+	}
+	
+	public void getFilter(int type) {
+		for (Object items : mList) {
+			MyPost.MyPostItem item = (MyPostItem) items;
+			if (("0"+ type).equals(item.postType)) {
+				mFilter.add(item);
+			}
+		}
 	}
 
 }

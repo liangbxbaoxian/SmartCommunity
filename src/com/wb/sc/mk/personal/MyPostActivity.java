@@ -73,6 +73,8 @@ ErrorListener, ReloadListener{
 	private PostTypeListener mPostTypeListener = new PostTypeListener();
 	private PostType mPostType;
 	
+	private int postion = -1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -216,11 +218,14 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				if (arg2 == 1) {
+				
+				if (postion >= 0) {
 					mAdpter.stateFilter(true);
+					mAdpter.getFilter(arg2);
 				} else {
 					mAdpter.stateFilter(false);
 				}
+				postion = arg2;
 				mAdpter.notifyDataSetChanged();
 			}
 
