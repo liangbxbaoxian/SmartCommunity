@@ -121,6 +121,7 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
     	Date date = new Date();		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
+		cal.add(Calendar.DATE, 1);
 		for(int i=0; i<7; i++) {			
 			String time = FormatDateTime.date2String(cal.getTime(), "MM-dd");
 			String weekDay = new SimpleDateFormat("EEEE").format(cal.getTime());			

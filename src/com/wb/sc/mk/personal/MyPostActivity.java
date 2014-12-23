@@ -74,6 +74,7 @@ ErrorListener, ReloadListener{
 	private PostType mPostType;
 	
 	private int postion = -1;
+	private String[] types;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +122,7 @@ ErrorListener, ReloadListener{
 			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mPostType = response;
-				String[] types = new String[mPostType.datas.size()];
+				types = new String[mPostType.datas.size()];
 				for(int i=0; i<mPostType.datas.size(); i++) {
 					types[i] = mPostType.datas.get(i).name;								
 				}
@@ -219,14 +220,13 @@ ErrorListener, ReloadListener{
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				
-				if (postion >= 0) {
-					mAdpter.stateFilter(true);
-					mAdpter.getFilter(arg2);
-				} else {
-					mAdpter.stateFilter(false);
-				}
 				postion = arg2;
 				mAdpter.notifyDataSetChanged();
+				if (postion != arg2) {
+					postion = arg2;
+					mAdpter.getFilter(types[arg2]);
+				}
+				
 			}
 
 			@Override
@@ -375,6 +375,13 @@ ErrorListener, ReloadListener{
 
 			list.addAll(response.datas);
 			// Call onRefreshComplete when the list has been refreshed.
+			
+			if (postion >= 1) {
+				mAdpter.getFilter(types[postion]);
+			} else {
+				mAdpter.stateFilter(false);
+			}
+			
 			mPullToRefreshListView.onRefreshComplete();
 			if (!response.hasNextPage) {
 				mPullToRefreshListView.setMode(Mode.DISABLED);

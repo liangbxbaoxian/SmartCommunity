@@ -34,17 +34,17 @@ public class MyForumAdpater extends BaseAdapter {
 	private List<MyPost.MyPostItem> mFilter = new ArrayList<MyPost.MyPostItem>();
 	private boolean isStateChanged;
 	
-	public MyForumAdpater(Context mContext, List<?> list ) {
+	public MyForumAdpater(Context mContext, List<MyPost.MyPostItem> list ) {
 		this.mContext = mContext;
 		this.mList = list;
 	}
 
 	@Override
 	public int getCount() {
-		int size = mFilter == null ? 0 : mFilter.size();
+		int size = mFilter == null ? 0: mFilter.size();
 		if (size > 0) {
 			return size;
-		}
+		} 
 		return mList.size();
 	}
 
@@ -199,13 +199,14 @@ public class MyForumAdpater extends BaseAdapter {
 		mContext.startActivity(intent);  
 	}
 	
-	public void getFilter(int type) {
+	public void getFilter(String type) {
 		for (Object items : mList) {
 			MyPost.MyPostItem item = (MyPostItem) items;
-			if (("0"+ type).equals(item.postType)) {
+			if ((type).equals(item.postType)) {
 				mFilter.add(item);
 			}
 		}
+		notifyDataSetChanged();
 	}
 
 }

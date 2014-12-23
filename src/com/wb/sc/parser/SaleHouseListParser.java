@@ -40,11 +40,13 @@ public class SaleHouseListParser {
 			item.time = values[12];
 			item.configuration = values[13];
 			item.phone = values[14];
-			String[] imgs = values[11].split(ParamsUtil.ITEM_IMG_DIVIDER);
 			item.imgList = new ArrayList<String>();
-			for(String img : imgs) {
-				if(!TextUtils.isEmpty(img) && !img.equals(" ")) {
-					item.imgList.add(img);
+			if(values.length >= 16 && !TextUtils.isEmpty(values[15])) {
+				String[] imgs = values[15].split(ParamsUtil.ITEM_IMG_DIVIDER);				
+				for(String img : imgs) {
+					if(!TextUtils.isEmpty(img) && !img.equals(" ")) {
+						item.imgList.add(img);
+					}
 				}
 			}
 			dataBean.datas.add(item);

@@ -2,6 +2,20 @@ package com.wb.sc.adapter;
 
 import java.util.Date;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.NetworkImageView.NetworkImageListener;
 import com.common.date.FormatDateTime;
@@ -10,18 +24,7 @@ import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CommentList;
 import com.wb.sc.bean.CommentList.Item;
-import com.wb.sc.bean.PostList;
 import com.wb.sc.config.NetConfig;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class CommentListAdapter extends BaseAdapter implements NetworkImageListener{
 	
@@ -78,7 +81,15 @@ public class CommentListAdapter extends BaseAdapter implements NetworkImageListe
        Date timeDate = FormatDateTime.string2Date(item.time, FormatDateTime.DATETIME_YMDHMS_STR);
        String time = FormatDateTime.date2String(timeDate, FormatDateTime.DATETIME_YMDHMS);
        holder.timeTv.setText(time);
-       holder.commentTv.setText(item.content);
+       if(TextUtils.isEmpty(item.parentSourceId)) {
+    	   holder.commentTv.setText(item.content);
+       } else {
+    	   ForegroundColorSpan blueSpan = new ForegroundColorSpan(Color.BLUE);
+    	   String content = "回复@"+item.parentSourceName + ":" + item.content;
+    	   SpannableStringBuilder builder = new SpannableStringBuilder(content);
+    	   builder.setSpan(blueSpan, 2, item.parentSourceName.length()+2+2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    	   holder.commentTv.setText(builder);
+       }
        
        return view;
     }

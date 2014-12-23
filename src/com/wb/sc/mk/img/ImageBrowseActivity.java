@@ -58,8 +58,11 @@ public class ImageBrowseActivity extends BaseHeaderActivity implements ImageBrow
 		imgPos = getIntent().getIntExtra(IntentExtraConfig.IMAGE_BROWSER_POS, 0);
 		
 		bmpList.clear();
-		for(int i=0; i<imageList.size(); i++) {
-			bmpList.add(null);
+		if(imageList != null && imageList.size() > 0) {
+			ImagesItem imagesItem = imageList.get(0);
+			for(int i=0; i<imagesItem.images.length; i++) {
+				bmpList.add(null);
+			}
 		}
 	}
 

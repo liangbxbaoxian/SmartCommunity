@@ -233,16 +233,20 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			public void onClick(View v) {
 				String content = commentContentEt.getText().toString();
 				
+				if(!ToastLoginDialog.checkLogin(mActivity)) {
+					return;
+				}
+				
 				if(TextUtils.isEmpty(content)) {
 					ToastHelper.showToastInBottom(mActivity, "评论不能为空");
 					return;
 				}
 				
-				if(!ToastLoginDialog.checkLogin(mActivity)) {
+				if(content.length() > 83) {
+					ToastHelper.showToastInBottom(mActivity, "抱歉，评论的字数过长，请进行删减");
 					return;
 				}
-				
-				
+																
 				if(!isReply) {
 					showProcess("正在发表评论...");
 					requestComment(getCommentRequestParams(content, ""), mCommentListener, PostDetailActivity.this);
