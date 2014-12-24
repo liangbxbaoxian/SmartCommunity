@@ -42,7 +42,7 @@ public class MyForumAdpater extends BaseAdapter {
 	@Override
 	public int getCount() {
 		int size = mFilter == null ? 0: mFilter.size();
-		if (size > 0) {
+		if (isStateChanged) {
 			return size;
 		} 
 		return mList.size();
@@ -200,12 +200,14 @@ public class MyForumAdpater extends BaseAdapter {
 	}
 	
 	public void getFilter(String type) {
+		mFilter.clear();
 		for (Object items : mList) {
 			MyPost.MyPostItem item = (MyPostItem) items;
-			if ((type).equals(item.postType)) {
+			if ((type).equals(item.postTypeName)) {
 				mFilter.add(item);
 			}
 		}
+		isStateChanged = true;
 		notifyDataSetChanged();
 	}
 

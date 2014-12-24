@@ -220,12 +220,12 @@ ErrorListener, ReloadListener{
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				
-				postion = arg2;
-				mAdpter.notifyDataSetChanged();
-				if (postion != arg2) {
+				if (postion >= 0) {
 					postion = arg2;
 					mAdpter.getFilter(types[arg2]);
+					mAdpter.notifyDataSetChanged();
 				}
+				postion = arg2;
 				
 			}
 
