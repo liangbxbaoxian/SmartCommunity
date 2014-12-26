@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -125,8 +124,18 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
     		return;
     	}
     	
+    	if(title.length() > 33) {
+    		ToastHelper.showToastInBottom(getActivity(), "标题过长，请删减");
+    		return;
+    	}
+    	
     	if(TextUtils.isEmpty(content)) {
     		ToastHelper.showToastInBottom(getActivity(), "内容不能为空");
+    		return;
+    	}
+    	
+    	if(content.length() > 341) {
+    		ToastHelper.showToastInBottom(getActivity(), "内容过长，请删减内容");
     		return;
     	}
     	
@@ -218,7 +227,7 @@ public class PostFragment extends BasePhotoFragment implements OnItemClickListen
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
 		params.add(ParamsUtil.getReqParam(selTypeId, 64));
 		params.add(ParamsUtil.getReqParam(title, 100));
-		params.add(ParamsUtil.getReqParam(content, 300));
+		params.add(ParamsUtil.getReqParam(content, 1024));
 		params.add(ParamsUtil.getReqParam(imgsUrl, 1024));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
 		return params;

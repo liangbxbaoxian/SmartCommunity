@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
@@ -17,18 +21,24 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.ImagesItem;
 import com.wb.sc.bean.SaleHouseList;
+import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
-import com.wb.sc.util.ImgUrlUtil;
+import com.wb.sc.dialog.ConfirmDialog;
+import com.wb.sc.mk.img.ImageBrowseActivity;
 
-public class SaleHouseListAdapter extends BaseAdapter{
+public class SaleHouseListAdapter extends BaseAdapter implements OnClickListener{
 	
 	private Activity mActivity;
 	private SaleHouseList mSaleList;
+	
+	private CallPhoneListener phoneListener;
 	   
     public SaleHouseListAdapter(Activity activity, SaleHouseList list) {
        mActivity = activity;
        mSaleList = list;
+       phoneListener = new CallPhoneListener();
     }
  
     @Override
@@ -72,6 +82,8 @@ public class SaleHouseListAdapter extends BaseAdapter{
            holder.timeTv = (TextView) view.findViewById(R.id.time);
            holder.configurationTv = (TextView) view.findViewById(R.id.configuration);
            holder.phoneTv = (TextView) view.findViewById(R.id.phone);
+           holder.phoneVg = (ViewGroup) view.findViewById(R.id.phone_layout);
+           holder.phoneVg.setOnClickListener(phoneListener);
 
            holder.imgVg = (LinearLayout) view.findViewById(R.id.imgs);
            holder.img1Iv = (NetworkImageView) view.findViewById(R.id.img1);
@@ -83,12 +95,25 @@ public class SaleHouseListAdapter extends BaseAdapter{
            holder.imgIvList.add(holder.img2Iv);
            holder.imgIvList.add(holder.img3Iv);
            holder.imgIvList.add(holder.img4Iv);
+          
+           holder.img1Iv.setOnClickListener(this);           
+           holder.img2Iv.setOnClickListener(this);           
+           holder.img3Iv.setOnClickListener(this);           
+           holder.img4Iv.setOnClickListener(this);
+           holder.imgLineV = view.findViewById(R.id.img_line);
            
            view.setTag(holder);
        } else {
            view = convertView;
            holder = (ViewHolder) view.getTag();
        }
+       
+       holder.img1Iv.setTag(position+"&1");
+       holder.img2Iv.setTag(position+"&2");
+       holder.img3Iv.setTag(position+"&3");
+       holder.img4Iv.setTag(position+"&4");
+       
+       holder.phoneVg.setTag(position+"");
        
        com.wb.sc.bean.SaleHouseList.Item item = mSaleList.datas.get(position);
        holder.totalPriceTv.setText(item.totalPrice);
@@ -133,6 +158,7 @@ public class SaleHouseListAdapter extends BaseAdapter{
     	   }
        } else {
 //    	   holder.imgLv.setVisibility(View.GONE);
+    	   holder.imgLineV.setVisibility(View.GONE);
     	   holder.imgVg.setVisibility(View.GONE);
        }
        
@@ -160,6 +186,51 @@ public class SaleHouseListAdapter extends BaseAdapter{
     	NetworkImageView img3Iv;
     	NetworkImageView img4Iv;
     	List<NetworkImageView> imgIvList;
-//    	HorizontalListView imgLv;
+    	View imgLineV;
+    	ViewGroup phoneVg;
     }
+    
+	@Override
+	public void onClick(View v) {
+		int position = Integer.valueOf(v.getTag().toString().split("&")[0]);
+		int index = Integer.valueOf(v.getTag().toString().split("&")[1]) - 1;
+		com.wb.sc.bean.SaleHouseList.Item item = mSaleList.datas.get(position);
+		ArrayList<ImagesItem> imgs = new ArrayList<ImagesItem>();
+		ImagesItem imgItem = new ImagesItem();
+		imgs.add(imgItem);
+		imgItem.name = "";
+		imgItem.imageNum = item.imgList.size();
+		imgItem.images = new String[imgItem.imageNum];
+		int i=0;
+		for(String imgUrl : item.imgList) {
+			imgItem.images[i] = imgUrl;
+			i++;
+		}		
+		
+		Intent intent = new Intent(mActivity, ImageBrowseActivity.class);
+		intent.putParcelableArrayListExtra(IntentExtraConfig.IMAGE_BROWSER_DATA, imgs);
+		intent.putExtra(IntentExtraConfig.IMAGE_BROWSER_DIS_TAB, false);
+		intent.putExtra(IntentExtraConfig.IMAGE_BROWSER_POS, index);
+		mActivity.startActivity(intent);
+	}
+	
+	class CallPhoneListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			int position = Integer.valueOf(v.getTag().toString());
+			final com.wb.sc.bean.SaleHouseList.Item item = mSaleList.datas.get(position);
+			new ConfirmDialog().getDialog(mActivity, "呼叫", item.phone, 
+					new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+item.phone));  
+					mActivity.startActivity(intent);  
+				}
+			}).show();
+		}
+		
+	}
 }

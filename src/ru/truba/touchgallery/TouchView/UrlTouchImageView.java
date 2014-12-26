@@ -107,7 +107,9 @@ public class UrlTouchImageView extends RelativeLayout {
 				if(bitmap != null) {
 					mImageView.setScaleType(ScaleType.MATRIX);
 					mImageView.setImageBitmap(bitmap);	
-					ImageBrowseActivity.bmpList.set(position, bitmap);
+					if(ImageBrowseActivity.bmpList.size() > 0) {
+						ImageBrowseActivity.bmpList.set(position, bitmap);
+					}
 				} else {
 					mImageView.setImageResource(R.drawable.no_photo);	
 				}

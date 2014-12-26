@@ -390,7 +390,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
-        android:layout_marginTop="10dp"
+        android:paddingTop="10dp"
         android:orientation="horizontal" >
 
         <com.android.volley.toolbox.NetworkImageView
@@ -419,6 +419,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/img_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="11dp"
@@ -427,6 +428,7 @@
         android:background="#cacaca" />
 
     <RelativeLayout
+        android:id="@+id/phone_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="24dp" 

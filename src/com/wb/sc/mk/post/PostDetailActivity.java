@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -647,6 +648,10 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 				//刷新评论列表
 				mPage.pageNo = 1;		
 				startCommentListRequest();
+				
+				InputMethodManager imm = (InputMethodManager) PostDetailActivity.this
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(commentContentEt.getWindowToken(), 0);
 			} else {
 				ToastHelper.showToastInBottom(PostDetailActivity.this, response.respCodeMsg);
 			}

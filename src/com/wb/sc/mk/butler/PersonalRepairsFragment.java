@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -49,6 +50,7 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 	private EditText houseInfoEt;
 	private EditText phoneEt;
 	private EditText descEt;
+	private CheckBox shareCb;
 	
 	private Spinner dateSp;
 	private Spinner timeSp;
@@ -97,6 +99,7 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
     	houseInfoEt = (EditText) view.findViewById(R.id.house_info);
     	phoneEt = (EditText) view.findViewById(R.id.phone);
     	descEt = (EditText) view.findViewById(R.id.desc);
+    	shareCb = (CheckBox) view.findViewById(R.id.share);
     	
     	dateSp = (Spinner) view.findViewById(R.id.date);
     	ArrayAdapter<String> dateAdapter = new ArrayAdapter<String>(getActivity(), 
@@ -198,6 +201,11 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 		params.add(ParamsUtil.getReqParam("05", 2));
 		params.add(ParamsUtil.getReqParam("", 100));
 		params.add(ParamsUtil.getReqParam("00", 2));
+		if(shareCb.isChecked()) {
+			params.add(ParamsUtil.getReqParam("01", 2));
+		} else {
+			params.add(ParamsUtil.getReqParam("00", 2));
+		}
 		return params;
 	}
 		

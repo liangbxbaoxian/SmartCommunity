@@ -33,6 +33,7 @@ import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.activity.base.BaseNetActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.SaleHouseListAdapter;
+import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.SaleHouseList;
 import com.wb.sc.bean.SaleHouseList.Item;
 import com.wb.sc.config.IntentExtraConfig;
@@ -189,6 +190,7 @@ public class HouseTradeListFragment extends BaseExtraLayoutFragment implements L
 		}
 		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId, 64));
 		params.add(ParamsUtil.getReqIntParam(mPage.pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(mPage.pageSize, 2));
 		return params;

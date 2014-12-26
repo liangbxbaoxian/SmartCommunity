@@ -3,6 +3,7 @@ package com.wb.sc.parser;
 import android.util.Log;
 
 import com.common.format.ByteHelper;
+import com.common.format.HexStringBytes;
 import com.common.security.Base64Tools;
 import com.common.security.Des3Tools;
 import com.google.gson.Gson;
@@ -32,9 +33,9 @@ public class BaseParser {
 		
 		//进行3des解密
 		byte[] content = Des3Tools.deTripleDES(SCApp.getInstance().getDes3Key(), des3Content);
-//		if(DebugConfig.SHOW_DEBUG_MESSAGE) {
-//			Log.d(TAG, HexStringBytes.bytes2HexString(des3Content));
-//		}
+		if(DebugConfig.SHOW_DEBUG_MESSAGE) {
+			Log.d(TAG, HexStringBytes.bytes2HexString(content));
+		}
 		
 		//截取字符长度,获取data内容,暂时忽略最后2字节的CRC16检验
 		int length = (int)(((content[0]&0xff) << 8) | content[1] & 0xff) - 2;		

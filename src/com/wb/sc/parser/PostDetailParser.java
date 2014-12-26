@@ -16,8 +16,8 @@ public class PostDetailParser {
 		baseBean.sourceId = ParamsUtil.getRespParamNext(baseBean, 64);
 		baseBean.sourceName = ParamsUtil.getRespParamNext(baseBean, 64);
 		baseBean.sourceAvatarUrl = ParamsUtil.getRespParamNext(baseBean, 256);
-		baseBean.title = ParamsUtil.getRespParamNext(baseBean, 64);
-		baseBean.content = ParamsUtil.getRespParamNext(baseBean, 256);
+		baseBean.title = ParamsUtil.getRespParamNext(baseBean, 100);
+		baseBean.content = ParamsUtil.getRespParamNext(baseBean, 1024);
 		String[] imgs = ParamsUtil.getRespParamNext(baseBean, 1024).split(ParamsUtil.ITEMS_DIVIDER);
 		baseBean.imgList = new ArrayList<String>();
 		for(String img :imgs) {

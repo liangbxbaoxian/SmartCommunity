@@ -204,6 +204,23 @@
                 android:orientation="vertical"
                 hl:listSelector="@android:color/transparent" />
         </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="23dp"
+            android:layout_marginTop="13dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkbox_selector"
+                android:text="分享至交流区"
+                android:textSize="15.5dp" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/submit"
