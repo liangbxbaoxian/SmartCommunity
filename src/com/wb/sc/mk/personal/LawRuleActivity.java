@@ -190,6 +190,10 @@ ErrorListener, ReloadListener{
 	public void onResponse(LawRule response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			pageNo++;
+			if(response.totalNum == 0) {  //显示空
+			    showEmpty();
+			    return;
+			}
 			showContent();
 			list.addAll(response.datas);
 			adapter.notifyDataSetChanged();
