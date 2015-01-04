@@ -73,7 +73,7 @@ ErrorListener, ReloadListener{
 	private PostTypeListener mPostTypeListener = new PostTypeListener();
 	private PostType mPostType;
 	
-	private int postion = -1;
+	private int postion = 0;
 	private String[] types;
 	
 	@Override
@@ -122,9 +122,10 @@ ErrorListener, ReloadListener{
 			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
 				mPostType = response;
-				types = new String[mPostType.datas.size()];
-				for(int i=0; i<mPostType.datas.size(); i++) {
-					types[i] = mPostType.datas.get(i).name;								
+				types = new String[mPostType.datas.size() + 1];
+				types[0] = "全部"; 
+				for(int i=0; i< mPostType.datas.size() ; i++) {
+					types[i + 1] = mPostType.datas.get(i).name;								
 				}
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(MyPostActivity.this, 
 		    			R.layout.spinner_text_layout, types);
@@ -220,10 +221,11 @@ ErrorListener, ReloadListener{
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				
-				if (postion >= 0) {
-					postion = arg2;
-					mAdpter.getFilter(types[arg2]);
+				if (postion != arg2) {
+					pageNo = 1;
+					list.clear();
 					mAdpter.notifyDataSetChanged();
+					requestBase(getBaseRequestParams(), MyPostActivity.this, MyPostActivity.this);
 				}
 				postion = arg2;
 				
@@ -347,6 +349,11 @@ ErrorListener, ReloadListener{
 		params.add(ParamsUtil.getReqParam(MetaUtil.readMeta(this, Constans.APP_CHANNEL), 20));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId +"", 64));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().communityId +"", 64));  //暂时不知道这个id 是不是社区id
+		if (postion != 0) {
+			params.add(ParamsUtil.getReqParam(mPostType.datas.get(postion - 1).id +"", 8));  //暂时不知道这个id 是不是社区id
+		} else {
+			params.add(ParamsUtil.getReqParam("", 8));  //暂时不知道这个id 是不是社区id
+		}
 		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
 		
@@ -376,11 +383,11 @@ ErrorListener, ReloadListener{
 			list.addAll(response.datas);
 			// Call onRefreshComplete when the list has been refreshed.
 			
-			if (postion >= 1) {
-				mAdpter.getFilter(types[postion]);
-			} else {
-				mAdpter.stateFilter(false);
-			}
+//			if (postion >= 1) {
+//				mAdpter.getFilter(types[postion]);
+//			} else {
+//				mAdpter.stateFilter(false);
+//			}
 			
 			mPullToRefreshListView.onRefreshComplete();
 			if (!response.hasNextPage) {
