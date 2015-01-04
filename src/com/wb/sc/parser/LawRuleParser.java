@@ -18,14 +18,16 @@ public class LawRuleParser {
 		String datasStr = ParamsUtil.getRespParam(dataBean, 9, dataLength);
 		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);
 		dataBean.datas = new ArrayList<LawRule.LawRuleItem>();
-		for(String itemStr : itemsStr) {
-			String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
-			LawRuleItem item =  dataBean. new LawRuleItem();
-			item.lawRuleId = values[0];
-			item.lawRuleTitle = values[1];
-			item.lawRuleContent = values[2];
-			item.lawRuleTime = values[3];
-			dataBean.datas.add(item);
+		if (dataBean.totalNum > 0) {
+			for(String itemStr : itemsStr) {
+				String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
+				LawRuleItem item =  dataBean. new LawRuleItem();
+				item.lawRuleId = values[0];
+				item.lawRuleTitle = values[1];
+				item.lawRuleContent = values[2];
+				item.lawRuleTime = values[3];
+				dataBean.datas.add(item);
+			}
 		}
 	}
 }
