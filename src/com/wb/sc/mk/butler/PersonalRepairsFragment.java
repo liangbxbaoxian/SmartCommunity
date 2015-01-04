@@ -200,7 +200,6 @@ public class PersonalRepairsFragment extends BasePhotoFragment implements Listen
 		params.add(ParamsUtil.getReqParam(time, 16));
 		params.add(ParamsUtil.getReqParam("05", 2));
 		params.add(ParamsUtil.getReqParam("", 100));
-		params.add(ParamsUtil.getReqParam("00", 2));
 		if(shareCb.isChecked()) {
 			params.add(ParamsUtil.getReqParam("01", 2));
 		} else {
