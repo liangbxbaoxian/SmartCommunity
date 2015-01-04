@@ -222,12 +222,12 @@ ErrorListener, ReloadListener{
 					int arg2, long arg3) {
 				
 				if (postion != arg2) {
+					postion = arg2;
 					pageNo = 1;
 					list.clear();
 					mAdpter.notifyDataSetChanged();
 					requestBase(getBaseRequestParams(), MyPostActivity.this, MyPostActivity.this);
 				}
-				postion = arg2;
 				
 			}
 
