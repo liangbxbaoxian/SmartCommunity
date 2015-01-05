@@ -314,9 +314,11 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			
 		case R.id.common_header_back:{
 			Intent intent = new Intent();
-			intent.putExtra(IntentExtraConfig.MSG_NUM, mPostDetail.commentNum);
-			intent.putExtra(IntentExtraConfig.FAV_NUM, mPostDetail.favNum);
-			setResult(AcResultCode.REQUEST_CODE_REFRESH_MSG_FAV_NUM, intent);
+			if(mPostDetail != null) {
+				intent.putExtra(IntentExtraConfig.MSG_NUM, mPostDetail.commentNum);
+				intent.putExtra(IntentExtraConfig.FAV_NUM, mPostDetail.favNum);
+				setResult(AcResultCode.REQUEST_CODE_REFRESH_MSG_FAV_NUM, intent);
+			}
 		}break;	
 			
 		case R.id.apply:{
