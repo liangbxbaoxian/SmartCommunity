@@ -274,7 +274,7 @@ ErrorListener, ReloadListener{
 	 */
 	private List<String> getBaseRequestParams() {
 		List<String> params = new ArrayList<String>();
-		params.add(ParamsUtil.getReqParam("GA06", 4));
+		params.add(ParamsUtil.getReqParam(reqType, 4));
 		params.add(ParamsUtil.getReqParam("X01_CENTERM", 16));
 		params.add(ParamsUtil.getReqParam("00", 2));
 		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().phone, 15));
