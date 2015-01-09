@@ -25,6 +25,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
@@ -107,18 +108,33 @@ ErrorListener, ReloadListener{
 				new GetDataTask().execute();
 			}
 		});
-
-		mPullToRefreshListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+		
+		mPullToRefreshListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 
 			@Override
-			public void onLastItemVisible() {
-				// TODO Auto-generated method stub
+			public void onPullDownToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+//				if (hasNextPage) {
+//					requestBase(getBaseRequestParams(), MyExpressActivity.this, MyExpressActivity.this);
+//				} else {
+//					mPullToRefreshListView.onRefreshComplete();
+//					mPullToRefreshListView.setMode(Mode.DISABLED);
+//				}
+				
+			}
+
+			@Override
+			public void onPullUpToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
 				if (hasNextPage) {
 					requestBase(getBaseRequestParams(), MyExpressActivity.this, MyExpressActivity.this);
+				} else {
+					mPullToRefreshListView.onRefreshComplete();
+					mPullToRefreshListView.setVisibility(View.VISIBLE);
 				}
 			}
 		});
-
+		
 
 		mPullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -220,6 +236,8 @@ ErrorListener, ReloadListener{
 			current_express.setSelected(false);
 			history_express.setSelected(false);
 			
+			mPullToRefreshListView.setMode(Mode.BOTH);
+			
 			pageNo = deprecated_express_list.size() / pageSize;
 			if (pageNo == 0) {
 				pageNo = 1;
@@ -246,6 +264,7 @@ ErrorListener, ReloadListener{
 			deprecated_express.setSelected(false);
 			current_express.setSelected(true);
 			history_express.setSelected(false);
+			mPullToRefreshListView.setMode(Mode.BOTH);
 			
 			pageNo = current_express_list.size() / pageSize;
 			if (pageNo == 0) {
@@ -271,6 +290,7 @@ ErrorListener, ReloadListener{
 			deprecated_express.setSelected(false);
 			current_express.setSelected(false);
 			history_express.setSelected(true);
+			mPullToRefreshListView.setMode(Mode.BOTH);
 			
 			pageNo = history_express_list.size() / pageSize;
 			if (pageNo == 0) {
