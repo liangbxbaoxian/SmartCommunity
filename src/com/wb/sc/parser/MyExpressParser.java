@@ -27,14 +27,18 @@ public class MyExpressParser {
 					item.desc = values[1];
 					item.cabinetId = values[2];
 					item.cabinetNum = values[3];
-					item.trackingNum = values[4];
-					item.takeNum = values[5];
+					item.takeNum = values[4];
+					item.expressCompanyNo = values[5];
 					item.expressCompany = values[6];
 					item.courierName = values[7];
 					item.courierTel = values[8];
 					item.takeUserTel = values[9];
 					item.saveTime = values[10];
 					item.takeTime = values[11];
+					item.lng = values[12];
+					item.lat = values[13];
+					item.addrDetial = values[14];
+					item.cabinetStatu = values[15];
 					dataBean.datas.add(item);
 			}
 		}

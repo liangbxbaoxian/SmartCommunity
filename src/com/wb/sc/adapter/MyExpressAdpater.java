@@ -75,7 +75,7 @@ public class MyExpressAdpater extends BaseAdapter {
 		ExpressItem item = (ExpressItem) mList.get(position);
 	    viewHolder.cabinetNum.setText(item.cabinetNum);
 	    viewHolder.expressCompany.setText(item.expressCompany);
-	    viewHolder.trackingNum.setText(item.trackingNum);
+	    viewHolder.trackingNum.setText(item.takeNum);
 	    viewHolder.courierName.setText(item.courierName);
 	    viewHolder.takeNum.setText(item.takeNum);
 	    viewHolder.district_name.setText(item.desc);
