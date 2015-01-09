@@ -1,15 +1,8 @@
 package com.wb.sc.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +14,12 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.wb.sc.R;
-import com.wb.sc.app.SCApp;
-import com.wb.sc.bean.CategoryTable;
 import com.wb.sc.bean.MyExpress.ExpressItem;
-import com.wb.sc.bean.SentHome;
-import com.wb.sc.config.NetConfig;
 
 public class MyExpressAdpater extends BaseAdapter {
 
 	private Context mContext;
 	private List<?> mList;
-	private boolean isStateChanged;
 	
 	public MyExpressAdpater(Context mContext, List<?> list ) {
 		this.mContext = mContext;
@@ -55,9 +43,6 @@ public class MyExpressAdpater extends BaseAdapter {
 		return 0;
 	}
 	
-	public void stateFilter(boolean isStateChanged) {
-		this.isStateChanged = isStateChanged;
-	}
 
 	@Override
 	public View getView(int position, View arg1, ViewGroup arg2) {
@@ -93,6 +78,7 @@ public class MyExpressAdpater extends BaseAdapter {
 	    viewHolder.trackingNum.setText(item.trackingNum);
 	    viewHolder.courierName.setText(item.courierName);
 	    viewHolder.takeNum.setText(item.takeNum);
+	    viewHolder.district_name.setText(item.desc);
 		
 //		if (isStateChanged) {
 //			viewHolder.state.setText("已处理");
@@ -154,36 +140,5 @@ public class MyExpressAdpater extends BaseAdapter {
 		
 	}
 	
-	private void createAlterDialog(String name, final String phoneNum) {
-		AlertDialog.Builder builder = new Builder(mContext);
-		builder.setMessage(phoneNum);
-
-		builder.setTitle(name);
-
-		builder.setPositiveButton("呼叫", new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				callPhone(phoneNum.split("/")[0]);
-				//				dialog.dismiss();
-
-			}
-		});
-
-		builder.setNegativeButton("取消", new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
-
-		builder.create().show();
-	}
-
-	private void callPhone(String phoneNum) {
-		Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));  
-		mContext.startActivity(intent);  
-	}
 
 }

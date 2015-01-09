@@ -53,16 +53,29 @@
             android:textColor="@color/bottom_bar_text_selector"
             android:textSize="14.5sp" />
     </LinearLayout>
+    
+    
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="250dp"
+        android:layout_gravity="center" />
 
     <TextView
-        android:id="@+id/keyword"
+        android:id="@+id/noData"
         android:background="@color/no_data_bg_color"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textColor="@color/no_data_color"
         android:textSize="28sp"
         android:gravity="center"
+        android:visibility="gone"
         android:text="无数据" />
+    
+    
+    
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
@@ -77,7 +90,7 @@
         android:smoothScrollbar="true"
         ptr:ptrAnimationStyle="flip"
         ptr:ptrDrawable="@drawable/default_ptr_flip"
-        android:visibility="gone"
+        android:visibility="visible"
         ptr:ptrMode="both" >
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 

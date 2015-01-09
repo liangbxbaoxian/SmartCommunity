@@ -13,6 +13,8 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -51,7 +53,7 @@ ErrorListener, ReloadListener{
 	private boolean hasNextPage;
 	private String mDistrictName;
 
-	private List<SentHome> list = new ArrayList<SentHome>();
+	private List<MyExpress.ExpressItem> list = new ArrayList<MyExpress.ExpressItem>();
 	
 	private List<MyExpress.ExpressItem> current_express_list = new ArrayList<MyExpress.ExpressItem>();
 	private List<MyExpress.ExpressItem> deprecated_express_list = new ArrayList<MyExpress.ExpressItem>();
@@ -70,6 +72,10 @@ ErrorListener, ReloadListener{
 	private int pageSize = 10;
 	
 	private String reqType = "GA06";
+	
+	private ProgressBar progressBar;
+	
+	private TextView noData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +104,7 @@ ErrorListener, ReloadListener{
 
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-//				new GetDataTask().execute();
+				new GetDataTask().execute();
 			}
 		});
 
@@ -107,6 +113,9 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onLastItemVisible() {
 				// TODO Auto-generated method stub
+				if (hasNextPage) {
+					requestBase(getBaseRequestParams(), MyExpressActivity.this, MyExpressActivity.this);
+				}
 			}
 		});
 
@@ -139,6 +148,9 @@ ErrorListener, ReloadListener{
 		history_express = findViewById(R.id.history_express);
 		history_express.setSelected(false);
 		history_express.setOnClickListener(this);
+		
+		progressBar = (ProgressBar) findViewById(R.id.progressBar);
+		noData = (TextView) findViewById(R.id.noData);
 
 	}
 
@@ -211,9 +223,15 @@ ErrorListener, ReloadListener{
 			pageNo = deprecated_express_list.size() / pageSize;
 			if (pageNo == 0) {
 				pageNo = 1;
-				showLoading();	
+//				showLoading();
+				
+				mPullToRefreshListView.setVisibility(View.GONE);
+				progressBar.setVisibility(View.VISIBLE);
 				requestBase(getBaseRequestParams(), this, this);
 			}
+			list.clear();
+			list.addAll(deprecated_express_list);
+			mAdpter.notifyDataSetChanged();
 			
 			if (has_next_deprecated_express) {
 				mPullToRefreshListView.setMode(Mode.BOTH);
@@ -232,9 +250,14 @@ ErrorListener, ReloadListener{
 			pageNo = current_express_list.size() / pageSize;
 			if (pageNo == 0) {
 				pageNo = 1;
-				showLoading();	
+//				showLoading();	
+				mPullToRefreshListView.setVisibility(View.GONE);
+				progressBar.setVisibility(View.VISIBLE);
 				requestBase(getBaseRequestParams(), this, this);
 			}
+			list.clear();
+			list.addAll(current_express_list);
+			mAdpter.notifyDataSetChanged();
 			
 			if (has_next_current_express) {
 				mPullToRefreshListView.setMode(Mode.BOTH);
@@ -252,9 +275,14 @@ ErrorListener, ReloadListener{
 			pageNo = history_express_list.size() / pageSize;
 			if (pageNo == 0) {
 				pageNo = 1;
-				showLoading();	
+//				showLoading();	
+				mPullToRefreshListView.setVisibility(View.GONE);
+				progressBar.setVisibility(View.VISIBLE);
 				requestBase(getBaseRequestParams(), this, this);
 			}
+			list.clear();
+			list.addAll(history_express_list);
+			mAdpter.notifyDataSetChanged();
 
 			if (has_next_history_express) {
 				mPullToRefreshListView.setMode(Mode.BOTH);
@@ -304,19 +332,27 @@ ErrorListener, ReloadListener{
 	public void onResponse(MyExpress response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			pageNo ++;
+			hasNextPage = response.hasNextPage;
 			if ("GA06".equals(reqType)) {
 				has_next_current_express = response.hasNextPage;
 				current_express_list.addAll(response.datas);
+				list.clear();
+				list.addAll(current_express_list);
 			} else if ("GA23".equals(reqType)) {
 				has_next_deprecated_express = response.hasNextPage;
 				deprecated_express_list.addAll(response.datas);
+				list.clear();
+				list.addAll(deprecated_express_list);
 			} else if ("GA22".equals(reqType)) {
 				has_next_history_express = response.hasNextPage;
 				history_express_list.addAll(response.datas);
+				list.clear();
+				list.addAll(history_express_list);
 			}
 			
 			if(response.totalNum == 0) {  //显示空
-			    showEmpty();
+//			    showEmpty();
+				noData.setVisibility(View.VISIBLE);
 			    return;
 			}
 			
@@ -327,6 +363,10 @@ ErrorListener, ReloadListener{
 
 			// Call onRefreshComplete when the list has been refreshed.
 			mPullToRefreshListView.onRefreshComplete();
+			mPullToRefreshListView.setVisibility(View.VISIBLE);
+			progressBar.setVisibility(View.GONE);
+			noData.setVisibility(View.GONE);
+			mAdpter.notifyDataSetChanged();
 			showContent();
 		} else {
 			showLoadError(this);

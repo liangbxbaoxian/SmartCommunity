@@ -74,7 +74,6 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:id="@+id/bulletinTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -97,7 +96,6 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:id="@+id/bulletinTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -120,7 +118,6 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:id="@+id/bulletinTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
