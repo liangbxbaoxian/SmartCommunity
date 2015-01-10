@@ -101,11 +101,12 @@ ErrorListener, ReloadListener{
 
 	public void initView() {
 		mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_scroll);
+		mPullToRefreshListView.setMode(Mode.PULL_FROM_END);
 		mPullToRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				new GetDataTask().execute();
+//				new GetDataTask().execute();
 			}
 		});
 		
@@ -130,7 +131,6 @@ ErrorListener, ReloadListener{
 					requestBase(getBaseRequestParams(), MyExpressActivity.this, MyExpressActivity.this);
 				} else {
 					mPullToRefreshListView.onRefreshComplete();
-					mPullToRefreshListView.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -236,7 +236,7 @@ ErrorListener, ReloadListener{
 			current_express.setSelected(false);
 			history_express.setSelected(false);
 			
-			mPullToRefreshListView.setMode(Mode.BOTH);
+			mPullToRefreshListView.setMode(Mode.PULL_FROM_END);
 			
 			pageNo = deprecated_express_list.size() / pageSize;
 			if (pageNo == 0) {
@@ -251,10 +251,10 @@ ErrorListener, ReloadListener{
 			list.addAll(deprecated_express_list);
 			mAdpter.notifyDataSetChanged();
 			
-			if (has_next_deprecated_express) {
-				mPullToRefreshListView.setMode(Mode.BOTH);
-			}
-	
+//			if (has_next_deprecated_express) {
+//				mPullToRefreshListView.setMode(Mode.PULL_FROM_END);
+//			}
+//	
 			
 			break;
 
@@ -264,7 +264,7 @@ ErrorListener, ReloadListener{
 			deprecated_express.setSelected(false);
 			current_express.setSelected(true);
 			history_express.setSelected(false);
-			mPullToRefreshListView.setMode(Mode.BOTH);
+			mPullToRefreshListView.setMode(Mode.PULL_FROM_END);
 			
 			pageNo = current_express_list.size() / pageSize;
 			if (pageNo == 0) {
@@ -278,10 +278,10 @@ ErrorListener, ReloadListener{
 			list.addAll(current_express_list);
 			mAdpter.notifyDataSetChanged();
 			
-			if (has_next_current_express) {
-				mPullToRefreshListView.setMode(Mode.BOTH);
-			}
-			
+//			if (has_next_current_express) {
+//				mPullToRefreshListView.setMode(Mode.BOTH);
+//			}
+//			
 			
 			break;
 		case R.id.history_express:
@@ -290,7 +290,7 @@ ErrorListener, ReloadListener{
 			deprecated_express.setSelected(false);
 			current_express.setSelected(false);
 			history_express.setSelected(true);
-			mPullToRefreshListView.setMode(Mode.BOTH);
+			mPullToRefreshListView.setMode(Mode.PULL_FROM_END);
 			
 			pageNo = history_express_list.size() / pageSize;
 			if (pageNo == 0) {
@@ -304,9 +304,9 @@ ErrorListener, ReloadListener{
 			list.addAll(history_express_list);
 			mAdpter.notifyDataSetChanged();
 
-			if (has_next_history_express) {
-				mPullToRefreshListView.setMode(Mode.BOTH);
-			}
+//			if (has_next_history_express) {
+//				mPullToRefreshListView.setMode(Mode.PULL_FROM_END);
+//			}
 			
 			break;			
 
@@ -374,6 +374,10 @@ ErrorListener, ReloadListener{
 //			    showEmpty();
 				noData.setVisibility(View.VISIBLE);
 			    return;
+			}
+			
+			if (hasNextPage) {
+				mPullToRefreshListView.setMode(Mode.DISABLED);
 			}
 			
 //			list.clear();  list.addAll and then notification
