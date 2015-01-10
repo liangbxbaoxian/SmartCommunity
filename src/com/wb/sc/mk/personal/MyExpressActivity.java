@@ -141,8 +141,8 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(MyExpressActivity.this, MyExpressActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(MyExpressActivity.this, MyExpressActivity.class);
+//				startActivity(intent);
 			}
 		});
 
@@ -352,22 +352,44 @@ ErrorListener, ReloadListener{
 	public void onResponse(MyExpress response) {
 		if(response.respCode.equals(RespCode.SUCCESS)) {
 			pageNo ++;
-			hasNextPage = response.hasNextPage;
+			
 			if ("GA06".equals(reqType)) {
 				has_next_current_express = response.hasNextPage;
 				current_express_list.addAll(response.datas);
 				list.clear();
 				list.addAll(current_express_list);
+				
+				if (response.datas == null) {
+					hasNextPage = false;
+				} else {
+					hasNextPage = current_express_list.size() < response.datas.size();
+				}
+				
 			} else if ("GA23".equals(reqType)) {
 				has_next_deprecated_express = response.hasNextPage;
 				deprecated_express_list.addAll(response.datas);
 				list.clear();
 				list.addAll(deprecated_express_list);
+				
+				if (response.datas == null) {
+					hasNextPage = false;
+				} else {
+					hasNextPage = deprecated_express_list.size() < response.datas.size();
+				}
+				
+				
 			} else if ("GA22".equals(reqType)) {
 				has_next_history_express = response.hasNextPage;
 				history_express_list.addAll(response.datas);
 				list.clear();
 				list.addAll(history_express_list);
+				
+				if (response.datas == null) {
+					hasNextPage = false;
+				} else {
+					hasNextPage = history_express_list.size() < response.datas.size();
+				}
+				
 			}
 			
 			if(response.totalNum == 0) {  //显示空
