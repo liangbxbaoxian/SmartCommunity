@@ -3,6 +3,8 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+
 import net.simonvt.menudrawer.MenuDrawer;
 import net.simonvt.menudrawer.Position;
 import android.app.AlertDialog;
@@ -36,9 +38,11 @@ import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
 import com.common.widget.ToastHelper;
+import com.umeng.message.ALIAS_TYPE;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.IUmengUnregisterCallback;
 import com.umeng.message.PushAgent;
+import com.umeng.message.proguard.C.e;
 import com.umeng.update.UmengUpdateAgent;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.wb.sc.R;
@@ -53,6 +57,7 @@ import com.wb.sc.bean.ComNotice;
 import com.wb.sc.bean.Item;
 import com.wb.sc.bean.Menu;
 import com.wb.sc.bean.PhoneList;
+import com.wb.sc.bean.User;
 import com.wb.sc.config.ActionConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
@@ -410,6 +415,35 @@ public class HomeActivity extends BaseActivity implements ErrorListener, PhoneMe
 		if(!mPushAgent.isEnabled()) {
 			mPushAgent.enable(mRegisterCallback);
 		}
+		mPushAgent.onAppStart();
+		
+		//如果登录状态，则传入APP ID
+		new Thread() {
+			
+			@Override
+			public void run() {
+				User user = SCApp.getInstance().getUser();
+				PushAgent mPushAgent = PushAgent.getInstance(HomeActivity.this);
+				if(user.isLogin == 1) {
+					try {
+						mPushAgent.addAlias(user.userId, ALIAS_TYPE.BAIDU);
+					} catch (e e) {
+						e.printStackTrace();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				} else {
+					try {
+						mPushAgent.removeAlias(user.userId, ALIAS_TYPE.BAIDU);
+					} catch (e e) {
+						e.printStackTrace();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
+		
 	}
 	
 	public IUmengRegisterCallback mRegisterCallback = new IUmengRegisterCallback() {

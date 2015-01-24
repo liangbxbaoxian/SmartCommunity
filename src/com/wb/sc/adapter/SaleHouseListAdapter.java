@@ -125,7 +125,13 @@ public class SaleHouseListAdapter extends BaseAdapter implements OnClickListener
        holder.floorTv.setText(item.floor);
        holder.structureTv.setText(item.structure);
        holder.finishTv.setText(item.finish);
-       holder.propertiesTv.setText(item.properties);
+       if(item.equals("1")) {
+    	   holder.propertiesTv.setText("有产权");
+       } else if(item.equals("0")) {
+    	   holder.propertiesTv.setText("无产权");
+       } else {
+    	   holder.propertiesTv.setText(item.properties);
+       }
        holder.timeTv.setText(item.time);
        holder.configurationTv.setText(item.configuration);
        holder.phoneTv.setText(item.phone);

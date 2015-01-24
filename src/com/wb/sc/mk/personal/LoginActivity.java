@@ -3,6 +3,8 @@ package com.wb.sc.mk.personal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -20,6 +22,9 @@ import com.common.format.HexStringBytes;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.security.Des3Tools;
 import com.common.widget.ToastHelper;
+import com.umeng.message.ALIAS_TYPE;
+import com.umeng.message.PushAgent;
+import com.umeng.message.proguard.C.e;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.app.SCApp;
@@ -206,6 +211,23 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			}
 			SCApp.getInstance().setUser(mUser);
 			DbHelper.saveUser(mUser);
+													
+			// 设置推送User Id	
+			new Thread() {
+				
+				@Override
+				public void run() {
+					PushAgent mPushAgent = PushAgent.getInstance(LoginActivity.this);
+					try {
+						mPushAgent.addAlias(mUser.userId, ALIAS_TYPE.BAIDU);
+					} catch (e e) {
+						e.printStackTrace();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}.start();
+			
 			finish();
 //			startActivity(new Intent(this, HomeActivity.class));
 		} else {
