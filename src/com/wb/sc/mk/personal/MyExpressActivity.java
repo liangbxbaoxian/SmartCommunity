@@ -24,8 +24,10 @@ import com.common.widget.ToastHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnPullEventListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
@@ -109,31 +111,48 @@ ErrorListener, ReloadListener{
 			}
 		});
 		
-		mPullToRefreshListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+		mPullToRefreshListView.setOnPullEventListener(new OnPullEventListener<ListView>() {
 
 			@Override
-			public void onPullDownToRefresh(
-					PullToRefreshBase<ListView> refreshView) {
+			public void onPullEvent(PullToRefreshBase<ListView> refreshView,
+					State state, Mode direction) {
+				refreshView.onRefreshComplete();
+				if (direction == Mode.PULL_DOWN_TO_REFRESH) {
+					if (hasNextPage) {
+					requestBase(getBaseRequestParams(), MyExpressActivity.this, MyExpressActivity.this);
+				} else {
+					mPullToRefreshListView.onRefreshComplete();
+					mPullToRefreshListView.setMode(Mode.DISABLED);
+				}
+			}
+				
+			}
+		});
+		
+//		mPullToRefreshListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+//
+//			@Override
+//			public void onPullDownToRefresh(
+//					PullToRefreshBase<ListView> refreshView) {
+////				if (hasNextPage) {
+////					requestBase(getBaseRequestParams(), MyExpressActivity.this, MyExpressActivity.this);
+////				} else {
+////					mPullToRefreshListView.onRefreshComplete();
+////					mPullToRefreshListView.setMode(Mode.DISABLED);
+////				}
+//				
+//			}
+//
+//			@Override
+//			public void onPullUpToRefresh(
+//					PullToRefreshBase<ListView> refreshView) {
 //				if (hasNextPage) {
 //					requestBase(getBaseRequestParams(), MyExpressActivity.this, MyExpressActivity.this);
 //				} else {
 //					mPullToRefreshListView.onRefreshComplete();
-//					mPullToRefreshListView.setMode(Mode.DISABLED);
 //				}
-				
-			}
-
-			@Override
-			public void onPullUpToRefresh(
-					PullToRefreshBase<ListView> refreshView) {
-				if (hasNextPage) {
-					requestBase(getBaseRequestParams(), MyExpressActivity.this, MyExpressActivity.this);
-				} else {
-					mPullToRefreshListView.onRefreshComplete();
-					mPullToRefreshListView.setVisibility(View.VISIBLE);
-				}
-			}
-		});
+//			}
+//		});
 		
 
 		mPullToRefreshListView.setOnItemClickListener(new OnItemClickListener() {
