@@ -1,9 +1,9 @@
 ﻿package com.wb.sc.mk.post;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,26 +11,31 @@ import android.os.Bundle;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.NetworkImageView.NetworkImageListener;
+import com.common.date.FormatDateTime;
 import com.common.media.BitmapHelper;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.util.PageInfo;
+import com.common.widget.MaxByteEditText;
+import com.common.widget.MaxByteEditText.MaxListener;
 import com.common.widget.ToastHelper;
 import com.common.widget.helper.PullRefreshListViewHelper;
 import com.common.widget.hzlib.HorizontalAdapterView;
@@ -56,6 +61,7 @@ import com.wb.sc.config.AcResultCode;
 import com.wb.sc.config.IntentExtraConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
+import com.wb.sc.dialog.ConfirmDialog;
 import com.wb.sc.dialog.OptDialog;
 import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.img.ImageBrowseActivity;
@@ -65,10 +71,12 @@ import com.wb.sc.task.FavourRequest;
 import com.wb.sc.task.PostDetailRequest;
 import com.wb.sc.util.ParamsUtil;
 
+@SuppressWarnings("deprecation")
 public class PostDetailActivity extends BaseHeaderActivity implements Listener<PostDetail>, 
 	ErrorListener, ReloadListener, OnItemClickListener, NetworkImageListener, 
 	com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener{
 	
+	private ViewGroup detailVg;
 	private NetworkImageView avatarIv;
 	private TextView nameTv;
 	private TextView titleTv;
@@ -79,7 +87,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	private HorizontalListView imgLv;
 	
 	private View favBtn;
-	private EditText commentContentEt;
+	private MaxByteEditText commentContentEt;
 	private ImageButton commentBtn;
 	
 	//帖子ID
@@ -119,6 +127,8 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	private int clickCommentIndex = 0;
 	private boolean isReply = false;
 	
+	private Toast maxToast;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -144,15 +154,16 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	}
 	
 	@Override
-	public void initView() {
-		avatarIv = (NetworkImageView) findViewById(R.id.avatar);
-        nameTv = (TextView) findViewById(R.id.postMaster);
-        titleTv = (TextView) findViewById(R.id.postTitle);
-        timeTv = (TextView) findViewById(R.id.postTime);
-        descTv = (TextView) findViewById(R.id.postName);
-        msgNumTv = (TextView) findViewById(R.id.msg_num);
-        favNumTv = (TextView) findViewById(R.id.favourite_num);
-        imgLv = (HorizontalListView) findViewById(R.id.list);
+	public void initView() {		
+		detailVg = (ViewGroup) LayoutInflater.from(mActivity).inflate(R.layout.post_detail_header, null);				
+		avatarIv = (NetworkImageView) detailVg.findViewById(R.id.avatar);
+        nameTv = (TextView) detailVg.findViewById(R.id.postMaster);
+        titleTv = (TextView) detailVg.findViewById(R.id.postTitle);
+        timeTv = (TextView) detailVg.findViewById(R.id.postTime);
+        descTv = (TextView) detailVg.findViewById(R.id.postName);
+        msgNumTv = (TextView) detailVg.findViewById(R.id.msg_num);
+        favNumTv = (TextView) detailVg.findViewById(R.id.favourite_num);
+        imgLv = (HorizontalListView) detailVg.findViewById(R.id.list);
         imgLv.setOnItemClickListener(this);
 		
 		mPullListView = (PullToRefreshListView) findViewById(R.id.pull_refresh_list);		
@@ -193,10 +204,13 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		mPullListView.setRefreshing(false);
 		
 		//设置拉动模式
-		mPullListView.setMode(Mode.PULL_FROM_END);
+		mPullListView.setMode(Mode.DISABLED);
 		
 		mListView = mPullListView.getRefreshableView();
 		mListView.setOnItemClickListener(this);
+		
+		//添加详情到头部
+		mListView.addHeaderView(detailVg);
 		
 		mPage = new PageInfo();
 		mPullHelper = new PullRefreshListViewHelper(this, mListView, mPage.pageSize);
@@ -212,7 +226,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			}
 		});
 		
-		favBtn = findViewById(R.id.fav);
+		favBtn = detailVg.findViewById(R.id.fav);
 		favBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -226,7 +240,19 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			}
 		});
 		
-		commentContentEt = (EditText) findViewById(R.id.comment_content);
+		commentContentEt = (MaxByteEditText) findViewById(R.id.comment_content);
+		commentContentEt.setMaxByte(250);
+		commentContentEt.setMaxListener(new MaxListener() {
+			
+			@Override
+			public void onMaxListener(int arg0) {
+				maxToast.setText("您输入的字符数超过最大限制，无法再进行输入");
+				maxToast.show();
+//				new ConfirmDialog().getConfirmDialog(mActivity, "提示", "您输入的字符数超过最大限制，无法再进行输入").show();
+			}
+		});	
+		
+		
 		commentBtn = (ImageButton) findViewById(R.id.comment);
 		commentBtn.setOnClickListener(new OnClickListener() {
 			
@@ -259,11 +285,13 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			}
 		});
 		
-		applyBtn = (Button) findViewById(R.id.apply);
+		applyBtn = (Button) detailVg.findViewById(R.id.apply);
 		applyBtn.setOnClickListener(this);
 		if(postType.equals("04")) {
 			applyBtn.setVisibility(View.VISIBLE);
 		}
+		
+		maxToast = Toast.makeText(mActivity, "", 500);
 	}
 	
 	/**
@@ -405,11 +433,19 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			mPostDetail = response;
 			avatarIv.setImageUrl(NetConfig.getPictureUrl(mPostDetail.sourceAvatarUrl), SCApp.getInstance().getImageLoader());
 			nameTv.setText(mPostDetail.sourceName);
-			titleTv.setText(mPostDetail.title);
-			timeTv.setText(mPostDetail.time);
+			titleTv.setText(mPostDetail.title);			
 			descTv.setText(mPostDetail.content);
 			msgNumTv.setText(mPostDetail.commentNum+"");
 		    favNumTv.setText(mPostDetail.favNum+"");
+		    
+		    try {
+		    	Date postDate = FormatDateTime.string2Date(mPostDetail.time, FormatDateTime.DATETIME_YMDHMS_STR);
+				String postTime = FormatDateTime.date2String(postDate, FormatDateTime.DATETIME_YMDHMS);
+				timeTv.setText(postTime);
+		    } catch (Exception e) {
+		    	timeTv.setText(mPostDetail.time);
+		    }
+		    
 //		    mPostDetail.imgList.clear();
 //		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
 //		    mPostDetail.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
@@ -490,14 +526,11 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		public void onResponse(CommentList response) {		
 			showContent();	
 			if(response.respCode.equals(RespCode.SUCCESS)) {			
-				if(response.datas.size() <= 0) {					
-					return;
-				}
 				
 				if(mPage.pageNo == 1) {
-					mCommentList = response;
+					mCommentList = response;					
 					mAdapter = new CommentListAdapter(mActivity, mCommentList);
-					mListView.setAdapter(mAdapter);
+					mListView.setAdapter(mAdapter);					
 				} else {
 					mCommentList.hasNextPage = response.hasNextPage;
 					mCommentList.datas.addAll(response.datas);

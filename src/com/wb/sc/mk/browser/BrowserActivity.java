@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
@@ -44,9 +45,9 @@ public class BrowserActivity extends BaseHeaderActivity implements OnClickListen
 	@SuppressLint("SetJavaScriptEnabled")
 	private void initWebView() {
 		WebSettings webSettings = webView.getSettings();
-		
+		//设置WebView属性，能够执行JavaScript脚本
         webSettings.setJavaScriptEnabled(true); 
-        //���Ҫ����Flash����Ҫ������һ��  
+        //如果要播放Flash，需要加上这一句 
         webSettings.setPluginState(PluginState.ON);         
         
         String databasePath = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
@@ -55,24 +56,22 @@ public class BrowserActivity extends BaseHeaderActivity implements OnClickListen
         
         webSettings.setDomStorageEnabled(true);
         
-        //����ѡ�񱾵ػ���
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        //优先选择本地缓存
+//        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         
-//        //�ڱ�ҳ������Ӧ����
-//        webView.setWebViewClient(new WebViewClient(){       
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {       
-//                view.loadUrl(url);       
-//                return true;       
-//            }
-//
-//			@Override
-//			public void onPageFinished(WebView view, String url) {
-//				setViewEnable(refreshBtn, true);
-//				pageMoveable();
-//				Log.d("webview_url", url);
-//			}  
-//												           
-//        });
+        webView.setWebViewClient(new WebViewClient(){       
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {    
+            	//在本页面中响应链接
+                view.loadUrl(url);       
+                return true;       
+            }
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				
+			}  
+												           
+        });
 	}
 
 }
