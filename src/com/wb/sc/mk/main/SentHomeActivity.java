@@ -3,8 +3,6 @@ package com.wb.sc.mk.main;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.android.agoo.client.IppFacade;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,12 +16,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -40,7 +38,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.umeng.message.proguard.aM;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
@@ -48,10 +45,12 @@ import com.wb.sc.adapter.SentHomeAdpater;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.OneKm;
 import com.wb.sc.bean.OneKm.MerchantItem;
+import com.wb.sc.bean.PostType;
 import com.wb.sc.bean.SentHome;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.task.OneKmRequest;
+import com.wb.sc.task.PostTypeRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
@@ -87,6 +86,16 @@ ErrorListener, ReloadListener{
 	private LocationMode tempMode = LocationMode.Hight_Accuracy;
 	private String tempcoor="gcj02";
 	
+	//发帖类型
+	private PostTypeRequest mPostTypeRequest;
+	private PostTypeListener mPostTypeListener = new PostTypeListener();
+	private DistanceTypeListener distanceTypeListener = new DistanceTypeListener();
+	
+	private PostType mPostType;
+	private PostType mDistanceType;
+	private String[] types;
+	private String[] dis;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 //		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -99,6 +108,10 @@ ErrorListener, ReloadListener{
 		
 		showLoading();
 		
+	    requestPostType(getPostTypeRequestParams("SHOPPING_TYPE"), mPostTypeListener, this);
+	    
+	    requestPostType(getPostTypeRequestParams("SHOPPING_DISTANCE"), distanceTypeListener, this);
+		
 //		requestBase(getBaseRequestParams(), this, this);
 	}
 	
@@ -106,6 +119,111 @@ ErrorListener, ReloadListener{
 	protected void onStop() {
 		mLocationClient.stop();
 		super.onStop();
+	}
+	
+	
+	/**
+	 * 获取帖子分类请求参数
+	 * @return
+	 */
+	private List<String> getPostTypeRequestParams(String type) {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG21", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(type, 64));
+		params.add(ParamsUtil.getReqParam("", 64));
+		params.add(ParamsUtil.getReqParam("", 64));
+		params.add(ParamsUtil.getReqIntParam(1, 3));
+		params.add(ParamsUtil.getReqIntParam(10, 2));
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestPostType(List<String> params,	 
+			Listener<PostType> listenre, ErrorListener errorListener) {			
+//		if(mPostTypeRequest != null) {
+//			mPostTypeRequest.cancel();
+//		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mPostTypeRequest = new PostTypeRequest(url, params, listenre, errorListener);
+		startRequest(mPostTypeRequest);		
+	}
+	
+
+    
+    /**
+	 * 
+	 * @描述：帖子分类监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月27日 上午8:51:09
+	 */
+	class PostTypeListener implements Listener<PostType>{
+		/**
+		 * 请求完成，处理UI更新
+		 */
+		@Override
+		public void onResponse(PostType response) {		
+//			showContent();	
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				mPostType = response;
+				types = new String[mPostType.datas.size()/* + 1*/];
+//				types[0] = "全部"; 
+				for(int i=0; i< mPostType.datas.size() ; i++) {
+					types[i /*+ 1*/] = mPostType.datas.get(i).name;								
+				}
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(SentHomeActivity.this, 
+		    			R.layout.spinner_text_layout, types);
+		    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+		    	mSpinner.setAdapter(adapter);
+		    	mSpinner.setSelection(0, false);
+//		    	adapter.notifyDataSetChanged();
+
+			} else {
+				ToastHelper.showToastInBottom(SentHomeActivity.this, response.respCodeMsg);
+			}
+		}
+	}
+	
+	
+    /**
+	 * 
+	 * @描述：帖子分类监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月27日 上午8:51:09
+	 */
+	class DistanceTypeListener implements Listener<PostType>{
+		/**
+		 * 请求完成，处理UI更新
+		 */
+		@Override
+		public void onResponse(PostType response) {		
+//			showContent();	
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				mDistanceType = response;
+				dis = new String[mDistanceType.datas.size() /*+ 1*/];
+//				dis[0] = "全部"; 
+				for(int i=0; i< mDistanceType.datas.size() ; i++) {
+					dis[i /*+ 1*/] = mDistanceType.datas.get(i).name;								
+				}
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(SentHomeActivity.this, 
+		    			R.layout.spinner_text_layout, dis);
+		    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+		    	mDistanceSpinner.setAdapter(adapter);
+		    	mDistanceSpinner.setSelection(0, false);
+//		    	adapter.notifyDataSetChanged();
+
+			} else {
+				ToastHelper.showToastInBottom(SentHomeActivity.this, response.respCodeMsg);
+			}
+		}
 	}
 	
 	private void getGps() {
@@ -191,21 +309,26 @@ ErrorListener, ReloadListener{
 	      // 初始化控件
 		mSpinner = (Spinner) findViewById(R.id.spinner1);
 		// 建立数据源
-		String[] mItems = getResources().getStringArray(R.array.spinnername);
-		// 建立Adapter并且绑定数据源
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-    			R.layout.spinner_text_layout, mItems);
-    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-		mSpinner.setAdapter(adapter);
+//		String[] mItems = getResources().getStringArray(R.array.spinnername);
+//		// 建立Adapter并且绑定数据源
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+//    			R.layout.spinner_text_layout, mItems);
+//    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//		mSpinner.setAdapter(adapter);
+		mSpinner.setSelection(0, false);
 		mSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				merchantCategoryId = "0" + (arg2 +1);
 		  		showLoading();
         		pageNo = 1;
         		list.clear();
+        		mAdpter.notifyDataSetChanged();
+        		
+        		int postion = arg2 > 0 ? arg2 -1 : arg2;
+        		postion = arg2; //突然又不加全部
+        		merchantCategoryId = mPostType.datas.get(postion).id;
         		if (longitude != null) {
         			requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
         		}
@@ -222,12 +345,13 @@ ErrorListener, ReloadListener{
 		// 初始化控件
 		mDistanceSpinner = (Spinner) findViewById(R.id.spinner2);
 		// 建立数据源
-		final String[] distances = getResources().getStringArray(R.array.spinner_distance);
-		// 建立Adapter并且绑定数据源
-		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
-				R.layout.spinner_text_layout, distances);
-		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-		mDistanceSpinner.setAdapter(distanceAdapter);
+//		final String[] distances = getResources().getStringArray(R.array.spinner_distance);
+//		// 建立Adapter并且绑定数据源
+//		ArrayAdapter<String> distanceAdapter = new ArrayAdapter<String>(this, 
+//				R.layout.spinner_text_layout, distances);
+//		distanceAdapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//		mDistanceSpinner.setAdapter(distanceAdapter);
+		mDistanceSpinner.setSelection(0, false);
 		mDistanceSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -237,7 +361,10 @@ ErrorListener, ReloadListener{
 		  		showLoading();
         		pageNo = 1;
         		list.clear();
-        		distance = distances[arg2].replace("米", "");
+        		mAdpter.notifyDataSetChanged();
+        		int postion = arg2 > 0 ? arg2 -1 : arg2;
+        		postion = arg2; //突然又不加全部
+        		distance = mDistanceType.datas.get(postion).id;
         		if (longitude != null) {
         			requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
         		}
@@ -333,7 +460,7 @@ ErrorListener, ReloadListener{
 	 * @param errorListener
 	 */	
 	private void requestBase(List<String> paramsList,	 
-			Listener<OneKm> listenre, ErrorListener errorListener) {			
+			Listener<OneKm> listenre, ErrorListener errorListener) {
 		if(mOneKmRequest != null) {
 			mOneKmRequest.cancel();
 		}	
@@ -356,7 +483,7 @@ ErrorListener, ReloadListener{
 		params.add(ParamsUtil.getReqParam(longitude, 128));
 		params.add(ParamsUtil.getReqParam(latitude, 128));
 		params.add(ParamsUtil.getReqParam(distance, 32));
-		String categoryId = merchantCategoryId == null ? "01":merchantCategoryId;
+		String categoryId = merchantCategoryId == null ? "":merchantCategoryId;
 		params.add(ParamsUtil.getReqParam(categoryId, 32));
 		params.add(ParamsUtil.getReqIntParam(pageNo, 3));
 		params.add(ParamsUtil.getReqIntParam(pageSize, 2));
