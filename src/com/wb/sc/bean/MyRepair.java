@@ -17,6 +17,7 @@ public class MyRepair extends BaseBean {
 		public String repairSubmitTime;      // 工单提交时间
 		public String repairHanldeTime;      // 工单受理时间
 		public String repairEndTime;         // 工单最后处理时间
+		public String repairType;         // 工单最后处理时间
 		public String repairMaster;          // 最后处理人
 		public String repairReuslt;          // 处理结果
 		public String []repairPhoto;         // 处理结果照片

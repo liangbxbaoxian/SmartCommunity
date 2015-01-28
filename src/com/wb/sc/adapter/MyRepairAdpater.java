@@ -214,24 +214,43 @@ public class MyRepairAdpater extends BaseAdapter {
 		this.statue = statue;
 		mfilter.clear();
 		
-        String strType = repairType == 0 ? "个人报修" : "公共报修";
-        List<MyRepairItem> itemList = new ArrayList<MyRepairItem>();
-		if (statue >= 1) {
-			for (MyRepairItem item : mList) {
-				if (("0" + (statue + 1)).equals(item.repairStatus) ) {
-					itemList.add(item);
-				}
-			}
-		} else {
-			itemList.addAll(mList);
-		}
+//        String strType = repairType == 0 ? "个人报修" : "公共报修";
+//        List<MyRepairItem> itemList = new ArrayList<MyRepairItem>();
+//		if (statue >= 1) {
+//			for (MyRepairItem item : mList) {
+//				if (("0" + (statue)).equals(item.repairType) ) {
+//					itemList.add(item);
+//				}
+//			}
+//		} else {
+//			itemList.addAll(mList);
+//		}
 		
-		for (MyRepairItem item : itemList) {
-			if (strType.equals(item.repairTitle)) {
+//		for (MyRepairItem item : mList) {
+//			if (("0" + (statue)).equals(item.repairType)) {
+//				mfilter.add(item);
+//			}
+//		}
+//		
+//		
+		
+		for (MyRepairItem item : mList) {
+			if (("0" + (repairType)).equals(item.repairType)) {
 				mfilter.add(item);
 			}
 		}
 		
+		List<MyRepairItem> itemList = new ArrayList<MyRepairItem>();
+		if (statue >= 1) {
+			for (MyRepairItem item : mfilter) {
+				if (("0" + (statue)).equals(item.repairStatus) ) {
+					itemList.add(item);
+				}
+			}
+			
+			mfilter.clear();
+			mfilter.addAll(itemList);
+		}
 		
 		notifyDataSetChanged();
 	}
@@ -244,22 +263,35 @@ public class MyRepairAdpater extends BaseAdapter {
 		this.repairType = repairType;
 		
 		mfilter.clear();
-        String strType = repairType == 0 ? "个人报修" : "公共报修";
-        List<MyRepairItem> itemList = new ArrayList<MyRepairItem>();
+//        String strType = repairType == 0 ? "个人报修" : "公共报修";
+//        List<MyRepairItem> itemList = new ArrayList<MyRepairItem>();
+//		if (statue >= 1) {
+//			for (MyRepairItem item : mList) {
+//				if (("0" + (statue + 1)).equals(item.repairStatus) ) {
+//					itemList.add(item);
+//				}
+//			}
+//		} else {
+//			itemList.addAll(mList);
+//		}
+		
+		
+		for (MyRepairItem item : mList) {
+			if (("0" + (repairType)).equals(item.repairType)) {
+				mfilter.add(item);
+			}
+		}
+		
+		List<MyRepairItem> itemList = new ArrayList<MyRepairItem>();
 		if (statue >= 1) {
-			for (MyRepairItem item : mList) {
-				if (("0" + (statue + 1)).equals(item.repairStatus) ) {
+			for (MyRepairItem item : mfilter) {
+				if (("0" + (statue)).equals(item.repairStatus) ) {
 					itemList.add(item);
 				}
 			}
-		} else {
-			itemList.addAll(mList);
-		}
-		
-		for (MyRepairItem item : itemList) {
-			if (strType.equals(item.repairTitle)) {
-				mfilter.add(item);
-			}
+			
+			mfilter.clear();
+			mfilter.addAll(itemList);
 		}
 		
 		notifyDataSetChanged();

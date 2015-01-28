@@ -67,7 +67,8 @@ ErrorListener, ReloadListener{
 	private View personalV;
 	private View publicV;
 	
-	private int postion = 0;
+	private int postion = 5;
+	private int handleType = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,10 +142,12 @@ ErrorListener, ReloadListener{
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				if (postion != arg2) {
-					mAdpter.setStatue(arg2);
-				}
-				postion = arg2;
+//				if (handleType != arg2) {              // 01：未处理，02：已受理，03：已处理
+//					mAdpter.setStatue(handleType);
+//				}
+//				
+				handleType = arg2 > 0 ? 1 + arg2 : arg2;
+				mAdpter.setStatue(handleType);
 			}
 
 			@Override
@@ -254,14 +257,16 @@ ErrorListener, ReloadListener{
 		switch(v.getId()) {
 		case R.id.personal_repairs:
 //			contentVp.setCurrentItem(0);
-			mAdpter.setRepairType(0);
+			postion = 5; // 个人报修
+			mAdpter.setRepairType(5 + 0);
 			personalV.setSelected(true);
 			publicV.setSelected(false);
 			break;
 			
 		case R.id.public_repairs:
 //			contentVp.setCurrentItem(1);
-			mAdpter.setRepairType(1);
+			postion = 6; // 公共报修
+			mAdpter.setRepairType(5 + 1);
 			personalV.setSelected(false);
 			publicV.setSelected(true);
 			break;					
@@ -294,7 +299,7 @@ ErrorListener, ReloadListener{
 			// Call onRefreshComplete when the list has been refreshed.
 			mPullToRefreshListView.onRefreshComplete();
 //			mAdpter.notifyDataSetChanged();
-			mAdpter.setStatue(postion);
+			mAdpter.setRepairType(postion);
 			if (!response.hasNextPage) {
 				mPullToRefreshListView.setMode(Mode.DISABLED);
 			}

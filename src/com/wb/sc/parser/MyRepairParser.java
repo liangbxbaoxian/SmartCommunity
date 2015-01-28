@@ -31,8 +31,9 @@ public class MyRepairParser {
 					item.repairSubmitTime = values[5];
 					item.repairHanldeTime = values[6];
 					item.repairEndTime = values[7];
-					item.repairMaster = values[8];
-					item.repairReuslt = values[9];
+					item.repairType = values[8];
+					item.repairMaster = values[9];
+					item.repairReuslt = values[10];
 					if (11 < values.length) {    //接口返回有问题。应该去下标为10，结果返回11个，已经反馈，服务端没处理
 						item.repairPhoto = values[11].split(ParamsUtil.ITEM_IMG_DIVIDER);
 					}
