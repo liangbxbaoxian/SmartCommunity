@@ -78,6 +78,7 @@ public class MyRepairAdpater extends BaseAdapter {
 		    viewHolder.content = (TextView) arg1.findViewById(R.id.content);
 		    viewHolder.progress = (TextView) arg1.findViewById(R.id.tip_progress);
 		    viewHolder.networkImageView = (CircleImageView) arg1.findViewById(R.id.collection_goods_icon);
+		    viewHolder.title  = (TextView) arg1.findViewById(R.id.title);
 //			viewHolder.district_name = (TextView) arg1.findViewById(R.id.district_name);
 //			viewHolder.district_address = (TextView) arg1.findViewById(R.id.district_address);
 //			viewHolder.call = (ImageView) arg1.findViewById(R.id.call);
@@ -86,8 +87,8 @@ public class MyRepairAdpater extends BaseAdapter {
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
 //		SentHome sentHome = (SentHome) mList.get(position);
-		
-		viewHolder.content.setText(repair.repairTitle);
+		viewHolder.title.setText(repair.repairTitle);
+		viewHolder.content.setText(repair.repairContent);
 		viewHolder.state.setText(repair.repairStatusName);
 		viewHolder.hanle_time.setText(repair.repairHanldeTime);
 		
@@ -168,6 +169,7 @@ public class MyRepairAdpater extends BaseAdapter {
 		public TextView progress;
 		public TextView content;
 		public TextView name;
+		public TextView title;
 		
 	}
 	
