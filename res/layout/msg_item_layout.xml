@@ -41,6 +41,7 @@
         android:layout_marginTop="9dp"
         android:text="关于二期高层1#楼暂停供电的通知"
         android:textColor="#b0b0b0"
+        android:maxLines="2"
         android:textSize="14sp" />
 
     <View
