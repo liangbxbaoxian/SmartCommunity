@@ -191,30 +191,30 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 			long id) {
 		Msg.MgItem msgItem = msg.datas.get(position-1);
 		int msgType = Integer.valueOf(msgItem.msgTypeNO);
-		switch(msgType) {
-		case 1:{
+//		switch(msgType) {
+//		case 1:{
 			Intent intent = new Intent(this, BulletinActivity.class);
 			intent.putExtra("title", msgItem.msgTitle);
 			intent.putExtra("content", msgItem.msgContent);
 			intent.putExtra("time", msgItem.msgCreteTime);
 			startActivity(intent);
-		}break;
-		
-		case 2:{
-		}break;
-		
-		case 3:{
-		}break;
-		
-		case 4:{
-		}break;
-		
-		case 5:{
-		}break;
-		
-		case 6:{
-		}break;
-		} 
+//		}break;
+//		
+//		case 2:{
+//		}break;
+//		
+//		case 3:{
+//		}break;
+//		
+//		case 4:{
+//		}break;
+//		
+//		case 5:{
+//		}break;
+//		
+//		case 6:{
+//		}break;
+//		} 
 	}
 	
 	public void bulletin() {
