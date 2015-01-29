@@ -25,7 +25,7 @@ public class PostDetailParser {
 				baseBean.imgList.add(img);
 			}
 		}
-		baseBean.time = ParamsUtil.getRespParamNext(baseBean, 16);
+		baseBean.time = ParamsUtil.getRespParamNext(baseBean, 20);
 		baseBean.favNum = ParamsUtil.getRespIntParamNext(baseBean, 4);
 		baseBean.commentNum = ParamsUtil.getRespIntParamNext(baseBean, 4);
 		baseBean.isGoodPost = ParamsUtil.getRespParamNext(baseBean, 2);

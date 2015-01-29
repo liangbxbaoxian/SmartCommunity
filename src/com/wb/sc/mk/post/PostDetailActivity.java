@@ -242,6 +242,7 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 		
 		commentContentEt = (MaxByteEditText) findViewById(R.id.comment_content);
 		commentContentEt.setMaxByte(250);
+		commentContentEt.intervalCallbackEnable(true, 1000);
 		commentContentEt.setMaxListener(new MaxListener() {
 			
 			@Override
@@ -361,8 +362,8 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 	}
 	
 	public boolean onKeyDown (int keyCode, KeyEvent event) {
-		if(keyCode == KeyEvent.KEYCODE_BACK) {
-			Intent intent = new Intent();
+		if(keyCode == KeyEvent.KEYCODE_BACK && mPostDetail != null) {
+			Intent intent = new Intent();			
 			intent.putExtra(IntentExtraConfig.MSG_NUM, mPostDetail.commentNum);
 			intent.putExtra(IntentExtraConfig.FAV_NUM, mPostDetail.favNum);
 			setResult(AcResultCode.REQUEST_CODE_REFRESH_MSG_FAV_NUM, intent);

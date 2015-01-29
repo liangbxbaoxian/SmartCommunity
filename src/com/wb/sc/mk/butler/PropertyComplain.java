@@ -17,7 +17,9 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.common.net.volley.VolleyErrorHelper;
+import com.common.widget.MaxByteEditText;
 import com.common.widget.ToastHelper;
+import com.common.widget.MaxByteEditText.MaxListener;
 import com.common.widget.hzlib.HorizontalAdapterView.OnItemClickListener;
 import com.wb.sc.R;
 import com.wb.sc.activity.base.BasePhotoActivity;
@@ -43,7 +45,7 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
 	private View myComplainV;
 	private Spinner typeSp;
 	private EditText houseInfoEt;
-	private EditText detailEt;
+	private MaxByteEditText detailEt;
 	private CheckBox shareCb;
 	private Button submitBtn;	
 	
@@ -83,7 +85,17 @@ public class PropertyComplain extends BasePhotoActivity implements OnItemClickLi
     	typeSp.setAdapter(adapter);
     	
     	houseInfoEt = (EditText) findViewById(R.id.house_info);
-    	detailEt = (EditText) findViewById(R.id.detail);
+    	detailEt = (MaxByteEditText) findViewById(R.id.detail);
+    	detailEt.setMaxByte(512);
+    	detailEt.intervalCallbackEnable(true, 1000);
+    	detailEt.setMaxListener(new MaxListener() {
+			
+			@Override
+			public void onMaxListener(int arg0) {
+				ToastHelper.showToastInBottom(PropertyComplain.this, "您输入的字符数超过最大限制，无法再进行输入");
+//				new ConfirmDialog().getConfirmDialog(mActivity, "提示", "您输入的字符数超过最大限制，无法再进行输入").show();
+			}
+		});	
     	shareCb = (CheckBox) findViewById(R.id.share);
     	
     	submitBtn = (Button) findViewById(R.id.submit);

@@ -155,7 +155,7 @@
                     android:textSize="15.5dp" />
             </LinearLayout>
 
-            <EditText
+            <com.common.widget.MaxByteEditText
                 android:id="@+id/detail"
                 android:layout_width="match_parent"
                 android:layout_height="108dp"
@@ -166,8 +166,7 @@
                 android:gravity="center_vertical"
                 android:hint="请您详细描述问题..."
                 android:padding="10dp"
-                android:textSize="15dp" 
-                android:maxLength="170"/>
+                android:textSize="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
