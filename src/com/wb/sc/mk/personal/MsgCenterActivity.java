@@ -34,9 +34,11 @@ import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.MsgListAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.Msg;
+import com.wb.sc.bean.PostType;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.task.MsgRequest;
+import com.wb.sc.task.PostTypeRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
@@ -58,6 +60,11 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 	private Msg msg;
 	
 	private MsgRequest MmsgCenterRequest;
+	
+	private PostTypeListener mPostTypeListener = new PostTypeListener();
+	private PostTypeRequest mPostTypeRequest;
+	private PostType mPostType;
+	private String[] types;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +74,11 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 		getIntentData();
 		initHeader(getResources().getString(R.string.ac_msg_center));
 		initView();		
-				
+	
+		
+		showLoading();
+		
+	    requestPostType(getPostTypeRequestParams("USER_MSG_TYPE"), mPostTypeListener, this);
 //        showLoading();		        
 		requestBase(getBaseRequestParams(), this, this);
 	}
@@ -77,14 +88,84 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 		
 	}
 	
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestPostType(List<String> params,	 
+			Listener<PostType> listenre, ErrorListener errorListener) {			
+//		if(mPostTypeRequest != null) {
+//			mPostTypeRequest.cancel();
+//		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mPostTypeRequest = new PostTypeRequest(url, params, listenre, errorListener);
+		startRequest(mPostTypeRequest);		
+	}
+	
+	
+	/**
+	 * 获取帖子分类请求参数
+	 * @return
+	 */
+	private List<String> getPostTypeRequestParams(String type) {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG21", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(type, 64));
+		params.add(ParamsUtil.getReqParam("", 64));
+		params.add(ParamsUtil.getReqParam("", 64));
+		params.add(ParamsUtil.getReqIntParam(1, 3));
+		params.add(ParamsUtil.getReqIntParam(10, 2));
+		return params;
+	}
+	
+	
+    /**
+	 * 
+	 * @描述：帖子分类监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月27日 上午8:51:09
+	 */
+	class PostTypeListener implements Listener<PostType>{
+		/**
+		 * 请求完成，处理UI更新
+		 */
+		@Override
+		public void onResponse(PostType response) {		
+//			showContent();	
+			if(response.respCode.equals(RespCode.SUCCESS)) {			
+				mPostType = response;
+				types = new String[mPostType.datas.size()/* + 1*/];
+//				types[0] = "全部"; 
+				for(int i=0; i< mPostType.datas.size() ; i++) {
+					types[i /*+ 1*/] = mPostType.datas.get(i).name;								
+				}
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(MsgCenterActivity.this, 
+		    			R.layout.spinner_text_layout, types);
+		    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+		    	typeSp.setAdapter(adapter);
+//		    	adapter.notifyDataSetChanged();
+
+			} else {
+				ToastHelper.showToastInBottom(MsgCenterActivity.this, response.respCodeMsg);
+			}
+		}
+	}
+	
 	@Override
 	public void initView() {
 		typeSp = (Spinner) findViewById(R.id.type);
-		String[] types = getResources().getStringArray(R.array.msg_type);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-    			R.layout.spinner_text_layout, types);
-    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
-    	typeSp.setAdapter(adapter);
+//		String[] types = getResources().getStringArray(R.array.msg_type);
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+//    			R.layout.spinner_text_layout, types);
+//    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+//    	typeSp.setAdapter(adapter);
     	
     	typeSp.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -94,7 +175,7 @@ public class MsgCenterActivity extends BaseHeaderActivity implements
 				if (arg2 != spinnerPosition) {
 					spinnerPosition = arg2;
 					mPage.pageNo = 1;
-					msgType = "0" + arg2;
+					msgType = mPostType.datas.get(arg2).id;
 //					showLoading();	
 					startMsgCenterRequest();
 					mPullListView.setMode(Mode.PULL_FROM_END);

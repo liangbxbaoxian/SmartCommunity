@@ -149,14 +149,16 @@ public class FindFragment extends BaseExtraLayoutFragment implements OnClickList
 	}
 	
 	private void showAdContent(int position) {
-		Intent intent = new Intent(getActivity(), BrowserActivity.class);
-		if(!TextUtils.isEmpty(adv.datas.get(position).title)) {
-			intent.putExtra(IntentExtraConfig.BROWSER_TITLE, adv.datas.get(position).title);
+		if (adv != null && position < adv.datas.size()) {
+			Intent intent = new Intent(getActivity(), BrowserActivity.class);
+			if(!TextUtils.isEmpty(adv.datas.get(position).title)) {
+				intent.putExtra(IntentExtraConfig.BROWSER_TITLE, adv.datas.get(position).title);
+			}
+			if(!TextUtils.isEmpty(adv.datas.get(position).imgUrl)) {
+				intent.putExtra(IntentExtraConfig.BROWSER_URL, adv.datas.get(position).imgUrl);
+			}
+			getActivity().startActivity(intent);
 		}
-		if(!TextUtils.isEmpty(adv.datas.get(position).imgUrl)) {
-			intent.putExtra(IntentExtraConfig.BROWSER_URL, adv.datas.get(position).imgUrl);
-		}
-		getActivity().startActivity(intent);
 	}
 	
 	/**
