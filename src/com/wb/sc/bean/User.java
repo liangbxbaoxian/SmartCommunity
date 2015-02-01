@@ -65,7 +65,6 @@ public class User extends BaseBean{
      */
     public String roomNum;
     
-
     /**
      * 房屋  id
      */

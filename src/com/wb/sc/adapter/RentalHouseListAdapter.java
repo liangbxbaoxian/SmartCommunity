@@ -28,14 +28,20 @@ import com.wb.sc.config.NetConfig;
 import com.wb.sc.dialog.ConfirmDialog;
 import com.wb.sc.mk.img.ImageBrowseActivity;
 
-public class SaleHouseListAdapter extends BaseAdapter implements OnClickListener{
+/**
+ * 
+ * @描述：出租房源适配器
+ * @作者：liang bao xian
+ * @时间：2015年1月31日 下午11:12:11
+ */
+public class RentalHouseListAdapter extends BaseAdapter implements OnClickListener{
 	
 	private Activity mActivity;
 	private SaleHouseList mSaleList;
 	
 	private CallPhoneListener phoneListener;
 	   
-    public SaleHouseListAdapter(Activity activity, SaleHouseList list) {
+    public RentalHouseListAdapter(Activity activity, SaleHouseList list) {
        mActivity = activity;
        mSaleList = list;
        phoneListener = new CallPhoneListener();
@@ -66,7 +72,7 @@ public class SaleHouseListAdapter extends BaseAdapter implements OnClickListener
        ViewHolder holder;
        if (convertView == null) {
            LayoutInflater inflater = LayoutInflater.from(mActivity);
-           view = inflater.inflate(R.layout.house_sale_item, null);
+           view = inflater.inflate(R.layout.house_rental_item, null);
            holder = new ViewHolder();
            holder.totalPriceTv = (TextView) view.findViewById(R.id.total_price);
            holder.priceDescTv = (TextView) view.findViewById(R.id.price_desc);

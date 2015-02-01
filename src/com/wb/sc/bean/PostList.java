@@ -56,6 +56,14 @@ public class PostList extends BaseBean{
     	 */
     	public String content;
     	/**
+    	 * 工单处理状态
+    	 */
+    	public String workStatus;
+    	/**
+    	 * 工单处理状态名称
+    	 */
+    	public String workStatusName;    	
+    	/**
     	 * 帖子图片链接
     	 */
     	public List<String> imgList;

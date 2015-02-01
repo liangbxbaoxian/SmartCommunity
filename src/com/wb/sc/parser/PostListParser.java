@@ -36,7 +36,9 @@ public class PostListParser {
 			item.sourceAvatarUrl = values[8];
 			item.commentNum = values[9];
 			item.content = values[10];
-			String[] imgs = values[11].split(ParamsUtil.ITEM_IMG_DIVIDER);
+			item.workStatus = values[11];
+			item.workStatusName = values[12];
+			String[] imgs = values[13].split(ParamsUtil.ITEM_IMG_DIVIDER);
 			item.imgList = new ArrayList<String>();
 			for(String img : imgs) {
 				if(!TextUtils.isEmpty(img) && !img.equals(" ")) {

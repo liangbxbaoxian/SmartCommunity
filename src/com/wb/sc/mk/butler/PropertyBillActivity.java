@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
@@ -47,8 +48,13 @@ public class PropertyBillActivity extends BaseHeaderActivity implements
 		getIntentData();
 		initView();
 		
-		showLoading();
-		requestBill(getBillRequestParams(), this, this);
+		if(!TextUtils.isEmpty(SCApp.getInstance().getUser().houseId)) {		
+			showLoading();
+			requestBill(getBillRequestParams(), this, this);
+		} else {
+			ToastHelper.showToastInBottom(this, "无可查询物业费的房屋");
+			finish();
+		}
 	}
 
 	@Override

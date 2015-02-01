@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.android.volley.Response.ErrorListener;
@@ -32,6 +34,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseExtraLayoutFragment;
 import com.wb.sc.activity.base.BaseNetActivity;
 import com.wb.sc.activity.base.ReloadListener;
+import com.wb.sc.adapter.RentalHouseListAdapter;
 import com.wb.sc.adapter.SaleHouseListAdapter;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.SaleHouseList;
@@ -55,7 +58,7 @@ public class HouseTradeListFragment extends BaseExtraLayoutFragment implements L
 	private PullToRefreshListView mPullListView;
 	private PullRefreshListViewHelper mPullHelper;
 	private ListView mListView;
-	private SaleHouseListAdapter adapter;
+	private BaseAdapter adapter;
 	private PageInfo mPage = new PageInfo();
 	private int loadState = PullRefreshListViewHelper.BOTTOM_STATE_LOAD_IDLE;
 		
@@ -256,7 +259,11 @@ public class HouseTradeListFragment extends BaseExtraLayoutFragment implements L
 				mSaleHouseList = response;
 				// set adapter
 				showContent();
-				adapter = new SaleHouseListAdapter(mActivity, mSaleHouseList);
+				if(tradeType == 0) {
+					adapter = new SaleHouseListAdapter(mActivity, mSaleHouseList);
+				} else {
+					adapter = new RentalHouseListAdapter(mActivity, mSaleHouseList); 
+				}
 				mListView.setAdapter(adapter);
 			} else {
 				mSaleHouseList.hasNextPage = response.hasNextPage;

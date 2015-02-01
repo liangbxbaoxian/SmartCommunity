@@ -115,14 +115,21 @@ public class PostListAdapter extends BaseAdapter implements NetworkImageListener
 //       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
 //       item.imgList.add("http://img5.cache.netease.com/photo/0001/2014-11-02/AA2G0LS100AN0001.jpg");
 //       holder.imgVg.removeAllViews();
+       
+       for(NetworkImageView iv : holder.imgIvList) {
+    	   iv.setVisibility(View.GONE);
+       }
+       
        if(item.imgList.size() > 0) {
 //    	   PostImgAdapter adapter = new PostImgAdapter(mContext, item.imgList);
 //    	   holder.imgLv.setAdapter(adapter);    	   
 //    	   holder.imgLv.setVisibility(View.GONE);
+    	   holder.imgVg.setVisibility(View.VISIBLE);
     	   for(int i=0; i<item.imgList.size() && i < 4; i++) {    		   
     		   String imgUrl = item.imgList.get(i);
     		   	if(!TextUtils.isEmpty(imgUrl)) {
 //    		   		NetworkImageView itemIv = new NetworkImageView(mActivity);    
+    		   		holder.imgIvList.get(i).setVisibility(View.VISIBLE);
     		   		NetworkImageView itemIv = holder.imgIvList.get(i);
     		   		String smallImgUrl = ImgUrlUtil.getSmallUrl(imgUrl);
     		   		itemIv.setImageUrl(NetConfig.getPictureUrl(smallImgUrl), SCApp.getInstance().getImageLoader());

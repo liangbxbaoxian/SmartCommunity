@@ -172,8 +172,8 @@ public class PostDetailActivity extends BaseHeaderActivity implements Listener<P
 			@Override
 			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 				//处理下拉刷新
-				mPage.pageNo = 1;
-				startCommentListRequest();
+//				mPage.pageNo = 1;
+//				startCommentListRequest();
 			}
 
 			@Override

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingTop="18dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总价："
+            android:textColor="#b0b0b0"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:text="136万"
+            android:textColor="#cc0001"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/price_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="(10531元/㎡)"
+            android:textColor="@android:color/black"
+            android:textSize="13dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:background="#cacaca" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingTop="18dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="户型："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="4室2厅1厨1卫"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="建筑面积："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="132㎡"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:background="#cacaca" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingTop="18dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年代："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="2003年"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="朝        向："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/orientation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="132㎡"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:background="#cacaca" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingTop="18dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="楼层："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/floor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="第2层（共9层）"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="结        构："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/structure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="平层"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:background="#cacaca" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingTop="18dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="装        修："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="精装修"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="建筑类别："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="板楼"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:background="#cacaca" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingTop="18dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="出  租  间："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/properties"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="个人产权"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="看房时间："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="随时看房"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:background="#cacaca" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingTop="18dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="家        电："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/configuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="燃气/天燃气、电梯"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:background="#cacaca" />
+
+    <LinearLayout
+        android:id="@+id/imgs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:paddingTop="10dp"
+        android:orientation="horizontal" >
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/img1"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="4dp" />
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/img2"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="4dp" />
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/img3"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="4dp" />
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/img4"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="4dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/img_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="10dp"
+        android:background="#cacaca" />
+
+    <RelativeLayout
+        android:id="@+id/phone_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp" 
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@drawable/header_btn_selector">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dianh" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18657436598"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:textSize="13dp" />
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="27dp"
+            android:src="@drawable/arrow_right" />
+        
+    </RelativeLayout>
+
+</LinearLayout>

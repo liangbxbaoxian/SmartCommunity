@@ -19,6 +19,7 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.BaseBean;
+import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.dialog.ToastLoginDialog;
@@ -34,9 +35,9 @@ import com.wb.sc.util.ParamsUtil;
 public class PostHouseTradeActivity extends BaseHeaderActivity implements Listener<BaseBean>, 
 	ErrorListener {	
 	
-	private EditText houseInfoEt;
 	private EditText phoneEt;
 	private Spinner typeSp;
+	private Spinner houseInfoSp;
 	
 	private View submitBtn;
 	
@@ -62,8 +63,22 @@ public class PostHouseTradeActivity extends BaseHeaderActivity implements Listen
 
 	@Override
 	public void initView() {
-		houseInfoEt = (EditText) findViewById(R.id.house_info);
-		phoneEt = (EditText) findViewById(R.id.phone);
+		User user = SCApp.getInstance().getUser();
+		houseInfoSp = (Spinner) findViewById(R.id.house_info);
+		if(user.isLogin == 1) {
+			String hInfo1 = user.houseNum + "号楼" + user.roomNum + "室";
+			String[] hInfos = new String[1];
+			hInfos[0] = hInfo1;
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+	    			R.layout.spinner_text_layout, hInfos);
+	    	adapter.setDropDownViewResource(R.layout.spinner_down_text_layout);
+	    	houseInfoSp.setAdapter(adapter);
+		}
+		
+		phoneEt = (EditText) findViewById(R.id.phone);		
+		if(SCApp.getInstance().getUser().isLogin == 1) {
+			phoneEt.setText(SCApp.getInstance().getUser().phone);
+		}
 		
 		typeSp = (Spinner) findViewById(R.id.type);
 		String[] types = getResources().getStringArray(R.array.house_trade_type);
@@ -90,7 +105,7 @@ public class PostHouseTradeActivity extends BaseHeaderActivity implements Listen
     }
     
     private void submit() {
-    	houseInfo = houseInfoEt.getText().toString();
+    	houseInfo = houseInfoSp.getSelectedItem().toString();
     	phone = phoneEt.getText().toString();
     	
     	if(TextUtils.isEmpty(houseInfo)) {
@@ -100,6 +115,11 @@ public class PostHouseTradeActivity extends BaseHeaderActivity implements Listen
     	
     	if(TextUtils.isEmpty(phone)) {
     		ToastHelper.showToastInBottom(this, "手机号码不能为空");
+    		return;
+    	}
+    	
+    	if(!SCApp.getInstance().getUser().auth.equals("02")) {
+    		ToastHelper.showToastInBottom(this, "抱歉，该房源未认证，不能发布委托");
     		return;
     	}
     	

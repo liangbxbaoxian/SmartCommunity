@@ -34,7 +34,7 @@
                     android:text="住户信息"
                     android:textSize="15.5dp" />
             </LinearLayout>
-
+<!--  
             <EditText
                 android:id="@+id/house_info"
                 android:layout_width="match_parent"
@@ -46,6 +46,17 @@
                 android:padding="10dp"
                 android:textSize="15dp" 
                 android:maxLength="16"/>
+-->            
+            <Spinner
+                android:id="@+id/house_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/spinner_bg_nor"
+                android:paddingRight="0dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
