@@ -74,7 +74,7 @@ ErrorListener, ReloadListener{
 	private PostType mPostType;
 	
 	private int postion = 0;
-	private String[] types;
+	public String[] types;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -381,6 +381,12 @@ ErrorListener, ReloadListener{
 			pageNo ++;
 
 			list.addAll(response.datas);
+			
+			if (response.datas.size() == 0) {
+				String tips = types[postion];
+				ToastHelper.showToastInBottom(MyPostActivity.this, "无"+ tips +"工单数据");
+			}
+			
 			// Call onRefreshComplete when the list has been refreshed.
 			
 //			if (postion >= 1) {

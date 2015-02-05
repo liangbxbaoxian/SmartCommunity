@@ -259,6 +259,8 @@ ErrorListener, ReloadListener{
 			if (response.totalNum > 0) {
 				pageNo ++;
 				list.addAll(response.datas);
+			} else {
+				ToastHelper.showToastInBottom(MyComplaintActivity.this, "无受理工单");
 			}
 			
 			 if (response.totalNum == 0 && response.hasNextPage) {

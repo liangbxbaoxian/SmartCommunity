@@ -20,12 +20,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
 import com.wb.sc.bean.MyRepair.MyRepairItem;
 import com.wb.sc.bean.User;
 import com.wb.sc.config.NetConfig;
+import com.wb.sc.mk.personal.MyComplaintActivity;
 import com.wb.sc.widget.CircleImageView;
 
 public class MyComplaintAdpater extends BaseAdapter {
@@ -216,6 +218,20 @@ public class MyComplaintAdpater extends BaseAdapter {
 			}
 		} else {
 			mfilter.addAll(mList);
+		}
+		
+		if (mfilter.size() == 0) {
+			String tips = null;
+			if (statue == 0) {
+				tips = "全部";
+			} else if (statue == 1) {
+				tips = "已受理";
+			} else if (statue == 2) {
+				tips = "已处理";
+			}
+			if (tips != null) {
+				ToastHelper.showToastInBottom(mContext, "无"+ tips +"工单数据");
+			}
 		}
 	}
 

@@ -20,12 +20,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
 import com.wb.sc.bean.CategoryTable;
 import com.wb.sc.bean.User;
 import com.wb.sc.bean.MyRepair.MyRepairItem;
 import com.wb.sc.config.NetConfig;
+import com.wb.sc.mk.personal.MyRepairActivity;
 import com.wb.sc.widget.CircleImageView;
 
 public class MyRepairAdpater extends BaseAdapter {
@@ -97,7 +99,7 @@ public class MyRepairAdpater extends BaseAdapter {
 			viewHolder.state.setBackgroundResource(R.drawable.shouli);
 			viewHolder.progress.setVisibility(View.GONE);
 		} else if ("02".equals(repair.repairStatus)) {
-			viewHolder.finish_time.setText(repair.repairSubmitTime);
+			viewHolder.finish_time.setText(repair.repairEndTime);
 			viewHolder.state.setBackgroundResource(R.drawable.shouli);
 			viewHolder.progress.setVisibility(View.VISIBLE);
 		} else if ("03".equals(repair.repairStatus)) {
@@ -252,6 +254,18 @@ public class MyRepairAdpater extends BaseAdapter {
 			mfilter.addAll(itemList);
 		}
 		
+		if (mfilter.size() == 0) {
+			String tips = null;
+			if (statue == 2) {
+				tips = "已受理";
+			} else if (statue == 3) {
+				tips = "已处理";
+			}
+			if (tips != null) {
+				ToastHelper.showToastInBottom(mContext, "无"+ tips +"工单数据");
+			}
+		}
+		
 		notifyDataSetChanged();
 	}
 
@@ -292,6 +306,18 @@ public class MyRepairAdpater extends BaseAdapter {
 			
 			mfilter.clear();
 			mfilter.addAll(itemList);
+		}
+		
+		if (mfilter.size() == 0) {
+			String tips = null;
+			if (repairType == 2) {
+				tips = "已受理";
+			} else if (repairType == 3) {
+				tips = "已处理";
+			}
+			if (tips != null) {
+				ToastHelper.showToastInBottom(mContext, "无"+ tips +"工单数据");
+			}
 		}
 		
 		notifyDataSetChanged();
