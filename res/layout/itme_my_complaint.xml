@@ -68,20 +68,21 @@
                         android:singleLine="true"
                         android:text="2014-08-07" />
 
-                    <Button
-                        android:id="@+id/state"
-                        android:layout_width="59.5dp"
-                        android:layout_height="22dp"
-                        android:layout_alignTop="@id/start_time"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@id/start_time"
-                        android:background="@drawable/shouli"
-                        android:text="已受理"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
+               
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
+        
+        <Button
+            android:id="@+id/state"
+            android:layout_width="59.5dp"
+            android:layout_height="22dp"
+            android:layout_gravity="left"
+            android:background="@drawable/shouli"
+             android:layout_marginLeft="12dp"
+            android:text="已受理"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/content"

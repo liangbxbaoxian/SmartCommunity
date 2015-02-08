@@ -294,6 +294,8 @@ ErrorListener, ReloadListener{
 			if (response.totalNum > 0) {
 				pageNo ++;
 				list.addAll(response.datas);
+			} else {
+				ToastHelper.showToastInBottom(MyRepairActivity.this, "无工单数据");
 			}
 
 			// Call onRefreshComplete when the list has been refreshed.
