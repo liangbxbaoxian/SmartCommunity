@@ -90,6 +90,8 @@ public class RentalHouseListAdapter extends BaseAdapter implements OnClickListen
            holder.phoneTv = (TextView) view.findViewById(R.id.phone);
            holder.phoneVg = (ViewGroup) view.findViewById(R.id.phone_layout);
            holder.phoneVg.setOnClickListener(phoneListener);
+           holder.sexTv = (TextView) view.findViewById(R.id.sex);
+           holder.remarkTv = (TextView) view.findViewById(R.id.remark);
 
            holder.imgVg = (LinearLayout) view.findViewById(R.id.imgs);
            holder.img1Iv = (NetworkImageView) view.findViewById(R.id.img1);
@@ -131,6 +133,7 @@ public class RentalHouseListAdapter extends BaseAdapter implements OnClickListen
        holder.floorTv.setText(item.floor);
        holder.structureTv.setText(item.structure);
        holder.finishTv.setText(item.finish);
+       holder.categoryTv.setText(item.category);
        if(item.equals("1")) {
     	   holder.propertiesTv.setText("有产权");
        } else if(item.equals("0")) {
@@ -141,6 +144,14 @@ public class RentalHouseListAdapter extends BaseAdapter implements OnClickListen
        holder.timeTv.setText(item.time);
        holder.configurationTv.setText(item.configuration);
        holder.phoneTv.setText(item.phone);
+       
+       if(item.sex != null) {
+    	   holder.sexTv.setText(item.sex);
+       }
+       
+       if(item.remark != null) {
+    	   holder.remarkTv.setText(item.remark);
+       }
        
        for(NetworkImageView iv : holder.imgIvList) {
     	   iv.setVisibility(View.GONE);
@@ -197,6 +208,8 @@ public class RentalHouseListAdapter extends BaseAdapter implements OnClickListen
     	TextView timeTv;
     	TextView configurationTv;
     	TextView phoneTv;
+    	TextView sexTv;
+    	TextView remarkTv;
     	LinearLayout imgVg;
     	NetworkImageView img1Iv;
     	NetworkImageView img2Iv;

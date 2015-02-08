@@ -23,8 +23,13 @@ public class SaleHouseList extends BaseBean{
     	public String properties;
     	public String time;
     	public String configuration;
-    	public String phone;
+    	public String sex;
+    	public String remark;
+    	public String phone;    	
     	public List<String> imgList;
+    	
+    	//是否属于租房
+    	public boolean isRental = false;
     }
 	
 }

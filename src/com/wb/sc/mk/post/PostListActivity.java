@@ -32,7 +32,9 @@ import com.wb.sc.R;
 import com.wb.sc.activity.base.BaseHeaderActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.PostListAdapter;
+import com.wb.sc.adapter.PostListAdapter.FavListener;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.Favour;
 import com.wb.sc.bean.PostList;
 import com.wb.sc.bean.PostList.Item;
 import com.wb.sc.bean.PostType;
@@ -42,6 +44,7 @@ import com.wb.sc.config.NetConfig;
 import com.wb.sc.config.RespCode;
 import com.wb.sc.dialog.ToastLoginDialog;
 import com.wb.sc.mk.main.PostActivity;
+import com.wb.sc.task.FavourRequest;
 import com.wb.sc.task.PostListRequest;
 import com.wb.sc.task.PostTypeRequest;
 import com.wb.sc.util.ParamsUtil;
@@ -53,7 +56,7 @@ import com.wb.sc.util.ParamsUtil;
  * @时间：2014年10月25日 上午9:49:11
  */
 public class PostListActivity extends BaseHeaderActivity implements Listener<PostList>, 
-	ErrorListener, OnItemClickListener, ReloadListener{
+	ErrorListener, OnItemClickListener, ReloadListener, FavListener{
 	
 	//获取帖子分类
 	private Spinner typeSp;
@@ -75,6 +78,8 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 	
 	//我要分享
 	private Button shareBtn;	
+	
+	private FavourRequest mFavourRequest;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -301,6 +306,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 				mPostList = response;
 				mAdapter = new PostListAdapter(mActivity, mPostList);
 				mListView.setAdapter(mAdapter);
+				mAdapter.setFavListener(PostListActivity.this);
 				loadState = PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE;
 				mPullHelper.setBottomState(PullRefreshListViewHelper.BOTTOM_STATE_NO_MORE_DATE);
 				showEmpty();
@@ -310,6 +316,7 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 			if(mPage.pageNo == 1) {
 				mPostList = response;				
 				mAdapter = new PostListAdapter(mActivity, mPostList);
+				mAdapter.setFavListener(PostListActivity.this);
 				mListView.setAdapter(mAdapter);
 				showContent();				
 			} else {
@@ -436,5 +443,70 @@ public class PostListActivity extends BaseHeaderActivity implements Listener<Pos
 		}
 		mAdapter = new PostListAdapter(this, mPostList);
 		mListView.setAdapter(mAdapter);
+	}
+	
+	/**
+	 * 获取请求参数
+	 * @return
+	 */
+	private List<String> getFavourRequestParams(String postId) {
+		List<String> params = new ArrayList<String>();
+		params.add(ParamsUtil.getReqParam("FG31", 4));
+		params.add(ParamsUtil.getReqParam("MC_CENTERM", 16));
+		params.add(ParamsUtil.getReqParam("00001", 20));
+		params.add(ParamsUtil.getReqParam(SCApp.getInstance().getUser().userId, 64));
+		params.add(ParamsUtil.getReqParam(postId, 64));	
+		return params;
+	}
+	
+	/**
+	 * 执行任务请求
+	 * @param method
+	 * @param url
+	 * @param params
+	 * @param listenre
+	 * @param errorListener
+	 */	
+	private void requestFavour(List<String> params,	 
+			Listener<Favour> listenre, ErrorListener errorListener) {			
+		if(mFavourRequest != null) {
+			mFavourRequest.cancel();
+		}	
+		String url = NetConfig.getServerBaseUrl() + NetConfig.EXTEND_URL;
+		mFavourRequest = new FavourRequest(url, params, listenre, errorListener);
+		startRequest(mFavourRequest);		
+	}
+	
+	/**
+	 * 
+	 * @描述：点赞监听
+	 * @作者：liang bao xian
+	 * @时间：2014年10月27日 下午3:28:03
+	 */
+	class FavourListener implements Listener<Favour> {
+		int position;
+		public FavourListener(int position) {
+			this.position = position;
+		}
+		
+		@Override
+		public void onResponse(Favour response) {
+			if(response.respCode.equals(RespCode.SUCCESS)) {		
+				com.wb.sc.bean.PostList.Item item = mPostList.datas.get(position);
+				int favNum = Integer.valueOf(item.favNum) + 1;
+				item.favNum = favNum + "";
+				mAdapter.notifyDataSetChanged();
+				ToastHelper.showToastInBottom(PostListActivity.this, "谢谢您的点赞");
+			} else {
+				ToastHelper.showToastInBottom(PostListActivity.this, response.respCodeMsg);
+			}
+		}		
+	}
+
+	@Override
+	public void onFav(int position) {
+		com.wb.sc.bean.PostList.Item item = mPostList.datas.get(position);
+		FavourListener listener = new FavourListener(position);
+		requestFavour(getFavourRequestParams(item.id), listener, this);
 	}
 }

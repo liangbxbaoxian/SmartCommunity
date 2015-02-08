@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
@@ -17,22 +18,33 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.NetworkImageView.NetworkImageListener;
 import com.common.media.BitmapHelper;
+import com.common.widget.ToastHelper;
 import com.wb.sc.R;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.Favour;
 import com.wb.sc.bean.PostList;
 import com.wb.sc.bean.PostList.Item;
 import com.wb.sc.config.NetConfig;
+import com.wb.sc.config.RespCode;
+import com.wb.sc.mk.post.PostDetailActivity;
+import com.wb.sc.task.FavourRequest;
 import com.wb.sc.util.ImgUrlUtil;
+import com.wb.sc.util.ParamsUtil;
 
-public class PostListAdapter extends BaseAdapter implements NetworkImageListener{
+public class PostListAdapter extends BaseAdapter implements NetworkImageListener, OnClickListener{
 	
 	private Activity mActivity;
 	private PostList mPostList;
 	private int pItemWidth = 75;
 	private int rightMargin = 4;
+	
+	//点赞
+	private FavListener favListener;
 	   
     public PostListAdapter(Activity activity, PostList list) {
        mActivity = activity;
@@ -77,7 +89,8 @@ public class PostListAdapter extends BaseAdapter implements NetworkImageListener
            holder.timeTv = (TextView) view.findViewById(R.id.postTime);
            holder.descTv = (TextView) view.findViewById(R.id.postName);
            holder.msgNumTv = (TextView) view.findViewById(R.id.msg_num);
-           holder.favNumTv = (TextView) view.findViewById(R.id.favourite_num);
+           holder.favNumTv = (TextView) view.findViewById(R.id.favourite_num);           
+           holder.favVg = (ViewGroup) view.findViewById(R.id.fav_layout);           
 
            holder.imgVg = (LinearLayout) view.findViewById(R.id.imgs);
            holder.img1Iv = (NetworkImageView) view.findViewById(R.id.img1);
@@ -97,6 +110,9 @@ public class PostListAdapter extends BaseAdapter implements NetworkImageListener
            view = convertView;
            holder = (ViewHolder) view.getTag();
        }
+       
+       holder.favVg.setOnClickListener(this);
+       holder.favVg.setTag(position + "");
        
        Item item = mPostList.datas.get(position);
        holder.avatarIv.setImageUrl(NetConfig.getPictureUrl(item.sourceAvatarUrl), 
@@ -162,6 +178,7 @@ public class PostListAdapter extends BaseAdapter implements NetworkImageListener
     	NetworkImageView img3Iv;
     	NetworkImageView img4Iv;
     	List<NetworkImageView> imgIvList;
+    	ViewGroup favVg;
 //    	HorizontalListView imgLv;
     }
 
@@ -169,5 +186,25 @@ public class PostListAdapter extends BaseAdapter implements NetworkImageListener
 	public void onGetBitmapListener(ImageView imageView, Bitmap bitmap) {
 		Bitmap roundBmp = BitmapHelper.toRoundCorner(bitmap, bitmap.getHeight()/2);
 		imageView.setImageBitmap(roundBmp);	
+	}
+
+	@Override
+	public void onClick(View v) {
+		try {
+			int position = Integer.valueOf(v.getTag().toString());
+			if(favListener != null) {
+				favListener.onFav(position);
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public interface FavListener {
+		public void onFav(int position);
+	}
+	
+	public void setFavListener(FavListener listener) {
+		favListener = listener;
 	}
 }

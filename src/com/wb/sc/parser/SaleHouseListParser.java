@@ -24,6 +24,7 @@ public class SaleHouseListParser {
 		String[] itemsStr = datasStr.split(ParamsUtil.ITEMS_DIVIDER);		
 		for(String itemStr : itemsStr) {
 			String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
+			boolean isRenta = values.length > 16 ? true : false;
 			Item item = dataBean.new Item();
 			item.id = values[0];
 			item.totalPrice = values[1];
@@ -39,13 +40,31 @@ public class SaleHouseListParser {
 			item.properties = values[11];
 			item.time = values[12];
 			item.configuration = values[13];
-			item.phone = values[14];
+			if(isRenta) {
+				item.phone = values[16];
+			} else {
+				item.phone = values[14];
+			}
 			item.imgList = new ArrayList<String>();
-			if(values.length >= 16 && !TextUtils.isEmpty(values[15])) {
-				String[] imgs = values[15].split(ParamsUtil.ITEM_IMG_DIVIDER);				
-				for(String img : imgs) {
-					if(!TextUtils.isEmpty(img) && !img.equals(" ")) {
-						item.imgList.add(img);
+			item.isRental = isRenta;
+			if(isRenta) {
+				item.sex = values[14];
+				item.remark = values[15];
+				if(values.length >= 18 && !TextUtils.isEmpty(values[17])) {
+					String[] imgs = values[15].split(ParamsUtil.ITEM_IMG_DIVIDER);				
+					for(String img : imgs) {
+						if(!TextUtils.isEmpty(img) && !img.equals(" ")) {
+							item.imgList.add(img);
+						}
+					}
+				}
+			} else {
+				if(values.length >= 16 && !TextUtils.isEmpty(values[15])) {
+					String[] imgs = values[15].split(ParamsUtil.ITEM_IMG_DIVIDER);				
+					for(String img : imgs) {
+						if(!TextUtils.isEmpty(img) && !img.equals(" ")) {
+							item.imgList.add(img);
+						}
 					}
 				}
 			}

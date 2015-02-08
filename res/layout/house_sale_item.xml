@@ -250,7 +250,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="精装修"
                 android:textColor="@android:color/black"
                 android:textSize="13dp" />
         </LinearLayout>
@@ -272,7 +271,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="板楼"
+                android:text=""
                 android:textColor="@android:color/black"
                 android:textSize="13dp" />
         </LinearLayout>

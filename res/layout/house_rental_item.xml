@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="总价："
+            android:text="租金："
             android:textColor="#b0b0b0"
             android:textSize="13dp" />
 
@@ -272,7 +272,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="板楼"
+                android:text=""
                 android:textColor="@android:color/black"
                 android:textSize="13dp" />
         </LinearLayout>
@@ -345,6 +345,66 @@
         android:layout_marginRight="11dp"
         android:layout_marginTop="5dp"
         android:background="#cacaca" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11dp"
+        android:paddingTop="18dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="性别要求："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="备        注："
+                android:textColor="#b0b0b0"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </LinearLayout>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="5dp"
+        android:background="#cacaca" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -390,8 +450,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
-        android:paddingTop="10dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingTop="10dp" >
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/img1"
@@ -431,25 +491,36 @@
         android:id="@+id/phone_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="24dp" 
-        android:paddingTop="12dp"
+        android:background="@drawable/header_btn_selector"
         android:paddingBottom="12dp"
-        android:background="@drawable/header_btn_selector">
+        android:paddingLeft="24dp"
+        android:paddingTop="12dp" >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/dianh" />
 
-        <TextView
-            android:id="@+id/phone"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="18657436598"
             android:layout_centerInParent="true"
-            android:textColor="@android:color/black"
-            android:textSize="13dp" />
-        
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="详询电联：" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18657436598"
+                android:textColor="@android:color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -457,7 +528,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="27dp"
             android:src="@drawable/arrow_right" />
-        
     </RelativeLayout>
 
 </LinearLayout>

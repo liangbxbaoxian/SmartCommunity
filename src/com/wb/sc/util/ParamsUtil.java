@@ -21,6 +21,7 @@ public class ParamsUtil {
 	 * @return
 	 */
 	public static String getReqParam(String value, int length) {
+		if(value == null) value = "";
 		return value + "&" + length;
 	}
 	
@@ -32,6 +33,7 @@ public class ParamsUtil {
 	 * @return
 	 */
 	public static String getReqRsaParam(String value, int length) {
+		if(value == null) value = "";
 		RSA rsa = new RSA();
 		try {
 			byte[] psd = rsa.encryptByPublicKey(SCApp.getInstance().getPublicKey(), 
@@ -46,6 +48,7 @@ public class ParamsUtil {
 	
 	
 	public static String getReqHexParam(String value, int length) {
+		if(value == null) value = "";
 		return value + "&" + length + "&" + "Hex";
 	}
 	
