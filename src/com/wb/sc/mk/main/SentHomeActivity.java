@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,8 +33,12 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.common.net.volley.VolleyErrorHelper;
 import com.common.widget.ToastHelper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
@@ -43,6 +49,7 @@ import com.wb.sc.activity.base.BaseActivity;
 import com.wb.sc.activity.base.ReloadListener;
 import com.wb.sc.adapter.SentHomeAdpater;
 import com.wb.sc.app.SCApp;
+import com.wb.sc.bean.Gps;
 import com.wb.sc.bean.OneKm;
 import com.wb.sc.bean.OneKm.MerchantItem;
 import com.wb.sc.bean.PostType;
@@ -54,6 +61,7 @@ import com.wb.sc.task.PostTypeRequest;
 import com.wb.sc.util.Constans;
 import com.wb.sc.util.MetaUtil;
 import com.wb.sc.util.ParamsUtil;
+import com.wb.sc.util.PreferencesUtils;
 
 public class SentHomeActivity extends BaseActivity implements OnMenuItemClickListener, Listener<OneKm>, 
 ErrorListener, ReloadListener{
@@ -96,6 +104,8 @@ ErrorListener, ReloadListener{
 	private String[] types;
 	private String[] dis;
 	
+	private List<Gps> gpslist = new ArrayList<Gps>();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 //		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -111,7 +121,15 @@ ErrorListener, ReloadListener{
 	    requestPostType(getPostTypeRequestParams("SHOPPING_TYPE"), mPostTypeListener, this);
 	    
 	    requestPostType(getPostTypeRequestParams("SHOPPING_DISTANCE"), distanceTypeListener, this);
-		
+	    
+	    String gpsList = PreferencesUtils.getString(this, "gps");
+	    Gson gson = new Gson();
+	    List<Gps> gps = gson.fromJson(
+	    		gpsList, new TypeToken<List<Gps>>() {
+				}.getType());
+	    if(gps != null && gps.size() > 0) {
+	    	gpslist.addAll(gps);
+	    }
 //		requestBase(getBaseRequestParams(), this, this);
 	}
 	
@@ -237,6 +255,25 @@ ErrorListener, ReloadListener{
 				latitude = arg0.getLatitude() + "";
 				mLocationClient.unRegisterLocationListener(this);
 				mLocationClient.stop();
+				
+//				Gps gps = new Gps();
+//				gps.lat = latitude;
+//				gps.lng = longitude;
+//				
+//				LatLng localA = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+//				for (Gps local : gpslist) {
+//					LatLng localB = new LatLng(Double.parseDouble(local.lat), Double.parseDouble(local.lng));
+//					double distance = DistanceUtil.getDistance(localA, localB);
+//					Log.i("distance", "距离上次定位：" + distance);
+//				}
+				
+//				gpslist.add(gps);
+				
+				
+				Gson gson = new Gson();
+				String gpsList = gson.toJson(gpslist);
+				PreferencesUtils.putString(SentHomeActivity.this, "gps", gpsList);
+				
 				requestBase(getBaseRequestParams(), SentHomeActivity.this, SentHomeActivity.this);
 			}
 			

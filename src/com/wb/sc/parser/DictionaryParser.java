@@ -22,11 +22,28 @@ public class DictionaryParser {
 			for(String itemStr : itemsStr) {
 				String[] values = itemStr.split(ParamsUtil.ITEM_DIVIDER);
 				DictionaryItem item =   new DictionaryItem();
-				item.dictionaryId = values[0];
+				if (0 < values.length) {
+					item.dictionaryCode = values[0];
+				}
+				if (1 < values.length) {
+					item.dictionaryName = values[1];
+				}
+				if (2 < values.length) {
+					item.dictionarySort = values[2];
+				}
+				
+				if (3 < values.length) {
+					item.superDictionaryId = values[4];
+				}
+				
+				/***
+				 * item.dictionaryId = values[0];
 				item.dictionaryCode = values[1];
 				item.superDictionaryId = values[2];
 				item.dictionaryName = values[3];
 				item.dictionarySort = values[4];
+				 */
+				
 				dataBean.datas.add(item);
 			}
 		}
