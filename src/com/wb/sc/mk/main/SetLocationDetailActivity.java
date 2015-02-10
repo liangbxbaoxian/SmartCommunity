@@ -169,11 +169,13 @@ ErrorListener, ReloadListener{
 				String name = "";
 				String code = "";
 				String sid = "";
+				String supId = "";
 				if (list.get(position -1) instanceof DictionaryItem) {
 					DictionaryItem item = (DictionaryItem) list.get(position -1);
 					code = item.dictionaryCode;
 		    		name = item.dictionaryName;
 		    		sid = item.dictionaryId;
+		    		supId = item.superDictionaryId;
 				} else {
 					CommunityItem item = (CommunityItem) list.get(position -1);
 					code = item.communityCode;
@@ -183,9 +185,18 @@ ErrorListener, ReloadListener{
 				item.dictionaryName = name;
 				item.dictionaryCode = code;
 				item.id = sid;
-				if (pos + 1 < SCApp.getInstance().getList().size()) {
-					DictionaryItem subItem = SCApp.getInstance().getList().get(pos + 1);
-					subItem.superDictionaryId =  sid;
+				item.superDictionaryId = supId;
+				
+				if (item.dictionaryId.equals("0")) {
+					DictionaryItem subItem = SCApp.getInstance().getList().get(1);
+					subItem.superId =  SCApp.getInstance().getList().get(0).superDictionaryId;
+				} else if(item.dictionaryId.equals("1")) {
+					DictionaryItem subItem = SCApp.getInstance().getList().get(2);
+					subItem.superId =  SCApp.getInstance().getList().get(1).superDictionaryId;
+				} else if(item.dictionaryId.equals("2")) {
+					DictionaryItem subItem = SCApp.getInstance().getList().get(3);
+					subItem.superId =  SCApp.getInstance().getList().get(2).superDictionaryId;
+				} else if(item.dictionaryId.equals("3")) {
 				}
 				
 				SetLocationDetailActivity.this.finish();
@@ -355,13 +366,13 @@ ErrorListener, ReloadListener{
 		if (item.dictionaryId.equals("0")) {
 			type = "province";
 		} else if(item.dictionaryId.equals("1")) {
-//			type = "city";
-			id = item.superDictionaryId;
+			type = "city";
+			id = item.superId;
 		} else if(item.dictionaryId.equals("2")) {
-//			type = "country";
-			id = item.superDictionaryId;
+			type = "country";
+			id = item.superId;
 		} else if (item.dictionaryId.equals("3")) {
-			id = item.superDictionaryId;
+			id = item.superId;
 		}
 		
 		params.add(ParamsUtil.getReqParam(type, 64));

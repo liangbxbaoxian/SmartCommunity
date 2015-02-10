@@ -179,7 +179,7 @@ public class SetCommunityActivity extends BaseActivity implements OnMenuItemClic
 				boolean success = true;
 				String name [] = {"请先选择省", "请先选择市", "请先选择区", "请先选择社区"};
 				if (position > 1) {
-					if (item.superDictionaryId == null) {
+					if (item.superId == null) {
 						ToastHelper.showToastInBottom(SetCommunityActivity.this, name[position -2]);
 						success = false;
 					} else {

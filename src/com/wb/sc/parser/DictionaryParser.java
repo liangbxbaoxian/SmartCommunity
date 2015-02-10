@@ -33,7 +33,7 @@ public class DictionaryParser {
 				}
 				
 				if (3 < values.length) {
-					item.superDictionaryId = values[4];
+					item.superDictionaryId = values[3];
 				}
 				
 				/***

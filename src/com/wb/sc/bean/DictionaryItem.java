@@ -12,6 +12,8 @@ public class DictionaryItem implements Serializable {
 	public String superDictionaryId;   // 父id
 	public String dictionaryName;      // 字典名称
 	public String dictionarySort;      // 排序
+	public String superId;
+	
 	public String getDictionaryId() {
 		return dictionaryId;
 	}
