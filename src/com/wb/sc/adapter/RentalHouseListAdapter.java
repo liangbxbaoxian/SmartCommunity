@@ -169,6 +169,8 @@ public class RentalHouseListAdapter extends BaseAdapter implements OnClickListen
 //    	   PostImgAdapter adapter = new PostImgAdapter(mContext, item.imgList);
 //    	   holder.imgLv.setAdapter(adapter);    	   
 //    	   holder.imgLv.setVisibility(View.GONE);
+    	   holder.imgLineV.setVisibility(View.VISIBLE);
+    	   holder.imgVg.setVisibility(View.VISIBLE);
     	   for(int i=0; i<item.imgList.size() && i < 4; i++) {    		   
     		   String imgUrl = item.imgList.get(i);
     		   	if(!TextUtils.isEmpty(imgUrl)) {

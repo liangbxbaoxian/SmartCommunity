@@ -49,7 +49,6 @@ public abstract class BaseActivity extends BaseNetActivity {
 		MobclickAgent.onPause(this);
 	}
 	
-	
 	public void showProcess(int id) {
 		showProcess(getResources().getString(id));
 	}

@@ -8,7 +8,8 @@ import java.util.List;
 import net.tsz.afinal.FinalDb;
 import net.tsz.afinal.utils.Utils;
 import android.app.Application;
-import android.graphics.Bitmap;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
@@ -21,6 +22,9 @@ import com.baidu.location.LocationClient;
 import com.common.format.HexStringBytes;
 import com.common.net.volley.VolleyX509TrustManager;
 import com.common.net.volley.cache.VolleyImageCache;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.entity.UMessage;
 import com.wb.sc.R;
 import com.wb.sc.bean.DictionaryItem;
 import com.wb.sc.bean.User;
@@ -29,6 +33,7 @@ import com.wb.sc.config.DebugConfig;
 import com.wb.sc.config.NetConfig;
 import com.wb.sc.db.DbHelper;
 import com.wb.sc.db.DbUpdateHandler;
+import com.wb.sc.mk.personal.MsgCenterActivity;
 import com.wb.sc.security.RSA;
 
 public class SCApp extends Application {
@@ -110,7 +115,8 @@ public class SCApp extends Application {
 		
 		commLoader = new fr.moreaubenjamin.imageloader.ImageLoader(this, "smart", "community", R.drawable.test_comment_user_header, R.drawable.test_comment_user_header, null); //暂时不指定这些值
 		
-		
+		PushAgent mPushAgent = PushAgent.getInstance(this);
+		mPushAgent.setNotificationClickHandler(notificationClickHandler);
 	}
 
 	/**
@@ -253,4 +259,18 @@ public class SCApp extends Application {
 
 
 	}
+	
+	/**
+	 * 该Handler是在BroadcastReceiver中被调用，故
+	 * 如果需启动Activity，需添加Intent.FLAG_ACTIVITY_NEW_TASK
+	 * */
+	UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler(){
+	    @Override
+	    public void dealWithCustomAction(Context context, UMessage msg) {
+	        Intent intent = new Intent(SCApp.this, MsgCenterActivity.class);
+	        startActivity(intent);
+	    }
+	};
+	
+	
 }
